@@ -53,3 +53,5 @@ hs_err_pid*
 
 # Helm
 *.lock
+
+charts/
