@@ -1,5 +1,5 @@
 
 dependencies:
     - name: alfresco-infrastructure
-      version: 0.2.0
+      version: 1.1.0-SNAPSHOT
       repository: http://kubernetes-charts.alfresco.com/incubator
