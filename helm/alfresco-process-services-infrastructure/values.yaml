@@ -7,12 +7,20 @@ alfresco-infrastructure:
   persistance:
     enabled: false
   rabbitmq-ha:
-   enabled: false
+    enabled: false
   activemq:
-   enabled: false
+    enabled: false
   alfresco-keycloak:
     enabled: true
   alfresco-activiti-cloud-registry:
     enabled: false
   alfresco-api-gateway:
     enabled: false
+  nginx-ingress:
+    controller:
+      scope:
+        enabled: false
+  alfresco-identity-service:
+    keycloak:
+      keycloak:
+        extraArgs: "-Dkeycloak.import=/realm/springboot-realm.json"

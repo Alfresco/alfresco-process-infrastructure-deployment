@@ -1,5 +1,5 @@
-
 dependencies:
-    - name: alfresco-infrastructure
-      version: 2.0.0-SNAPSHOT
-      repository: http://kubernetes-charts.alfresco.com/incubator
+  - name: alfresco-infrastructure
+    version: 2.0.0-SNAPSHOT
+    repository: http://kubernetes-charts.alfresco.com/incubator
+    condition: alfresco-infrastructure.enabled
