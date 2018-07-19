@@ -10,3 +10,9 @@ alfresco-infrastructure:
    enabled: false
   activemq:
    enabled: false
+  alfresco-keycloak:
+    enabled: true
+  alfresco-activiti-cloud-registry:
+    enabled: false
+  alfresco-api-gateway:
+    enabled: false
