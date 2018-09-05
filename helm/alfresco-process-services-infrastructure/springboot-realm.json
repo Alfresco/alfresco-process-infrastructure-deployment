@@ -441,7 +441,7 @@
       "config" : { }
     } ],
     "disableableCredentialTypes" : [ "password" ],
-    "requiredActions" : [ "UPDATE_PASSWORD" ],
+    "requiredActions" : [ ],
     "realmRoles" : [ "uma_authorization", "devops", "user", "offline_access" ],
     "clientRoles" : {
       "account" : [ "manage-account", "view-profile" ]
