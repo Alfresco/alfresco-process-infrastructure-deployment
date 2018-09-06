@@ -79,6 +79,14 @@
       "clientRole" : false,
       "containerId" : "springboot"
     }, {
+      "id": "128c017f-31cc-4c32-b9a2-72ef716aa57e",
+      "name": "identity",
+      "description": "user is able to see the identity section",
+      "scopeParamRequired": false,
+      "composite": false,
+      "clientRole": false,
+      "containerId": "springboot"
+    }, {
       "id" : "daacbcfe-0f42-4605-bcf6-f3356a16ad0d",
       "name" : "offline_access",
       "description" : "${role_offline-access}",
@@ -353,7 +361,8 @@
     "requiredActions" : [ ],
     "realmRoles" : [ "uma_authorization", "activiti", "user", "offline_access" ],
     "clientRoles" : {
-      "account" : [ "manage-account", "view-profile" ]
+      "account" : [ "manage-account", "view-profile" ],
+      "realm-management" : [ "manage-authorization", "manage-users", "query-clients", "query-groups", "query-realms", "query-users" ]
     },
     "notBefore" : 0,
     "groups" : [ ]
@@ -586,6 +595,37 @@
     },
     "notBefore" : 0,
     "groups" : [ "/testgroup" ]
+  }, {
+    "id": "077098d2-5173-46f4-8eb4-155d57d1db7f",
+    "createdTimestamp": 1536151358872,
+    "username": "identityuser",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName": "IdentityTest",
+    "lastName": "User",
+    "email": "identity@alfresco.com",
+    "credentials" : [ {
+      "type" : "password",
+      "hashedSaltedValue" : "IKMsbXtjX7K+2h4gvVPtYCVSm4T73DqYs8m1sS2+VMw/IBWL/KOxYMl/Q1GEyYZWHbih7QfNsIOGA/Kv8+fC2g==",
+      "salt" : "OsGQRYz1p7VsRdCOYBCb0Q==",
+      "hashIterations" : 20000,
+      "counter" : 0,
+      "algorithm" : "pbkdf2",
+      "digits" : 0,
+      "period" : 0,
+      "createdDate" : 1498566963313,
+      "config" : { }
+    } ],
+    "disableableCredentialTypes" : [ "password" ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "identity", "offline_access", "uma_authorization" ],
+    "clientRoles" : {
+      "account" : [ "manage-account", "view-profile" ],
+      "realm-management" : [ "manage-users", "query-clients", "query-groups", "query-realms", "query-users" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ "/testgroup" ]
   } ],
   "clientScopeMappings" : {
     "realm-management" : [ {
@@ -612,7 +652,7 @@
     "bearerOnly" : false,
     "consentRequired" : false,
     "standardFlowEnabled" : true,
-    "implicitFlowEnabled" : false,
+    "implicitFlowEnabled" : true,
     "directAccessGrantsEnabled" : false,
     "serviceAccountsEnabled" : false,
     "publicClient" : false,
