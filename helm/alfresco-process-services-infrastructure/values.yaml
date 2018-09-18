@@ -14,7 +14,10 @@ alfresco-infrastructure:
   nginx-ingress:
     controller:
       scope:
-        enabled: false
+        enabled: false 
+      config:
+        ssl-redirect: "false"
+        use-proxy-protocol: "false"
   alfresco-identity-service:
     keycloak:
       keycloak:
