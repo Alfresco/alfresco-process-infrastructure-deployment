@@ -601,16 +601,10 @@
     "clientAuthenticatorType" : "client-secret",
     "secret" : "**********",
     "redirectUris": [
-      "http://localhost:*"
+      "*"
     ],
     "webOrigins": [
-      "http://apadev.envalfresco.com",
-      "http://activiti-cloud-demo-ui:3000",
-      "http://activiti-cloud-sso-idm-kub:30082",
-      "http://activiti-cloud-demo-ui:30082",
-      "http://amadev.envalfresco.com",
-      "http://localhost:4200",
-      "http://localhost:3000"
+      "*"
     ],
     "notBefore" : 0,
     "bearerOnly" : false,
