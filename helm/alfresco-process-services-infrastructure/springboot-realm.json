@@ -128,7 +128,19 @@
         "name": "identity",
         "description": "user is able to see the identity section",
         "scopeParamRequired": false,
-        "composite": false,
+        "composite": true,
+        "composites": {
+          "client": {
+            "realm-management": [
+              "query-groups",
+              "query-realms",
+              "manage-users",
+              "manage-authorization",
+              "query-clients",
+              "query-users"
+            ]
+          }
+        },
         "clientRole": false,
         "containerId": "springboot"
       },
@@ -202,10 +214,9 @@
     } ],
     "disableableCredentialTypes" : [ "password" ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "uma_authorization", "activiti", "user", "offline_access" ],
+    "realmRoles" : [ "uma_authorization", "activiti", "user", "identity", "offline_access" ],
     "clientRoles" : {
-      "account" : [ "manage-account", "view-profile" ],
-      "realm-management" : [ "manage-authorization", "manage-users", "query-clients", "query-groups", "query-realms", "query-users" ]
+      "account" : [ "manage-account", "view-profile" ]
     },
     "notBefore" : 0,
     "groups" : [ ]
@@ -464,8 +475,7 @@
     "requiredActions" : [ ],
     "realmRoles" : [ "identity", "offline_access", "uma_authorization" ],
     "clientRoles" : {
-      "account" : [ "manage-account", "view-profile" ],
-      "realm-management" : [ "manage-users", "query-clients", "query-groups", "query-realms", "query-users" ]
+      "account" : [ "manage-account", "view-profile" ]
     },
     "notBefore" : 0,
     "groups" : [ "/testgroup" ]
