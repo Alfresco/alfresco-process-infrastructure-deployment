@@ -48,4 +48,5 @@ alfresco-content-services:
         -Didentity-service.authentication.validation.failure.silent=false
         -Didentity-service.auth-server-url=\"$IDENTITY_SERVICE_URI\"
         -Didentity-service.realm=\"$IDENTITY_SERVICE_REALM\"
-        -Didentity-service.resource=\"$IDENTITY_SERVICE_RESOURCE\""
+        -Didentity-service.resource=\"$IDENTITY_SERVICE_RESOURCE\"
+        -Dcsrf.filter.enabled=false"
