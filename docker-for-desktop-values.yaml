@@ -1,0 +1,67 @@
+alfresco-content-services:
+  networkpolicysetting:
+    enabled: false
+  externalProtocol: "http"
+  externalHost: "localhost-k8s"
+  repository:
+    environment:
+      IDENTITY_SERVICE_URI: "http://localhost-k8s/auth"
+    livenessProbe:
+      initialDelaySeconds: 420
+    readinessProbe:
+      initialDelaySeconds: 420
+    resources:
+      requests:
+        memory: "2000Mi"
+  share:
+    livenessProbe:
+      initialDelaySeconds: 420
+    readinessProbe:
+      initialDelaySeconds: 420
+    resources:
+      requests:
+        memory: "1000Mi"
+  pdfrenderer:
+    livenessProbe:
+      initialDelaySeconds: 300
+    readinessProbe:
+      initialDelaySeconds: 300
+    resources:
+      requests:
+        memory: "500Mi"
+  libreoffice:
+    livenessProbe:
+      initialDelaySeconds: 300
+    readinessProbe:
+      initialDelaySeconds: 300
+    resources:
+      requests:
+        memory: "500Mi"
+  imagemagick:
+    livenessProbe:
+      initialDelaySeconds: 300
+    readinessProbe:
+      initialDelaySeconds: 300
+    resources:
+      requests:
+        memory: "500Mi"
+  transformrouter:
+    livenessProbe:
+      initialDelaySeconds: 420
+    readinessProbe:
+      initialDelaySeconds: 420
+    resources:
+      requests:
+        memory: "500Mi"
+  filestore:
+    livenessProbe:
+      initialDelaySeconds: 420
+    readinessProbe:
+      initialDelaySeconds: 420
+    resources:
+      requests:
+        memory: "500Mi"
+
+alfresco-infrastructure:
+  nginx-ingress:
+    enabled: false
