@@ -4,6 +4,8 @@
 
 alfresco-infrastructure:
   enabled: true
+  rabbitmq-ha:
+    enabled: false
   activemq:
     enabled: false
   alfresco-activiti-cloud-registry:
