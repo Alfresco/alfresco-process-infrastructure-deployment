@@ -1,86 +1,60 @@
 {
-  "id": "springboot",
   "realm": "springboot",
   "enabled": true,
   "sslRequired" : "none",
   "roles": {
     "realm": [
       {
-        "id": "1790c9d8-68a9-451e-aecb-fc225002965c",
-        "name": "ACTIVITI_USER",
-        "scopeParamRequired": false,
-        "composite": false,
-        "clientRole": false,
-        "containerId": "springboot"
+        "name": "ACTIVITI_USER"
       },
       {
-        "id": "a5a236d8-eb6b-4cb2-90f6-d3f8c681f504",
-        "name": "ACTIVITI_ADMIN",
-        "scopeParamRequired": false,
-        "composite": false,
-        "clientRole": false,
-        "containerId": "springboot"
+        "name": "ACTIVITI_ADMIN"
       },
       {
-        "id": "dce2e3a1-5a98-4453-8c5b-14a1853ba9f7",
         "name": "devops",
-        "scopeParamRequired": false,
-        "composite": true,
         "composites": {
           "realm": [
             "ACTIVITI_USER",
             "ACTIVITI_ADMIN"
           ]
-        },
-        "clientRole": false,
-        "containerId": "springboot"
+        }
       },
       {
-        "id": "3d47a1c5-a2d5-4633-9f1a-ffd160dddffa",
         "name": "user",
-        "scopeParamRequired": false,
-        "composite": true,
         "composites": {
           "realm": [
-            "ACTIVITI_MODELER",
-            "ACTIVITI_USER"
+            "ACTIVITI_USER",
+            "ACTIVITI_MODELER"
           ]
-        },
-        "clientRole": false,
-        "containerId": "springboot"
+        }
       },
       {
-        "id": "595b880c-3dd4-44e2-9afb-eed40ce05eb7",
         "name": "admin",
-        "scopeParamRequired": false,
-        "composite": true,
         "composites": {
           "realm": [
             "ACTIVITI_ADMIN"
           ]
-        },
-        "clientRole": false,
-        "containerId": "springboot"
+        }
       },
       {
-        "id": "b995ea1f-258e-498d-8425-089fbeba9110",
+        "name": "modeler",
+        "composites": {
+          "realm": [
+            "ACTIVITI_MODELER"
+          ]
+        }
+      },
+      {
         "name": "processadmin",
-        "scopeParamRequired": false,
-        "composite": true,
         "composites": {
           "realm": [
             "ACTIVITI_USER"
           ]
-        },
-        "clientRole": false,
-        "containerId": "springboot"
+        }
       },
       {
-        "id": "128c017f-31cc-4c32-b9a2-72ef716aa57e",
         "name": "identity",
         "description": "user is able to see the identity section",
-        "scopeParamRequired": false,
-        "composite": true,
         "composites": {
           "client": {
             "realm-management": [
@@ -92,72 +66,34 @@
               "query-users"
             ]
           }
-        },
-        "clientRole": false,
-        "containerId": "springboot"
+        }
       },
       {
-        "id": "d2a04474-b9a5-4639-9432-b81781886248",
-        "name": "ACTIVITI_MODELER",
-        "scopeParamRequired": false,
-        "composite": false,
-        "clientRole": false,
-        "containerId": "springboot"
+        "name": "ACTIVITI_MODELER"
       }
-    ],
-    "client": {
-      "activiti": []
-    }
+    ]
   },
   "groups": [
     {
-      "id": "4dabdbc9-d8d1-47e2-9d4c-f6ce213de6b1",
-      "name": "hr",
-      "path": "/hr",
-      "attributes": {},
-      "realmRoles": [],
-      "clientRoles": {},
-      "subGroups": []
+      "name": "hr"
     },
     {
-      "id": "3345fc60-2a38-4ceb-bd84-a6f4109c25c9",
-      "name": "testgroup",
-      "path": "/testgroup",
-      "attributes": {},
-      "realmRoles": [],
-      "clientRoles": {},
-      "subGroups": []
+      "name": "testgroup"
     }
   ],
   "users": [
     {
-      "id": "d9aebceb-d588-4a57-a697-e50d845d116a",
-      "createdTimestamp": 1533216071170,
       "username": "superadminuser",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
       "firstName": "Super Admin",
       "lastName": "User",
       "email": "superadminuser@test.com",
       "credentials": [
         {
           "type": "password",
-          "hashedSaltedValue": "8KhemMDLEDo7hZzXpPs0+YSoiDL5TV8qLZsCvFiW6g+xmT4oc5CZiYGZq9yTEM9U4Y5ktCLaljS2OpNEvnXOgw==",
-          "salt": "/YqjldYMM2eV6Wg8ts09kQ==",
-          "hashIterations": 20000,
-          "counter": 0,
-          "algorithm": "pbkdf2-sha256",
-          "digits": 0,
-          "period": 0,
-          "createdDate": 1528478610540,
-          "config": {}
+          "value": "password"
         }
       ],
-      "disableableCredentialTypes": [
-        "password"
-      ],
-      "requiredActions": [],
       "realmRoles": [
         "uma_authorization",
         "user",
@@ -169,35 +105,17 @@
           "manage-account",
           "view-profile"
         ]
-      },
-      "notBefore": 0,
-      "groups": []
+      }
     },
     {
-      "id": "e24cf342-fc50-4cb1-a0c0-57daedb82749",
-      "createdTimestamp": 1498137163228,
       "username": "admin",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
       "credentials": [
         {
           "type": "password",
-          "hashedSaltedValue": "HuTLxSTg7sB62oK0MEkE0Wd+GubUfKV2zAPIsyLqjGPwiNt6bm/KF6klDA4b1QuRfBVvoHLOOgIx2gFEPUGXFw==",
-          "salt": "4uyMaFvyJCRwso0up6hapQ==",
-          "hashIterations": 20000,
-          "counter": 0,
-          "algorithm": "pbkdf2",
-          "digits": 0,
-          "period": 0,
-          "createdDate": 1498137163347,
-          "config": {}
+          "value": "password"
         }
       ],
-      "disableableCredentialTypes": [
-        "password"
-      ],
-      "requiredActions": [],
       "realmRoles": [
         "offline_access",
         "uma_authorization",
@@ -221,38 +139,20 @@
           "manage-account",
           "view-profile"
         ]
-      },
-      "notBefore": 0,
-      "groups": []
+      }
     },
     {
-      "id": "2339b37b-77f7-40ff-9280-b8af2372a4f2",
-      "createdTimestamp": 1528478551654,
       "username": "devopsuser",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
       "firstName": "DevOps",
       "lastName": "User",
       "email": "devopsuser@test.com",
       "credentials": [
         {
           "type": "password",
-          "hashedSaltedValue": "BWayCgWAVDrxburE/k3xuVJZrVAQQArGw/bkVeGypZ6HSCHxQynLOKgF0isHTdQewHebUk2NigzZDIhcVh3HYA==",
-          "salt": "cBkJt3S1HGBfNbhyHSSO3g==",
-          "hashIterations": 20000,
-          "counter": 0,
-          "algorithm": "pbkdf2-sha256",
-          "digits": 0,
-          "period": 0,
-          "createdDate": 1528478728933,
-          "config": {}
+          "value": "password"
         }
       ],
-      "disableableCredentialTypes": [
-        "password"
-      ],
-      "requiredActions": [],
       "realmRoles": [
         "uma_authorization",
         "devops",
@@ -264,38 +164,20 @@
           "manage-account",
           "view-profile"
         ]
-      },
-      "notBefore": 0,
-      "groups": []
+      }
     },
     {
-      "id": "784ca026-cfaa-422c-88e8-b7565515ff71",
-      "createdTimestamp": 1500048314842,
       "username": "hruser",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
       "firstName": "HR",
       "lastName": "User",
       "email": "hruser@test.com",
       "credentials": [
         {
           "type": "password",
-          "hashedSaltedValue": "+A2UrlK6T33IHVutjQj9k8S8kMco1IMnmCTngEg+PE+2vO4jJScux6wcltsRIYILv5ggcS3PI7tbsynq5u39sQ==",
-          "salt": "IyVlItIo27bmACSLi4yQkA==",
-          "hashIterations": 20000,
-          "counter": 0,
-          "algorithm": "pbkdf2",
-          "digits": 0,
-          "period": 0,
-          "createdDate": 1500048334876,
-          "config": {}
+          "value": "password"
         }
       ],
-      "disableableCredentialTypes": [
-        "password"
-      ],
-      "requiredActions": [],
       "realmRoles": [
         "uma_authorization",
         "user",
@@ -307,39 +189,22 @@
           "view-profile"
         ]
       },
-      "notBefore": 0,
       "groups": [
         "/hr"
       ]
     },
     {
-      "id": "6c58d52b-8bc9-44ac-a39e-7db416930a56",
-      "createdTimestamp": 1533216357478,
       "username": "processadminuser",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
       "firstName": "Process Admin",
       "lastName": "User",
       "email": "processadminuser@test.com",
       "credentials": [
         {
           "type": "password",
-          "hashedSaltedValue": "+A2UrlK6T33IHVutjQj9k8S8kMco1IMnmCTngEg+PE+2vO4jJScux6wcltsRIYILv5ggcS3PI7tbsynq5u39sQ==",
-          "salt": "IyVlItIo27bmACSLi4yQkA==",
-          "hashIterations": 20000,
-          "counter": 0,
-          "algorithm": "pbkdf2",
-          "digits": 0,
-          "period": 0,
-          "createdDate": 1500048334876,
-          "config": {}
+          "value": "password"
         }
       ],
-      "disableableCredentialTypes": [
-        "password"
-      ],
-      "requiredActions": [],
       "realmRoles": [
         "uma_authorization",
         "processadmin",
@@ -351,38 +216,20 @@
           "manage-account",
           "view-profile"
         ]
-      },
-      "notBefore": 0,
-      "groups": []
+      }
     },
     {
-      "id": "b84b0591-c749-4b43-bd26-e52a56b1d574",
-      "createdTimestamp": 1533218523027,
       "username": "salesuser",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
       "firstName": "Sales",
       "lastName": "User",
       "email": "salesuser@test.com",
       "credentials": [
         {
           "type": "password",
-          "hashedSaltedValue": "+A2UrlK6T33IHVutjQj9k8S8kMco1IMnmCTngEg+PE+2vO4jJScux6wcltsRIYILv5ggcS3PI7tbsynq5u39sQ==",
-          "salt": "IyVlItIo27bmACSLi4yQkA==",
-          "hashIterations": 20000,
-          "counter": 0,
-          "algorithm": "pbkdf2",
-          "digits": 0,
-          "period": 0,
-          "createdDate": 1500048334876,
-          "config": {}
+          "value": "password"
         }
       ],
-      "disableableCredentialTypes": [
-        "password"
-      ],
-      "requiredActions": [],
       "realmRoles": [
         "uma_authorization",
         "user",
@@ -395,9 +242,7 @@
           "manage-account",
           "view-profile"
         ]
-      },
-      "notBefore": 0,
-      "groups": []
+      }
     },
     {
       "id": "70f6dd9d-c8e8-46ab-99d4-766b55b66b45",
@@ -425,33 +270,17 @@
       "groups": []
     },
     {
-      "id": "331a12d1-766e-4897-b0a8-309ae5caeb25",
-      "createdTimestamp": 1498557164913,
       "username": "testuser",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
       "firstName": "Test",
       "lastName": "User",
       "email": "testuser@test.com",
       "credentials": [
         {
           "type": "password",
-          "hashedSaltedValue": "IKMsbXtjX7K+2h4gvVPtYCVSm4T73DqYs8m1sS2+VMw/IBWL/KOxYMl/Q1GEyYZWHbih7QfNsIOGA/Kv8+fC2g==",
-          "salt": "OsGQRYz1p7VsRdCOYBCb0Q==",
-          "hashIterations": 20000,
-          "counter": 0,
-          "algorithm": "pbkdf2",
-          "digits": 0,
-          "period": 0,
-          "createdDate": 1498566963313,
-          "config": {}
+          "value": "password"
         }
       ],
-      "disableableCredentialTypes": [
-        "password"
-      ],
-      "requiredActions": [],
       "realmRoles": [
         "uma_authorization",
         "user",
@@ -463,39 +292,22 @@
           "view-profile"
         ]
       },
-      "notBefore": 0,
       "groups": [
         "/testgroup"
       ]
     },
     {
-      "id": "077098d2-5173-46f4-8eb4-155d57d1db7f",
-      "createdTimestamp": 1536151358872,
       "username": "identityuser",
       "enabled": true,
-      "totp": false,
-      "emailVerified": false,
       "firstName": "IdentityTest",
       "lastName": "User",
       "email": "identity@test.com",
       "credentials": [
         {
           "type": "password",
-          "hashedSaltedValue": "IKMsbXtjX7K+2h4gvVPtYCVSm4T73DqYs8m1sS2+VMw/IBWL/KOxYMl/Q1GEyYZWHbih7QfNsIOGA/Kv8+fC2g==",
-          "salt": "OsGQRYz1p7VsRdCOYBCb0Q==",
-          "hashIterations": 20000,
-          "counter": 0,
-          "algorithm": "pbkdf2",
-          "digits": 0,
-          "period": 0,
-          "createdDate": 1498566963313,
-          "config": {}
+          "value": "password"
         }
       ],
-      "disableableCredentialTypes": [
-        "password"
-      ],
-      "requiredActions": [],
       "realmRoles": [
         "identity",
         "offline_access",
@@ -506,71 +318,64 @@
           "manage-account",
           "view-profile"
         ]
-      },
-      "notBefore": 0
+      }
+    },
+    {
+      "username": "qa-modeler-1",
+      "email": "qa-modeler-1@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "4lfQapsswd"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "modeler"
+      ]
+    },
+    {
+      "username": "qa-user-without-permission",
+      "email": "qa-user-without-permission@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "4lfQapsswd"
+        }
+      ],
+      "realmRoles": [
+        "user"
+      ]
+    },
+    {
+      "username": "admin.adf",
+      "email": "admin.adf@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "modeler"
+      ]
     }
   ],
   "clients": [
     {
-      "id": "75dafa8a-15c0-480b-8d68-e39c51ba4dea",
       "clientId": "activiti",
-      "rootUrl": "",
-      "baseUrl": "",
-      "surrogateAuthRequired": false,
       "enabled": true,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
       "redirectUris": [
         "*"
       ],
       "webOrigins": [
         "*"
       ],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": true,
-      "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
-      "publicClient": true,
-      "frontchannelLogout": false,
-      "protocol": "openid-connect",
-      "attributes": {
-        "saml.assertion.signature": "false",
-        "saml.force.post.binding": "false",
-        "saml.multivalued.roles": "false",
-        "saml.encrypt": "false",
-        "saml_force_name_id_format": "false",
-        "saml.client.signature": "false",
-        "saml.authnstatement": "false",
-        "saml.server.signature": "false",
-        "saml.server.signature.keyinfo.ext": "false",
-        "saml.onetimeuse.condition": "false"
-      },
-      "fullScopeAllowed": true,
-      "nodeReRegistrationTimeout": -1,
-      "protocolMappers": [
-        {
-          "id": "e8ed98cb-363d-43eb-a412-2946247c1acd",
-          "name": "username",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-property-mapper",
-          "consentRequired": true,
-          "consentText": "${username}",
-          "config": {
-            "userinfo.token.claim": "true",
-            "user.attribute": "username",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "preferred_username",
-            "jsonType.label": "String"
-          }
-        }
-      ],
-      "useTemplateConfig": false,
-      "useTemplateScope": false,
-      "useTemplateMappers": false
+      "implicitFlowEnabled": true
     }
   ]
 }
