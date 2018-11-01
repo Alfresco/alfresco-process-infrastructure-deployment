@@ -2,6 +2,7 @@
   "id": "springboot",
   "realm": "springboot",
   "enabled": true,
+  "sslRequired" : "none",
   "roles": {
     "realm": [
       {
