@@ -406,6 +406,7 @@
     {
       "clientId": "activiti",
       "enabled": true,
+      "publicClient" : true,
       "redirectUris": [
         "*"
       ],
