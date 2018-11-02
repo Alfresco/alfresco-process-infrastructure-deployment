@@ -83,6 +83,43 @@
   ],
   "users": [
     {
+      "username": "client",
+      "enabled": true,
+      "firstName": "client",
+      "lastName": "client",
+      "email": "client@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "offline_access",
+        "uma_authorization"
+      ],
+      "clientRoles": {
+        "realm-management": [
+          "manage-users",
+          "manage-clients",
+          "manage-authorization",
+          "manage-events",
+          "manage-realm",
+          "create-client",
+          "impersonation",
+          "realm-admin"
+        ],
+        "broker": [
+          "read-token"
+        ],
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      }
+    },
+    {
       "username": "superadminuser",
       "enabled": true,
       "firstName": "Super Admin",
