@@ -150,7 +150,7 @@
       "credentials": [
         {
           "type": "password",
-          "value": "password"
+          "value": "admin"
         }
       ],
       "realmRoles": [
