@@ -413,6 +413,7 @@
       "webOrigins": [
         "*"
       ],
+      "directAccessGrantsEnabled": true,
       "implicitFlowEnabled": true
     }
   ]
