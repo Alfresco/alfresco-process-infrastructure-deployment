@@ -91,7 +91,7 @@
       "credentials": [
         {
           "type": "password",
-          "value": "password"
+          "value": "client"
         }
       ],
       "realmRoles": [
