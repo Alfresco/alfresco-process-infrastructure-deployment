@@ -26,6 +26,6 @@ cat << EOF >> values.yaml
 EOF
 fi
 
-HELM_OPTS="-f values.yaml" ./install.sh
+HELM_OPTS="${HELM_OPTS} -f values.yaml" ./install.sh
 
 rm values.yaml

@@ -44,7 +44,8 @@ alfresco-content-services:
       IDENTITY_SERVICE_URI: "<ingresscontrollerurl>/auth"
       IDENTITY_SERVICE_REALM: "springboot"
       IDENTITY_SERVICE_RESOURCE: "activiti"
-      JAVA_OPTS: " -Dsolr.base.url=/solr
+      JAVA_OPTS: "
+        -Dsolr.base.url=/solr
         -Dsolr.secureComms=none
         -Dindex.subsystem.name=solr6
         -Ddeployment.method=HELM_CHART
@@ -55,4 +56,5 @@ alfresco-content-services:
         -Didentity-service.auth-server-url=\"$IDENTITY_SERVICE_URI\"
         -Didentity-service.realm=\"$IDENTITY_SERVICE_REALM\"
         -Didentity-service.resource=\"$IDENTITY_SERVICE_RESOURCE\"
-        -Dcsrf.filter.enabled=false"
+        -Dcsrf.filter.enabled=false
+        "
