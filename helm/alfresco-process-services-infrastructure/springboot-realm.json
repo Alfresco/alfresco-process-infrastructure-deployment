@@ -1,7 +1,7 @@
 {
   "realm": "springboot",
   "enabled": true,
-  "sslRequired" : "none",
+  "sslRequired": "none",
   "roles": {
     "realm": [
       {
@@ -71,7 +71,29 @@
       {
         "name": "ACTIVITI_MODELER"
       }
-    ]
+    ],
+    "client": {
+      "activiti": [
+        {
+          "name": "ACTIVITI_USER",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "processadmin",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "devops",
+          "scopeParamRequired": false,
+          "composite": false,
+          "clientRole": true
+        }
+      ]
+    }
   },
   "groups": [
     {
@@ -383,7 +405,6 @@
         }
       ],
       "realmRoles": [
-
       ]
     },
     {
@@ -406,7 +427,7 @@
     {
       "clientId": "activiti",
       "enabled": true,
-      "publicClient" : true,
+      "publicClient": true,
       "redirectUris": [
         "*"
       ],
