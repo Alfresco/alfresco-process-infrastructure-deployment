@@ -85,12 +85,6 @@
           "scopeParamRequired": false,
           "composite": false,
           "clientRole": true
-        },
-        {
-          "name": "devops",
-          "scopeParamRequired": false,
-          "composite": false,
-          "clientRole": true
         }
       ]
     }
