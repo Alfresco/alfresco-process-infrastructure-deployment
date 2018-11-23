@@ -157,6 +157,10 @@
         "account": [
           "manage-account",
           "view-profile"
+        ],
+        "activiti": [
+          "ACTIVITI_USER",
+          "processadmin"
         ]
       }
     },
@@ -216,7 +220,11 @@
         "account": [
           "manage-account",
           "view-profile"
+        ],
+        "activiti": [
+          "ACTIVITI_USER"
         ]
+
       }
     },
     {
@@ -268,6 +276,9 @@
         "account": [
           "manage-account",
           "view-profile"
+        ],
+        "activiti": [
+          "processadmin"
         ]
       }
     },
@@ -294,6 +305,9 @@
         "account": [
           "manage-account",
           "view-profile"
+        ],
+        "activiti": [
+          "processadmin"
         ]
       }
     },
