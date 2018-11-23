@@ -27,7 +27,7 @@ alfresco-infrastructure:
           pullSecrets:
           - name: quay-registry-secret
           tag: 4.6.0.Final
-        extraArgs: "-Dkeycloak.import=/realm/springboot-realm.json"
+        extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
         preStartScript: "cp -p /opt/jboss/tools/docker-entrypoint.sh /opt/jboss/docker-entrypoint.sh"
 
 alfresco-content-services:
@@ -42,7 +42,7 @@ alfresco-content-services:
     environment:
       # The IDENTITY_SERVICE_URI should contain the details of the ingress host and port.
       IDENTITY_SERVICE_URI: "<ingresscontrollerurl>/auth"
-      IDENTITY_SERVICE_REALM: "springboot"
+      IDENTITY_SERVICE_REALM: "alfresco"
       IDENTITY_SERVICE_RESOURCE: "activiti"
       JAVA_OPTS: "
         -Dsolr.base.url=/solr
