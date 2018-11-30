@@ -451,7 +451,7 @@
       "authorizationServicesEnabled": true,
       "directAccessGrantsEnabled": true,
       "secret": "a2c5f2e6-5d46-4405-889f-f5cc125b768d"
-    }
+    },
      {
       "clientId": "storage-service",
       "enabled": true,
