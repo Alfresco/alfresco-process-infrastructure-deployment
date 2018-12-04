@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-source $(dirname "$0")/env.sh
+[[ -n "${APS_SCRIPTS_HOME}" ]] || echo APS_SCRIPTS_HOME is not set
+source ${APS_SCRIPTS_HOME}/aps_env.sh
 
 # CERT ARN for envalfresco.com
 ENV_AWS_CERT_ARN=${ENV_AWS_CERT_ARN:-"arn:aws:acm:us-east-1:175125429442:certificate/59628920-98d9-4009-90bc-5e626716cc82"}
@@ -20,7 +21,7 @@ cat << EOF >> values.yaml
       http: http
       https: http
     annotations:
-      external-dns.alpha.kubernetes.io/hostname: ${ENV_FQDN}.
+      external-dns.alpha.kubernetes.io/hostname: ${APS_HOST}.
       service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "${ENV_AWS_CERT_ARN}"
       service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
       service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"

@@ -37,6 +37,11 @@ alfresco-content-services:
   registryPullSecrets: quay-registry-secret
   alfresco-infrastructure:
     enabled: false
+  share:
+    CATALINA_OPTS: "
+      -Dcsrf.filter.enabled=false
+      -Xms1000M -Xmx1000M
+      "
   repository:
     replicaCount: 1
     environment:

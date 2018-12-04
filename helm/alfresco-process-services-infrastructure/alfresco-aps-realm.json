@@ -1,7 +1,26 @@
 {
-  "realm": "springboot",
+  "realm": "alfresco",
   "enabled": true,
   "sslRequired": "none",
+  "loginTheme": "alfresco",
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "de",
+    "no",
+    "ru",
+    "sv",
+    "pt-BR",
+    "lt",
+    "en",
+    "it",
+    "fr",
+    "zh-CN",
+    "es",
+    "ja",
+    "ca",
+    "nl"
+  ],
+  "defaultLocale": "en",
   "roles": {
     "realm": [
       {
@@ -226,7 +245,6 @@
         "activiti": [
           "ACTIVITI_USER"
         ]
-
       }
     },
     {
