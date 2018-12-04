@@ -151,7 +151,9 @@
         "uma_authorization",
         "user",
         "identity",
-        "offline_access"
+        "offline_access",
+        "devops",
+        "processadmin"
       ],
       "clientRoles": {
         "account": [
