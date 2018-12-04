@@ -26,7 +26,7 @@ alfresco-infrastructure:
           repository: quay.io/alfresco/keycloak
           pullSecrets:
           - name: quay-registry-secret
-          tag: 4.6.0.Final
+          tag: latest
         extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
         preStartScript: "cp -p /opt/jboss/tools/docker-entrypoint.sh /opt/jboss/docker-entrypoint.sh"
 
