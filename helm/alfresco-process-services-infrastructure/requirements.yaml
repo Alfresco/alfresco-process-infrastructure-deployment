@@ -1,7 +1,7 @@
 dependencies:
   - name: alfresco-infrastructure
-    version: 3.0.0-SNAPSHOT
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    version: 3.0.0
+    repository: https://kubernetes-charts.alfresco.com/stable
     condition: alfresco-infrastructure.enabled
   - name: alfresco-content-services
     version: 1.1.4

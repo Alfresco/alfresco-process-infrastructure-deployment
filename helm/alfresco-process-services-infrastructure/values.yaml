@@ -22,13 +22,7 @@ alfresco-infrastructure:
   alfresco-identity-service:
     keycloak:
       keycloak:
-        image:
-          repository: quay.io/alfresco/keycloak
-          pullSecrets:
-          - name: quay-registry-secret
-          tag: latest
         extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
-        preStartScript: "cp -p /opt/jboss/tools/docker-entrypoint.sh /opt/jboss/docker-entrypoint.sh"
 
 alfresco-content-services:
   enabled: true
