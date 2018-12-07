@@ -442,12 +442,14 @@
       "credentials": [
         {
           "type": "password",
-          "value": "password"
+          "value": "adf$2018IloveAngular"
         }
       ],
       "realmRoles": [
         "user",
-        "modeler"
+        "modeler",
+        "devops",
+        "processadmin"
       ]
     }
   ],
