@@ -1,38 +1,44 @@
 #!/usr/bin/env bash
 
-[[ -n "${APS_SCRIPTS_HOME}" ]] || echo APS_SCRIPTS_HOME is not set
-source ${APS_SCRIPTS_HOME}/aps_env.sh
-
 # CERT ARN for envalfresco.com
-ENV_AWS_CERT_ARN=${ENV_AWS_CERT_ARN:-"arn:aws:acm:us-east-1:175125429442:certificate/59628920-98d9-4009-90bc-5e626716cc82"}
+APS_DOMAIN="${APS_HOST#*.*}"
+APS_INGRESS_AWS_CERT_ARN=${APS_INGRESS_AWS_CERT_ARN:-$(aws acm list-certificates --query "CertificateSummaryList[?contains(DomainName,'${APS_DOMAIN}')].CertificateArn" --output text)}
+env | grep APS | sort
 
 cat << EOF > values.yaml
 controller:
+  publishService:
+    enabled: true
   config:
     ssl-redirect: "false"
     use-proxy-protocol: "false"
 EOF
 
-if [[ -n "${ENV_AWS_CERT_ARN}" ]]
+if [[ -n "${APS_INGRESS_AWS_CERT_ARN}" ]]
 then
-cat << EOF >> values.yaml
-  service:
-    targetPorts:
-      http: http
-      https: http
-    annotations:
-      external-dns.alpha.kubernetes.io/hostname: ${APS_HOST}.
-      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "${ENV_AWS_CERT_ARN}"
-      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
-      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
-      service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
+  cat << EOF >> values.yaml
+service:
+  targetPorts:
+    http: http
+    https: http
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: ${APS_HOST}.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "${APS_INGRESS_AWS_CERT_ARN}"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
 EOF
-echo install external-dns with: go get -u -v github.com/kubernetes-incubator/external-dns
-echo add ${ENV_FQDN} to DNS with: external-dns --provider aws --source service --once
+
+  echo install external-dns with: go get -u -v github.com/kubernetes-incubator/external-dns
+  echo add ${APS_HOST} to DNS with: external-dns --provider aws --source service --source ingress --once --dry-run
 fi
 
+# check AWS from cli
+# APS_AWS_HOSTED_ZONE=$(aws route53 list-hosted-zones --query "HostedZones[?Name == '${APS_DOMAIN}.'].Id | [0]" --output text)
+# aws route53 list-resource-record-sets --hosted-zone-id ${APS_AWS_HOSTED_ZONE} --query "ResourceRecordSets[?contains(Name,'${APS_HOST/.*}')].Name"
+# aws route53 change-resource-record-sets --hosted-zone-id ${APS_AWS_HOSTED_ZONE} --change-batch change-resource-record-sets.json
+
 CHART_NAME="stable/nginx-ingress"
-VERSION=${VERSION:-0.14.0}
 
 HELM_OPTS="${HELM_OPTS} -f values.yaml"
 [[ -n "${VERSION}" ]] && HELM_OPTS="${HELM_OPTS} --version ${VERSION}"
@@ -41,7 +47,7 @@ if [[ -z "${RELEASE_NAME}" ]]
 then
   helm install ${HELM_OPTS} ${CHART_NAME}
 else
-  helm upgrade --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
+  helm upgrade --install --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
 fi
 
 rm values.yaml
