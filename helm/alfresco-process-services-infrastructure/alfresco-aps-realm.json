@@ -332,31 +332,6 @@
       }
     },
     {
-      "id": "70f6dd9d-c8e8-46ab-99d4-766b55b66b45",
-      "createdTimestamp": 1499947380070,
-      "username": "service-account-activiti",
-      "enabled": true,
-      "totp": false,
-      "emailVerified": false,
-      "email": "service-account-activiti@placeholder.org",
-      "serviceAccountClientId": "activiti",
-      "credentials": [],
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "uma_authorization",
-        "offline_access"
-      ],
-      "clientRoles": {
-        "account": [
-          "manage-account",
-          "view-profile"
-        ]
-      },
-      "notBefore": 0,
-      "groups": []
-    },
-    {
       "username": "testuser",
       "enabled": true,
       "firstName": "Test",
