@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-ENV_PROTOCOL=${ENV_PROTOCOL:-http}
-ENV_HOST=${ENV_HOST:-aps2mteodori.envalfresco.com}
+APS_PROTOCOL=${APS_PROTOCOL:-http}
+APS_HOST=${APS_HOST:-aps2mteodori.envalfresco.com}
 EFS_HOST=${EFS_HOST:-fs-191c7853.efs.us-east-1.amazonaws.com}
 
 cat << EOF > values.yaml
 alfresco-content-services:
-  externalProtocol: "${ENV_PROTOCOL}"
-  externalHost: "${ENV_HOST}"
+  externalProtocol: "${APS_PROTOCOL}"
+  externalHost: "${APS_HOST}"
   repository:
     environment:
-      IDENTITY_SERVICE_URI: "${ENV_PROTOCOL}://${ENV_HOST}/auth"
+      IDENTITY_SERVICE_URI: "${APS_PROTOCOL}://${APS_HOST}/auth"
 alfresco-infrastructure:
   nginx-ingress:
     enabled: false
