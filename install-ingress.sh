@@ -30,7 +30,7 @@ service:
 EOF
 
   echo install external-dns with: go get -u -v github.com/kubernetes-incubator/external-dns
-  echo add ${APS_HOST} to DNS with: external-dns --provider aws --source service --source ingress --once --dry-run
+  echo add ${APS_HOST} to DNS with: external-dns --registry txt --txt-owner-id ${APS_HOST} --provider aws --source service --source ingress --once --dry-run
 fi
 
 # check AWS from cli
