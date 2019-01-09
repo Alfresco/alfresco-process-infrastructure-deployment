@@ -44,7 +44,12 @@
           "realm": [
             "ACTIVITI_USER",
             "ACTIVITI_MODELER"
-          ]
+          ],
+          "client": {
+            "realm-management": [
+              "view-users"
+            ]
+          }
         }
       },
       {
@@ -77,12 +82,11 @@
         "composites": {
           "client": {
             "realm-management": [
-              "query-groups",
               "query-realms",
               "manage-users",
               "manage-authorization",
               "query-clients",
-              "query-users"
+              "view-users"
             ]
           }
         }
