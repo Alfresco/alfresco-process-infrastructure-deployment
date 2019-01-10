@@ -14,8 +14,6 @@ kubectl create configmap nginx-template --from-file nginx.tmpl
 
 cat << EOF > values.yaml
 controller:
-  publishService:
-    enabled: true
   customTemplate:
     configMapName: nginx-template
     configMapKey: nginx.tmpl
@@ -23,6 +21,7 @@ controller:
     enableHttps: false
   config:
     generate-request-id: "true"
+    hsts: "true"
     proxy-read-timeout: "3600"
     proxy-send-timeout: "3600"
     ssl-redirect: "false"
@@ -50,7 +49,7 @@ EOF
   echo add ${APS_HOST} to DNS with: external-dns --registry txt --txt-owner-id ${APS_HOST} --provider aws --source service --source ingress --once --dry-run
 fi
 
-# manually change the rule to by SSL to TCP
+# manually change the rule for HTTPS to HTTP with SSL to TCP
 
 # to be done on CLI as enable proxy doesn't work - https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-proxy-protocol.html
 export NGINX_INGRESS_CONTROLLER_NAME=nginx-ingress-controller
@@ -58,8 +57,9 @@ export ELB_ADDRESS=$(kubectl get services ${NGINX_INGRESS_CONTROLLER_NAME} -o js
 export ELB_NAME=${ELB_ADDRESS%%-*}
 
 export ELB_INSTANCE_PORT=$(kubectl get services ${NGINX_INGRESS_CONTROLLER_NAME} -o jsonpath={.spec.ports[0].nodePort})
-aws elb create-load-balancer-policy --load-balancer-name ${ELB_NAME} --policy-name my-ProxyProtocol-policy --policy-type-name ProxyProtocolPolicyType --policy-attributes AttributeName=ProxyProtocol,AttributeValue=true
-aws elb set-load-balancer-policies-for-backend-server --load-balancer-name ${ELB_NAME} --instance-port $ELB_INSTANCE_PORT
+export ELB_PROXY_POLICY_NAME=my-ProxyProtocol-policy
+aws elb create-load-balancer-policy --load-balancer-name ${ELB_NAME} --policy-name ${ELB_PROXY_POLICY_NAME} --policy-type-name ProxyProtocolPolicyType --policy-attributes AttributeName=ProxyProtocol,AttributeValue=true
+aws elb set-load-balancer-policies-for-backend-server --load-balancer-name ${ELB_NAME} --instance-port ${ELB_INSTANCE_PORT} --policy-names ${ELB_PROXY_POLICY_NAME}
 # check with: aws elb describe-load-balancers --load-balancer-name ${ELB_NAME}
 
 # check AWS from cli
@@ -75,17 +75,13 @@ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name ${ELB
 # read httptrace: https://activiti-cloud-gateway.${DOMAIN}/activiti-cloud-modeling-backend/actuator/httptrace
 
 CHART_NAME="stable/nginx-ingress"
+RELEASE_NAME="${RELEASE_NAME:-nginx-ingress}"
 
 HELM_OPTS="${HELM_OPTS} -f values.yaml"
 
 VERSION=${VERSION:-1.1.5}
 [[ -n "${VERSION}" ]] && HELM_OPTS="${HELM_OPTS} --version ${VERSION}"
 
-if [[ -z "${RELEASE_NAME}" ]]
-then
-  helm install ${HELM_OPTS} ${CHART_NAME}
-else
-  helm upgrade --install --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
-fi
+helm upgrade --install --force --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
 
 rm values.yaml

@@ -32,13 +32,13 @@ alfresco-content-services:
     url:
     user: admin
     password: admin
-  alfresco-infrastructure:
+  alfresco-infrastructure: &alfresco-content-services-alfresco-infrastructure
     enabled: false
     activemq:
       enabled: false
   networkpolicysetting:
     enabled: false
-  repository:
+  repository: &alfresco-content-services-repository
     replicaCount: 1
     ingress:
       path: "/alfresco"
@@ -62,7 +62,6 @@ alfresco-content-services:
         -Dlocal.transform.service.enabled=false
         -Dtransform.service.enabled=false
       "
-
   alfresco-digital-workspace:
     networkpolicysetting:
       enabled: false
@@ -74,3 +73,8 @@ alfresco-content-services:
     APP_CONFIG_OAUTH2_REDIRECT_LOGIN: "/digital-workspace/"
     APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: "/digital-workspace/logout"
     APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "https://alfresco-gateway.REPLACEME/digital-workspace/assets/silent-refresh.html"
+
+alfresco-content-services-community:
+  enabled: false
+  repository: *alfresco-content-services-repository
+  alfresco-infrastructure: *alfresco-content-services-alfresco-infrastructure
