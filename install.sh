@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CHART_NAME="helm/alfresco-process-services-infrastructure"
+CHART_NAME="helm/alfresco-process-infrastructure"
 
 helm repo add alfresco https://kubernetes-charts.alfresco.com/stable
 helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator

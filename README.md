@@ -1,4 +1,4 @@
-# alfresco-process-services-infrastructure
+# alfresco-process-infrastructure
 
 This repository contains the helm chart with the DBP infrastructure that is required by APS2:
 
@@ -21,7 +21,7 @@ Note! The Persistent volume created to store the data on the created EFS has the
 
 Helm command to deploy chart with ACS:
 
-    helm install ./helm/alfresco-process-services-infrastructure \
+    helm install ./helm/alfresco-process-infrastructure \
       --namespace=$DESIREDNAMESPACE \
       --set alfresco-content-services.externalHost="$ELB_CNAME" \
       --set alfresco-content-services.repository.environment.IDENTITY_SERVICE_URI="http://$ELB_CNAME/auth" \

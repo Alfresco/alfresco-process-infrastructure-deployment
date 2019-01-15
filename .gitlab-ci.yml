@@ -16,7 +16,7 @@ deploy:
     - export helm_chart_repo='http://kubernetes-charts.alfresco.com/incubator/'
     - export git_repo='git@github.com:Alfresco/charts.git'
     - export git_repo_subdir='incubator'
-    - export chart_source_dirs='helm/alfresco-process-services-infrastructure'
+    - export chart_source_dirs='helm/alfresco-process-infrastructure'
     - ${HELM_TOOLS_HOME}/bin/helm-updater.sh
   when: manual
   allow_failure: true
