@@ -10,5 +10,5 @@ if [[ -z "${RELEASE_NAME}" ]]
 then
   helm install ${HELM_OPTS} ${CHART_NAME}
 else
-  helm upgrade --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
+  helm upgrade --install --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
 fi

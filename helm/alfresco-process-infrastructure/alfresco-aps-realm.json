@@ -72,7 +72,8 @@
         "name": "processadmin",
         "composites": {
           "realm": [
-            "ACTIVITI_USER"
+            "ACTIVITI_USER",
+            "ACTIVITI_ADMIN"
           ]
         }
       },
@@ -385,6 +386,21 @@
           "view-profile"
         ]
       }
+    },
+    {
+      "username": "modeler",
+      "email": "modeler@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "user",
+        "modeler"
+      ]
     },
     {
       "username": "qa-modeler-1",

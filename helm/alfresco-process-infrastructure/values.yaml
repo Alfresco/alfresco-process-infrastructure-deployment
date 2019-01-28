@@ -13,6 +13,7 @@ alfresco-infrastructure:
   alfresco-api-gateway:
     enabled: false
   nginx-ingress:
+    enabled: false
     controller:
       scope:
         enabled: false
@@ -22,10 +23,12 @@ alfresco-infrastructure:
   alfresco-identity-service:
     keycloak:
       keycloak:
+        image:
+          tag: 4.6.0.Final
         extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
 
 alfresco-content-services:
-  enabled: true
+  enabled: false
   networkpolicysetting:
     enabled: false
   registryPullSecrets: quay-registry-secret
