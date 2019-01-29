@@ -30,7 +30,7 @@
         "name": "ACTIVITI_ADMIN"
       },
       {
-        "name": "devops",
+        "name": "APS_DEVOPS",
         "composites": {
           "realm": [
             "ACTIVITI_USER",
@@ -39,7 +39,7 @@
         }
       },
       {
-        "name": "user",
+        "name": "APS_USER",
         "composites": {
           "realm": [
             "ACTIVITI_USER",
@@ -53,7 +53,7 @@
         }
       },
       {
-        "name": "admin",
+        "name": "APS_ADMIN",
         "composites": {
           "realm": [
             "ACTIVITI_ADMIN"
@@ -61,7 +61,7 @@
         }
       },
       {
-        "name": "modeler",
+        "name": "APS_MODELER",
         "composites": {
           "realm": [
             "ACTIVITI_MODELER"
@@ -69,7 +69,7 @@
         }
       },
       {
-        "name": "processadmin",
+        "name": "APS_PROCESS_ADMIN",
         "composites": {
           "realm": [
             "ACTIVITI_USER",
@@ -78,7 +78,7 @@
         }
       },
       {
-        "name": "identity",
+        "name": "APS_IDENTITY",
         "description": "user is able to see the identity section",
         "composites": {
           "client": {
@@ -105,7 +105,7 @@
           "clientRole": true
         },
         {
-          "name": "processadmin",
+          "name": "APS_PROCESS_ADMIN",
           "scopeParamRequired": false,
           "composite": false,
           "clientRole": true
@@ -135,7 +135,7 @@
         }
       ],
       "realmRoles": [
-        "user",
+        "APS_USER",
         "offline_access",
         "uma_authorization"
       ],
@@ -173,11 +173,11 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "user",
-        "identity",
+        "APS_USER",
+        "APS_IDENTITY",
         "offline_access",
-        "devops",
-        "processadmin"
+        "APS_DEVOPS",
+        "APS_PROCESS_ADMIN"
       ],
       "clientRoles": {
         "account": [
@@ -186,7 +186,7 @@
         ],
         "activiti": [
           "ACTIVITI_USER",
-          "processadmin"
+          "APS_PROCESS_ADMIN"
         ]
       }
     },
@@ -202,7 +202,7 @@
       "realmRoles": [
         "offline_access",
         "uma_authorization",
-        "admin"
+        "APS_ADMIN"
       ],
       "clientRoles": {
         "realm-management": [
@@ -238,8 +238,8 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "devops",
-        "user",
+        "APS_DEVOPS",
+        "APS_USER",
         "offline_access"
       ],
       "clientRoles": {
@@ -266,7 +266,7 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "user",
+        "APS_USER",
         "offline_access"
       ],
       "clientRoles": {
@@ -293,8 +293,8 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "processadmin",
-        "user",
+        "APS_PROCESS_ADMIN",
+        "APS_USER",
         "offline_access"
       ],
       "clientRoles": {
@@ -303,7 +303,7 @@
           "view-profile"
         ],
         "activiti": [
-          "processadmin"
+          "APS_PROCESS_ADMIN"
         ]
       }
     },
@@ -321,9 +321,9 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "user",
-        "devops",
-        "processadmin",
+        "APS_USER",
+        "APS_DEVOPS",
+        "APS_PROCESS_ADMIN",
         "offline_access"
       ],
       "clientRoles": {
@@ -332,7 +332,7 @@
           "view-profile"
         ],
         "activiti": [
-          "processadmin"
+          "APS_PROCESS_ADMIN"
         ]
       }
     },
@@ -350,7 +350,7 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "user",
+        "APS_USER",
         "offline_access"
       ],
       "clientRoles": {
@@ -376,7 +376,7 @@
         }
       ],
       "realmRoles": [
-        "identity",
+        "APS_IDENTITY",
         "offline_access",
         "uma_authorization"
       ],
@@ -398,8 +398,8 @@
         }
       ],
       "realmRoles": [
-        "user",
-        "modeler"
+        "APS_USER",
+        "APS_MODELER"
       ]
     },
     {
@@ -413,8 +413,8 @@
         }
       ],
       "realmRoles": [
-        "user",
-        "modeler"
+        "APS_USER",
+        "APS_MODELER"
       ]
     },
     {
@@ -441,10 +441,10 @@
         }
       ],
       "realmRoles": [
-        "user",
-        "modeler",
-        "devops",
-        "processadmin"
+        "APS_USER",
+        "APS_MODELER",
+        "APS_DEVOPS",
+        "APS_PROCESS_ADMIN"
       ]
     }
   ],
