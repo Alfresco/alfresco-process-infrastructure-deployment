@@ -40,7 +40,7 @@ fi
 
 CHART_NAME="stable/nginx-ingress"
 
-HELM_OPTS="${HELM_OPTS} -f values.yaml"
+HELM_OPTS="${HELM_OPTS} -f values.yaml --name nginx-ingress"
 [[ -n "${VERSION}" ]] && HELM_OPTS="${HELM_OPTS} --version ${VERSION}"
 
 if [[ -z "${RELEASE_NAME}" ]]
