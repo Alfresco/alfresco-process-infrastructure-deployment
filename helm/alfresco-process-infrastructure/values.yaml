@@ -37,6 +37,8 @@ alfresco-content-services:
   registryPullSecrets: quay-registry-secret
   alfresco-infrastructure:
     enabled: false
+    persistence:
+      enabled: false
     rabbitmq-ha:
       enabled: false
     activemq:
