@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 alfresco-infrastructure:
-  enabled: true
+  enabled: false
   rabbitmq-ha:
     enabled: false
   activemq:
@@ -21,6 +21,7 @@ alfresco-infrastructure:
         ssl-redirect: "false"
         use-proxy-protocol: "false"
   alfresco-identity-service:
+    enabled: false
     keycloak:
       keycloak:
         image:
@@ -34,6 +35,18 @@ alfresco-content-services:
   registryPullSecrets: quay-registry-secret
   alfresco-infrastructure:
     enabled: false
+    rabbitmq-ha:
+      enabled: false
+    activemq:
+      enabled: false
+    alfresco-activiti-cloud-registry:
+      enabled: false
+    alfresco-api-gateway:
+      enabled: false
+    nginx-ingress:
+      enabled: false
+    alfresco-identity-service:
+      enabled: false
   share:
     CATALINA_OPTS: "
       -Dcsrf.filter.enabled=false
