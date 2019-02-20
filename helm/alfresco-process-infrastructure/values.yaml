@@ -4,11 +4,6 @@
 
 alfresco-infrastructure:
   enabled: true
-  persistence:
-    enabled: false
-    efs:
-      enabled: false
-      dns: fs-78f73098.efs.us-east-1.amazonaws.com
   activemq:
     enabled: false
   nginx-ingress:
