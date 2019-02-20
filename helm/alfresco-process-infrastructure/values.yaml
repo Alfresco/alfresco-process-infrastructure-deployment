@@ -4,15 +4,7 @@
 
 alfresco-infrastructure:
   enabled: true
-  persistence:
-    enabled: true
-  rabbitmq-ha:
-    enabled: false
   activemq:
-    enabled: false
-  alfresco-activiti-cloud-registry:
-    enabled: false
-  alfresco-api-gateway:
     enabled: false
   nginx-ingress:
     enabled: false
@@ -26,8 +18,6 @@ alfresco-infrastructure:
     enabled: true
     keycloak:
       keycloak:
-        image:
-          tag: 4.5.0.Final
         extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
 
 alfresco-content-services:
@@ -37,20 +27,6 @@ alfresco-content-services:
   registryPullSecrets: quay-registry-secret
   alfresco-infrastructure:
     enabled: false
-    persistence:
-      enabled: false
-    rabbitmq-ha:
-      enabled: false
-    activemq:
-      enabled: false
-    alfresco-activiti-cloud-registry:
-      enabled: false
-    alfresco-api-gateway:
-      enabled: false
-    nginx-ingress:
-      enabled: false
-    alfresco-identity-service:
-      enabled: false
   share:
     CATALINA_OPTS: "
       -Dcsrf.filter.enabled=false

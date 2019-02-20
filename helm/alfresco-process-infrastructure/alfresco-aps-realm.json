@@ -280,6 +280,35 @@
       ]
     },
     {
+      "username": "hradmin",
+      "enabled": true,
+      "firstName": "HR",
+      "lastName": "Admin",
+      "email": "hradmin@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "uma_authorization",
+        "APS_USER",
+        "APS_ADMIN",
+        "APS_PROCESS_ADMIN",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      },
+      "groups": [
+        "/hr"
+      ]
+    },
+    {
       "username": "processadminuser",
       "enabled": true,
       "firstName": "Process Admin",
@@ -351,6 +380,35 @@
       "realmRoles": [
         "uma_authorization",
         "APS_USER",
+        "offline_access"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      },
+      "groups": [
+        "/testgroup"
+      ]
+    },
+    {
+      "username": "testadmin",
+      "enabled": true,
+      "firstName": "Test",
+      "lastName": "Admin",
+      "email": "testadmin@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "uma_authorization",
+        "APS_USER",
+        "APS_ADMIN",
+        "APS_PROCESS_ADMIN",
         "offline_access"
       ],
       "clientRoles": {
