@@ -13,29 +13,20 @@ kubectl create configmap nginx-template --from-file nginx.tmpl
 
 cat << EOF > values.yaml
 controller:
-#  publishService:
-#    enabled: true
+  publishService:
+    enabled: true
+  customTemplate:
+    configMapName: nginx-template
+    configMapKey: nginx.tmpl
   service:
     enableHttps: false
   config:
-#    generate-request-id: "true"
+    generate-request-id: "true"
     proxy-read-timeout: "3600"
     proxy-send-timeout: "3600"
-    proxy-set-headers: "default/nginx-ingress-custom-headers"
-#    ssl-redirect: "false"
-#    use-forwarded-headers: "true"
+    ssl-redirect: "false"
+    use-forwarded-headers: "false"
     use-proxy-protocol: "true"
-volumeMounts:
-  - mountPath: /etc/nginx/template
-    name: nginx-template-volume
-    readOnly: true
-volumes:
-  - name: nginx-template-volume
-    configMap:
-      name: nginx-template
-      items:
-      - key: nginx.tmpl
-        path: nginx.tmpl
 EOF
 
 
@@ -63,7 +54,8 @@ fi
 # to be done on CLI as enable proxy doesn't work - https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-proxy-protocol.html
 export NGINX_INGRESS_CONTROLLER_NAME=nginx-ingress-controller
 export ELB_ADDRESS=$(kubectl get services ${NGINX_INGRESS_CONTROLLER_NAME} -o jsonpath={.status.loadBalancer.ingress[0].hostname})
-export ELB_NAME="derive manually from above up to -"
+export ELB_NAME=${ELB_ADDRESS%%-*}
+
 export ELB_INSTANCE_PORT=$(kubectl get services ${NGINX_INGRESS_CONTROLLER_NAME} -o jsonpath={.spec.ports[0].nodePort})
 aws elb create-load-balancer-policy --load-balancer-name ${ELB_NAME} --policy-name my-ProxyProtocol-policy --policy-type-name ProxyProtocolPolicyType --policy-attributes AttributeName=ProxyProtocol,AttributeValue=true
 aws elb set-load-balancer-policies-for-backend-server --load-balancer-name ${ELB_NAME} --instance-port $ELB_INSTANCE_PORT
@@ -78,7 +70,7 @@ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name ${ELB
 # TEST
 # websockets working (install with npm -g install wscat): wscat --connect wss://activiti-cloud-gateway.aps2pentest.envalfresco.com/ws/graphql
 # httptrace endpoint to check x-forwarded-* headers:
-# open a URL: https://activiti-cloud-gateway.aps2pentest.envalfresco.com/activiti-cloud-modeling-backend/v2/api-docs
+# open a URL: https://activiti-cloud-gateway.aps2pentest.envalfresco.com/activiti-cloud-modeling-backend/actuator and check scheme
 # read httptrace: https://activiti-cloud-gateway.aps2pentest.envalfresco.com/activiti-cloud-modeling-backend/actuator/httptrace
 
 CHART_NAME="stable/nginx-ingress"
