@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 APS_PROTOCOL=${APS_PROTOCOL:-http}
-APS_HOST=${APS_HOST:-aps2mteodori.envalfresco.com}
-EFS_HOST=${EFS_HOST:-fs-191c7853.efs.us-east-1.amazonaws.com}
+APS_HOST=${APS_HOST:-activiti-cloud-gateway.local}
 
 cat << EOF > values.yaml
 alfresco-content-services:

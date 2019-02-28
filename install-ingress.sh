@@ -69,10 +69,10 @@ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name ${ELB
 
 
 # TEST
-# websockets working (install with npm -g install wscat): wscat --connect wss://activiti-cloud-gateway.aps2pentest.envalfresco.com/ws/graphql
+# websockets working (install with npm -g install wscat): wscat --connect wss://activiti-cloud-gateway.${DOMAIN}/ws/graphql
 # httptrace endpoint to check x-forwarded-* headers:
-# open a URL: https://activiti-cloud-gateway.aps2pentest.envalfresco.com/activiti-cloud-modeling-backend/actuator and check scheme
-# read httptrace: https://activiti-cloud-gateway.aps2pentest.envalfresco.com/activiti-cloud-modeling-backend/actuator/httptrace
+# open a URL: https://activiti-cloud-gateway.${DOMAIN}/activiti-cloud-modeling-backend/actuator and check scheme
+# read httptrace: https://activiti-cloud-gateway.${DOMAIN}/activiti-cloud-modeling-backend/actuator/httptrace
 
 CHART_NAME="stable/nginx-ingress"
 
