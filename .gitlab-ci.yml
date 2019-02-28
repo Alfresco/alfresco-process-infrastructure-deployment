@@ -1,27 +1,42 @@
 image: alpine:latest
 
 variables:
-  KUBERNETES_VERSION: 1.8.6
-  HELM_VERSION: 2.8.2
+  HELM_VERSION: 2.9.1
 
 stages:
 - deploy
 
-deploy:
+.deploy_chart: &deploy_chart
   stage: deploy
+  variables:
+    CHART_REPO_FOLDER: incubator
   script:
     - install_dependencies
     - setup_git
     - setup_build_helm_tools
-    - export helm_chart_repo='http://kubernetes-charts.alfresco.com/incubator/'
+    - export helm_chart_repo="http://kubernetes-charts.alfresco.com/${CHART_REPO_FOLDER}/"
     - export git_repo='git@github.com:Alfresco/charts.git'
-    - export git_repo_subdir='incubator'
+    - export git_repo_subdir="${CHART_REPO_FOLDER}"
     - export chart_source_dirs='helm/alfresco-process-infrastructure'
     - ${HELM_TOOLS_HOME}/bin/helm-updater.sh
-  when: manual
-  allow_failure: true
 
-.auto_devops: &auto_devops |
+deploy_chart_incubator:
+  variables:
+    CHART_REPO_FOLDER: incubator
+  <<: *deploy_chart
+  only:
+    refs:
+      - develop
+
+deploy_chart_stable:
+  variables:
+    CHART_REPO_FOLDER: stable
+  <<: *deploy_chart
+  only:
+    refs:
+      - master
+
+.declare_functions: &declare_functions |
 
   function install_dependencies() {
     apk add -U openssl curl tar gzip bash ca-certificates git openssh
@@ -33,10 +48,6 @@ deploy:
     curl "https://kubernetes-helm.storage.googleapis.com/helm-v${HELM_VERSION}-linux-amd64.tar.gz" | tar zx
     mv linux-amd64/helm /usr/bin/
     helm version --client
-
-    curl -L -o /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/linux/amd64/kubectl"
-    chmod +x /usr/bin/kubectl
-    kubectl version --client
   }
 
   function setup_git() {
@@ -56,5 +67,4 @@ deploy:
   }
 
 before_script:
-  - *auto_devops
-
+  - *declare_functions

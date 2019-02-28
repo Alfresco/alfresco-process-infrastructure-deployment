@@ -11,10 +11,16 @@ This repository contains the helm chart with the DBP infrastructure that is requ
 Install from repo via:
 
 ```bash
+helm upgrade --install --repo https://kubernetes-charts.alfresco.com/stable infrastructure alfresco-process-infrastructure
+```
+
+or a development version via:
+
+```bash
 helm upgrade --install --repo https://kubernetes-charts.alfresco.com/incubator infrastructure alfresco-process-infrastructure
 ```
 
-### EFS Storage with ACS on AWS
+### EFS Storage with ACS on AWS (APS 2.1 only)
 
 Create a EFS storage on AWS and make sure it is in the same VPC as your cluster. Make sure you open inbound traffic in the security group to allow NFS traffic. Save the name of the server ex:
 

@@ -1,4 +1,17 @@
-apiVersion: 2.0.0
-description: A Helm chart for Kubernetes
+apiVersion: v1
 name: alfresco-process-infrastructure
 version: 1.0.0
+appVersion: 2.0.0
+description: A Helm chart for Alfresco Process Infrastructure
+keywords:
+- process
+- process services
+- alfresco
+- alfresco process services
+- activiti
+- activiti enterprise
+- alfresco activiti enterprise
+home: https://www.alfresco.com
+sources:
+- https://git.alfresco.com/process-services-public/alfresco-process-infrastructure
+icon: https://avatars0.githubusercontent.com/u/391127?s=200&v=4
