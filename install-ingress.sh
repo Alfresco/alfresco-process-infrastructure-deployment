@@ -8,6 +8,7 @@ env | grep APS | sort
 # custom headers config https://kubernetes.github.io/ingress-nginx/examples/customization/custom-headers/
 # configmap can be edited and hot reload will happen: kubectl edit configmaps nginx-ingress-controller
 # see the last line on how to test: kubectl exec nginx-ingress-controller-<pod_name> cat /etc/nginx/nginx.conf
+# for background details on why we need to customise template for websockets on SSL: https://www.built.io/blog/websockets-on-aws-s-elb
 
 kubectl create configmap nginx-template --from-file nginx.tmpl
 
