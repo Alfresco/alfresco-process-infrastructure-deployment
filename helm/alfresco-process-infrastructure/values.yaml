@@ -4,6 +4,8 @@
 
 alfresco-infrastructure:
   enabled: true
+  persistence:
+    enabled: false
   activemq:
     enabled: false
   nginx-ingress:
@@ -19,6 +21,10 @@ alfresco-infrastructure:
     keycloak:
       keycloak:
         extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
+      postgresql:
+        persistence:
+          enabled: false
+
 
 alfresco-content-services:
   enabled: false
