@@ -18,14 +18,14 @@ service:
 EOF
 
 CHART_NAME="stable/docker-registry"
-HELM_OPTS="${HELM_OPTS} -f values.yaml"
+HELM_OPTS="${HELM_OPTS} -f values.yaml --name docker-registry"
 [[ -n "${VERSION}" ]] && HELM_OPTS="${HELM_OPTS} --version ${VERSION}"
 
 if [[ -z "${RELEASE_NAME}" ]]
 then
-  helm install ${HELM_OPTS} ${CHART_NAME}
+  helm install ${HELM_OPTS} ${CHART_NAME} --set storage=s3 --set s3.region=<region>,s3.regionEndpoint=s3.us-east-1.amazonaws.com,s3.bucket=<bucketname> --set secrets.s3.accessKey=<aws_access_key_id>,secrets.s3.secretKey=<aws_access_key_password>
 else
-  helm upgrade --install --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
+  helm upgrade --install --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME} --set storage=s3 --set s3.region=<region> --set s3.regionEndpoint=s3.us-east-1.amazonaws.com --set s3.bucket=<bucketname> --set secrets.s3.accessKey=<aws_access_key_id>,secrets.s3.secretKey=<aws_access_key_password>
 fi
 
 rm values.yaml
