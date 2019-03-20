@@ -4,58 +4,73 @@
 
 alfresco-infrastructure:
   enabled: true
-  persistence:
-    enabled: false
-  activemq:
-    enabled: false
   nginx-ingress:
     enabled: false
     controller:
       scope:
         enabled: false
-      config:
-        ssl-redirect: "false"
-        use-proxy-protocol: "false"
   alfresco-identity-service:
     enabled: true
     keycloak:
       keycloak:
         extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
       postgresql:
-        persistence:
-          enabled: false
-
+        # TODO: remove fix https://github.com/Alfresco/alfresco-identity-service/pull/76 when included in alfresco-infrastructure/alfresco-identity-service
+        postgresPassword: "keycloak"
+    realm:
+      alfresco:
+        client:
+          redirectUris:
+            - "*"
+          webOrigins:
+            - "*"
 
 alfresco-content-services:
   enabled: false
-  networkpolicysetting:
-    enabled: false
   registryPullSecrets: quay-registry-secret
+  messageBroker:
+    url:
+    user: admin
+    password: admin
   alfresco-infrastructure:
     enabled: false
-  share:
-    CATALINA_OPTS: "
-      -Dcsrf.filter.enabled=false
-      -Xms1000M -Xmx1000M
-      "
+    activemq:
+      enabled: false
+  networkpolicysetting:
+    enabled: false
   repository:
     replicaCount: 1
+    ingress:
+      path: "/alfresco"
     environment:
-      # The IDENTITY_SERVICE_URI should contain the details of the ingress host and port.
-      IDENTITY_SERVICE_URI: "<ingresscontrollerurl>/auth"
+      IDENTITY_SERVICE_URI: "https://alfresco-identity-service.REPLACEME/auth"
       IDENTITY_SERVICE_REALM: "alfresco"
       IDENTITY_SERVICE_RESOURCE: "activiti"
       JAVA_OPTS: "
         -Dsolr.base.url=/solr
         -Dsolr.secureComms=none
         -Dindex.subsystem.name=solr6
+        -Dalfresco.cluster.enabled=true
         -Ddeployment.method=HELM_CHART
-        -Xms2000M -Xmx2000M
+        -Xms1800M -Xmx1800M
         -Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm
         -Didentity-service.enable-basic-auth=true
         -Didentity-service.authentication.validation.failure.silent=false
         -Didentity-service.auth-server-url=\"$IDENTITY_SERVICE_URI\"
         -Didentity-service.realm=\"$IDENTITY_SERVICE_REALM\"
         -Didentity-service.resource=\"$IDENTITY_SERVICE_RESOURCE\"
-        -Dcsrf.filter.enabled=false
-        "
+        -Dlocal.transform.service.enabled=false
+        -Dtransform.service.enabled=false
+      "
+
+  alfresco-digital-workspace:
+    networkpolicysetting:
+      enabled: false
+    APP_CONFIG_AUTH_TYPE: "OAUTH"
+    APP_CONFIG_OAUTH2_HOST: "https://alfresco-identity-service.REPLACEME/auth/realms/alfresco"
+    APP_CONFIG_OAUTH2_CLIENTID: "alfresco"
+    APP_CONFIG_OAUTH2_IMPLICIT_FLOW: "\"true\""
+    APP_CONFIG_OAUTH2_SILENT_LOGIN: "\"true\""
+    APP_CONFIG_OAUTH2_REDIRECT_LOGIN: "/digital-workspace/"
+    APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: "/digital-workspace/logout"
+    APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "https://alfresco-gateway.REPLACEME/digital-workspace/assets/silent-refresh.html"

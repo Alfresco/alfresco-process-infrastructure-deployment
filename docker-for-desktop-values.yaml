@@ -1,67 +1,30 @@
 alfresco-content-services:
-  networkpolicysetting:
-    enabled: false
   externalProtocol: "http"
-  externalHost: "localhost-k8s"
+  externalHost: "host.docker.internal"
   repository:
     environment:
-      IDENTITY_SERVICE_URI: "http://localhost-k8s/auth"
+      IDENTITY_SERVICE_URI: "http://host.docker.internal/auth"
     livenessProbe:
       initialDelaySeconds: 420
     readinessProbe:
-      initialDelaySeconds: 420
+      initialDelaySeconds: 500
     resources:
       requests:
-        memory: "2000Mi"
+        memory: "1800Mi"
   share:
-    livenessProbe:
-      initialDelaySeconds: 420
-    readinessProbe:
-      initialDelaySeconds: 420
-    resources:
-      requests:
-        memory: "1000Mi"
+    replicaCount: 0
+  alfresco-digital-workspace:
+    APP_CONFIG_OAUTH2_HOST: "http://host.docker.internal/auth/realms/alfresco"
+    APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "http://host.docker.internal/digital-workspace/assets/silent-refresh.html"
   pdfrenderer:
-    livenessProbe:
-      initialDelaySeconds: 300
-    readinessProbe:
-      initialDelaySeconds: 300
-    resources:
-      requests:
-        memory: "500Mi"
+    replicaCount: 0
   libreoffice:
-    livenessProbe:
-      initialDelaySeconds: 300
-    readinessProbe:
-      initialDelaySeconds: 300
-    resources:
-      requests:
-        memory: "500Mi"
+    replicaCount: 0
   imagemagick:
-    livenessProbe:
-      initialDelaySeconds: 300
-    readinessProbe:
-      initialDelaySeconds: 300
-    resources:
-      requests:
-        memory: "500Mi"
+    replicaCount: 0
   transformrouter:
-    livenessProbe:
-      initialDelaySeconds: 420
-    readinessProbe:
-      initialDelaySeconds: 420
-    resources:
-      requests:
-        memory: "500Mi"
+    replicaCount: 0
+  tika:
+    replicaCount: 0
   filestore:
-    livenessProbe:
-      initialDelaySeconds: 420
-    readinessProbe:
-      initialDelaySeconds: 420
-    resources:
-      requests:
-        memory: "500Mi"
-
-alfresco-infrastructure:
-  nginx-ingress:
-    enabled: false
+    replicaCount: 0
