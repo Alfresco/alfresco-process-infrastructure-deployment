@@ -1,0 +1,25 @@
+Thank you for installing {{ .Chart.Name }}-{{ .Chart.Version }}
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get {{ .Release.Name }}
+
+Get the application URLs:
+
+Alfresco Identity Service : {{ template "common.keycloak-url" . }}
+Alfresco Gateway : {{ template "common.gateway-url" . }}
+{{- if index .Values "alfresco-content-services" "enabled" }}
+Alfresco Content Services: {{ template "common.gateway-url" . }}{{ index .Values "alfresco-content-services" "repository" "ingress" "path" }}
+Alfresco Digital Workspace: {{ template "common.gateway-url" . }}{{ index .Values "alfresco-content-services" "alfresco-digital-workspace" "ingress" "path" }}
+{{- end}}
+{{- if index .Values "alfresco-content-services-community" "enabled" }}
+Alfresco Content Services CE: {{ template "common.gateway-url" . }}{{ index .Values "alfresco-content-services-community" "repository" "ingress" "path" }}
+{{- end}}
+
+
+To see deployment status, try:
+
+  $ kubectl get pods -n {{ .Release.Namespace }}

@@ -136,7 +136,24 @@ Just install/upgrade a separate ingress correctly configured for APS2 in order t
 
 A custom extra values file to add settings for _Docker for Desktop_ as specified in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#docker-for-desktop---mac) is provided:
 ```bash
-HELM_OPTS="-f values-docker-for-desktop.yaml" ./install.sh
+HELM_OPTS="-f values-docker-for-desktop.yaml --wait" ./install.sh
+```
+*NB* with ACS enabled the startup might take as much as 10 minutes, use ```kubectl get pods --watch``` to check the status.
+
+## Testing
+
+### Access AIS
+
+Open browser and login to AIS:
+```bash
+open ${SSO_URL}
+```
+
+### Verify Realm
+
+To read back the realm from the secret, use:
+```bash
+kubectl get secret realm-secret -o jsonpath="{['data']['alfresco-aps-realm\.json']}" | base64 -D > alfresco-aps-realm.json
 ```
 ### override Docker images with internal Docker Registry
 

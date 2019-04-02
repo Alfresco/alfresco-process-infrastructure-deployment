@@ -14,9 +14,6 @@ kubectl create configmap nginx-template --from-file nginx.tmpl
 
 cat << EOF > values.yaml
 controller:
-  customTemplate:
-    configMapName: nginx-template
-    configMapKey: nginx.tmpl
   service:
     enableHttps: false
   config:
@@ -25,14 +22,18 @@ controller:
     proxy-read-timeout: "3600"
     proxy-send-timeout: "3600"
     ssl-redirect: "false"
-    use-forwarded-headers: "false"
-    use-proxy-protocol: "true"
+    server-tokens: "false"
 EOF
 
 
 if [[ -n "${APS_INGRESS_AWS_CERT_ARN}" ]]
 then
   cat << EOF >> values.yaml
+    use-forwarded-headers: "false"
+    use-proxy-protocol: "true"
+  customTemplate:
+    configMapName: nginx-template
+    configMapKey: nginx.tmpl
   annotations:
     # Enable PROXY protocol
 #    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
