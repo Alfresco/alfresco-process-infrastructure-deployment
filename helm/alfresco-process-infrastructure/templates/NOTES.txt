@@ -22,4 +22,4 @@ Alfresco Content Services CE: {{ template "common.gateway-url" . }}{{ index .Val
 
 To see deployment status, try:
 
-  $ kubectl get pods -n {{ .Release.Namespace }}
+  $ kubectl get pods -n {{ .Release.Namespace }} --watch

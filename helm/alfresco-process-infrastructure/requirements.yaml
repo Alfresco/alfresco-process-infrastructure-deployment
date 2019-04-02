@@ -7,10 +7,10 @@ dependencies:
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-infrastructure.enabled
   - name: alfresco-content-services
-    version: 2.0.0
-    repository: https://kubernetes-charts.alfresco.com/stable
+    version: 3.0.0
+    repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-content-services.enabled
   - name: alfresco-content-services-community
-    version: 2.2.0
-    repository: https://kubernetes-charts.alfresco.com/stable
+    version: 3.0.0
+    repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-content-services-community.enabled

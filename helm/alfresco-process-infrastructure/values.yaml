@@ -105,12 +105,9 @@ alfresco-content-services:
       enabled: false
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_OAUTH2_HOST: "https://alfresco-identity-service.REPLACEME/auth/realms/alfresco"
-    APP_CONFIG_OAUTH2_CLIENTID: "alfresco"
-    APP_CONFIG_OAUTH2_IMPLICIT_FLOW: "\"true\""
-    APP_CONFIG_OAUTH2_SILENT_LOGIN: "\"true\""
-    APP_CONFIG_OAUTH2_REDIRECT_LOGIN: "/digital-workspace/"
-    APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: "/digital-workspace/logout"
-    APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "https://alfresco-gateway.REPLACEME/digital-workspace/assets/silent-refresh.html"
+    APP_CONFIG_OAUTH2_REDIRECT_LOGIN: "/workspace/"
+    APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: "/workspace/logout"
+    APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "https://alfresco-gateway.REPLACEME/workspace/assets/silent-refresh.html"
 
 alfresco-content-services-community:
   enabled: false
