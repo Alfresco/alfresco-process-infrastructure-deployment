@@ -104,6 +104,16 @@ alfresco-content-services:
         -Dlocal.transform.service.enabled=false
         -Dtransform.service.enabled=false
       "
+  imagemagick:
+    replicaCount: 1
+  libreoffice:
+    replicaCount: 1
+  pdfrenderer:
+    replicaCount: 1
+  tika:
+    replicaCount: 1
+  transformrouter:
+    replicaCount: 1
   alfresco-digital-workspace:
     networkpolicysetting:
       enabled: false
