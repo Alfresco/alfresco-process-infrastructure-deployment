@@ -14,11 +14,8 @@ kubectl create configmap nginx-template --from-file nginx.tmpl
 
 cat << EOF > values.yaml
 controller:
-  service:
-    enableHttps: false
   config:
     generate-request-id: "true"
-    hsts: "true"
     proxy-read-timeout: "3600"
     proxy-send-timeout: "3600"
     ssl-redirect: "false"
@@ -34,16 +31,20 @@ then
   customTemplate:
     configMapName: nginx-template
     configMapKey: nginx.tmpl
-  annotations:
+  service:
+    targetPorts:
+      http: http
+      https: http
+    annotations:
     # Enable PROXY protocol
-#    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-    # Specify SSL certificate to use
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "${APS_INGRESS_AWS_CERT_ARN}"
-    # Use SSL on the HTTPS port
-    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https" # needed to have the correct inbound rule
-#    external-dns.alpha.kubernetes.io/hostname: ${APS_HOST}.
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
-#    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
+      #service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+      # Specify SSL certificate to use
+      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "${APS_INGRESS_AWS_CERT_ARN}"
+      # Use SSL on the HTTPS port
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https" # needed to have the correct inbound rule
+      #external-dns.alpha.kubernetes.io/hostname: ${APS_HOST}.
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+      #service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
 EOF
 
   echo install external-dns with: go get -u -v github.com/kubernetes-incubator/external-dns
