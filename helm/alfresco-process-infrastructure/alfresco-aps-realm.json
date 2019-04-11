@@ -38,7 +38,8 @@
           ],
           "client": {
             "realm-management": [
-              "view-clients"
+              "view-clients",
+              "manage-users"
             ]
           }
         }
