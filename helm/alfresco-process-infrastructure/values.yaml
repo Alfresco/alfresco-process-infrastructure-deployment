@@ -8,8 +8,8 @@ global:
     - "quay-registry-secret"
 
   keycloak:
-    ## Configure Activiti Keycloak host template, i.e. "activiti-keycloak.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
-    #    host: "activiti-keycloak.{{ .Values.global.gateway.domain }}"
+    ## Configure Keycloak host template, i.e. "identity.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
+#    host: "identity.{{ .Values.global.gateway.domain }}"
 
     ## Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth
     url: ""
@@ -20,8 +20,8 @@ global:
     client: "activiti"
 
   gateway:
-    ## Set to configure single domain name for all services, i.e. "activiti-cloud-gateway.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
-    #    host: "activiti-cloud-gateway.{{ .Values.global.gateway.domain }}"
+    ## Set to configure single domain name for all services, i.e. "gateway.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
+#    host: "gateway.{{ .Values.global.gateway.domain }}"
 
     ## Set to false enables HTTPS configuration on all urls
     http: "false"
@@ -56,8 +56,12 @@ alfresco-infrastructure:
         enabled: false
   alfresco-identity-service:
     enabled: true
+    ingress:
+      enabled: false
     keycloak:
       keycloak:
+        service:
+          port: 80
         extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
     realm:
       alfresco:
@@ -70,6 +74,8 @@ alfresco-infrastructure:
 alfresco-content-services:
   enabled: false
   registryPullSecrets: quay-registry-secret
+  externalHost: &alfresco-content-services-external-host '{{ template "common.gateway-host" . }}'
+  externalProtocol: &alfresco-content-services-external-protocol '{{ template "common.gateway-proto" . }}'
   messageBroker:
     url:
     user: admin
@@ -83,9 +89,10 @@ alfresco-content-services:
   repository: &alfresco-content-services-repository
     replicaCount: 1
     ingress:
+      hostName: '{{ template "common.gateway-host" . }}'
       path: "/alfresco"
     environment:
-      IDENTITY_SERVICE_URI: "https://alfresco-identity-service.REPLACEME/auth"
+      IDENTITY_SERVICE_URI: '{{ template "infra.keycloak-url" . }}'
       IDENTITY_SERVICE_REALM: "alfresco"
       IDENTITY_SERVICE_RESOURCE: "activiti"
       JAVA_OPTS: "
@@ -104,6 +111,10 @@ alfresco-content-services:
         -Dlocal.transform.service.enabled=false
         -Dtransform.service.enabled=false
       "
+  share: &alfresco-content-services-share
+    replicaCount: 1
+    ingress:
+      hostName: "{{ .Values.global.gateway.host }}"
   imagemagick:
     replicaCount: 1
   libreoffice:
@@ -114,16 +125,25 @@ alfresco-content-services:
     replicaCount: 1
   transformrouter:
     replicaCount: 1
-  alfresco-digital-workspace:
-    networkpolicysetting:
-      enabled: false
+
+alfresco-digital-workspace:
+  enabled: false # required to disable the one from alfresco-content-services
+  image:
+    repository: quay.io/alfresco/alfresco-digital-workspace
+    tag: 1.1.0
+    internalPort: 8080
+  ingress:
+    path: /workspace
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: "5g"
+  env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
-    APP_CONFIG_OAUTH2_HOST: "https://alfresco-identity-service.REPLACEME/auth/realms/alfresco"
-    APP_CONFIG_OAUTH2_REDIRECT_LOGIN: "/workspace/"
-    APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: "/workspace/logout"
-    APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "https://alfresco-gateway.REPLACEME/workspace/assets/silent-refresh.html"
+    BASEPATH: "./"
 
 alfresco-content-services-community:
   enabled: false
+  externalHost: *alfresco-content-services-external-host
+  externalProtocol: *alfresco-content-services-external-protocol
   repository: *alfresco-content-services-repository
+  share: *alfresco-content-services-share
   alfresco-infrastructure: *alfresco-content-services-alfresco-infrastructure

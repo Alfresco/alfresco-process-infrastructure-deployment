@@ -30,3 +30,12 @@ Create chart name and version as used by the chart label.
 {{- define "alfresco-process-infrastructure.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "infra.keycloak-host" -}}
+{{- $value := default (include "common.gateway-host" .) .Values.global.keycloak.host -}}
+{{- tpl (printf "%s" $value) . -}}
+{{- end -}}
+
+{{- define "infra.keycloak-url" -}}
+{{ template "common.gateway-proto" . }}://{{ template "infra.keycloak-host" . }}{{ template "common.keycloak-path" . }}
+{{- end -}}

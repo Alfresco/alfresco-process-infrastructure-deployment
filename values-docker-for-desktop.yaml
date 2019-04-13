@@ -1,9 +1,14 @@
+global:
+  gateway:
+    host: "localhost"
+    http: true
+  keycloak:
+    host: "host.docker.internal"
+
 alfresco-content-services: &alfresco-content-services
-  externalProtocol: "http"
-  externalHost: "localhost"
+  externalHost: &alfresco-content-services-external-host "localhost"
+  externalProtocol: &alfresco-content-services-external-protocol "http"
   repository: &alfresco-content-services-repository
-    environment:
-      IDENTITY_SERVICE_URI: "http://host.docker.internal/auth"
     livenessProbe:
       initialDelaySeconds: 420
     readinessProbe:
@@ -32,12 +37,9 @@ alfresco-content-services: &alfresco-content-services
     replicaCount: 0
   filestore:
     replicaCount: 0
-  alfresco-digital-workspace:
-    APP_CONFIG_OAUTH2_HOST: "http://host.docker.internal/auth/realms/alfresco"
-    APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: "http://localhost/workspace/assets/silent-refresh.html"
 
 alfresco-content-services-community:
-  externalProtocol: "http"
-  externalHost: "localhost"
+  externalHost: *alfresco-content-services-external-host
+  externalProtocol: *alfresco-content-services-external-protocol
   repository: *alfresco-content-services-repository
   share: *alfresco-content-services-share

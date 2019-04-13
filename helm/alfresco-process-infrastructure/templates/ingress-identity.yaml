@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "keycloak.fullname" . }}
+  labels:
+    app: keycloak
+    chart: {{ template "alfresco-process-infrastructure.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- with merge (index .Values "alfresco-infrastructure" "alfresco-identity-service" "ingress" "annotations") .Values.global.gateway.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  rules:
+  {{- if (include "infra.keycloak-host" .) }}
+  - host: {{ template "infra.keycloak-host" . }}
+    http:
+  {{- else }}
+  - http:
+  {{- end }}
+      paths:
+      - path: {{ index .Values "alfresco-infrastructure" "alfresco-identity-service" "ingress" "path" }}
+        backend:
+          serviceName: {{ template "keycloak.fullname" . }}-http
+          servicePort: {{ index .Values "alfresco-infrastructure" "alfresco-identity-service" "keycloak" "keycloak" "service" "port" }}
+  {{- if include "common.ingress-tls" . }}
+  tls:
+    - secretName: {{ template "common.ingress-tlssecretname" . }}
+      {{- if (include "common.ingress-host" .) }}
+      hosts:
+        - {{ template "common.ingress-host" . }}
+          {{- end }}
+  {{- end }}
