@@ -2,7 +2,9 @@
 
 [[ -n "${APS_SCRIPTS_HOME}" ]] || echo APS_SCRIPTS_HOME is not set
 source ${APS_SCRIPTS_HOME}/env_aps.sh
+source ${APS_SCRIPTS_HOME}/env_aws.sh
 env | grep APS_REGISTRY | sort
+env | grep AWS | sort
 
 cat << EOF > values.yaml
 ingress:
@@ -10,23 +12,30 @@ ingress:
   hosts:
   - ${APS_REGISTRY_HOST}
   annotations:
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
 service:
   type: ClusterIP
+storage: s3
+s3:
+  region: ${AWS_REGION}
+  bucket: ${APS_AWS_BUCKET_NAME:-${APS_HOST}-registry}
+secrets:
+  s3:
+    accessKey: ${AWS_ACCESS_KEY_ID}
+    secretKey: ${AWS_SECRET_ACCESS_KEY}
 EOF
 
 CHART_NAME="stable/docker-registry"
-HELM_OPTS="${HELM_OPTS} -f values.yaml --name docker-registry"
+
+HELM_OPTS="${HELM_OPTS} -f values.yaml"
 [[ -n "${VERSION}" ]] && HELM_OPTS="${HELM_OPTS} --version ${VERSION}"
 
-if [[ -z "${RELEASE_NAME}" ]]
-then
-  helm install ${HELM_OPTS} ${CHART_NAME} --set storage=s3 --set s3.region=<region>,s3.regionEndpoint=s3.us-east-1.amazonaws.com,s3.bucket=<bucketname> --set secrets.s3.accessKey=<aws_access_key_id>,secrets.s3.secretKey=<aws_access_key_password>
-else
-  helm upgrade --install --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME} --set storage=s3 --set s3.region=<region> --set s3.regionEndpoint=s3.us-east-1.amazonaws.com --set s3.bucket=<bucketname> --set secrets.s3.accessKey=<aws_access_key_id>,secrets.s3.secretKey=<aws_access_key_password>
-fi
+RELEASE_NAME="${RELEASE_NAME:-docker-registry}"
+
+helm upgrade --install --force --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
 
 rm values.yaml
 
