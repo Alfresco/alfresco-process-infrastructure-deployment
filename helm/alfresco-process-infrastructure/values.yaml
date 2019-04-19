@@ -104,7 +104,7 @@ alfresco-content-services:
       hostName: '{{ template "common.gateway-host" . }}'
       path: "/alfresco"
     environment:
-      IDENTITY_SERVICE_URI: '{{ template "infra.keycloak-url" . }}'
+      IDENTITY_SERVICE_URI: '{{ template "alfresco-process-infrastructure.keycloak-url" . }}'
       IDENTITY_SERVICE_REALM: "alfresco"
       IDENTITY_SERVICE_RESOURCE: "activiti"
       JAVA_OPTS: "

@@ -14,8 +14,8 @@ metadata:
 {{- end }}
 spec:
   rules:
-  {{- if (include "infra.keycloak-host" .) }}
-  - host: {{ template "infra.keycloak-host" . }}
+  {{- if (include "alfresco-process-infrastructure.keycloak-host" .) }}
+  - host: {{ template "alfresco-process-infrastructure.keycloak-host" . }}
     http:
   {{- else }}
   - http:

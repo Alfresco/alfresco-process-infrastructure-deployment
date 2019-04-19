@@ -31,11 +31,19 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "infra.keycloak-host" -}}
+{{- define "alfresco-process-infrastructure.keycloak-host" -}}
 {{- $value := default (include "common.gateway-host" .) .Values.global.keycloak.host -}}
 {{- tpl (printf "%s" $value) . -}}
 {{- end -}}
 
-{{- define "infra.keycloak-url" -}}
-{{ template "common.gateway-proto" . }}://{{ template "infra.keycloak-host" . }}{{ template "common.keycloak-path" . }}
+{{- define "alfresco-process-infrastructure.keycloak-url" -}}
+{{ template "common.gateway-proto" . }}://{{ template "alfresco-process-infrastructure.keycloak-host" . }}{{ template "common.keycloak-path" . }}
+{{- end -}}
+
+{{- define "alfresco-process-infrastructure.acs-host" -}}
+{{ tpl (index .Values "alfresco-content-services" "externalProtocol") . }}://{{ tpl (index .Values "alfresco-content-services" "externalHost") . }}
+{{- end -}}
+
+{{- define "alfresco-process-infrastructure.acs-ce-host" -}}
+{{ tpl (index .Values "alfresco-content-services-community" "externalProtocol") . }}://{{ tpl (index .Values "alfresco-content-services-community" "externalHost") . }}
 {{- end -}}
