@@ -90,6 +90,9 @@ alfresco-content-services:
       enabled: false
   networkpolicysetting:
     enabled: false
+  alfresco-digital-workspace:
+    networkpolicysetting:
+      enabled: false
   repository: &alfresco-content-services-repository
     replicaCount: 1
     ingress:
