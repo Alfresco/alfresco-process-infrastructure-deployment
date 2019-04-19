@@ -1,3 +1,4 @@
+{{- if and (index .Values "alfresco-infrastructure" "enabled") (index .Values "alfresco-identity-service" "ingress" "enabled") }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -32,3 +33,4 @@ spec:
         - {{ template "common.ingress-host" . }}
           {{- end }}
   {{- end }}
+{{- end }}

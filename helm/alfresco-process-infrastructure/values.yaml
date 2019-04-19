@@ -41,6 +41,11 @@ global:
       nginx.ingress.kubernetes.io/cors-allow-headers: "*"
       nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
 
+# set to false to disable custom alfresco-identity-service ingress with hostname support
+alfresco-identity-service:
+  ingress:
+    enabled: true
+
 alfresco-infrastructure:
   enabled: true
   alfresco-event-gateway:
