@@ -93,7 +93,7 @@ alfresco-content-services:
     enabled: false
     activemq:
       enabled: false
-  networkpolicysetting:
+  networkpolicysetting: &alfresco-content-services-networkpolicysetting
     enabled: false
   alfresco-digital-workspace:
     networkpolicysetting:
@@ -156,6 +156,7 @@ alfresco-content-services-community:
   enabled: false
   externalHost: *alfresco-content-services-external-host
   externalProtocol: *alfresco-content-services-external-protocol
+  networkpolicysetting: *alfresco-content-services-networkpolicysetting
   repository: *alfresco-content-services-repository
   share: *alfresco-content-services-share
   alfresco-infrastructure: *alfresco-content-services-alfresco-infrastructure
