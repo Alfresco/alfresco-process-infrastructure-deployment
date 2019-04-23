@@ -35,7 +35,7 @@ global:
 
     ## Configure global annotations for all service ingresses, i.e.
     annotations:
-#      certmanager.k8s.io/issuer: "letsencrypt-prod"
+      dummy:
 
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
