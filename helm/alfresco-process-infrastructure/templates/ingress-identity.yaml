@@ -28,9 +28,9 @@ spec:
   {{- if include "common.ingress-tls" . }}
   tls:
     - secretName: {{ template "common.ingress-tlssecretname" . }}
-      {{- if (include "common.ingress-host" .) }}
+      {{- if (include "alfresco-process-infrastructure.keycloak-host" .) }}
       hosts:
-        - {{ template "common.ingress-host" . }}
+        - {{ template "alfresco-process-infrastructure.keycloak-host" . }}
           {{- end }}
   {{- end }}
 {{- end }}
