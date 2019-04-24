@@ -1,0 +1,28 @@
+alfresco-infrastructure:
+  alfresco-identity-service:
+    keycloak:
+      init:
+        image:
+          repository: ${DOCKER_REGISTRY}/alpine
+          tag: 3.8
+      keycloak:
+        image:
+          repository: ${DOCKER_REGISTRY}/jboss/keycloak
+          tag: 4.8.3.Final
+        extraInitContainers: |
+          - name: theme-provider
+            image: ${DOCKER_REGISTRY}/alfresco/alfresco-keycloak-theme:0.1
+            imagePullPolicy: Always
+            command:
+              - sh
+            args:
+              - -c
+              - |
+                echo "Copying theme..."
+                cp -R /alfresco/* /theme
+            volumeMounts:
+              - name: theme
+                mountPath: /theme
+      postgresql:
+        image: ${DOCKER_REGISTRY}/postgres
+        imageTag: "10.1"
