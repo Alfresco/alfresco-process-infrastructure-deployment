@@ -87,3 +87,15 @@ A custom extra values file to add settings for _Docker for Desktop_ as specified
 ```bash
 HELM_OPTS="-f docker-for-desktop-values.yaml" ./install.sh
 ```
+### override Docker images with internal Docker Registry
+
+```bash
+
+export APS_REGISTRY_HOST=internal.registry.io
+
+make login
+
+make values-registry.yaml
+
+export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
+```
