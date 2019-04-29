@@ -1,4 +1,5 @@
 DOCKER_REGISTRY := $(or $(DOCKER_REGISTRY),$(APS_REGISTRY_HOST))
+VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 IMAGES := alpine@3.8 \
 jboss/keycloak@4.8.3.Final \
@@ -27,7 +28,7 @@ print: $(foreach image,$(IMAGES),$(image)\print)
 images: test pull tag push
 
 values: test
-	@envsubst < values-registry.tmpl > values-registry.yaml
+	@envsubst < $(VALUES_REGISTRY_TMPL) > values-registry.yaml
 	@echo Values generated in values-registry.yaml
 
 clean:
