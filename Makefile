@@ -1,17 +1,26 @@
 DOCKER_REGISTRY := $(or $(DOCKER_REGISTRY),$(APS_REGISTRY_HOST))
 VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
-IMAGES := alpine@3.8 \
-jboss/keycloak@4.8.3.Final \
-alfresco/alfresco-keycloak-theme@0.1 \
-postgres@10.1
+.EXPORT_ALL_VARIABLES:
+
+ALPINE_TAG := 3.8
+KEYCLOAK_TAG := 4.8.3.Final
+KEYCLOAK_THEME_TAG := 0.1
+POSTGRES_TAG := 10.1
+ADW_TAG := 1.1.0
+
+IMAGES := alpine@$(ALPINE_TAG) \
+jboss/keycloak@$(KEYCLOAK_TAG) \
+alfresco/alfresco-keycloak-theme@$(KEYCLOAK_THEME_TAG) \
+postgres@$(POSTGRES_TAG) \
+quay.io/alfresco/alfresco-digital-workspace@$(ADW_TAG)
 
 .PHONY: $(IMAGES) 
 
-values-registry.yaml: images values
+all: images values
 
 test:
-	test $(DOCKER_REGISTRY)
+	@if test -z "$(DOCKER_REGISTRY)"; then echo "Error: missing DOCKER_REGISTRY argument or env variable."; exit 1; fi
 
 login: test
 	docker login quay.io
@@ -19,15 +28,15 @@ login: test
 
 pull: $(foreach image,$(IMAGES),$(image)\pull)
 
-tag: $(foreach image,$(IMAGES),$(image)\tag)
+tag: test $(foreach image,$(IMAGES),$(image)\tag)
 
-push: $(foreach image,$(IMAGES),$(image)\push)
+push: test $(foreach image,$(IMAGES),$(image)\push)
 
-print: $(foreach image,$(IMAGES),$(image)\print)
+list: $(foreach image,$(IMAGES),$(image)\print)
 
 images: test pull tag push
 
-values: test
+values: 
 	@envsubst < $(VALUES_REGISTRY_TMPL) > values-registry.yaml
 	@echo Values generated in values-registry.yaml
 
