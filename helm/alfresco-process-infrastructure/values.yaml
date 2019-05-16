@@ -56,6 +56,7 @@ alfresco-infrastructure:
     enabled: false
   # patch for https://issues.alfresco.com/jira/browse/DEPLOY-673
   activemq:
+    enabled: false
     image:
       tag: 5.15.6-java-8-oracle-centos-7-ac5b98b35cd4
   nginx-ingress:
