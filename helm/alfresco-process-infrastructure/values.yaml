@@ -24,7 +24,7 @@ global:
     host: "activiti-cloud-gateway.{{ .Values.global.gateway.domain }}"
 
     ## Set to false enables HTTPS configuration on all urls
-    http: "false"
+    http: "true"
 
     ## Set to enable automatic TLS for ingress if https is enabled
     tlsacme: "false"
