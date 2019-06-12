@@ -9,16 +9,14 @@ To learn more about the release, try:
 
 Get the application URLs:
 
-Alfresco Identity Service :   {{ template "common.keycloak-url" . }}
-Alfresco Gateway :            {{ template "common.gateway-url" . }}
+Alfresco Identity Service : {{ template "common.keycloak-url" . }}
+Alfresco Gateway          : {{ template "common.gateway-url" . }}
+Alfresco Modeler          : {{ template "common.gateway-url" . }}{{ index .Values "aps2-modeling" "ingress" "path" }}
+Alfresco Admin            : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-admin-app" "ingress" "path" }}
 {{- if index .Values "alfresco-content-services" "enabled" }}
-Alfresco Content Services EE: {{ template "alfresco-process-infrastructure.acs-host" . }}{{ index .Values "alfresco-content-services" "repository" "ingress" "path" }}
-Alfresco Digital Workspace:   {{ template "alfresco-process-infrastructure.acs-host" . }}{{ index .Values "alfresco-content-services" "alfresco-digital-workspace" "ingress" "path" }}
+Alfresco Content Services : {{ template "alfresco-process-infrastructure.acs-url" . }}{{ index .Values "alfresco-content-services" "repository" "ingress" "path" }}
+Alfresco Digital Workspace: {{ template "alfresco-process-infrastructure.acs-url" . }}{{ index .Values "alfresco-content-services" "alfresco-digital-workspace" "ingress" "path" }}
 {{- end}}
-{{- if index .Values "alfresco-content-services-community" "enabled" }}
-Alfresco Content Services CE: {{ template "alfresco-process-infrastructure.acs-ce-host" . }}{{ index .Values "alfresco-content-services-community" "repository" "ingress" "path" }}
-{{- end}}
-
 
 To see deployment status, try:
 

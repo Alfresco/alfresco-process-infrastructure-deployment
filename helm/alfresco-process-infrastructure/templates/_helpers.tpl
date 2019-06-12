@@ -41,9 +41,18 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "alfresco-process-infrastructure.acs-host" -}}
-{{ tpl (index .Values "alfresco-content-services" "externalProtocol") . }}://{{ tpl (index .Values "alfresco-content-services" "externalHost") . }}
+{{- $value := default (include "common.gateway-host" .) .Values.global.acs.host -}}
+{{- tpl (printf "%s" $value) . -}}
 {{- end -}}
 
-{{- define "alfresco-process-infrastructure.acs-ce-host" -}}
-{{ tpl (index .Values "alfresco-content-services-community" "externalProtocol") . }}://{{ tpl (index .Values "alfresco-content-services-community" "externalHost") . }}
+{{- define "alfresco-process-infrastructure.acs-url" -}}
+{{ template "common.gateway-proto" . }}://{{ template "alfresco-process-infrastructure.acs-host" . }}
 {{- end -}}
+
+{{- define "alfresco-process-infrastructure.ads-registry-secret" }}
+{{- $values := index .Values "alfresco-deployment-service" -}}
+{{- $registry := $values.dockerRegistry.server -}}
+{{- $username := $values.dockerRegistry.userName -}}
+{{- $password := $values.dockerRegistry.password -}}
+{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" $registry (printf "%s:%s" $username $password | b64enc) | b64enc }}
+{{- end }}

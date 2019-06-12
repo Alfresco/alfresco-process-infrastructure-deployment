@@ -1,0 +1,20 @@
+{{- if index .Values "nfs-server-provisioner" "enabled" }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ tpl .Values.persistence.name . }}
+  labels:
+    app:  "{{ .Release.Name }}-{{ .Chart.Name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+spec: 
+  storageClassName: {{ tpl .Values.persistence.storageClass.name . }}
+  accessModes:
+  {{- range .Values.persistence.storageClass.accessModes }}
+    - {{ . }}
+  {{- end }}    
+  resources:
+    requests:
+      storage: {{ .Values.persistence.baseSize  | default "100Gi" | quote }}
+{{- end }}

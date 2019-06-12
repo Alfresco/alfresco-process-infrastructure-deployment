@@ -9,7 +9,7 @@ global:
 
   keycloak:
     ## Configure Keycloak host template, i.e. "identity.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
-    host: "activiti-keycloak.{{ .Values.global.gateway.domain }}"
+    host: 'identity.{{ template "common.gateway-host" . }}'
 
     ## Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth
     url: ""
@@ -21,10 +21,10 @@ global:
 
   gateway:
     ## Set to configure single domain name for all services, i.e. "gateway.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
-    host: "activiti-cloud-gateway.{{ .Values.global.gateway.domain }}"
+    host: 'gateway.{{ template "common.gateway-domain" . }}'
 
     ## Set to false enables HTTPS configuration on all urls
-    http: "true"
+    http: "false"
 
     ## Set to enable automatic TLS for ingress if https is enabled
     tlsacme: "false"
@@ -35,6 +35,9 @@ global:
 
     ## Configure global annotations for all service ingresses, i.e.
     annotations: {}
+    
+  acs:
+    host: 'acs.{{ template "common.gateway-domain" . }}' 
 
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
@@ -52,11 +55,13 @@ alfresco-identity-service:
 
 alfresco-infrastructure:
   enabled: true
+  persistence:
+    enabled: false
   alfresco-event-gateway:
     enabled: false
   # patch for https://issues.alfresco.com/jira/browse/DEPLOY-673
   activemq:
-    enabled: false
+    enabled: true
     image:
       tag: 5.15.6-java-8-oracle-centos-7-ac5b98b35cd4
   nginx-ingress:
@@ -69,6 +74,9 @@ alfresco-infrastructure:
     ingress:
       enabled: false
     keycloak:
+      postgresql:
+        persistence:
+          existingClaim: null # use default postgresql PVC    
       keycloak:
         service:
           port: 80
@@ -86,28 +94,31 @@ alfresco-infrastructure:
             - "*"
 
 alfresco-content-services:
-  enabled: false
-  registryPullSecrets: quay-registry-secret
-  externalHost: &alfresco-content-services-external-host '{{ template "common.gateway-host" . }}'
-  externalProtocol: &alfresco-content-services-external-protocol '{{ template "common.gateway-proto" . }}'
-  messageBroker:
-    url:
-    user: admin
-    password: admin
-  alfresco-infrastructure: &alfresco-content-services-alfresco-infrastructure
+  enabled: true
+  alfresco-infrastructure:
     enabled: false
     activemq:
-      enabled: false
-  networkpolicysetting: &alfresco-content-services-networkpolicysetting
+      enabled: true
+      # Workaround Helm NPE
+      adminUser:
+        username: admin
+        password: admin
+  externalHost: '{{ template "alfresco-process-infrastructure.acs-host" . }}'
+  externalProtocol: '{{ template "common.gateway-proto" . }}'
+  externalPort: '{{ if eq "true" (toString .Values.global.gateway.http) }}80{{ else }}443{{ end }}'
+  registryPullSecrets: quay-registry-secret
+  
+  # Disabled for global nginx ingress controller
+  networkpolicysetting:
     enabled: false
-  alfresco-digital-workspace:
-    networkpolicysetting:
-      enabled: false
-  repository: &alfresco-content-services-repository
-    replicaCount: 1
+
+  repository:
     ingress:
-      hostName: '{{ template "common.gateway-host" . }}'
+      hostName: '{{ template "alfresco-process-infrastructure.acs-host" . }}'
       path: "/alfresco"
+      maxUploadSize: "500m"
+    readinessProbe:
+      initialDelaySeconds: 140
     environment:
       IDENTITY_SERVICE_URI: '{{ template "alfresco-process-infrastructure.keycloak-url" . }}'
       IDENTITY_SERVICE_REALM: "alfresco"
@@ -128,40 +139,238 @@ alfresco-content-services:
         -Dlocal.transform.service.enabled=false
         -Dtransform.service.enabled=false
       "
-  share: &alfresco-content-services-share
-    replicaCount: 1
-    ingress:
-      hostName: "{{ .Values.global.gateway.host }}"
-  imagemagick:
-    replicaCount: 1
-  libreoffice:
-    replicaCount: 1
-  pdfrenderer:
-    replicaCount: 1
-  tika:
-    replicaCount: 1
-  transformrouter:
-    replicaCount: 1
 
+  share:
+    ingress:
+      hostName: '{{ template "alfresco-process-infrastructure.acs-host" . }}'
+
+  postgresql:
+    persistence:
+      existingClaim: null # use default 
+
+nfs-server-provisioner:
+  enabled: true
+  persistence:
+    enabled: true
+    ## Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  ('default' on AKS, 'gp2' on AWS, 'standard' on GKE & OpenStack)
+    ##
+    storageClass: null
+    size: 200Gi
+
+  storageClass:
+    defaultClass: false
+
+persistence:
+  name: '{{ index .Values "alfresco-content-services" "persistence" "existingClaim" }}'
+  storageClass:
+    name: '{{ index .Values "nfs-server-provisioner" "storageClass" "name" }}'
+    accessModes:
+      - ReadWriteMany
+  baseSize: 100Gi    
+
+aps2-modeling-service:
+  nameOverride: alfresco-modeling-service
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  ingress:
+    enabled: true
+    path: "/modeling-service"
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+    - name: config
+      configMap:
+        name: {{ .Release.Name }}-config
+        defaultMode: 0744
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+  extraInitContainers: |
+    - name: init
+      image: bitnami/minideb-extras
+      command: ["/bin/bash"]
+      args:
+        - -c
+        - /tmp/init/setup_acs.sh
+      env:
+        - name: "GATEWAY_URL"
+          value: {{ template "alfresco-process-infrastructure.acs-url" . }}
+      volumeMounts:
+        - name: config
+          mountPath: /tmp/init
+  image:
+    repository: quay.io/alfresco/alfresco-modeling-service
+    tag: 2.1.0
+    pullPolicy: IfNotPresent
+  probePath: "{{ .Values.ingress.path }}/actuator/health"
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ .Values.ingress.path }}"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+    - name: CONTENT_SERVICE_URL
+      value: '{{ template "common.gateway-url" . }}'
+
+aps2-modeling:
+  nameOverride: "alfresco-modeling-app"
+  ingress:
+    path: /modeling
+  image:
+    repository: quay.io/alfresco/alfresco-modeling-app
+    tag: 2.1.0
+    pullPolicy: IfNotPresent
+  env:
+    APP_CONFIG_AUTH_TYPE: "OAUTH"
+    APP_CONFIG_OAUTH2_SILENT_LOGIN: "true"
+    APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}/modeling-service'
+
+postgresql-ads:
+  imageTag: "10.1"
+  postgresUser: alfresco
+  postgresPassword: alfresco
+  postgresConfig:
+    max_connections: 300
+    log_min_messages: LOG
+  resources:
+    requests:
+      memory: "1500Mi"
+    limits:
+      memory: "1500Mi"  
+
+alfresco-deployment-service:
+  enabled: true
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  rabbitmq:
+    enabled: false
+  image:
+    repository: quay.io/alfresco/alfresco-deployment-service
+    tag: 2.1.0
+    pullPolicy: IfNotPresent
+  postgres:
+    enabled: true
+    name: postgresql-ads
+    username: alfresco
+    password: alfresco
+  securityContext: |
+    privileged: true
+  ingress:
+    path: /deployment-service
+    enabled: true
+  probePath: "{{ .Values.ingress.path }}/actuator/health"
+  dockerRegistry:
+    server: ""
+    password: ""
+    userName: ""
+    secretName: "aps2-registry-secret"
+  environment:
+    apiUrl: ""
+    apiToken: ""
+  extraVolumes: |
+    - name: docker-sock-volume
+      hostPath:
+        path: /var/run/docker.sock
+        type: File
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: docker-sock-volume
+      mountPath: /var/run/docker.sock
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+  extraInitContainers: |
+    - name: wait-for-acs
+      image: "alpine:3.8"
+      imagePullPolicy: IfNotPresent
+      command:
+        - sh
+        - -c
+        - |
+          until printf "." && nc -z -w 2 {{ .Release.Name }}-alfresco-cs-repository 80; do
+              sleep 2;
+          done;
+
+          echo 'ACS OK ✓'
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ .Values.ingress.path }}"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+    - name: KEYCLOAK_AUTH_SERVER_URL
+      value: '{{ include "common.keycloak-url" . }}'
+    - name: DOCKER_REGISTRY_SERVER
+      value: "{{ .Values.dockerRegistry.server }}"
+    - name: DOCKER_REGISTRY_USERNAME
+      value: "{{ .Values.dockerRegistry.userName }}"
+    - name: DOCKER_REGISTRY_PASSWORD
+      value: "{{ .Values.dockerRegistry.password }}"
+    - name: DOCKER_REGISTRY_SECRET_NAME
+      value: "{{ .Values.dockerRegistry.secretName }}"
+    - name: CONTENT_SERVICE_BASE_URL
+      value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
+    - name: MODELING_URL
+      value: '{{ include "common.gateway-url" . }}/modeling-service'
+    - name: ENVIRONMENT_HOST_URL
+      value: '{{ include "common.gateway-url" . }}'
+    - name: ENVIRONMENT_API_URL
+      value: "{{ .Values.environment.apiUrl }}"
+    - name: ENVIRONMENT_API_TOKEN
+      value: "{{ .Values.environment.apiToken }}"
+
+alfresco-admin-app:
+  nameOverride: "alfresco-admin-app"
+  ingress:
+    hostName:
+    path: /admin
+  image:
+    repository: quay.io/alfresco/alfresco-admin-app
+    tag: 2.1.0
+    pullPolicy: IfNotPresent
+  env:
+    APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
+    APP_CONFIG_AUTH_TYPE: "OAUTH"
+    APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
+
+# !!! Not tested 
 alfresco-digital-workspace:
-  enabled: false # required to disable the one from alfresco-content-services
+  enabled: false
+  nameOverride: "alfresco-digital-workspace"
+  ingress:
+    hostName: '{{ include "alfresco-process-infrastructure.acs-host" . }}' # Requires host rule in ingress
+    path: /workspace
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-body-size: "50m"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
     tag: 1.1.0
     internalPort: 8080
-  ingress:
-    path: /workspace
-    annotations:
-      nginx.ingress.kubernetes.io/proxy-body-size: "5g"
+    pullPolicy: IfNotPresent
   env:
+    APP_CONFIG_ECM_HOST: '{{ include "alfresco-process-infrastructure.acs-url" . }}'
     APP_CONFIG_AUTH_TYPE: "OAUTH"
-    BASEPATH: "./"
-
-alfresco-content-services-community:
-  enabled: false
-  externalHost: *alfresco-content-services-external-host
-  externalProtocol: *alfresco-content-services-external-protocol
-  networkpolicysetting: *alfresco-content-services-networkpolicysetting
-  repository: *alfresco-content-services-repository
-  share: *alfresco-content-services-share
-  alfresco-infrastructure: *alfresco-content-services-alfresco-infrastructure
+    BASE_PATH: "./"
+    APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
