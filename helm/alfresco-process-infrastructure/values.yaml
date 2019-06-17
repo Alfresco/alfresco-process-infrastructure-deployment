@@ -44,14 +44,8 @@ alfresco-identity-service:
   ingress:
     enabled: true
     annotations: 
-      nginx.ingress.kubernetes.io/enable-cors: "true"
-      nginx.ingress.kubernetes.io/cors-allow-headers: "*"
-      nginx.ingress.kubernetes.io/cors-allow-methods: "*"
-      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-      nginx.ingress.kubernetes.io/x-forwarded-prefix: "true"
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        more_set_headers 'Access-Control-Allow-Origin: $http_origin';
-
+      # Disable Nginx CORS for Identity Service 
+      nginx.ingress.kubernetes.io/enable-cors: "false"
 
 alfresco-infrastructure:
   enabled: true
