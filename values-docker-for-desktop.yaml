@@ -5,10 +5,8 @@ global:
   keycloak:
     host: "host.docker.internal"
 
-alfresco-content-services: &alfresco-content-services
-  externalHost: &alfresco-content-services-external-host "localhost"
-  externalProtocol: &alfresco-content-services-external-protocol "http"
-  repository: &alfresco-content-services-repository
+alfresco-content-services:
+  repository:
     livenessProbe:
       initialDelaySeconds: 420
     readinessProbe:
@@ -16,7 +14,7 @@ alfresco-content-services: &alfresco-content-services
     resources:
       requests:
         memory: "1800Mi"
-  share: &alfresco-content-services-share
+  share:
     replicaCount: 0
     livenessProbe:
       initialDelaySeconds: 420
@@ -38,8 +36,3 @@ alfresco-content-services: &alfresco-content-services
   filestore:
     replicaCount: 0
 
-alfresco-content-services-community:
-  externalHost: *alfresco-content-services-external-host
-  externalProtocol: *alfresco-content-services-external-protocol
-  repository: *alfresco-content-services-repository
-  share: *alfresco-content-services-share

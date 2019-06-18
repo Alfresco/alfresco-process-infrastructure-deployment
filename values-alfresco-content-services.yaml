@@ -1,0 +1,12 @@
+alfresco-content-services:
+  enabled: true
+  alfresco-digital-workspace:
+    enabled: true
+alfresco-deployment-service:
+  alfresco-content-services:
+    enabled: true
+nfs-server-provisioner:
+  enabled: true
+alfresco-infrastructure:
+  activemq:
+    enabled: true

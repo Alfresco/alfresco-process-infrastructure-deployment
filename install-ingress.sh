@@ -81,7 +81,6 @@ RELEASE_NAME="${RELEASE_NAME:-nginx-ingress}"
 
 HELM_OPTS="${HELM_OPTS} -f values.yaml"
 
-VERSION=${VERSION:-1.1.5}
 [[ -n "${VERSION}" ]] && HELM_OPTS="${HELM_OPTS} --version ${VERSION}"
 
 helm upgrade --install --force --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-config
+  name: {{ .Release.Name }}-deployment-config
   labels:
     app: {{ template "alfresco-process-infrastructure.name" . }}
     chart: {{ template "alfresco-process-infrastructure.chart" . }}

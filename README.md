@@ -4,46 +4,40 @@ This repository contains the helm chart with the infrastructure required by APS2
 
 - PVC for storage
 - Alfresco Identity Service
-- ACS (APS 2.1 only, community which is the default choice or enterprise)
+- ACS (optional)
 
 ## install
 
-Set variables as in [process application chart README](https://git.alfresco.com/process-services-public/alfresco-process-application-deployment#set-environment-specific-variables)
+Follow [prerequisites](https://git.alfresco.com/process-services-public/alfresco-process-application-deployment#prerequisites) and [set variables as in process application chart README](https://git.alfresco.com/process-services-public/alfresco-process-application-deployment#set-environment-specific-variables)
 
 then [setup helm](https://git.alfresco.com/process-services-public/alfresco-process-application-deployment#install-helm)
 
-### with ACS
+### set secrets
 
-To include ACS in the infrastructure set ACS chart name for community:
+Copy [secrets.yaml](helm/alfresco-process-infrastructure/secrets.yaml) to the root and customise its contents as in the comments and add to _HELM_OPTS_:
 
 ```bash
-ACS_CHART_NAME=alfresco-content-services-community
+HELM_OPTS="${HELM_OPTS} -f secrets.yaml"
 ```
 
-then set helm parameters:
-```bash
-HELM_OPTS="
-  ${HELM_OPTS}
-  --set alfresco-content-services.externalProtocol=${PROTOCOL}
-  --set alfresco-content-services.externalHost=${GATEWAY_HOST}
-  --set alfresco-content-services.repository.environment.IDENTITY_SERVICE_URI=${SSO_URL}
-"
-```
+### with ACS (optional)
 
-and if you want to install ACS enterprise:
+To include ACS in the infrastructure:
+
 ```bash
 HELM_OPTS="
   ${HELM_OPTS}
   --set alfresco-content-services.enabled=true
+  --set alfresco-content-services.alfresco-digital-workspace.enabled=true
+  --set alfresco-deployment-service.alfresco-content-services.enabled=true
+  --set alfresco-infrastructure.activemq.enabled=true
+  --set nfs-server-provisioner.enabled=true
 "
 ```
 
-or if you want to install ACS community:
+or just:
 ```bash
-HELM_OPTS="
-  ${HELM_OPTS}
-  --set alfresco-content-services-community.enabled=true
-"
+HELM_OPTS="${HELM_OPTS} -f secrets.yaml"
 ```
 
 ### launch helm
@@ -74,14 +68,20 @@ helm upgrade --install \
 or from the current repository directory:
 
 ```bash
+helm repo update
 helm dependency update helm/${CHART_NAME}
 helm upgrade --install \
   ${HELM_OPTS} ${RELEASE_NAME} helm/${CHART_NAME}
 ```
 
+### NFS Storage with ACS
+
+In order to support multi-cloud NFS when ACS is enabled, [nfs-provisioner](https://github.com/kubernetes-incubator/external-storage/tree/master/nfs) is used.
+
+
 ### EFS Storage with ACS on AWS
 
-Create a EFS storage on AWS and make sure it is in the same VPC as your cluster. Make sure you open inbound traffic in the security group to allow NFS traffic.
+As an AWS only alternative, you can use EFS as NFS. Make sure it is in the same VPC as your cluster and you open inbound traffic in the security group to allow NFS traffic.
 Save the name of the server, for example:
 
     fs-647b1b84.efs.us-east-1.amazonaws.com
@@ -155,15 +155,21 @@ To read back the realm from the secret, use:
 ```bash
 kubectl get secret realm-secret -o jsonpath="{['data']['alfresco-aps-realm\.json']}" | base64 -D > alfresco-aps-realm.json
 ```
+
 ### override Docker images with internal Docker Registry
 
+Upload images to your internal registry using the [upload_images.sh](helm/alfresco-process-infrastructure/upload_images.sh) with the followinf variables:
+* QUAY_USER
+* QUAY_PASSWORD
+* REGISTRY_HOST
+* REGISTRY_USER
+* REGISTRY_PASSWORD
+
+then update the values before installing to reference the new location for images on your internal registry:
+
 ```bash
-
 export APS_REGISTRY_HOST=internal.registry.io
-
 make login
-
 make values-registry.yaml
-
 export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
 ```
