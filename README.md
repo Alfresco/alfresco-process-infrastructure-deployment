@@ -14,7 +14,7 @@ then [setup helm](https://git.alfresco.com/process-services-public/alfresco-proc
 
 ### set secrets
 
-Copy [secrets.yaml](helm/alfresco-process-infrastructure/secrets.yaml) to the root and customise its contents as in the comments and add to _HELM_OPTS_:
+Copy [secrets.yaml](helm/alfresco-process-infrastructure/secrets.yaml) to the root and customise its contents as in the comments and add to `HELM_OPTS`:
 
 ```bash
 HELM_OPTS="${HELM_OPTS} -f secrets.yaml"
@@ -37,7 +37,7 @@ HELM_OPTS="
 
 or just:
 ```bash
-HELM_OPTS="${HELM_OPTS} -f secrets.yaml"
+HELM_OPTS="${HELM_OPTS} -f alfresco-content-services.yaml"
 ```
 
 ### launch helm
