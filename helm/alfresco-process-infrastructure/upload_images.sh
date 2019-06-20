@@ -18,10 +18,15 @@ echo "connection OK"
 
 if [[ -n "${REGISTRY_USER}" ]]
 then
-  echo using user ${REGISTRY_USER}
+  echo Login to ${REGISTRY_HOST} using user ${REGISTRY_USER}
   docker login -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD} ${REGISTRY_HOST}
 fi
-docker login -u ${QUAY_USER} -p ${QUAY_PASSWORD} ${QUAY_HOST}
+
+if [[ -n "${QUAY_USER}" ]]
+then
+  echo Login to ${QUAY_HOST} using user ${QUAY_USER}
+  docker login -u ${QUAY_USER} -p ${QUAY_PASSWORD} ${QUAY_HOST}
+fi
 
 IMAGES="
   alfresco/alfresco-process-query-service:develop
