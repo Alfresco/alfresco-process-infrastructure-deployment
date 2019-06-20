@@ -33,7 +33,8 @@ IMAGES="
   alfresco/alfresco-process-audit-service:develop
   alfresco/alfresco-process-storage-service:develop
   alfresco/alfresco-process-notifications-graphql-service:develop
-  alfresco/alfresco-process-workspace-app:develop
+  alfresco/alfresco-preference-service:develop
+  alfresco/alfresco-process-workspace-app:2.1.0
   alfresco/alfresco-process-camel-connector-service:develop
   alfresco/alfresco-process-email-connector-service:develop
   alfresco/alfresco-process-lambda-connector-service:develop
@@ -42,8 +43,7 @@ IMAGES="
   alfresco/alfresco-process-slack-connector-service:develop
   alfresco/alfresco-process-twilio-connector-service:develop
   alfresco/alfresco-digital-workspace:1.1.0
-  alfresco/alfresco-dbp-connector-service:master
-  alfresco/alfresco-preference-service:develop
+  alfresco/alfresco-dbp-connector-service:0.5
 "
 
 for IMAGE in ${IMAGES}
