@@ -4,11 +4,11 @@ QUAY_HOST=${QUAY_HOST:-quay.io}
 echo uploading to ${REGISTRY_HOST}
 
 # 5 min timeout
-REGISTRY_URL="https://${REGISTRY_HOST}"
+REGISTRY_URL="https://${REGISTRY_HOST}/v2/"
 echo "connecting to ${REGISTRY_URL}"
 COUNTER=0
 
-while [[ $COUNTER -lt 300 && "$(curl -s -o /dev/null -w '%{http_code}' ${REGISTRY_URL}/)" != "200" ]]
+while [[ $COUNTER -lt 300 && "$(curl -u ${REGISTRY_USER}:${REGISTRY_PASSWORD} -s -o /dev/null -w '%{http_code}' ${REGISTRY_URL})" != "200" ]]
 do
   echo "."
   sleep 5
