@@ -38,6 +38,7 @@ IMAGES="
   alfresco/alfresco-process-twilio-connector-service:develop
   alfresco/alfresco-digital-workspace:1.1.0
   alfresco/alfresco-dbp-connector-service:master
+  alfresco/alfresco-preference-service:develop
 "
 
 for IMAGE in ${IMAGES}
