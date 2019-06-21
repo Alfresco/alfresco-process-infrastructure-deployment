@@ -34,6 +34,7 @@ alfresco/alfresco-search-services@${ALFRESCO_SEARCH_SERVICES_TAG} \
 alfresco/alfresco-shared-file-store@${ALFRESCO_SHARED_FILE_STORE_TAG} \
 alfresco/alfresco-content-repository@${ALFRESCO_CONTENT_REPOSITORY_TAG} \
 alfresco/alfresco-share@${ALFRESCO_SHARE_TAG} \
+alfresco/alfresco-activemq@${ALFRESCO_ACTIVEMQ_TAG} \
 quay.io/alfresco/alfresco-ai-docker-engine@${ALFRESCO_AI_DOCKER_ENGINE_TAG} \
 quay.io/alfresco/insight-engine@${INSIGHT_ENGINE_TAG} \
 quay.io/alfresco/alfresco-imagemagick@${ALFRESCO_IMAGEMAGICK_TAG} \
