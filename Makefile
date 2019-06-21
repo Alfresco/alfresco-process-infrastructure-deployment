@@ -1,4 +1,4 @@
-DOCKER_REGISTRY := $(or $(DOCKER_REGISTRY),$(APS_REGISTRY_HOST))
+DOCKER_REGISTRY := $(or $(DOCKER_REGISTRY),$(REGISTRY_HOST))
 VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 .EXPORT_ALL_VARIABLES:
@@ -7,17 +7,49 @@ ALPINE_TAG := 3.8
 KEYCLOAK_TAG := 4.8.3.Final
 KEYCLOAK_THEME_TAG := 0.1
 POSTGRES_TAG := 11.3
-ADW_TAG := 1.1.0
+ALFRESCO_DIGITAL_WORKSPACE_TAG := 1.1.0
+AAE_TAG := 2.2.0
+NFS_PROVISIONER_TAG := v2.2.1-k8s1.12
+MINIDEB_EXTRAS_TAG := stretch
+ALFRESCO_AI_DOCKER_ENGINE_TAG := 1.0.1
+INSIGHT_ENGINE_TAG := 1.1.0.1
+ALFRESCO_SEARCH_SERVICES_TAG := 1.3.0.4
+ALFRESCO_SHARED_FILE_STORE_TAG := 0.5.3
+ALFRESCO_IMAGEMAGICK_TAG := 2.0.17
+ALFRESCO_LIBREOFFICE_TAG := 2.0.17
+ALFRESCO_PDF_RENDERER_TAG := 2.0.17
+ALFRESCO_CONTENT_REPOSITORY_TAG := 6.1.0
+ALFRESCO_SHARE_TAG := 6.1.0
+ALFRESCO_TIKA_TAG := 2.0.17
+ALFRESCO_TRANSFORM_ROUTER_TAG := 1.0.2.1
+ALFRESCO_ACTIVEMQ_TAG := 5.15.8-java-8-oracle-centos-7-87b15e37ce8b
 
 IMAGES := alpine@$(ALPINE_TAG) \
 jboss/keycloak@$(KEYCLOAK_TAG) \
 alfresco/alfresco-keycloak-theme@$(KEYCLOAK_THEME_TAG) \
 postgres@$(POSTGRES_TAG) \
-quay.io/alfresco/alfresco-digital-workspace@$(ADW_TAG)
+bitnami/minideb-extras@${MINIDEB_EXTRAS_TAG} \
+quay.io/kubernetes_incubator/nfs-provisioner@${NFS_PROVISIONER_TAG} \
+alfresco/alfresco-search-services@${ALFRESCO_SEARCH_SERVICES_TAG} \
+alfresco/alfresco-shared-file-store@${ALFRESCO_SHARED_FILE_STORE_TAG} \
+alfresco/alfresco-content-repository@${ALFRESCO_CONTENT_REPOSITORY_TAG} \
+alfresco/alfresco-share@${ALFRESCO_SHARE_TAG} \
+quay.io/alfresco/alfresco-ai-docker-engine@${ALFRESCO_AI_DOCKER_ENGINE_TAG} \
+quay.io/alfresco/insight-engine@${INSIGHT_ENGINE_TAG} \
+quay.io/alfresco/alfresco-imagemagick@${ALFRESCO_IMAGEMAGICK_TAG} \
+quay.io/alfresco/alfresco-libreoffice@${ALFRESCO_LIBREOFFICE_TAG} \
+quay.io/alfresco/alfresco-pdf-renderer@${ALFRESCO_PDF_RENDERER_TAG} \
+quay.io/alfresco/alfresco-tika@${ALFRESCO_TIKA_TAG} \
+quay.io/alfresco/alfresco-transform-router@${ALFRESCO_TRANSFORM_ROUTER_TAG} \
+quay.io/alfresco/alfresco-digital-workspace@$(ALFRESCO_DIGITAL_WORKSPACE_TAG) \
+quay.io/alfresco/alfresco-admin-app@${AAE_TAG} \
+quay.io/alfresco/alfresco-deployment-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-modeling-app@${AAE_TAG} \
+quay.io/alfresco/alfresco-modeling-service@${AAE_TAG} 
 
-.PHONY: $(IMAGES) 
+.PHONY: $(IMAGES)
 
-all: images values
+all: images values-registry.yaml
 
 test:
 	@if test -z "$(DOCKER_REGISTRY)"; then echo "Error: missing DOCKER_REGISTRY argument or env variable."; exit 1; fi
@@ -36,7 +68,7 @@ list: $(foreach image,$(IMAGES),$(image)\print)
 
 images: test pull tag push
 
-values: 
+values-registry.yaml: test
 	@envsubst < $(VALUES_REGISTRY_TMPL) > values-registry.yaml
 	@echo Values generated in values-registry.yaml
 

@@ -168,7 +168,7 @@ Upload images to your internal registry using the [upload_images.sh](helm/alfres
 then update the values before installing to reference the new location for images on your internal registry:
 
 ```bash
-export APS_REGISTRY_HOST=internal.registry.io
+export REGISTRY_HOST=internal.registry.io
 make login
 make values-registry.yaml
 export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
