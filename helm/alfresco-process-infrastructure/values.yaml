@@ -296,6 +296,10 @@ alfresco-deployment-service:
     # temporary until released
     tag: "2.2.0"
     pullPolicy: Always
+  extraInit:
+    image:
+      repository: bitnami/minideb-extras
+      tag: stretch
   postgres:
     enabled: true
     name: postgresql-ads
@@ -336,7 +340,7 @@ alfresco-deployment-service:
   extraInitContainers: |
     {{- if index .Values "alfresco-content-services" "enabled" -}}
     - name: wait-for-acs
-      image: "alpine:3.8"
+      image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
       imagePullPolicy: IfNotPresent
       command:
         - sh
@@ -347,8 +351,8 @@ alfresco-deployment-service:
           done;
 
           echo 'ACS OK ✓'
-    - name: init
-      image: bitnami/minideb-extras
+    - name: init-acs
+      image: "{{ .Values.extraInit.image.repository }}:{{ .Values.extraInit.image.tag }}"
       command: ["/bin/bash"]
       args:
         - -c
