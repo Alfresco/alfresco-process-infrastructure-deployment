@@ -305,8 +305,6 @@ alfresco-deployment-service:
     name: postgresql-ads
     username: alfresco
     password: alfresco
-  securityContext: |
-    privileged: true
   ingress:
     path: /deployment-service
     enabled: true
