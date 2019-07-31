@@ -380,7 +380,7 @@ alfresco-deployment-service:
     - name: DOCKER_REGISTRY_USERNAME
       value: "{{ .Values.dockerRegistry.userName }}"
     - name: DOCKER_REGISTRY_PASSWORD
-      value: "{{ .Values.dockerRegistry.password }}"
+      value: '{{ .Values.dockerRegistry.password }}'
     - name: DOCKER_REGISTRY_SECRET_NAME
       value: "{{ .Values.dockerRegistry.secretName }}"
     - name: DOCKER_REGISTRY_IMAGE_TAG
