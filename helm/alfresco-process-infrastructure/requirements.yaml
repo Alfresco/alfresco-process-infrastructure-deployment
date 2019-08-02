@@ -18,6 +18,10 @@ dependencies:
     alias: alfresco-modeling-service
     version: 2.1.0
     repository: https://kubernetes-charts.alfresco.com/incubator
+  - name: alfresco-process-springboot-service
+    alias: alfresco-dmn-service
+    version: 2.1.0
+    repository: https://kubernetes-charts.alfresco.com/incubator
   - name: postgresql
     alias: postgresql-ams
     version: 0.11.0

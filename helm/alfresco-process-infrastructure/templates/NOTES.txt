@@ -11,7 +11,7 @@ Get the application URLs:
 
 Alfresco Identity Service  : {{ template "common.keycloak-url" . }}
 Alfresco Gateway           : {{ template "common.gateway-url" . }}
-Alfresco Modeler           : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-modeling-app" "ingress" "path" }}
+Alfresco Modeling          : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-modeling-app" "ingress" "path" }}
 Alfresco Admin             : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-admin-app" "ingress" "path" }}
 {{- if index .Values "alfresco-content-services" "enabled" }}
 Alfresco Content           : {{ template "alfresco-process-infrastructure.acs-url" . }}{{ index .Values "alfresco-content-services" "repository" "ingress" "path" }}

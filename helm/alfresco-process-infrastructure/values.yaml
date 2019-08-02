@@ -255,6 +255,40 @@ alfresco-modeling-service:
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
 
+alfresco-dmn-service:
+  nameOverride: alfresco-dmn-service
+  rbac:
+    create: false
+  serviceAccount:
+    create: false
+  ingress:
+    enabled: true
+    path: "/dmn-service"
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  extraVolumeMounts: |
+    - name: license
+      mountPath: "/root/.activiti/enterprise-license/"
+      readOnly: true
+  image:
+    repository: quay.io/alfresco/alfresco-dmn-service
+    tag: "develop"
+    pullPolicy: Always
+  probePath: "{{ .Values.ingress.path }}/actuator/health"
+  extraEnv: |
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_SERVLET_CONTEXTPATH
+      value: "{{ .Values.ingress.path }}"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+
 alfresco-modeling-app:
   nameOverride: "alfresco-modeling-app"
   ingress:
