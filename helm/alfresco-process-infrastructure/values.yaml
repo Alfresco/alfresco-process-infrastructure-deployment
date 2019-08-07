@@ -235,7 +235,7 @@ alfresco-modeling-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: "2.2.0"
+    tag: "2.3.0"
     pullPolicy: Always
   postgres:
     enabled: true
@@ -295,7 +295,7 @@ alfresco-modeling-app:
     path: /modeling
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: "2.2.0"
+    tag: "2.3.0"
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
@@ -327,8 +327,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    # temporary until released
-    tag: "2.2.0"
+    tag: "2.3.0"
     pullPolicy: Always
   extraInit:
     image:
@@ -418,7 +417,7 @@ alfresco-deployment-service:
     - name: DOCKER_REGISTRY_SECRET_NAME
       value: "{{ .Values.dockerRegistry.secretName }}"
     - name: DOCKER_REGISTRY_IMAGE_TAG
-      value: "2.2.0"
+      value: "2.3.0"
     - name: CONTENT_SERVICE_BASE_URL
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_ENABLED
@@ -439,7 +438,7 @@ alfresco-admin-app:
     path: /admin
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: "2.2.0"
+    tag: "2.3.0"
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'

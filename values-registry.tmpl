@@ -6,7 +6,7 @@ alfresco-admin-app:
 alfresco-deployment-service:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-deployment-service
-    tag: "${AAE_TAG}"    
+    tag: "${AAE_TAG}"
   init:
     image:
       repository: ${DOCKER_REGISTRY}/alpine
@@ -21,10 +21,15 @@ alfresco-modeling-app:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-modeling-app
     tag: "${AAE_TAG}"
 
+alfresco-dmn-service:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-dmn-service
+    tag: "${AAE_TAG}"
+
 alfresco-modeling-service:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-modeling-service
-    tag: "${AAE_TAG}"    
+    tag: "${AAE_TAG}"
   init:
     image:
       repository: ${DOCKER_REGISTRY}/alpine
