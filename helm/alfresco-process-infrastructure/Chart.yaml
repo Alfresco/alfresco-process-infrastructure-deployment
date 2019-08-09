@@ -1,7 +1,7 @@
 apiVersion: v1
 name: alfresco-process-infrastructure
-version: 2.3.0
-appVersion: 2.3.0
+version: 7.1.0-M4
+appVersion: 7.1.0.M4
 description: A Helm chart for Alfresco Process Infrastructure
 keywords:
 - process
