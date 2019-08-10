@@ -274,7 +274,7 @@ alfresco-dmn-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-dmn-service
-    tag: "develop"
+    tag: "2.3.0"
     pullPolicy: Always
   probePath: "{{ .Values.ingress.path }}/actuator/health"
   extraEnv: |
