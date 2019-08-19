@@ -48,8 +48,7 @@
         "name": "APS_USER",
         "composites": {
           "realm": [
-            "ACTIVITI_USER",
-            "ACTIVITI_MODELER"
+            "ACTIVITI_USER"
           ],
           "client": {
             "realm-management": [
