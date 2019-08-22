@@ -358,21 +358,37 @@ alfresco-deployment-service:
   environment:
     apiUrl: ""
     apiToken: ""
+  extraContainers: |
+    - name: dind
+      image: docker:18.06.1-dind
+      imagePullPolicy: IfNotPresent
+      securityContext:
+        privileged: true
+      tty: true
+      env:
+      - name: DOCKER_HOST
+        value: tcp://localhost:2375
+      resources:
+        requests:
+          cpu: 350m
+          memory: 600Mi
+        limits:
+          cpu: 1
+          memory: 2048Mi
+      volumeMounts:
+      - mountPath: /var/lib/docker
+        name: docker-daemon
   extraVolumes: |
     - name: config
       configMap:
         name: {{ .Release.Name }}-deployment-config
         defaultMode: 0744
-    - name: docker-sock-volume
-      hostPath:
-        path: /var/run/docker.sock
-        type: File
+    - name: docker-daemon
+      emptyDir: {}
     - name: license
       secret:
         secretName: licenseaps
   extraVolumeMounts: |
-    - name: docker-sock-volume
-      mountPath: /var/run/docker.sock
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
@@ -404,6 +420,8 @@ alfresco-deployment-service:
           mountPath: /tmp/init
     {{- end -}}
   extraEnv: |
+    - name: DOCKER_HOST
+      value: tcp://localhost:2375
     - name: SERVER_PORT
       value: "8080"
     - name: SERVER_SERVLET_CONTEXTPATH
