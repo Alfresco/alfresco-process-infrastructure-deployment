@@ -106,6 +106,9 @@ alfresco-digital-workspace: &alfresco-digital-workspace
 
 alfresco-content-services:
   enabled: false
+  syncservice:
+    service:
+      externalPort: 80
   alfresco-infrastructure:
     enabled: false
     activemq:
