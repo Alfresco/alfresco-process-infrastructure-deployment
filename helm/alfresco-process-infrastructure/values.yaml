@@ -370,10 +370,10 @@ alfresco-deployment-service:
         value: tcp://localhost:2375
       resources:
         requests:
-          cpu: 350m
-          memory: 600Mi
-        limits:
           cpu: 1
+          memory: 1024Mi
+        limits:
+          cpu: 2
           memory: 2048Mi
       volumeMounts:
       - mountPath: /var/lib/docker
