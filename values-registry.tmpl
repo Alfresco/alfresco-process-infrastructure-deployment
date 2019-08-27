@@ -11,6 +11,10 @@ alfresco-deployment-service:
     image:
       repository: ${DOCKER_REGISTRY}/alpine
       tag: "${ALPINE_TAG}"
+  dind:
+    image:
+      repository: ${DOCKER_REGISTRY}/docker
+      tag: "${DIND_TAG}"
   extraInit:
     image:
       repository: ${DOCKER_REGISTRY}/bitnami/minideb-extras

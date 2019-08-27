@@ -10,6 +10,7 @@ POSTGRES_TAG := 11.3
 ALFRESCO_DIGITAL_WORKSPACE_TAG := 1.1.0
 AAE_TAG := 2.3.0
 NFS_PROVISIONER_TAG := v2.2.1-k8s1.12
+DIND_TAG := 18.06.1-dind
 MINIDEB_EXTRAS_TAG := stretch
 ALFRESCO_AI_DOCKER_ENGINE_TAG := 1.0.1
 INSIGHT_ENGINE_TAG := 1.1.0.1
@@ -29,6 +30,7 @@ jboss/keycloak@$(KEYCLOAK_TAG) \
 alfresco/alfresco-keycloak-theme@$(KEYCLOAK_THEME_TAG) \
 postgres@$(POSTGRES_TAG) \
 bitnami/minideb-extras@${MINIDEB_EXTRAS_TAG} \
+docker@${DIND_TAG} \
 quay.io/kubernetes_incubator/nfs-provisioner@${NFS_PROVISIONER_TAG} \
 alfresco/alfresco-search-services@${ALFRESCO_SEARCH_SERVICES_TAG} \
 alfresco/alfresco-shared-file-store@${ALFRESCO_SHARED_FILE_STORE_TAG} \

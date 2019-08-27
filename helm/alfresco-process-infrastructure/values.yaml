@@ -341,6 +341,10 @@ alfresco-deployment-service:
     image:
       repository: bitnami/minideb-extras
       tag: stretch
+  dind:
+    image:
+      repository: docker
+      tag: 18.06.1-dind
   postgres:
     enabled: true
     name: postgresql-ads
@@ -360,7 +364,7 @@ alfresco-deployment-service:
     apiToken: ""
   extraContainers: |
     - name: dind
-      image: docker:18.06.1-dind
+      image: "{{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}"
       imagePullPolicy: IfNotPresent
       securityContext:
         privileged: true
