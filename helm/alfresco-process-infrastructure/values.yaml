@@ -104,11 +104,13 @@ alfresco-digital-workspace: &alfresco-digital-workspace
     BASEPATH: "{{ .Values.ingress.path }}/"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
 
+alfresco-sync-service:
+  enabled: false
+
 alfresco-content-services:
   enabled: false
-  syncservice:
-    service:
-      externalPort: 80
+  alfresco-sync-service:
+    enabled: false
   alfresco-infrastructure:
     enabled: false
     activemq:
@@ -173,6 +175,9 @@ alfresco-content-services:
     replicaCount: 1 # 2 instances by default
 
   transformrouter:
+    replicaCount: 1 # 2 instances by default
+
+  transformmisc:
     replicaCount: 1 # 2 instances by default
 
   alfresco-digital-workspace: *alfresco-digital-workspace
