@@ -308,7 +308,7 @@ alfresco-modeling-app:
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_OAUTH2_SILENT_LOGIN: "true"
-    APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}/modeling-service'
+    APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
 
 postgresql-ads:
   imageTag: "11.3"
