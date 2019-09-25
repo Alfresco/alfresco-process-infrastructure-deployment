@@ -68,7 +68,7 @@ alfresco-infrastructure:
       postgresql:
         imageTag: "11.3"
         persistence:
-          existingClaim: null # use default postgresql PVC    
+          existingClaim: "" # use default postgresql PVC
       keycloak:
         service:
           port: 80
