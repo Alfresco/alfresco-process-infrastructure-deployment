@@ -89,7 +89,9 @@
               "manage-users",
               "manage-authorization",
               "query-clients",
-              "view-users"
+              "view-users",
+              "manage-realm",
+              "manage-clients"
             ]
           }
         }
@@ -179,7 +181,8 @@
         "APS_IDENTITY",
         "offline_access",
         "APS_DEVOPS",
-        "APS_ADMIN"
+        "APS_ADMIN",
+        "APS_MODELER"
       ],
       "clientRoles": {
         "account": [
