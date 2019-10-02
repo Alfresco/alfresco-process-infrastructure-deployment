@@ -8,7 +8,7 @@ KEYCLOAK_TAG := 4.8.3.Final
 KEYCLOAK_THEME_TAG := 0.1
 POSTGRES_TAG := 11.3
 ALFRESCO_DIGITAL_WORKSPACE_TAG := 1.1.0
-AAE_TAG := 2.3.0
+AAE_TAG := 7.1.0.M4
 NFS_PROVISIONER_TAG := v2.2.1-k8s1.12
 DIND_TAG := 18.06.1-dind
 MINIDEB_EXTRAS_TAG := stretch
@@ -45,9 +45,9 @@ quay.io/alfresco/alfresco-pdf-renderer@${ALFRESCO_PDF_RENDERER_TAG} \
 quay.io/alfresco/alfresco-tika@${ALFRESCO_TIKA_TAG} \
 quay.io/alfresco/alfresco-transform-router@${ALFRESCO_TRANSFORM_ROUTER_TAG} \
 quay.io/alfresco/alfresco-digital-workspace@$(ALFRESCO_DIGITAL_WORKSPACE_TAG) \
-quay.io/alfresco/alfresco-admin-app@${AAE_TAG} \
+quay.io/alfresco/alfresco-admin-app@${AAA_TAG} \
 quay.io/alfresco/alfresco-deployment-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-modeling-app@${AAE_TAG} \
+quay.io/alfresco/alfresco-modeling-app@${AMA_TAG} \
 quay.io/alfresco/alfresco-modeling-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-dmn-service@${AAE_TAG}
 
