@@ -29,6 +29,9 @@ then
 fi
 
 IMAGES="
+  alfresco/alfresco-process-runtime-bundle-service:7.1.0.M4
+  alfresco/alfresco-form-service:7.1.0.M4
+  alfresco/alfresco-dmn-runtime-service:7.1.0.M4
   alfresco/alfresco-process-query-service:7.1.0.M4
   alfresco/alfresco-process-audit-service:7.1.0.M4
   alfresco/alfresco-process-storage-service:7.1.0.M4
