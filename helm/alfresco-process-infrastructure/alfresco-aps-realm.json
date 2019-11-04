@@ -24,13 +24,10 @@
   "roles": {
     "realm": [
       {
-        "name": "ACTIVITI_USER"
-      },
-      {
         "name": "ACTIVITI_ADMIN"
       },
       {
-        "name": "APS_DEVOPS",
+        "name": "ACTIVITI_DEVOPS",
         "composites": {
           "realm": [
             "ACTIVITI_USER",
@@ -45,11 +42,8 @@
         }
       },
       {
-        "name": "APS_USER",
+        "name": "ACTIVITI_USER",
         "composites": {
-          "realm": [
-            "ACTIVITI_USER"
-          ],
           "client": {
             "realm-management": [
               "view-users",
@@ -59,19 +53,8 @@
         }
       },
       {
-        "name": "APS_ADMIN",
+        "name": "ACTIVITI_MODELER",
         "composites": {
-          "realm": [
-            "ACTIVITI_ADMIN"
-          ]
-        }
-      },
-      {
-        "name": "APS_MODELER",
-        "composites": {
-          "realm": [
-            "ACTIVITI_MODELER"
-          ],
           "client": {
             "realm-management": [
               "view-clients"
@@ -80,7 +63,7 @@
         }
       },
       {
-        "name": "APS_IDENTITY",
+        "name": "ACTIVITI_IDENTITY",
         "description": "user is able to see the identity section",
         "composites": {
           "client": {
@@ -95,9 +78,6 @@
             ]
           }
         }
-      },
-      {
-        "name": "ACTIVITI_MODELER"
       }
     ],
     "client": {
@@ -139,7 +119,7 @@
         }
       ],
       "realmRoles": [
-        "APS_USER",
+        "ACTIVITI_USER",
         "offline_access",
         "uma_authorization"
       ],
@@ -177,12 +157,12 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "APS_USER",
-        "APS_IDENTITY",
+        "ACTIVITI_USER",
+        "ACTIVITI_IDENTITY",
         "offline_access",
-        "APS_DEVOPS",
-        "APS_ADMIN",
-        "APS_MODELER"
+        "ACTIVITI_DEVOPS",
+        "ACTIVITI_ADMIN",
+        "ACTIVITI_MODELER"
       ],
       "clientRoles": {
         "account": [
@@ -207,7 +187,7 @@
       "realmRoles": [
         "offline_access",
         "uma_authorization",
-        "APS_ADMIN"
+        "ACTIVITI_ADMIN"
       ],
       "clientRoles": {
         "realm-management": [
@@ -243,8 +223,8 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "APS_DEVOPS",
-        "APS_USER",
+        "ACTIVITI_DEVOPS",
+        "ACTIVITI_USER",
         "offline_access"
       ],
       "clientRoles": {
@@ -271,7 +251,7 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "APS_USER",
+        "ACTIVITI_USER",
         "offline_access"
       ],
       "clientRoles": {
@@ -298,8 +278,8 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "APS_USER",
-        "APS_ADMIN",
+        "ACTIVITI_USER",
+        "ACTIVITI_ADMIN",
         "offline_access"
       ],
       "clientRoles": {
@@ -326,8 +306,8 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "APS_ADMIN",
-        "APS_USER",
+        "ACTIVITI_ADMIN",
+        "ACTIVITI_USER",
         "offline_access"
       ],
       "clientRoles": {
@@ -354,8 +334,8 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "APS_USER",
-        "APS_DEVOPS",
+        "ACTIVITI_USER",
+        "ACTIVITI_DEVOPS",
         "offline_access"
       ],
       "clientRoles": {
@@ -382,7 +362,7 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "APS_USER",
+        "ACTIVITI_USER",
         "offline_access"
       ],
       "clientRoles": {
@@ -409,8 +389,8 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "APS_USER",
-        "APS_ADMIN",
+        "ACTIVITI_USER",
+        "ACTIVITI_ADMIN",
         "offline_access"
       ],
       "clientRoles": {
@@ -439,7 +419,7 @@
         }
       ],
       "realmRoles": [
-        "APS_IDENTITY",
+        "ACTIVITI_IDENTITY",
         "offline_access",
         "uma_authorization"
       ],
@@ -461,8 +441,8 @@
         }
       ],
       "realmRoles": [
-        "APS_USER",
-        "APS_MODELER"
+        "ACTIVITI_USER",
+        "ACTIVITI_MODELER"
       ]
     },
     {
@@ -476,8 +456,8 @@
         }
       ],
       "realmRoles": [
-        "APS_USER",
-        "APS_MODELER"
+        "ACTIVITI_USER",
+        "ACTIVITI_MODELER"
       ]
     },
     {
@@ -504,10 +484,10 @@
         }
       ],
       "realmRoles": [
-        "APS_USER",
-        "APS_MODELER",
-        "APS_DEVOPS",
-        "APS_ADMIN"
+        "ACTIVITI_USER",
+        "ACTIVITI_MODELER",
+        "ACTIVITI_DEVOPS",
+        "ACTIVITI_ADMIN"
       ]
     }
   ],
