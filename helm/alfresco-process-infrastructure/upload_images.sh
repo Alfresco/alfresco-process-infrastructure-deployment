@@ -29,22 +29,22 @@ then
 fi
 
 IMAGES="
-  alfresco/alfresco-process-runtime-bundle-service:7.1.0.M4
-  alfresco/alfresco-form-service:7.1.0.M4
-  alfresco/alfresco-dmn-runtime-service:7.1.0.M4
-  alfresco/alfresco-process-query-service:7.1.0.M4
-  alfresco/alfresco-process-audit-service:7.1.0.M4
-  alfresco/alfresco-process-storage-service:7.1.0.M4
-  alfresco/alfresco-process-notifications-graphql-service:7.1.0.M4
-  alfresco/alfresco-preference-service:7.1.0.M4
-  alfresco/alfresco-process-workspace-app:7.1.0.M4
-  alfresco/alfresco-process-camel-connector-service:7.1.0.M4
-  alfresco/alfresco-process-email-connector-service:7.1.0.M4
-  alfresco/alfresco-process-lambda-connector-service:7.1.0.M4
-  alfresco/alfresco-process-rest-connector-service:7.1.0.M4
-  alfresco/alfresco-process-salesforce-connector-service:7.1.0.M4
-  alfresco/alfresco-process-slack-connector-service:7.1.0.M4
-  alfresco/alfresco-process-twilio-connector-service:7.1.0.M4
+  alfresco/alfresco-process-runtime-bundle-service:develop
+  alfresco/alfresco-form-service:develop
+  alfresco/alfresco-dmn-runtime-service:develop
+  alfresco/alfresco-process-query-service:develop
+  alfresco/alfresco-process-audit-service:develop
+  alfresco/alfresco-process-storage-service:develop
+  alfresco/alfresco-process-notifications-graphql-service:develop
+  alfresco/alfresco-preference-service:develop
+  alfresco/alfresco-process-workspace-app:develop
+  alfresco/alfresco-process-camel-connector-service:develop
+  alfresco/alfresco-process-email-connector-service:develop
+  alfresco/alfresco-process-lambda-connector-service:develop
+  alfresco/alfresco-process-rest-connector-service:develop
+  alfresco/alfresco-process-salesforce-connector-service:develop
+  alfresco/alfresco-process-slack-connector-service:develop
+  alfresco/alfresco-process-twilio-connector-service:develop
   alfresco/alfresco-digital-workspace:1.1.0
   alfresco/alfresco-dbp-connector-service:0.5
 "
