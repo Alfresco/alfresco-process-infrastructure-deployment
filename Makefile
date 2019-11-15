@@ -8,7 +8,7 @@ KEYCLOAK_TAG := 4.8.3.Final
 KEYCLOAK_THEME_TAG := 0.1
 POSTGRES_TAG := 11.3
 ALFRESCO_DIGITAL_WORKSPACE_TAG := 1.1.0
-AAE_TAG := 7.1.0.M4
+AAE_TAG := 7.1.0.M5
 NFS_PROVISIONER_TAG := v2.2.1-k8s1.12
 DIND_TAG := 18.06.1-dind
 MINIDEB_EXTRAS_TAG := stretch
@@ -24,6 +24,7 @@ ALFRESCO_SHARE_TAG := 6.1.0
 ALFRESCO_TIKA_TAG := 2.0.17
 ALFRESCO_TRANSFORM_ROUTER_TAG := 1.0.2.1
 ALFRESCO_ACTIVEMQ_TAG := 5.15.8-java-8-oracle-centos-7-87b15e37ce8b
+ALFRESCO_DBP_CONNECTOR_SERVICE_TAG := 0.5
 
 IMAGES := alpine@$(ALPINE_TAG) \
 jboss/keycloak@$(KEYCLOAK_TAG) \
@@ -49,7 +50,29 @@ quay.io/alfresco/alfresco-admin-app@${AAA_TAG} \
 quay.io/alfresco/alfresco-deployment-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-modeling-app@${AMA_TAG} \
 quay.io/alfresco/alfresco-modeling-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-dmn-service@${AAE_TAG}
+quay.io/alfresco/alfresco-dmn-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-runtime-bundle-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-form-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-dmn-runtime-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-query-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-audit-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-storage-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-notifications-graphql-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-preference-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-workspace-app@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-camel-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-comprehend-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-docgen-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-docusign-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-email-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-lambda-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-rekognition-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-rest-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-salesforce-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-slack-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-textract-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-twilio-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-dbp-connector-service@${ALFRESCO_DBP_CONNECTOR_SERVICE_TAG}
 
 .PHONY: $(IMAGES)
 

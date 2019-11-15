@@ -245,14 +245,7 @@ kubectl get secret realm-secret -o jsonpath="{['data']['alfresco-aps-realm\.json
 
 ### override Docker images with internal Docker Registry
 
-Upload images to your internal registry using the [upload_images.sh](helm/alfresco-process-infrastructure/upload_images.sh) with the following variables:
-* QUAY_USER
-* QUAY_PASSWORD
-* REGISTRY_HOST
-* REGISTRY_USER
-* REGISTRY_PASSWORD
-
-then update the values before installing to reference the new location for images on your internal registry:
+Upload images to your internal registry and generate a values file with the new image locations for helm with:
 
 ```bash
 export REGISTRY_HOST=internal.registry.io
