@@ -26,6 +26,7 @@ dependencies:
     alias: postgresql-ams
     version: 0.11.0
     repository: https://kubernetes-charts.storage.googleapis.com
+    condition: alfresco-modeling-service.postgres.enabled
   - name: alfresco-adf-app
     alias: alfresco-modeling-app
     version: 2.1.3
@@ -34,6 +35,7 @@ dependencies:
     alias: postgresql-ads
     version: 0.11.0
     repository: https://kubernetes-charts.storage.googleapis.com
+    condition: alfresco-deployment-service.postgres.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-deployment-service
     version: 2.1.0
