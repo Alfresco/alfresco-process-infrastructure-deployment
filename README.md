@@ -253,3 +253,12 @@ make login
 make values-registry.yaml
 export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
 ```
+
+### use an external PostgreSQL database
+
+Modify the file values-external-postgresql.yaml providing values for your external database per each service, then run:
+
+```bash
+export HELM_OPTS="${HELM_OPTS} -f values-external-postgresql.yaml"
+```
+

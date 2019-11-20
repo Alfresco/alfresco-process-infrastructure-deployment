@@ -1,0 +1,26 @@
+alfresco-modeling-service:
+  postgres:
+    enabled: false
+  # set external postgres database variables as required
+  db:
+    uri:
+    username:
+    password:
+    driver: "org.postgresql.Driver"
+    platform:
+    generateDdl:
+    ddlAuto:
+
+alfresco-deployment-service:
+  postgres:
+    enabled: false
+  # set external postgres database variables as required
+  db:
+    uri:
+    username:
+    password:
+    driver: "org.postgresql.Driver"
+    platform:
+    generateDdl:
+    ddlAuto:
+
