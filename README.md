@@ -66,7 +66,7 @@ If anything is stuck check events with `kubectl get events --watch`.
 
 Install helm.
 
-*NB* if you plan on enabling the optional ACS, use helm 2.12.3  
+*NB* if you plan on enabling the optional ACS, use helm 2.14.3
 
 ### add quay-registry-secret
 
@@ -115,7 +115,6 @@ HELM_OPTS="${HELM_OPTS} -f secrets.yaml"
 
 ## with ACS (optional)
 
-
 To include ACS in the infrastructure:
 
 ```bash
@@ -125,7 +124,6 @@ HELM_OPTS="
   --set alfresco-content-services.alfresco-digital-workspace.enabled=true
   --set alfresco-deployment-service.alfresco-content-services.enabled=true
   --set alfresco-infrastructure.activemq.enabled=true
-  --set nfs-server-provisioner.enabled=true
 "
 ```
 
@@ -134,35 +132,34 @@ or just:
 HELM_OPTS="${HELM_OPTS} -f alfresco-content-services.yaml"
 ```
 
-### NFS Storage with ACS
+## File Storage
 
-In order to support multi-cloud NFS when ACS is enabled, [nfs-provisioner](https://github.com/kubernetes-incubator/external-storage/tree/master/nfs) is used.
+### NFS Storage
 
-### EFS Storage with ACS on AWS
-
-As an AWS only alternative, you can use EFS as NFS. Make sure it is in the same VPC as your cluster and you open inbound traffic in the security group to allow NFS traffic.
-Save the name of the server, for example:
-
-    fs-647b1b84.efs.us-east-1.amazonaws.com
-
-**NB** open the port for 'NFS' on default security group of VPC (i.e default - security group name) to '0.0.0.0/0 or your own subnet'
+In order to support multi-cloud NFS, [nfs-provisioner](https://github.com/kubernetes-incubator/external-storage/tree/master/nfs) is used.
 
 ```bash
-export NFS_SERVER="<dnsnameforEFS>"
-# example: export NFS_SERVER=fs-647b1b84.efs.us-east-1.amazonaws.com
+HELM_OPTS="
+  ${HELM_OPTS}
+  --set nfs-server-provisioner.enabled=true
+"
 ```
-**NB** The Persistent Volume created to store the data on the created EFS has the ReclaimPolicy set to Recycle.
-This means that by default, when you delete the release the saved data is deleted automatically.
 
+### EFS Storage
 
-Set variables as in [environment-setup](https://git.alfresco.com/process-services-public/alfresco-process-application-deployment#environment-setup) then run helm command to deploy chart with ACS:
+In AWS, use EFS as NFS as explained in the [related section of alfresco-infrastructure](https://github.com/Alfresco/alfresco-infrastructure-deployment/blob/master/README.md#amazon-efs-storage-note-only-for-aws).
+
+The once, installed the `nfs-client-provisioner`, add the helm properties to use it:
+
 ```bash
-helm install ./helm/alfresco-process-infrastructure \
-  --namespace="${DESIRED_NAMESPACE}" \
-  ${HELM_OPTS} \
-  --set alfresco-infrastructure.persistence.enabled=true \
-  --set alfresco-infrastructure.persistence.efs.enabled=true \
-  --set alfresco-infrastructure.persistence.efs.dns="${NFS_SERVER}"
+DESIRED_NAMESPACE="default"
+HELM_OPTS="
+  ${HELM_OPTS}
+  --set alfresco-infrastructure.persistence.storageClass.enabled=true \
+  --set alfresco-infrastructure.persistence.storageClass.name="${DESIRED_NAMESPACE}-sc" \
+  --set alfresco-deployment-service.connectorVolume.storageClass="${DESIRED_NAMESPACE}-sc" \
+  --set alfresco-deployment-service.connectorVolume.permission="ReadWriteMany" 
+"
 ```
 
 ## launch helm
