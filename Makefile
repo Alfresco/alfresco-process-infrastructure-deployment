@@ -72,6 +72,8 @@ quay.io/alfresco/alfresco-process-salesforce-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-slack-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-textract-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-twilio-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-elasticsearch-bridge-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-kafka-bridge-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-dbp-connector-service@${ALFRESCO_DBP_CONNECTOR_SERVICE_TAG}
 
 .PHONY: $(IMAGES)
