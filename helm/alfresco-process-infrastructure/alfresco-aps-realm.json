@@ -24,19 +24,23 @@
   "roles": {
     "realm": [
       {
-        "name": "ACTIVITI_ADMIN"
+        "name": "ACTIVITI_ADMIN",
+        "composites": {
+          "client": {
+            "realm-management": [
+              "view-users",
+              "view-clients"
+            ]
+          }
+        }
       },
       {
         "name": "ACTIVITI_DEVOPS",
         "composites": {
-          "realm": [
-            "ACTIVITI_USER",
-            "ACTIVITI_ADMIN"
-          ],
           "client": {
             "realm-management": [
-              "view-clients",
-              "manage-users"
+              "view-users",
+              "view-clients"
             ]
           }
         }
@@ -99,10 +103,22 @@
   },
   "groups": [
     {
-      "name": "hr"
+      "name": "hr",
+      "realmRoles": [
+        "ACTIVITI_USER"
+      ]
     },
     {
-      "name": "testgroup"
+      "name": "sales",
+      "realmRoles": [
+        "ACTIVITI_USER"
+      ]
+    },
+    {
+      "name": "processadmin",
+      "realmRoles": [
+        "ACTIVITI_ADMIN"
+      ]
     }
   ],
   "users": [
@@ -157,7 +173,6 @@
       ],
       "realmRoles": [
         "uma_authorization",
-        "ACTIVITI_USER",
         "ACTIVITI_IDENTITY",
         "offline_access",
         "ACTIVITI_DEVOPS",
@@ -168,10 +183,6 @@
         "account": [
           "manage-account",
           "view-profile"
-        ],
-        "activiti": [
-          "ACTIVITI_USER",
-          "ACTIVITI_ADMIN"
         ]
       }
     },
@@ -224,16 +235,12 @@
       "realmRoles": [
         "uma_authorization",
         "ACTIVITI_DEVOPS",
-        "ACTIVITI_USER",
         "offline_access"
       ],
       "clientRoles": {
         "account": [
           "manage-account",
           "view-profile"
-        ],
-        "activiti": [
-          "ACTIVITI_USER"
         ]
       }
     },
@@ -265,34 +272,6 @@
       ]
     },
     {
-      "username": "hradmin",
-      "enabled": true,
-      "firstName": "HR",
-      "lastName": "Admin",
-      "email": "hradmin@test.com",
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password"
-        }
-      ],
-      "realmRoles": [
-        "uma_authorization",
-        "ACTIVITI_USER",
-        "ACTIVITI_ADMIN",
-        "offline_access"
-      ],
-      "clientRoles": {
-        "account": [
-          "manage-account",
-          "view-profile"
-        ]
-      },
-      "groups": [
-        "/hr"
-      ]
-    },
-    {
       "username": "processadminuser",
       "enabled": true,
       "firstName": "Process Admin",
@@ -307,18 +286,17 @@
       "realmRoles": [
         "uma_authorization",
         "ACTIVITI_ADMIN",
-        "ACTIVITI_USER",
         "offline_access"
       ],
       "clientRoles": {
         "account": [
           "manage-account",
           "view-profile"
-        ],
-        "activiti": [
-          "ACTIVITI_ADMIN"
         ]
-      }
+      },
+      "groups": [
+        "/processadmin"
+      ]
     },
     {
       "username": "salesuser",
@@ -335,18 +313,17 @@
       "realmRoles": [
         "uma_authorization",
         "ACTIVITI_USER",
-        "ACTIVITI_DEVOPS",
         "offline_access"
       ],
       "clientRoles": {
         "account": [
           "manage-account",
           "view-profile"
-        ],
-        "activiti": [
-          "ACTIVITI_ADMIN"
         ]
-      }
+      },
+      "groups": [
+        "/sales"
+      ]
     },
     {
       "username": "testuser",
@@ -441,54 +418,14 @@
         }
       ],
       "realmRoles": [
-        "ACTIVITI_USER",
         "ACTIVITI_MODELER"
-      ]
-    },
-    {
-      "username": "qa-modeler-1",
-      "email": "qa-modeler-1@alfresco.com",
-      "enabled": true,
-      "credentials": [
-        {
-          "type": "password",
-          "value": "4lfQapsswd"
-        }
       ],
-      "realmRoles": [
-        "ACTIVITI_USER",
-        "ACTIVITI_MODELER"
-      ]
-    },
-    {
-      "username": "qa-user-without-permission",
-      "email": "qa-user-without-permission@alfresco.com",
-      "enabled": true,
-      "credentials": [
-        {
-          "type": "password",
-          "value": "4lfQapsswd"
-        }
-      ],
-      "realmRoles": [
-      ]
-    },
-    {
-      "username": "admin.adf",
-      "email": "admin.adf@alfresco.com",
-      "enabled": true,
-      "credentials": [
-        {
-          "type": "password",
-          "value": "adf$2018IloveAngular"
-        }
-      ],
-      "realmRoles": [
-        "ACTIVITI_USER",
-        "ACTIVITI_MODELER",
-        "ACTIVITI_DEVOPS",
-        "ACTIVITI_ADMIN"
-      ]
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      }
     }
   ],
   "clients": [
