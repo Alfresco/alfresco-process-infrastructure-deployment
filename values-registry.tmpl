@@ -153,5 +153,9 @@ alfresco-infrastructure:
       postgresql:
         image: ${DOCKER_REGISTRY}/postgres
         imageTag: "${POSTGRES_TAG}"
+alfresco-script-model-runtime:
+  image:
+    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-script-model-runtime
+    tag: "${AAE_TAG}"
 
 
