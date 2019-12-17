@@ -50,3 +50,7 @@ dependencies:
     version: 2.1.3
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-content-services.alfresco-digital-workspace.enabled
+  - name: alfresco-process-springboot-service
+    alias: alfresco-script-model-runtime
+    version: 2.1.0
+    repository: https://kubernetes-charts.alfresco.com/incubator
