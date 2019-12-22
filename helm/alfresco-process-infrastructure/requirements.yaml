@@ -19,7 +19,7 @@ dependencies:
     version: 2.1.0
     repository: https://kubernetes-charts.alfresco.com/incubator
   - name: alfresco-process-springboot-service
-    alias: alfresco-dmn-service
+    alias: alfresco-dmn-simulation-service
     version: 2.1.0
     repository: https://kubernetes-charts.alfresco.com/incubator
   - name: postgresql

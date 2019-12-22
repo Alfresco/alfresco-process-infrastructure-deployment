@@ -263,8 +263,8 @@ alfresco-modeling-service:
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
 
-alfresco-dmn-service:
-  nameOverride: alfresco-dmn-service
+alfresco-dmn-simulation-service:
+  nameOverride: alfresco-dmn-simulation-service
   rbac:
     create: false
   serviceAccount:
@@ -281,7 +281,7 @@ alfresco-dmn-service:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
   image:
-    repository: quay.io/alfresco/alfresco-dmn-service
+    repository: quay.io/alfresco/alfresco-dmn-simulation-service
     tag: "develop"
     pullPolicy: IfNotPresent
   probePath: "{{ .Values.ingress.path }}/actuator/health"

@@ -50,7 +50,7 @@ quay.io/alfresco/alfresco-admin-app@${AAA_TAG} \
 quay.io/alfresco/alfresco-deployment-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-modeling-app@${AMA_TAG} \
 quay.io/alfresco/alfresco-modeling-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-dmn-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-dmn-simulation-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-runtime-bundle-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-form-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-dmn-runtime-service@${AAE_TAG} \
