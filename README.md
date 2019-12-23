@@ -1,5 +1,7 @@
 # alfresco-process-infrastructure
 
+[![Build Status](https://travis-ci.org/Alfresco/alfresco-process-infrastructure-deployment.svg?branch=develop)](https://travis-ci.org/Alfresco/alfresco-process-infrastructure-deployment)
+
 Helm chart to install the Alfresco Activiti Enterprise infrastructure including the Alfresco DBP infrastructure and the AAE platform level services to model and deploy AAE applications:
 
 - PVC for storage
@@ -262,3 +264,10 @@ Modify the file values-external-postgresql.yaml providing values for your extern
 export HELM_OPTS="${HELM_OPTS} -f values-external-postgresql.yaml"
 ```
 
+## CI/CD
+
+Running on Travis, requires the following environment variable to be set:
+
+| Name | Description |
+|------|-------------|
+| GITHUB_TOKEN | GitHub token to clone/push helm repo |
