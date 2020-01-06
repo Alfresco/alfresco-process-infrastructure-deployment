@@ -115,6 +115,9 @@
       ]
     },
     {
+      "name": "testgroup"
+    },
+    {
       "name": "processadmin",
       "realmRoles": [
         "ACTIVITI_ADMIN"
