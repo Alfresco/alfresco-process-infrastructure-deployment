@@ -430,6 +430,26 @@
           "view-profile"
         ]
       }
+    },
+    {
+      "username": "modeler-qa",
+      "email": "modelerqa@alfresco.com",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password"
+        }
+      ],
+      "realmRoles": [
+        "ACTIVITI_MODELER"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      }
     }
   ],
   "clients": [
