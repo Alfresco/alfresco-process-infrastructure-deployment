@@ -309,6 +309,7 @@ alfresco-modeling-app:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_OAUTH2_SILENT_LOGIN: "true"
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
+    APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
 
 postgresql-ads:
   imageTag: "11.3"
