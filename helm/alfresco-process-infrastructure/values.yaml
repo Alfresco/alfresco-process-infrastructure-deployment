@@ -477,6 +477,7 @@ alfresco-admin-app:
   image:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: "development-2275"
+    internalPort: 8080
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
