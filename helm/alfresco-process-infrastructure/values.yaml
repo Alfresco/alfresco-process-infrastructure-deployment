@@ -95,7 +95,7 @@ alfresco-digital-workspace: &alfresco-digital-workspace
       nginx.ingress.kubernetes.io/proxy-body-size: "500m"
   image:
     repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: 1.1.0
+    tag: 1.3.0
     internalPort: 8080
     pullPolicy: IfNotPresent
   env:

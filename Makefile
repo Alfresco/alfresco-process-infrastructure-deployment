@@ -8,7 +8,7 @@ KEYCLOAK_TAG := 4.8.3.Final
 KEYCLOAK_THEME_TAG := 0.1
 POSTGRES_TAG := 11.3
 ALFRESCO_DIGITAL_WORKSPACE_TAG := 1.1.0
-AAE_TAG := 7.1.0.M5
+AAE_TAG := 7.1.0.M6
 NFS_PROVISIONER_TAG := v2.2.1-k8s1.12
 DIND_TAG := 18.06.1-dind
 MINIDEB_EXTRAS_TAG := stretch
@@ -51,7 +51,9 @@ quay.io/alfresco/alfresco-deployment-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-modeling-app@${AMA_TAG} \
 quay.io/alfresco/alfresco-modeling-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-dmn-simulation-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-script-model-runtime@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-runtime-bundle-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-script-app-runtime@${AAE_TAG} \
 quay.io/alfresco/alfresco-form-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-dmn-runtime-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-query-service@${AAE_TAG} \

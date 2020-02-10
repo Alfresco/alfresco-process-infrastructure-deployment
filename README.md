@@ -1,21 +1,21 @@
 # alfresco-process-infrastructure
 
-[![Build Status](https://travis-ci.org/Alfresco/alfresco-process-infrastructure-deployment.svg?branch=develop)](https://travis-ci.org/Alfresco/alfresco-process-infrastructure-deployment)
+[![Build Status](https://travis-ci.com/Alfresco/alfresco-process-infrastructure-deployment.svg?branch=develop)](https://travis-ci.com/Alfresco/alfresco-process-infrastructure-deployment)
 
-Helm chart to install the Alfresco Activiti Enterprise infrastructure including the Alfresco DBP infrastructure and the AAE platform level services to model and deploy AAE applications:
+Helm chart to install the Alfresco Activiti Enterprise infrastructure and the AAE platform level services to model and deploy AAE applications:
 
 - PVC for storage
-- Alfresco Identity Service (IDS)
+- Alfresco Identity Service
 - ACS (optional)
 - Modeling Service
 - Modeling App
-- Deployment Service
+- Deployment Service (optional)
 - Admin App
 
 Once installed, you can deploy new AAE applications:
 
 * via the Admin App using the Deployment Service
-* manually customising the [alfresco-process-application](https://git.alfresco.com/process-services-public/alfresco-process-application-deployment) helm chart
+* manually customising the [alfresco-process-application](https://github.com/Alfresco/alfresco-process-application-deployment) helm chart.
 
 *NB* at the moment only installation in the `default` namespace is supported.
 
@@ -23,7 +23,7 @@ Once installed, you can deploy new AAE applications:
 
 ### setup cluster
 
-Setup a Kubernetes cluster using the guidelines in the [Alfresco DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#alfresco-digital-business-platform-deployment).
+Setup a Kubernetes cluster following the [Alfresco DBP deployment](https://github.com/Alfresco/alfresco-dbp-deployment).
 
 ### ingress
 
@@ -43,7 +43,6 @@ helm init --upgrade
 
 then configure the required helm chart repositories:
 ```
-helm repo add activiti-cloud-charts https://activiti.github.io/activiti-cloud-charts
 helm repo add activiti-cloud-helm-charts https://activiti.github.io/activiti-cloud-helm-charts
 helm repo add alfresco https://kubernetes-charts.alfresco.com/stable
 helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
@@ -64,7 +63,7 @@ If anything is stuck check events with `kubectl get events --watch`.
 
 ### helm
 
-Install helm.
+Install helm 2.x.
 
 *NB* if you plan on enabling the optional ACS, use helm 2.14.3
 
@@ -110,7 +109,7 @@ Follow [prerequisites](https://git.alfresco.com/process-services-public/alfresco
 Copy [secrets.yaml](helm/alfresco-process-infrastructure/secrets.yaml) to the root and customise its contents as in the comments and add to `HELM_OPTS`:
 
 ```bash
-HELM_OPTS="${HELM_OPTS} -f secrets.yaml"
+HELM_OPTS+=" -f secrets.yaml"
 ```
 
 ## with ACS (optional)
@@ -118,8 +117,7 @@ HELM_OPTS="${HELM_OPTS} -f secrets.yaml"
 To include ACS in the infrastructure:
 
 ```bash
-HELM_OPTS="
-  ${HELM_OPTS}
+HELM_OPTS+="
   --set alfresco-content-services.enabled=true
   --set alfresco-content-services.alfresco-digital-workspace.enabled=true
   --set alfresco-deployment-service.alfresco-content-services.enabled=true
@@ -129,7 +127,7 @@ HELM_OPTS="
 
 or just:
 ```bash
-HELM_OPTS="${HELM_OPTS} -f alfresco-content-services.yaml"
+HELM_OPTS+=" -f alfresco-content-services.yaml"
 ```
 
 ## File Storage
@@ -139,10 +137,7 @@ HELM_OPTS="${HELM_OPTS} -f alfresco-content-services.yaml"
 In order to support multi-cloud NFS, [nfs-provisioner](https://github.com/kubernetes-incubator/external-storage/tree/master/nfs) is used.
 
 ```bash
-HELM_OPTS="
-  ${HELM_OPTS}
-  --set nfs-server-provisioner.enabled=true
-"
+HELM_OPTS+=" --set nfs-server-provisioner.enabled=true"
 ```
 
 ### EFS Storage
@@ -153,8 +148,7 @@ The once, installed the `nfs-client-provisioner`, add the helm properties to use
 
 ```bash
 DESIRED_NAMESPACE="default"
-HELM_OPTS="
-  ${HELM_OPTS}
+HELM_OPTS+="
   --set alfresco-infrastructure.persistence.storageClass.enabled=true \
   --set alfresco-infrastructure.persistence.storageClass.name="${DESIRED_NAMESPACE}-sc" \
   --set alfresco-deployment-service.connectorVolume.storageClass="${DESIRED_NAMESPACE}-sc" \
@@ -205,7 +199,7 @@ Both support the following optional vars:
 
 ### install.sh
 
-Just install/upgrade the APS2 infrastructure.
+Just install/upgrade the AAE infrastructure.
 
 To verify the k8s yaml output:
 
@@ -218,11 +212,11 @@ Verify the k8s yaml output than launch again without `--dry-run`.
 ### Docker for Desktop 
 
 
-#### run in Docker for Desktop
+#### run in Docker Desktop
 
 A custom extra values file to add settings for _Docker for Desktop_ as specified in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#docker-for-desktop---mac) is provided:
 ```bash
-HELM_OPTS="-f values-docker-for-desktop.yaml --wait" ./install.sh
+HELM_OPTS+=" -f values-docker-desktop.yaml" ./install.sh
 ```
 *NB* with ACS enabled the startup might take as much as 10 minutes, use ```kubectl get pods --watch``` to check the status.
 
@@ -250,7 +244,7 @@ Upload images to your internal registry and generate a values file with the new 
 export REGISTRY_HOST=internal.registry.io
 make login
 make values-registry.yaml
-export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
+export HELM_OPTS+=" -f values-registry.yaml"
 ```
 
 ### use an external PostgreSQL database
@@ -258,7 +252,7 @@ export HELM_OPTS="${HELM_OPTS} -f values-registry.yaml"
 Modify the file values-external-postgresql.yaml providing values for your external database per each service, then run:
 
 ```bash
-export HELM_OPTS="${HELM_OPTS} -f values-external-postgresql.yaml"
+export HELM_OPTS+=" -f values-external-postgresql.yaml"
 ```
 
 ## CI/CD

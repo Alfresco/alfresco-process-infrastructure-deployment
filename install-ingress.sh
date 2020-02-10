@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # CERT ARN for envalfresco.com
-APS_DOMAIN="${APS_DOMAIN:-${APS_HOST#*.*}}"
-APS_INGRESS_AWS_CERT_ARN=${APS_INGRESS_AWS_CERT_ARN:-$(aws acm list-certificates --query "CertificateSummaryList[?DomainName=='${APS_DOMAIN}'].CertificateArn" --output text)}
-env | grep APS | sort
+AAE_DOMAIN="${AAE_DOMAIN:-${AAE_HOST#*.*}}"
+AAE_INGRESS_AWS_CERT_ARN=${AAE_INGRESS_AWS_CERT_ARN:-$(aws acm list-certificates --query "CertificateSummaryList[?DomainName=='${AAE_DOMAIN}'].CertificateArn" --output text)}
+env | grep AAE | sort
 
 # custom headers config https://kubernetes.github.io/ingress-nginx/examples/customization/custom-headers/
 # configmap can be edited and hot reload will happen: kubectl edit configmaps nginx-ingress-controller
@@ -23,7 +23,7 @@ controller:
 EOF
 
 
-if [[ -n "${APS_INGRESS_AWS_CERT_ARN}" ]]
+if [[ -n "${AAE_INGRESS_AWS_CERT_ARN}" ]]
 then
   cat << EOF >> values.yaml
     use-forwarded-headers: "false"
@@ -36,19 +36,19 @@ then
       http: http
       https: http
     annotations:
-    # Enable PROXY protocol
+      # Enable PROXY protocol
       #service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
       # Specify SSL certificate to use
-      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "${APS_INGRESS_AWS_CERT_ARN}"
+      service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "${AAE_INGRESS_AWS_CERT_ARN}"
       # Use SSL on the HTTPS port
       service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https" # needed to have the correct inbound rule
-      #external-dns.alpha.kubernetes.io/hostname: ${APS_HOST}.
+      #external-dns.alpha.kubernetes.io/hostname: ${AAE_HOST}.
       service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
       #service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
 EOF
 
   echo install external-dns with: go get -u -v github.com/kubernetes-incubator/external-dns
-  echo add ${APS_HOST} to DNS with: external-dns --registry txt --txt-owner-id ${APS_HOST} --provider aws --source service --source ingress --once --dry-run
+  echo add ${AAE_HOST} to DNS with: external-dns --registry txt --txt-owner-id ${AAE_HOST} --provider aws --source service --source ingress --once --dry-run
 fi
 
 # manually change the rule for HTTPS to HTTP with SSL to TCP
@@ -65,16 +65,16 @@ aws elb set-load-balancer-policies-for-backend-server --load-balancer-name ${ELB
 # check with: aws elb describe-load-balancers --load-balancer-name ${ELB_NAME}
 
 # check AWS from cli
-# APS_AWS_HOSTED_ZONE=$(aws route53 list-hosted-zones --query "HostedZones[?Name == '${APS_DOMAIN}.'].Id | [0]" --output text)
-# aws route53 list-resource-record-sets --hosted-zone-id ${APS_AWS_HOSTED_ZONE} --query "ResourceRecordSets[?contains(Name,'${APS_HOST/.*}')].Name"
-# aws route53 change-resource-record-sets --hosted-zone-id ${APS_AWS_HOSTED_ZONE} --change-batch change-resource-record-sets.json
+# AAE_AWS_HOSTED_ZONE=$(aws route53 list-hosted-zones --query "HostedZones[?Name == '${AAE_DOMAIN}.'].Id | [0]" --output text)
+# aws route53 list-resource-record-sets --hosted-zone-id ${AAE_AWS_HOSTED_ZONE} --query "ResourceRecordSets[?contains(Name,'${AAE_HOST/.*}')].Name"
+# aws route53 change-resource-record-sets --hosted-zone-id ${AAE_AWS_HOSTED_ZONE} --change-batch change-resource-record-sets.json
 
 
 # TEST
-# websockets working (install with npm -g install wscat): wscat --connect wss://activiti-cloud-gateway.${DOMAIN}/ws/graphql
+# websockets working (install with npm -g install wscat): wscat --connect wss://gateway.${DOMAIN}/ws/graphql
 # httptrace endpoint to check x-forwarded-* headers:
-# open a URL: https://activiti-cloud-gateway.${DOMAIN}/activiti-cloud-modeling-backend/actuator and check scheme
-# read httptrace: https://activiti-cloud-gateway.${DOMAIN}/activiti-cloud-modeling-backend/actuator/httptrace
+# open a URL: https://gateway.${DOMAIN}/activiti-cloud-modeling-backend/actuator and check scheme
+# read httptrace: https://gateway.${DOMAIN}/activiti-cloud-modeling-backend/actuator/httptrace
 
 CHART_NAME="stable/nginx-ingress"
 RELEASE_NAME="${RELEASE_NAME:-nginx-ingress}"
