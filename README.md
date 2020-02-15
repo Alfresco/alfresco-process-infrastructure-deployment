@@ -14,7 +14,7 @@ Helm chart to install the Alfresco Activiti Enterprise infrastructure and the AA
 
 Once installed, you can deploy new AAE applications:
 
-* via the Admin App using the Deployment Service
+* via the _Admin App_ using the _Deployment Service_
 * manually customising the [alfresco-process-application](https://github.com/Alfresco/alfresco-process-application-deployment) helm chart.
 
 *NB* at the moment only installation in the `default` namespace is supported.
@@ -23,7 +23,7 @@ Once installed, you can deploy new AAE applications:
 
 ### setup cluster
 
-Setup a Kubernetes cluster following the [Alfresco DBP deployment](https://github.com/Alfresco/alfresco-dbp-deployment).
+Setup a Kubernetes cluster following the [Alfresco DBP deployment guidelines](https://github.com/Alfresco/alfresco-dbp-deployment) or your standard procedure.
 
 ### ingress
 
@@ -31,7 +31,7 @@ An ingress bound to an external DNS address, see `install-ingress.sh` for an exa
 
 ### docker registry
 
-A docker registry should be provided for the deployment service, see the `install-registry.sh` for an example on how to setup one on the same cluster on AWS.
+An external docker registry should be provided for the _AAE Deployment Service_, see the `install-registry.sh` for an example on how to setup one on the same cluster on AWS.
 
 ### install helm
 
@@ -102,14 +102,68 @@ where:
 * HTTP is true/false depending if you want external URLs using HTTP or HTTPS
 * DOMAIN is your DNS domain
 
-Follow [prerequisites](https://git.alfresco.com/process-services-public/alfresco-process-application-deployment#prerequisites) and [set variables as in process application chart README](https://git.alfresco.com/process-services-public/alfresco-process-application-deployment#set-environment-specific-variables)
+## Prerequisites
+
+### add quay-registry-secret
+
+Configure access to pull images from quay.io in the installation namespace:
+
+```bash
+kubectl create secret \
+  docker-registry quay-registry-secret \
+    --docker-server=quay.io \
+    --docker-username="${DOCKER_REGISTRY_USERNAME}" \
+    --docker-password="${DOCKER_REGISTRY_PASSWORD}" \
+    --docker-email="none"
+```
+
+### add license secret
+
+Create a secret called _licenseaps_ containing the license file in the installation namespace:
+
+```bash
+kubectl create secret \
+  generic licenseaps --from-file activiti.lic
+```
+
+### set environment specific variables
+
+#### for Docker Desktop
+
+```bash
+export PROTOCOL="http"
+export GATEWAY_HOST="localhost"
+export SSO_HOST="kubernetes.docker.internal"
+```
+
+#### for AAE dev example environment
+
+```bash
+export ENVIRONMENT="aaedev"
+export PROTOCOL="https"
+export DOMAIN="${CLUSTER}.envalfresco.com"
+export GATEWAY_HOST="${GATEWAY_HOST:-gateway.${DOMAIN}}"
+export SSO_HOST="${SSO_HOST:-identity.${DOMAIN}}"
+```
+
+### set helm env variables
+
+```bash
+export HELM_OPTS+="
+  --set global.gateway.http=$(if [[ "${PROTOCOL}" == "http" ]]; then echo true; else echo false; fi) \
+  --set global.gateway.host=${GATEWAY_HOST} \
+  --set global.keycloak.host=${SSO_HOST}
+"
+```
 
 ### set secrets
 
 Copy [secrets.yaml](helm/alfresco-process-infrastructure/secrets.yaml) to the root and customise its contents as in the comments and add to `HELM_OPTS`:
 
 ```bash
-HELM_OPTS+=" -f secrets.yaml"
+HELM_OPTS+="
+    -f secrets.yaml
+"
 ```
 
 ## with ACS (optional)
