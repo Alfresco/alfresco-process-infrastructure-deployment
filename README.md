@@ -25,17 +25,13 @@ Once installed, you can deploy new AAE applications:
 
 Setup a Kubernetes cluster following the [Alfresco DBP deployment guidelines](https://github.com/Alfresco/alfresco-dbp-deployment) or your standard procedure.
 
-### ingress
-
-An ingress bound to an external DNS address, see `install-ingress.sh` for an example on AWS. 
-
-### docker registry
-
-An external docker registry should be provided for the _AAE Deployment Service_, see the `install-registry.sh` for an example on how to setup one on the same cluster on AWS.
-
 ### install helm
 
-Install helm server on the cluster:
+Install helm 2.x.
+
+*NB* if you plan on enabling the optional ACS, use helm 2.14.3
+
+Install helm server (tiller) on the cluster:
 
 ```bash
 helm init --upgrade
@@ -49,6 +45,22 @@ helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubato
 helm repo update
 ```
 
+### ingress
+
+An ingress bound to an external DNS address.
+
+```bash
+helm install stable/nginx-ingress --version 1.31.0
+```
+
+See `install-ingress.sh` for a more complex example on AWS with DNS and HTTPS cert setup.
+
+### docker registry
+
+If the Deployment Service is installed, it requires in turn a Docker registry.
+An external docker registry should be provided for the _AAE Deployment Service_.
+See the `install-registry.sh` for an example on how to setup one on the same cluster on AWS.
+
 ### helm tips
 
 For any command on helm, please verify the output with `--dry-run` option, then execute without.
@@ -61,12 +73,6 @@ Check deployment progress with `kubectl get pods --watch` until all containers a
 If anything is stuck check events with `kubectl get events --watch`.
 
 
-### helm
-
-Install helm 2.x.
-
-*NB* if you plan on enabling the optional ACS, use helm 2.14.3
-
 ### add quay-registry-secret
 
 Configure access to pull images from quay.io in the installation namespace: 
@@ -75,7 +81,7 @@ Configure access to pull images from quay.io in the installation namespace:
 kubectl create secret \
   docker-registry quay-registry-secret \
     --docker-server=quay.io \
-    --docker-username="${DOCKER_REGISTRY_USER}" \
+    --docker-username="${DOCKER_REGISTRY_USERNAME}" \
     --docker-password="${DOCKER_REGISTRY_PASSWORD}" \
     --docker-email="none"
 ```
@@ -156,7 +162,7 @@ export HELM_OPTS+="
 "
 ```
 
-### set secrets
+### set secrets (for deployment service only)
 
 Copy [secrets.yaml](helm/alfresco-process-infrastructure/secrets.yaml) to the root and customise its contents as in the comments and add to `HELM_OPTS`:
 
@@ -215,7 +221,7 @@ HELM_OPTS+="
 Set install parameters:
 
 ```bash
-RELEASE_NAME=infrastructure
+RELEASE_NAME=aae-infrastructure
 CHART_NAME=alfresco-process-infrastructure
 ```
 

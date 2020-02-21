@@ -41,49 +41,32 @@ global:
 
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
+  enabled: true
   ingress:
     enabled: true
     annotations:
       # Disable Nginx CORS for Identity Service
       nginx.ingress.kubernetes.io/enable-cors: "false"
-
-alfresco-infrastructure:
-  enabled: true
-  persistence:
-    enabled: false
-  alfresco-event-gateway:
-    enabled: false
-  activemq:
-    enabled: false
-  nginx-ingress:
-    enabled: false
-    controller:
-      scope:
-        enabled: false
-  alfresco-identity-service:
-    enabled: true
-    ingress:
-      enabled: false
+  keycloak:
+    postgresql:
+      imageTag: "11.3"
+      persistence:
+        existingClaim: null # use default postgresql PVC
     keycloak:
-      postgresql:
-        imageTag: "11.3"
-        persistence:
-          existingClaim: null # use default postgresql PVC
-      keycloak:
-        service:
-          port: 80
-        extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
-        # Add explicit support for HTTPS proxy address forwarding
-        extraEnv: |
-          - name: PROXY_ADDRESS_FORWARDING
-            value: "true"
-    realm:
-      alfresco:
-        client:
-          redirectUris:
-            - "*"
-          webOrigins:
-            - "*"
+      service:
+        port: 80
+      extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
+      # Add explicit support for HTTPS proxy address forwarding
+      extraEnv: |
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
+  realm:
+    alfresco:
+      client:
+        redirectUris:
+          - "*"
+        webOrigins:
+          - "*"
 
 alfresco-digital-workspace: &alfresco-digital-workspace
   enabled: false # disables the one from ACS, this one is enabled with alfresco-content-services.alfresco-digital-workspace.enabled

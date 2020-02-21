@@ -457,8 +457,8 @@
       "clientId": "activiti",
       "enabled": true,
       "publicClient": true,
-      "redirectUris": {{ index .Values "alfresco-infrastructure" "alfresco-identity-service" "realm" "alfresco" "client" "redirectUris" | default tuple | toJson }},
-      "webOrigins": {{ index .Values "alfresco-infrastructure" "alfresco-identity-service" "realm" "alfresco" "client" "webOrigins" | default tuple | toJson }},
+      "redirectUris": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "client" "redirectUris" | default tuple | toJson }},
+      "webOrigins": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "client" "webOrigins" | default tuple | toJson }},
       "directAccessGrantsEnabled": true,
       "implicitFlowEnabled": true
     },
@@ -466,8 +466,8 @@
       "clientId": "alfresco",
       "enabled": true,
       "publicClient": true,
-      "redirectUris": {{ index .Values "alfresco-infrastructure" "alfresco-identity-service" "realm" "alfresco" "client" "redirectUris" | default tuple | toJson }},
-      "webOrigins": {{ index .Values "alfresco-infrastructure" "alfresco-identity-service" "realm" "alfresco" "client" "webOrigins" | default tuple | toJson }},
+      "redirectUris": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "client" "redirectUris" | default tuple | toJson }},
+      "webOrigins": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "client" "webOrigins" | default tuple | toJson }},
       "directAccessGrantsEnabled": true,
       "implicitFlowEnabled": true
     },
