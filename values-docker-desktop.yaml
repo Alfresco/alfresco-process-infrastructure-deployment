@@ -3,7 +3,10 @@ global:
     host: "localhost"
     http: true
   keycloak:
-    host: "host.docker.internal"
+    host: "kubernetes.docker.internal"
+
+nginx-ingress:
+  enabled: true
 
 alfresco-content-services:
   repository:

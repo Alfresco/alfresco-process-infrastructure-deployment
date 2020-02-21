@@ -23,7 +23,7 @@ Once installed, you can deploy new AAE applications:
 
 ### setup cluster
 
-Setup a Kubernetes cluster following the [Alfresco DBP deployment guidelines](https://github.com/Alfresco/alfresco-dbp-deployment) or your standard procedure.
+Setup a Kubernetes cluster following your preferred procedure at least version v.1.12.
 
 ### install helm
 
@@ -194,7 +194,7 @@ HELM_OPTS+=" -f alfresco-content-services.yaml"
 
 ### NFS Storage
 
-In order to support multi-cloud NFS, [nfs-provisioner](https://github.com/kubernetes-incubator/external-storage/tree/master/nfs) is used.
+In order to support NFS in any cloud, install [nfs-server-provisioner](https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner).
 
 ```bash
 HELM_OPTS+=" --set nfs-server-provisioner.enabled=true"
@@ -202,9 +202,27 @@ HELM_OPTS+=" --set nfs-server-provisioner.enabled=true"
 
 ### EFS Storage
 
-In AWS, use EFS as NFS as explained in the [related section of alfresco-infrastructure](https://github.com/Alfresco/alfresco-infrastructure-deployment/blob/master/README.md#amazon-efs-storage-note-only-for-aws).
+Create an EFS storage on AWS in the same VPC as your cluster with NFS open inbound traffic in the nodes security group and store the name in `NFS_SERVER`. 
 
-The once, installed the `nfs-client-provisioner`, add the helm properties to use it:
+Install the [nfs-client-provisioner](https://github.com/helm/charts/tree/master/stable/nfs-client-provisioner):
+
+```bash
+helm install stable/nfs-client-provisioner \
+  --name $DESIRED_NAMESPACE \
+  --set nfs.server="$NFS_SERVER" \
+  --set nfs.path="/" \
+  --set storageClass.reclaimPolicy="Delete" \
+  --set storageClass.name="$DESIREDNAMESPACE-sc" \
+  --namespace $DESIREDNAMESPACE
+```
+
+***NB***
+The Persistent volume created with NFS to store the data has the [ReclaimPolicy](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaim-policy) set to Delete.
+This means that by default, when you delete the release the saved data is deleted automatically.
+To change this behaviour and keep the data you can set the `storageClass.reclaimPolicy` value to `Retain`.
+
+
+Add the helm properties to use it:
 
 ```bash
 DESIRED_NAMESPACE="default"
@@ -274,7 +292,7 @@ Verify the k8s yaml output than launch again without `--dry-run`.
 
 #### run in Docker Desktop
 
-A custom extra values file to add settings for _Docker for Desktop_ as specified in the [DBP README](https://github.com/Alfresco/alfresco-dbp-deployment#docker-for-desktop---mac) is provided:
+A custom extra values file to add settings for _Docker Desktop_ is provided:
 ```bash
 HELM_OPTS+=" -f values-docker-desktop.yaml" ./install.sh
 ```

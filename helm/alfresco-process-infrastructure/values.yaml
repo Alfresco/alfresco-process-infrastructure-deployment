@@ -170,28 +170,22 @@ alfresco-content-services:
     persistence:
       existingClaim: null # use default
 
+## Persistent Volume Storage Class
+## If defined, storageClassName: <storageClass>
+## If set to "-", storageClassName: "", which disables dynamic provisioning
+## If undefined (default) or null, it uses the cloud default ('default' on AKS, 'gp2' on AWS, 'standard' on GKE & OpenStack).
 nfs-server-provisioner:
   enabled: false
-  persistence:
-    enabled: true
-    ## Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  ('default' on AKS, 'gp2' on AWS, 'standard' on GKE & OpenStack)
-    ##
-    storageClass: null
-    size: 200Gi
-
-  storageClass:
-    defaultClass: false
+nginx-ingress:
+  enabled: false
 
 persistence:
-  name: '{{ index .Values "alfresco-content-services" "persistence" "existingClaim" }}'
-  storageClass:
-    name: '{{ index .Values "nfs-server-provisioner" "storageClass" "name" }}'
-    accessModes:
-      - ReadWriteMany
+  enabled: true
+#  storageClassName: nfs-client
+#  storageClassName: nfs-server
+  accessModes:
+#    - ReadWriteMany
+    - ReadWriteOnce
   baseSize: 100Gi
 
 postgresql-ams:
