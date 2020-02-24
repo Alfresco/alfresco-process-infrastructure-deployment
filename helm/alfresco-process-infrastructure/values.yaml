@@ -7,6 +7,9 @@ global:
   registryPullSecrets:
     - "quay-registry-secret"
 
+  ## duplicates the value above as a workaround for AAE-2052 caused by REPO-4659
+  alfrescoRegistryPullSecrets: "quay-registry-secret"
+
   keycloak:
     ## Configure Keycloak host template, i.e. "identity.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
     host: 'identity.{{ template "common.gateway-domain" . }}'
