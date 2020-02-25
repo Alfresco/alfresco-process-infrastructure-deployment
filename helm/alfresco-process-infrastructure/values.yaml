@@ -186,7 +186,7 @@ alfresco-content-services:
 persistence:
   enabled: true
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   baseSize: 100Gi
 
 postgresql-ams:
