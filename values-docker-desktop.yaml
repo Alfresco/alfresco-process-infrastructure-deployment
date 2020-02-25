@@ -1,12 +1,15 @@
 global:
   gateway:
-    host: "localhost"
+    host: kubernetes.docker.internal
     http: true
   keycloak:
-    host: "kubernetes.docker.internal"
+    host: kubernetes.docker.internal
 
-nginx-ingress:
+persistence:
   enabled: true
+  accessModes:
+    - ReadWriteOnce
+  baseSize: 20Gi
 
 alfresco-content-services:
   repository:
@@ -38,4 +41,3 @@ alfresco-content-services:
     replicaCount: 0
   filestore:
     replicaCount: 0
-

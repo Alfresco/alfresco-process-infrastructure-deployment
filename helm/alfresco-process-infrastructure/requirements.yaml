@@ -10,14 +10,6 @@ dependencies:
     repository: https://kubernetes-charts.alfresco.com/stable
     condition: alfresco-identity-service.enabled
     alias: alfresco-identity-service
-  - name: nfs-server-provisioner
-    version: 1.0.0
-    repository: https://kubernetes-charts.storage.googleapis.com
-    condition: nfs-server-provisioner.enabled
-  - name: nginx-ingress
-    version: 1.31.0
-    repository: https://kubernetes-charts.storage.googleapis.com
-    condition: nginx-ingress.enabled
   - name: alfresco-content-services
     version: 3.0.7
     repository: https://kubernetes-charts.alfresco.com/stable

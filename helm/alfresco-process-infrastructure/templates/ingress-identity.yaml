@@ -1,4 +1,4 @@
-{{- if and (index .Values "alfresco-identity-service" "enabled") (index .Values "alfresco-identity-service" "ingress" "enabled") }}
+{{- if and (index .Values "alfresco-identity-service" "enabled") (index .Values "alfresco-identity-service" "ingress" "common" "enabled") }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:

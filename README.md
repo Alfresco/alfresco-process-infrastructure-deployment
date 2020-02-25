@@ -50,7 +50,7 @@ helm repo update
 An ingress bound to an external DNS address.
 
 ```bash
-helm install stable/nginx-ingress --version 1.31.0
+helm install stable/nginx-ingress
 ```
 
 See `install-ingress.sh` for a more complex example on AWS with DNS and HTTPS cert setup.
@@ -98,8 +98,10 @@ kubectl create secret \
 ### set main helm env variables
 
 ```bash
-export HELM_OPTS="--debug
-  --set global.gateway.http=${HTTP}
+export DESIRED_NAMESPACE=${DESIRED_NAMESPACE:-default}
+export HELM_OPTS="--debug \
+  --namespace $DESIRED_NAMESPACE \
+  --set global.gateway.http=${HTTP} \
   --set global.gateway.domain=${DOMAIN}"
 ```
 
@@ -107,6 +109,7 @@ where:
 
 * HTTP is true/false depending if you want external URLs using HTTP or HTTPS
 * DOMAIN is your DNS domain
+* DESIRED_NAMESPACE is the installation namespace, at the moment only "default" namespace is supported
 
 ## Prerequisites
 
@@ -115,12 +118,12 @@ where:
 Configure access to pull images from quay.io in the installation namespace:
 
 ```bash
-kubectl create secret \
+kubectl create secret -n $DESIRED_NAMESPACE \
   docker-registry quay-registry-secret \
     --docker-server=quay.io \
     --docker-username="${DOCKER_REGISTRY_USERNAME}" \
     --docker-password="${DOCKER_REGISTRY_PASSWORD}" \
-    --docker-email="none"
+    --docker-email=none
 ```
 
 ### add license secret
@@ -128,7 +131,7 @@ kubectl create secret \
 Create a secret called _licenseaps_ containing the license file in the installation namespace:
 
 ```bash
-kubectl create secret \
+kubectl create secret -n $DESIRED_NAMESPACE \
   generic licenseaps --from-file activiti.lic
 ```
 
@@ -137,29 +140,28 @@ kubectl create secret \
 #### for Docker Desktop
 
 ```bash
-export PROTOCOL="http"
-export GATEWAY_HOST="localhost"
-export SSO_HOST="kubernetes.docker.internal"
+export PROTOCOL=http
+export GATEWAY_HOST=kubernetes.docker.internal 
+export SSO_HOST=$GATEWAY_HOST
 ```
 
 #### for AAE dev example environment
 
 ```bash
-export ENVIRONMENT="aaedev"
-export PROTOCOL="https"
-export DOMAIN="${CLUSTER}.envalfresco.com"
-export GATEWAY_HOST="${GATEWAY_HOST:-gateway.${DOMAIN}}"
-export SSO_HOST="${SSO_HOST:-identity.${DOMAIN}}"
+export ENVIRONMENT=aaedev
+export PROTOCOL=https
+export DOMAIN=${CLUSTER}.envalfresco.com
+export GATEWAY_HOST=${GATEWAY_HOST:-gateway.${DOMAIN}}
+export SSO_HOST=${SSO_HOST:-identity.${DOMAIN}}
 ```
 
 ### set helm env variables
 
 ```bash
-export HELM_OPTS+="
-  --set global.gateway.http=$(if [[ "${PROTOCOL}" == "http" ]]; then echo true; else echo false; fi) \
-  --set global.gateway.host=${GATEWAY_HOST} \
-  --set global.keycloak.host=${SSO_HOST}
-"
+export HTTP=$(if [[ "${PROTOCOL}" == 'http' ]]; then echo true; else echo false; fi)
+HELM_OPTS+=" --set global.gateway.http=$HTTP \
+  --set global.gateway.host=$GATEWAY_HOST \
+  --set global.keycloak.host=$SSO_HOST"
 ```
 
 ### set secrets (for deployment service only)
@@ -167,9 +169,7 @@ export HELM_OPTS+="
 Copy [secrets.yaml](helm/alfresco-process-infrastructure/secrets.yaml) to the root and customise its contents as in the comments and add to `HELM_OPTS`:
 
 ```bash
-HELM_OPTS+="
-    -f secrets.yaml
-"
+HELM_OPTS+=" -f secrets.yaml"
 ```
 
 ## with ACS (optional)
@@ -177,17 +177,15 @@ HELM_OPTS+="
 To include ACS in the infrastructure:
 
 ```bash
-HELM_OPTS+="
-  --set alfresco-content-services.enabled=true
-  --set alfresco-content-services.alfresco-digital-workspace.enabled=true
-  --set alfresco-deployment-service.alfresco-content-services.enabled=true
-  --set alfresco-infrastructure.activemq.enabled=true
-"
+HELM_OPTS+=" \
+  --set alfresco-content-services.enabled=true \
+  --set alfresco-content-services.alfresco-digital-workspace.enabled=true \
+  --set alfresco-deployment-service.alfresco-content-services.enabled=true"
 ```
 
 or just:
 ```bash
-HELM_OPTS+=" -f alfresco-content-services.yaml"
+HELM_OPTS+=" -f values-alfresco-content-services.yaml"
 ```
 
 ## File Storage
@@ -197,7 +195,10 @@ HELM_OPTS+=" -f alfresco-content-services.yaml"
 In order to support NFS in any cloud, install [nfs-server-provisioner](https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner).
 
 ```bash
-HELM_OPTS+=" --set nfs-server-provisioner.enabled=true"
+helm install stable/nfs-server-provisioner \
+  --set persistence.storageClass=standard \
+  --set storageClass.name=${DESIRED_NAMESPACE}-sc \
+  --namespace $DESIRED_NAMESPACE
 ```
 
 ### EFS Storage
@@ -208,29 +209,26 @@ Install the [nfs-client-provisioner](https://github.com/helm/charts/tree/master/
 
 ```bash
 helm install stable/nfs-client-provisioner \
-  --name $DESIRED_NAMESPACE \
-  --set nfs.server="$NFS_SERVER" \
-  --set nfs.path="/" \
-  --set storageClass.reclaimPolicy="Delete" \
-  --set storageClass.name="$DESIREDNAMESPACE-sc" \
-  --namespace $DESIREDNAMESPACE
+  --set nfs.server=$NFS_SERVER \
+  --set nfs.path=/ \
+  --set storageClass.name=${DESIRED_NAMESPACE}-sc \
+  --namespace $DESIRED_NAMESPACE
 ```
 
 ***NB***
-The Persistent volume created with NFS to store the data has the [ReclaimPolicy](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaim-policy) set to Delete.
+The Persistent volume created with NFS to store the data has the [ReclaimPolicy](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaim-policy) set by default to Delete.
 This means that by default, when you delete the release the saved data is deleted automatically.
 To change this behaviour and keep the data you can set the `storageClass.reclaimPolicy` value to `Retain`.
-
 
 Add the helm properties to use it:
 
 ```bash
-DESIRED_NAMESPACE="default"
 HELM_OPTS+="
-  --set alfresco-infrastructure.persistence.storageClass.enabled=true \
-  --set alfresco-infrastructure.persistence.storageClass.name="${DESIRED_NAMESPACE}-sc" \
-  --set alfresco-deployment-service.connectorVolume.storageClass="${DESIRED_NAMESPACE}-sc" \
-  --set alfresco-deployment-service.connectorVolume.permission="ReadWriteMany" 
+  --set persistence.storageClassName=${DESIRED_NAMESPACE}-sc
+  --set alfresco-content-services.alfresco-infrastructure.persistence.storageClass.enabled=true \
+  --set alfresco-content-services.alfresco-infrastructure.persistence.storageClass.name=${DESIRED_NAMESPACE}-sc \
+  --set alfresco-deployment-service.connectorVolume.storageClass=${DESIRED_NAMESPACE}-sc \
+  --set alfresco-deployment-service.connectorVolume.permission=ReadWriteMany 
 "
 ```
 
@@ -248,7 +246,7 @@ then install from the stable repo using a released chart version:
 ```bash
 helm upgrade --install \
   --repo https://kubernetes-charts.alfresco.com/stable \
-  ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
+  $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
 ```
 
 or from the incubator repo a development chart version:
@@ -256,7 +254,7 @@ or from the incubator repo a development chart version:
 ```bash
 helm upgrade --install \
   --repo https://kubernetes-charts.alfresco.com/incubator \
-  ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
+  $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
 ```
 
 or from the current repository directory:
@@ -265,7 +263,7 @@ or from the current repository directory:
 helm repo update
 helm dependency update helm/${CHART_NAME}
 helm upgrade --install \
-  ${HELM_OPTS} ${RELEASE_NAME} helm/${CHART_NAME}
+  $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
 ```
 
 ## Extra Helm install scripts
@@ -282,7 +280,7 @@ Just install/upgrade the AAE infrastructure.
 To verify the k8s yaml output:
 
 ```bash
-HELM_OPTS="--debug --dry-run" ./install.sh
+HELM_OPTS+="--debug --dry-run" ./install.sh
 ```
 
 Verify the k8s yaml output than launch again without `--dry-run`.

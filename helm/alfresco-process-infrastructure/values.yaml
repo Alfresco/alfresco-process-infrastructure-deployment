@@ -42,15 +42,23 @@ global:
   acs:
     host: '{{ template "common.gateway-host" . }}'
 
+alfresco-infrastructure:
+  nginx-ingress:
+    enabled: false
+
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
   enabled: true
   ingress:
-    enabled: true
+    enabled: false
+    common:
+      enabled: true
     annotations:
       # Disable Nginx CORS for Identity Service
       nginx.ingress.kubernetes.io/enable-cors: "false"
   keycloak:
+    ingress:
+      enabled: false
     postgresql:
       imageTag: "11.3"
       persistence:
@@ -98,17 +106,19 @@ alfresco-content-services:
   alfresco-sync-service:
     enabled: false
   alfresco-infrastructure:
-    enabled: false
+    persistence:
+      enabled: false
+    alfresco-identity-service:
+      ingress:
+        enabled: true
     activemq:
-      enabled: true
       # Workaround Helm NPE
-      adminUser:
-        username: admin
-        password: admin
+#      adminUser:
+#        username: admin
+#        password: admin
   externalHost: '{{ template "alfresco-process-infrastructure.acs-host" . }}'
   externalProtocol: '{{ template "common.gateway-proto" . }}'
   externalPort: '{{ if eq "true" (toString .Values.global.gateway.http) }}80{{ else }}443{{ end }}'
-  registryPullSecrets: quay-registry-secret
 
   # Disabled for global nginx ingress controller
   networkpolicysetting:
@@ -173,22 +183,10 @@ alfresco-content-services:
     persistence:
       existingClaim: null # use default
 
-## Persistent Volume Storage Class
-## If defined, storageClassName: <storageClass>
-## If set to "-", storageClassName: "", which disables dynamic provisioning
-## If undefined (default) or null, it uses the cloud default ('default' on AKS, 'gp2' on AWS, 'standard' on GKE & OpenStack).
-nfs-server-provisioner:
-  enabled: false
-nginx-ingress:
-  enabled: false
-
 persistence:
   enabled: true
-#  storageClassName: nfs-client
-#  storageClassName: nfs-server
   accessModes:
-#    - ReadWriteMany
-    - ReadWriteOnce
+    - ReadWriteMany
   baseSize: 100Gi
 
 postgresql-ams:
