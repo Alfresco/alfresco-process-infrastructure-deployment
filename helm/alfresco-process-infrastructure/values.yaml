@@ -282,6 +282,7 @@ alfresco-modeling-app:
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
     tag: "7.1.0.M6"
+    internalPort: 8080
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
