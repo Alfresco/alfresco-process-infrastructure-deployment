@@ -20,7 +20,6 @@ global:
     ## Configure Keycloak realm
     realm: "alfresco"
     resource: "activiti"
-    client: "activiti"
 
   gateway:
     ## Set to configure single domain name for all services, i.e. "gateway.{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}"
