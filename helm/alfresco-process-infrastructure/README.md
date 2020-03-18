@@ -2,7 +2,7 @@ alfresco-process-infrastructure
 ===============================
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
-Current chart version is `7.1.0-M6`
+Current chart version is `7.1.0-M7`
 
 Source code can be found [here](https://github.com/Alfresco/alfresco-process-infrastructure)
 
@@ -11,9 +11,9 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | Repository | Name | Version |
 |------------|------|---------|
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.28 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.1.3 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.1.3 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.1.3 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-content-services | 3.0.7 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 1.1.1 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
@@ -153,6 +153,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_OAUTH2_SILENT_LOGIN | string | `"true"` |  |
+| alfresco-modeling-app.image.internalPort | int | `8080` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"7.1.0.M6"` |  |
@@ -197,13 +198,12 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | global.gateway.host | string | `"gateway.{{ template \"common.gateway-domain\" . }}"` |  |
 | global.gateway.http | string | `"false"` |  |
 | global.gateway.tlsacme | string | `"false"` |  |
-| global.keycloak.client | string | `"activiti"` |  |
 | global.keycloak.host | string | `"identity.{{ template \"common.gateway-domain\" . }}"` |  |
 | global.keycloak.realm | string | `"alfresco"` |  |
 | global.keycloak.resource | string | `"activiti"` |  |
 | global.keycloak.url | string | `""` |  |
 | global.registryPullSecrets[0] | string | `"quay-registry-secret"` |  |
-| persistence.accessModes[0] | string | `"ReadWriteMany"` |  |
+| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.baseSize | string | `"100Gi"` |  |
 | persistence.enabled | bool | `true` |  |
 | postgresql-ads.imageTag | string | `"11.3"` |  |
