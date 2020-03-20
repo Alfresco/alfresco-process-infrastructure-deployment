@@ -95,7 +95,6 @@ alfresco-digital-workspace: &alfresco-digital-workspace
     APP_CONFIG_ECM_HOST: '{{ include "alfresco-process-infrastructure.acs-url" . }}'
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_AUTH_TYPE: "OAUTH"
-    APP_CONFIG_PROVIDER: "ALL"
     BASEPATH: "{{ .Values.ingress.path }}/"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
 
