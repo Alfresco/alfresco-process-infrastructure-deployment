@@ -1,4 +1,4 @@
-{{- if .Values.setup-acs-script-job.enabled }}
+{{ if index .Values "setup-acs-script-job" "enabled" }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -20,7 +20,7 @@ spec:
             defaultMode: 0744
       containers:
         - name: init-acs
-          image: "{{ .Values.setup-acs-script-job.image.repository }}:{{ .Values.setup-acs-script-job.image.tag }}"
+          image: "{{ index .Values "setup-acs-script-job" "image" "repository" }}:{{ index .Values "setup-acs-script-job" "image" "tag" }}"
           command: ["/bin/bash"]
           args:
             - -c
@@ -31,4 +31,4 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /tmp/init
-{{- end }}
+{{ end }}

@@ -399,7 +399,7 @@ alfresco-script-model-runtime:
     - name: CONTENT_SERVICE_PATH
       value: "{{ .Values.content.service.path }}"
 
-setup-acs-script:
+setup-acs-script-job:
   enabled: true
   image:
     repository: bitnami/minideb-extras
