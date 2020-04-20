@@ -30,7 +30,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-admin-app.image.internalPort | int | `8080` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"7.1.0.M6"` |  |
@@ -42,7 +41,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-content-services.alfresco-digital-workspace.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-content-services.alfresco-digital-workspace.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-content-services.alfresco-digital-workspace.env.BASEPATH | string | `"{{ .Values.ingress.path }}/"` |  |
-| alfresco-content-services.alfresco-digital-workspace.image.internalPort | int | `8080` |  |
 | alfresco-content-services.alfresco-digital-workspace.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-content-services.alfresco-digital-workspace.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
 | alfresco-content-services.alfresco-digital-workspace.image.tag | string | `"1.3.0"` |  |
@@ -115,7 +113,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-digital-workspace.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-digital-workspace.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-digital-workspace.env.BASEPATH | string | `"{{ .Values.ingress.path }}/"` |  |
-| alfresco-digital-workspace.image.internalPort | int | `8080` |  |
 | alfresco-digital-workspace.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-digital-workspace.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
 | alfresco-digital-workspace.image.tag | string | `"1.3.0"` |  |
@@ -153,7 +150,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_OAUTH2_SILENT_LOGIN | string | `"true"` |  |
-| alfresco-modeling-app.image.internalPort | int | `8080` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"7.1.0.M6"` |  |
