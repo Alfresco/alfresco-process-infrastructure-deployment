@@ -10,10 +10,6 @@ dependencies:
     repository: https://kubernetes-charts.alfresco.com/stable
     condition: alfresco-identity-service.enabled
     alias: alfresco-identity-service
-  - name: alfresco-content-services
-    version: 3.0.7
-    repository: https://kubernetes-charts.alfresco.com/stable
-    condition: alfresco-content-services.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-modeling-service
     version: 2.1.0

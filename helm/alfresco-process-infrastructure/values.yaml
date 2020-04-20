@@ -7,9 +7,6 @@ global:
   registryPullSecrets:
     - "quay-registry-secret"
 
-  ## duplicates the value above as a workaround for AAE-2052 caused by REPO-4659
-  alfrescoRegistryPullSecrets: "quay-registry-secret"
-
   keycloak:
     ## Configure Keycloak host template, i.e. "identity.{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
     host: 'identity.{{ template "common.gateway-domain" . }}'
@@ -100,90 +97,8 @@ alfresco-digital-workspace: &alfresco-digital-workspace
 alfresco-sync-service:
   enabled: false
 
-alfresco-content-services:
-  enabled: false
-  alfresco-sync-service:
-    enabled: false
-  alfresco-infrastructure:
-    persistence:
-      enabled: false
-    alfresco-identity-service:
-      ingress:
-        enabled: true
-    activemq:
-      # Workaround Helm NPE
-#      adminUser:
-#        username: admin
-#        password: admin
-  externalHost: '{{ template "alfresco-process-infrastructure.acs-host" . }}'
-  externalProtocol: '{{ template "common.gateway-proto" . }}'
-  externalPort: '{{ if eq "true" (toString .Values.global.gateway.http) }}80{{ else }}443{{ end }}'
-
-  # Disabled for global nginx ingress controller
-  networkpolicysetting:
-    enabled: false
-
-  repository:
-    replicaCount: 1
-    ingress:
-      hostName: '{{ template "alfresco-process-infrastructure.acs-host" . }}'
-      path: "/alfresco"
-      maxUploadSize: "500m"
-    readinessProbe:
-      initialDelaySeconds: 140
-    environment:
-      IDENTITY_SERVICE_URI: '{{ template "alfresco-process-infrastructure.keycloak-url" . }}'
-      IDENTITY_SERVICE_REALM: "alfresco"
-      IDENTITY_SERVICE_RESOURCE: "activiti"
-      JAVA_OPTS: "
-        -Dsolr.base.url=/solr
-        -Dsolr.secureComms=none
-        -Dindex.subsystem.name=solr6
-        -Dalfresco.cluster.enabled=true
-        -Ddeployment.method=HELM_CHART
-        -Xms1800M -Xmx1800M
-        -Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm
-        -Didentity-service.enable-basic-auth=true
-        -Didentity-service.authentication.validation.failure.silent=false
-        -Didentity-service.auth-server-url=\"$IDENTITY_SERVICE_URI\"
-        -Didentity-service.realm=\"$IDENTITY_SERVICE_REALM\"
-        -Didentity-service.resource=\"$IDENTITY_SERVICE_RESOURCE\"
-        -Dlocal.transform.service.enabled=false
-        -Dtransform.service.enabled=false
-      "
-
-  share:
-    replicaCount: 1
-    ingress:
-      hostName: '{{ template "alfresco-process-infrastructure.acs-host" . }}'
-
-  imagemagick:
-    replicaCount: 1 # 2 instances by default
-
-  libreoffice:
-    replicaCount: 1 # 2 instances by default
-
-  pdfrenderer:
-    replicaCount: 1 # 2 instances by default
-
-  tika:
-    replicaCount: 1 # 2 instances by default
-
-  transformrouter:
-    replicaCount: 1 # 2 instances by default
-
-  transformmisc:
-    replicaCount: 1 # 2 instances by default
-
-  alfresco-digital-workspace: *alfresco-digital-workspace
-
-  postgresql:
-    imageTag: "11.3"
-    persistence:
-      existingClaim: null # use default
-
 persistence:
-  enabled: true
+  enabled: false
   accessModes:
     - ReadWriteOnce
   baseSize: 100Gi
@@ -304,7 +219,7 @@ postgresql-ads:
 
 alfresco-deployment-service:
   alfresco-content-services:
-    enabled: false
+    enabled: true
   enabled: true
   rbac:
     create: false
@@ -378,33 +293,6 @@ alfresco-deployment-service:
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
-  extraInitContainers: |
-    {{- if index .Values "alfresco-content-services" "enabled" -}}
-    - name: wait-for-acs
-      image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
-      imagePullPolicy: IfNotPresent
-      command:
-        - sh
-        - -c
-        - |
-          until printf "." && nc -z -w 2 {{ .Release.Name }}-alfresco-cs-repository 80; do
-              sleep 2;
-          done;
-
-          echo 'ACS OK ✓'
-    - name: init-acs
-      image: "{{ .Values.extraInit.image.repository }}:{{ .Values.extraInit.image.tag }}"
-      command: ["/bin/bash"]
-      args:
-        - -c
-        - /tmp/init/setup_acs.sh
-      env:
-        - name: "GATEWAY_URL"
-          value: {{ template "alfresco-process-infrastructure.acs-url" . }}
-      volumeMounts:
-        - name: config
-          mountPath: /tmp/init
-    {{- end -}}
   extraEnv: |
     - name: DOCKER_HOST
       value: tcp://localhost:2375
@@ -510,3 +398,9 @@ alfresco-script-model-runtime:
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_PATH
       value: "{{ .Values.content.service.path }}"
+
+setup-acs-script:
+  enabled: true
+  image:
+    repository: bitnami/minideb-extras
+    tag: stretch
