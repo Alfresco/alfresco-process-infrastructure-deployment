@@ -257,8 +257,8 @@ alfresco-deployment-service:
     apiUrl: ""
     apiToken: ""
   connectorVolume:
-    storageClass: ""
-    permission: ""
+    storageClass: "default-sc"
+    permission: "ReadWriteOnce"
   extraContainers: |
     - name: dind
       image: "{{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}"
@@ -330,9 +330,9 @@ alfresco-deployment-service:
       value: "{{ .Values.environment.apiUrl }}"
     - name: ENVIRONMENT_API_TOKEN
       value: "{{ .Values.environment.apiToken }}"
-    - name: CONNECTOR_VOLUME_STORAGE_CLASS
+    - name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS
       value: "{{ .Values.connectorVolume.storageClass }}"
-    - name: CONNECTOR_VOLUME_PERMISSION
+    - name: PROJECT_RELEASE_VOLUME_PERMISSION
       value: "{{ .Values.connectorVolume.permission }}"
 
 alfresco-admin-app:
