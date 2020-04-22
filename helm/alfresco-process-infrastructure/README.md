@@ -13,8 +13,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.28 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-content-services | 3.0.7 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 1.1.1 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
@@ -22,6 +20,10 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 0.11.0 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 0.11.0 |
+
+## Optional For alfresco-deployment-service.alfresco-content-services.enabled:
+| https://kubernetes-charts.alfresco.com/stable | alfresco-content-services | 3.0.7 |
+
 
 ## Chart Values
 
@@ -36,46 +38,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-admin-app.ingress.hostName | string | `nil` |  |
 | alfresco-admin-app.ingress.path | string | `"/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"alfresco-admin-app"` |  |
-| alfresco-content-services.alfresco-digital-workspace.enabled | bool | `false` |  |
-| alfresco-content-services.alfresco-digital-workspace.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
-| alfresco-content-services.alfresco-digital-workspace.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
-| alfresco-content-services.alfresco-digital-workspace.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-content-services.alfresco-digital-workspace.env.BASEPATH | string | `"{{ .Values.ingress.path }}/"` |  |
-| alfresco-content-services.alfresco-digital-workspace.image.pullPolicy | string | `"IfNotPresent"` |  |
-| alfresco-content-services.alfresco-digital-workspace.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
-| alfresco-content-services.alfresco-digital-workspace.image.tag | string | `"1.3.0"` |  |
-| alfresco-content-services.alfresco-digital-workspace.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"500m"` |  |
-| alfresco-content-services.alfresco-digital-workspace.ingress.hostName | string | `"{{ include \"alfresco-process-infrastructure.acs-host\" . }}"` |  |
-| alfresco-content-services.alfresco-digital-workspace.ingress.path | string | `"/workspace"` |  |
-| alfresco-content-services.alfresco-digital-workspace.nameOverride | string | `"alfresco-digital-workspace"` |  |
-| alfresco-content-services.alfresco-infrastructure.activemq | string | `nil` |  |
-| alfresco-content-services.alfresco-infrastructure.alfresco-identity-service.ingress.enabled | bool | `true` |  |
-| alfresco-content-services.alfresco-infrastructure.persistence.enabled | bool | `false` |  |
-| alfresco-content-services.alfresco-sync-service.enabled | bool | `false` |  |
-| alfresco-content-services.enabled | bool | `false` |  |
-| alfresco-content-services.externalHost | string | `"{{ template \"alfresco-process-infrastructure.acs-host\" . }}"` |  |
-| alfresco-content-services.externalPort | string | `"{{ if eq \"true\" (toString .Values.global.gateway.http) }}80{{ else }}443{{ end }}"` |  |
-| alfresco-content-services.externalProtocol | string | `"{{ template \"common.gateway-proto\" . }}"` |  |
-| alfresco-content-services.imagemagick.replicaCount | int | `1` |  |
-| alfresco-content-services.libreoffice.replicaCount | int | `1` |  |
-| alfresco-content-services.networkpolicysetting.enabled | bool | `false` |  |
-| alfresco-content-services.pdfrenderer.replicaCount | int | `1` |  |
-| alfresco-content-services.postgresql.imageTag | string | `"11.3"` |  |
-| alfresco-content-services.postgresql.persistence.existingClaim | string | `nil` |  |
-| alfresco-content-services.repository.environment.IDENTITY_SERVICE_REALM | string | `"alfresco"` |  |
-| alfresco-content-services.repository.environment.IDENTITY_SERVICE_RESOURCE | string | `"activiti"` |  |
-| alfresco-content-services.repository.environment.IDENTITY_SERVICE_URI | string | `"{{ template \"alfresco-process-infrastructure.keycloak-url\" . }}"` |  |
-| alfresco-content-services.repository.environment.JAVA_OPTS | string | `" -Dsolr.base.url=/solr -Dsolr.secureComms=none -Dindex.subsystem.name=solr6 -Dalfresco.cluster.enabled=true -Ddeployment.method=HELM_CHART -Xms1800M -Xmx1800M -Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm -Didentity-service.enable-basic-auth=true -Didentity-service.authentication.validation.failure.silent=false -Didentity-service.auth-server-url=\"$IDENTITY_SERVICE_URI\" -Didentity-service.realm=\"$IDENTITY_SERVICE_REALM\" -Didentity-service.resource=\"$IDENTITY_SERVICE_RESOURCE\" -Dlocal.transform.service.enabled=false -Dtransform.service.enabled=false "` |  |
-| alfresco-content-services.repository.ingress.hostName | string | `"{{ template \"alfresco-process-infrastructure.acs-host\" . }}"` |  |
-| alfresco-content-services.repository.ingress.maxUploadSize | string | `"500m"` |  |
-| alfresco-content-services.repository.ingress.path | string | `"/alfresco"` |  |
-| alfresco-content-services.repository.readinessProbe.initialDelaySeconds | int | `140` |  |
-| alfresco-content-services.repository.replicaCount | int | `1` |  |
-| alfresco-content-services.share.ingress.hostName | string | `"{{ template \"alfresco-process-infrastructure.acs-host\" . }}"` |  |
-| alfresco-content-services.share.replicaCount | int | `1` |  |
-| alfresco-content-services.tika.replicaCount | int | `1` |  |
-| alfresco-content-services.transformmisc.replicaCount | int | `1` |  |
-| alfresco-content-services.transformrouter.replicaCount | int | `1` |  |
 | alfresco-deployment-service.alfresco-content-services.enabled | bool | `false` |  |
 | alfresco-deployment-service.connectorVolume.permission | string | `""` |  |
 | alfresco-deployment-service.connectorVolume.storageClass | string | `""` |  |
@@ -108,18 +70,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-deployment-service.rbac.create | bool | `false` |  |
 | alfresco-deployment-service.serviceAccount.create | bool | `false` |  |
-| alfresco-digital-workspace.enabled | bool | `false` |  |
-| alfresco-digital-workspace.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
-| alfresco-digital-workspace.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
-| alfresco-digital-workspace.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-digital-workspace.env.BASEPATH | string | `"{{ .Values.ingress.path }}/"` |  |
-| alfresco-digital-workspace.image.pullPolicy | string | `"IfNotPresent"` |  |
-| alfresco-digital-workspace.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
-| alfresco-digital-workspace.image.tag | string | `"1.3.0"` |  |
-| alfresco-digital-workspace.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"500m"` |  |
-| alfresco-digital-workspace.ingress.hostName | string | `"{{ include \"alfresco-process-infrastructure.acs-host\" . }}"` |  |
-| alfresco-digital-workspace.ingress.path | string | `"/workspace"` |  |
-| alfresco-digital-workspace.nameOverride | string | `"alfresco-digital-workspace"` |  |
 | alfresco-dmn-simulation-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ .Values.ingress.path }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n"` |  |
 | alfresco-dmn-simulation-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | alfresco-dmn-simulation-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |

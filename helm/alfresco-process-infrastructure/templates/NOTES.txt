@@ -14,11 +14,7 @@ Get the application URLs:
 Alfresco Identity Service  : {{ template "common.keycloak-url" . }}
 Alfresco Modeling          : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-modeling-app" "ingress" "path" }}
 Alfresco Admin             : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-admin-app" "ingress" "path" }}
-{{- if index .Values "alfresco-content-services" "enabled" }}
-Alfresco Content           : {{ template "alfresco-process-infrastructure.acs-url" . }}{{ index .Values "alfresco-content-services" "repository" "ingress" "path" }}
-Alfresco Share             : {{ template "alfresco-process-infrastructure.acs-url" . }}{{ index .Values "alfresco-content-services" "share" "ingress" "path" }}
-Alfresco Digital Workspace : {{ template "alfresco-process-infrastructure.acs-url" . }}{{ index .Values "alfresco-content-services" "alfresco-digital-workspace" "ingress" "path" }}
-{{- end}}
+
 
 To see deployment status, try:
 

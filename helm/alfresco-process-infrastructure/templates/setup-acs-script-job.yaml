@@ -1,0 +1,34 @@
+{{ if index .Values "setup-acs-script-job" "enabled" }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: setup-acs-script-job
+spec:
+  template:
+    spec:
+      restartPolicy: "OnFailure"
+      {{- if index .Values.global "registryPullSecrets" }}
+      imagePullSecrets:
+        {{- range $key := .Values.global.registryPullSecrets }}
+        - name: {{ $key }}
+        {{- end }}
+      {{- end}}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-deployment-config
+            defaultMode: 0744
+      containers:
+        - name: init-acs
+          image: "{{ index .Values "setup-acs-script-job" "image" "repository" }}:{{ index .Values "setup-acs-script-job" "image" "tag" }}"
+          command: ["/bin/bash"]
+          args:
+            - -c
+            - /tmp/init/setup_acs.sh
+          env:
+            - name: "GATEWAY_URL"
+              value: {{ template "alfresco-process-infrastructure.acs-url" . }}
+          volumeMounts:
+            - name: config
+              mountPath: /tmp/init
+{{ end }}
