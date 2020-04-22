@@ -135,7 +135,7 @@ alfresco-modeling-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: "7.1.0.M6"
+    tag: "develop"
     pullPolicy: Always
   postgres:
     enabled: true
@@ -174,7 +174,7 @@ alfresco-dmn-simulation-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-dmn-simulation-service
-    tag: "7.1.0.M6"
+    tag: "develop"
     pullPolicy: IfNotPresent
   probePath: "{{ .Values.ingress.path }}/actuator/health"
   extraEnv: |
@@ -195,7 +195,7 @@ alfresco-modeling-app:
     path: /modeling
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: "7.1.0.M6"
+    tag: "development"
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
@@ -229,7 +229,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: "7.1.0.M6"
+    tag: "develop"
     pullPolicy: Always
   extraInit:
     image:
@@ -258,7 +258,7 @@ alfresco-deployment-service:
     apiToken: ""
   connectorVolume:
     storageClass: "default-sc"
-    permission: "ReadWriteOnce"
+    permission: "ReadWriteMany"
   extraContainers: |
     - name: dind
       image: "{{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}"
@@ -342,7 +342,7 @@ alfresco-admin-app:
     path: /admin
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: "7.1.0.M6"
+    tag: "development"
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -368,7 +368,7 @@ alfresco-script-model-runtime:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-script-model-runtime
-    tag: "7.1.0.M6"
+    tag: "develop"
     pullPolicy: IfNotPresent
   probePath: "{{ .Values.ingress.path }}/actuator/health"
   content:
