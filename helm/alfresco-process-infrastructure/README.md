@@ -13,7 +13,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.28 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.1.4 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 1.1.1 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.1.0 |
@@ -71,18 +70,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-deployment-service.rbac.create | bool | `false` |  |
 | alfresco-deployment-service.serviceAccount.create | bool | `false` |  |
-| alfresco-digital-workspace.enabled | bool | `false` |  |
-| alfresco-digital-workspace.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
-| alfresco-digital-workspace.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
-| alfresco-digital-workspace.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-digital-workspace.env.BASEPATH | string | `"{{ .Values.ingress.path }}/"` |  |
-| alfresco-digital-workspace.image.pullPolicy | string | `"IfNotPresent"` |  |
-| alfresco-digital-workspace.image.repository | string | `"quay.io/alfresco/alfresco-digital-workspace"` |  |
-| alfresco-digital-workspace.image.tag | string | `"1.3.0"` |  |
-| alfresco-digital-workspace.ingress.annotations."nginx.ingress.kubernetes.io/proxy-body-size" | string | `"500m"` |  |
-| alfresco-digital-workspace.ingress.hostName | string | `"{{ include \"alfresco-process-infrastructure.acs-host\" . }}"` |  |
-| alfresco-digital-workspace.ingress.path | string | `"/workspace"` |  |
-| alfresco-digital-workspace.nameOverride | string | `"alfresco-digital-workspace"` |  |
 | alfresco-dmn-simulation-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ .Values.ingress.path }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n"` |  |
 | alfresco-dmn-simulation-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | alfresco-dmn-simulation-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |

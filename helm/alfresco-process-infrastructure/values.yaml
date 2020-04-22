@@ -75,28 +75,6 @@ alfresco-identity-service:
         webOrigins:
           - "*"
 
-alfresco-digital-workspace: &alfresco-digital-workspace
-  enabled: false # disables the one from ACS, this one is enabled with alfresco-content-services.alfresco-digital-workspace.enabled
-  nameOverride: "alfresco-digital-workspace"
-  ingress:
-    hostName: '{{ include "alfresco-process-infrastructure.acs-host" . }}' # Requires host rule in ingress
-    path: /workspace
-    annotations:
-      nginx.ingress.kubernetes.io/proxy-body-size: "500m"
-  image:
-    repository: quay.io/alfresco/alfresco-digital-workspace
-    tag: 1.3.0
-    pullPolicy: IfNotPresent
-  env:
-    APP_CONFIG_ECM_HOST: '{{ include "alfresco-process-infrastructure.acs-url" . }}'
-    APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
-    APP_CONFIG_AUTH_TYPE: "OAUTH"
-    BASEPATH: "{{ .Values.ingress.path }}/"
-    APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
-
-alfresco-sync-service:
-  enabled: false
-
 persistence:
   enabled: false
   accessModes:
