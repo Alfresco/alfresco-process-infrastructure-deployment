@@ -102,7 +102,11 @@ alfresco-modeling-service:
     create: false
   ingress:
     enabled: true
-    path: "/modeling-service"
+    path:
+    subPaths:
+      - /modeling-service/?(.*)
+      - /dmn-service/?(.*)
+      - /script-service/?(.*)
   extraVolumes: |
     - name: license
       secret:
@@ -121,6 +125,12 @@ alfresco-modeling-service:
     username: alfresco
     password: alfresco
   probePath: "{{ .Values.ingress.path }}/actuator/health"
+  content:
+    service:
+      path: alfresco
+    client:
+      id: ""
+      secret: ""
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
@@ -132,40 +142,16 @@ alfresco-modeling-service:
       value: ".*"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
-
-alfresco-dmn-simulation-service:
-  nameOverride: alfresco-dmn-simulation-service
-  rbac:
-    create: false
-  serviceAccount:
-    create: false
-  ingress:
-    enabled: true
-    path: "/dmn-service"
-  extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
-  image:
-    repository: quay.io/alfresco/alfresco-dmn-simulation-service
-    tag: "develop"
-    pullPolicy: IfNotPresent
-  probePath: "{{ .Values.ingress.path }}/actuator/health"
-  extraEnv: |
-    - name: SERVER_PORT
-      value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ .Values.ingress.path }}"
-    - name: SERVER_USEFORWARDHEADERS
-      value: "true"
-    - name: SERVER_TOMCAT_INTERNALPROXIES
-      value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
+    - name: ACT_KEYCLOAK_URL
+      value: '{{ include "common.keycloak-url" . }}'
+    - name: CONTENT_CLIENT_ID
+      value: "{{ .Values.content.client.id }}"
+    - name: CONTENT_CLIENT_SECRET
+      value: "{{ .Values.content.client.secret }}"
+    - name: CONTENT_SERVICE_URL
+      value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
+    - name: CONTENT_SERVICE_PATH
+      value: "{{ .Values.content.service.path }}"
 
 alfresco-modeling-app:
   nameOverride: "alfresco-modeling-app"
@@ -326,56 +312,6 @@ alfresco-admin-app:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
-
-alfresco-script-model-runtime:
-  nameOverride: alfresco-script-model-runtime
-  rbac:
-    create: false
-  serviceAccount:
-    create: false
-  ingress:
-    enabled: true
-    path: "/script-service"
-  extraVolumes: |
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
-  image:
-    repository: quay.io/alfresco/alfresco-script-model-runtime
-    tag: "develop"
-    pullPolicy: IfNotPresent
-  probePath: "{{ .Values.ingress.path }}/actuator/health"
-  content:
-    service:
-      path: alfresco
-    client:
-      id: ""
-      secret: ""
-  extraEnv: |
-    - name: SERVER_PORT
-      value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ .Values.ingress.path }}"
-    - name: SERVER_USEFORWARDHEADERS
-      value: "true"
-    - name: SERVER_TOMCAT_INTERNALPROXIES
-      value: ".*"
-    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: "*"
-    - name: ACT_KEYCLOAK_URL
-      value: '{{ include "common.keycloak-url" . }}'
-    - name: CONTENT_CLIENT_ID
-      value: "{{ .Values.content.client.id }}"
-    - name: CONTENT_CLIENT_SECRET
-      value: "{{ .Values.content.client.secret }}"
-    - name: CONTENT_SERVICE_URL
-      value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
-    - name: CONTENT_SERVICE_PATH
-      value: "{{ .Values.content.service.path }}"
 
 setup-acs-script-job:
   enabled: true

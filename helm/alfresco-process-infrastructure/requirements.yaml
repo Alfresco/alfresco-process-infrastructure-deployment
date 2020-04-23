@@ -12,12 +12,8 @@ dependencies:
     alias: alfresco-identity-service
   - name: alfresco-process-springboot-service
     alias: alfresco-modeling-service
-    version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/stable
-  - name: alfresco-process-springboot-service
-    alias: alfresco-dmn-simulation-service
-    version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/stable
+    version: 2.2.0
+    repository: https://kubernetes-charts.alfresco.com/incubator
   - name: postgresql
     alias: postgresql-ams
     version: 0.11.0
@@ -34,15 +30,11 @@ dependencies:
     condition: alfresco-deployment-service.enabled,alfresco-deployment-service.postgres.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-deployment-service
-    version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/stable
+    version: 2.2.0
+    repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-deployment-service.enabled
   - name: alfresco-adf-app
     alias: alfresco-admin-app
     version: 2.1.4
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-deployment-service.enabled,alfresco-admin-app.enabled
-  - name: alfresco-process-springboot-service
-    alias: alfresco-script-model-runtime
-    version: 2.1.0
-    repository: https://kubernetes-charts.alfresco.com/stable
