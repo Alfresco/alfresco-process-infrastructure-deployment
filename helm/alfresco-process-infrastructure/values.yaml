@@ -134,8 +134,6 @@ alfresco-modeling-service:
   extraEnv: |
     - name: SERVER_PORT
       value: "8080"
-    - name: SERVER_SERVLET_CONTEXTPATH
-      value: "{{ .Values.ingress.path }}"
     - name: SERVER_USEFORWARDHEADERS
       value: "true"
     - name: SERVER_TOMCAT_INTERNALPROXIES
