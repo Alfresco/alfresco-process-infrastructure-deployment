@@ -124,7 +124,7 @@ alfresco-modeling-service:
     name: postgresql-ams
     username: alfresco
     password: alfresco
-  probePath: "{{ .Values.ingress.path }}/actuator/health"
+  probePath: /actuator/health
   content:
     service:
       path: alfresco
