@@ -102,7 +102,7 @@ alfresco-modeling-service:
     create: false
   ingress:
     enabled: true
-    path:
+    path: ""
     subPaths:
       - /modeling-service/?(.*)
       - /dmn-service/?(.*)
