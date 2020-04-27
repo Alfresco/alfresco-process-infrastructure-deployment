@@ -101,8 +101,10 @@ alfresco-modeling-service:
   serviceAccount:
     create: false
   ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
     enabled: true
-    path:
+    path: ""
     subPaths:
       - /modeling-service/?(.*)
       - /dmn-service/?(.*)
