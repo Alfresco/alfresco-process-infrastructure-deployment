@@ -156,7 +156,7 @@ alfresco-modeling-service:
 alfresco-modeling-app:
   nameOverride: "alfresco-modeling-app"
   ingress:
-    path: "/modeling/?(.*)"
+    path: /modeling
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
     tag: "development"
@@ -303,7 +303,7 @@ alfresco-admin-app:
   nameOverride: "alfresco-admin-app"
   ingress:
     hostName:
-    path: "/admin/?(.*)"
+    path: /admin
   image:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: "development"
