@@ -159,7 +159,7 @@ alfresco-modeling-app:
     path: "/modeling/?(.*)"
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: "development"
+    tag: "develop"
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
@@ -306,7 +306,7 @@ alfresco-admin-app:
     path: "/admin/?(.*)"
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: "development"
+    tag: "develop"
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
