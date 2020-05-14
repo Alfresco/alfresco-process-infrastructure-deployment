@@ -3,7 +3,7 @@ dependencies:
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     version: 1.1.36
   - name: alfresco-identity-service
-    version: 1.1.1
+    version: 2.0.0
     repository: https://kubernetes-charts.alfresco.com/stable
     condition: alfresco-identity-service.enabled
     alias: alfresco-identity-service
