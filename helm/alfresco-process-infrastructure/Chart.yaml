@@ -1,7 +1,7 @@
 apiVersion: v1
 name: alfresco-process-infrastructure
-version: 7.1.0-M7
-appVersion: 7.1.0-M7
+version: 7.1.0-M8
+appVersion: 7.1.0-M8
 description: A Helm chart for Alfresco Activiti Enterprise infrastructure
 keywords:
   - process
