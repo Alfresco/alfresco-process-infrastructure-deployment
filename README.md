@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/Alfresco/alfresco-process-infrastructure-deployment.svg?branch=develop)](https://travis-ci.com/Alfresco/alfresco-process-infrastructure-deployment)
 
-Helm chart to install the Alfresco Activiti Enterprise infrastructure and the AAE platform level services to model and deploy AAE applications:
+Helm chart to install the Alfresco Activiti Enterprise (AAE) infrastructure to model and deploy your process applications:
 
 - PVC for storage
 - Alfresco Identity Service
@@ -47,19 +47,12 @@ helm repo update
 
 ### ingress
 
-An ingress bound to an external DNS address.
-
-```bash
-helm install stable/nginx-ingress
-```
-
-See `install-ingress.sh` for a more complex example on AWS with DNS and HTTPS cert setup.
+An nginx-ingress bound to an external DNS address.
 
 ### docker registry
 
 If the Deployment Service is installed, it requires in turn a Docker registry.
 An external docker registry should be provided for the _AAE Deployment Service_.
-See the `install-registry.sh` for an example on how to setup one on the same cluster on AWS.
 
 ### helm tips
 
