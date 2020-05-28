@@ -84,19 +84,19 @@ persistence:
 postgresql-ams:
   image:
     repository: postgres
-    tag: "11.4"
+    tag: 11.4
   postgresqlUsername: alfresco
   postgresqlPassword: alfresco
   postgresqlDatabase: postgres
   postgresqlDataDir: /var/lib/postgresql/data/pgdata
   postgresqlConfiguration:
-    max_connections: "1500"
+    max_connections: 300
     log_min_messages: LOG
   resources:
     requests:
-      memory: "1500Mi"
+      memory: 1500Mi
     limits:
-      memory: "1500Mi"
+      memory: 1500Mi
 
 alfresco-modeling-service:
   nameOverride: alfresco-modeling-service
@@ -175,19 +175,19 @@ alfresco-modeling-app:
 postgresql-ads:
   image:
     repository: postgres
-    tag: "11.4"
+    tag: 11.4
   postgresqlUsername: alfresco
   postgresqlPassword: alfresco
   postgresqlDatabase: postgres
   postgresqlDataDir: /var/lib/postgresql/data/pgdata
   postgresqlConfiguration:
-    max_connections: "1500"
+    max_connections: 300
     log_min_messages: LOG
   resources:
     requests:
-      memory: "1500Mi"
+      memory: 1500Mi
     limits:
-      memory: "1500Mi"
+      memory: 1500Mi
 
 alfresco-deployment-service:
   alfresco-content-services:
