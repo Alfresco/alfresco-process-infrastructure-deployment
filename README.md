@@ -23,21 +23,25 @@ Once installed, you can deploy new AAE applications:
 
 ### setup cluster
 
-Setup a Kubernetes cluster following your preferred procedure at least version v.1.12.
+Setup a Kubernetes cluster following your preferred procedure.
 
 ### install helm
 
-Install helm 2.x.
+Install helm.
 
-*NB* if you plan on enabling the optional ACS, use helm 2.14.3
 
-Install helm server (tiller) on the cluster:
-
+If using helm 2, install helm server (tiller) on the cluster:
 ```bash
 helm init --upgrade
 ```
 
-then configure the required helm chart repositories:
+If using the optional ACS skip API validation:
+
+```bash
+HELM_OPTS+=" --disable-openapi-validation"
+```
+
+Configure the required helm chart repositories:
 ```
 helm repo add activiti https://activiti.github.io/activiti-cloud-helm-charts
 helm repo add alfresco https://kubernetes-charts.alfresco.com/stable
@@ -92,7 +96,7 @@ kubectl create secret \
 
 ```bash
 export DESIRED_NAMESPACE=${DESIRED_NAMESPACE:-default}
-export HELM_OPTS="--debug \
+export HELM_OPTS+=" --debug \
   --namespace $DESIRED_NAMESPACE \
   --set global.gateway.http=${HTTP} \
   --set global.gateway.domain=${DOMAIN}"
@@ -104,29 +108,6 @@ where:
 * DOMAIN is your DNS domain
 * DESIRED_NAMESPACE is the installation namespace, at the moment only "default" namespace is supported
 
-## Prerequisites
-
-### add quay-registry-secret
-
-Configure access to pull images from quay.io in the installation namespace:
-
-```bash
-kubectl create secret -n $DESIRED_NAMESPACE \
-  docker-registry quay-registry-secret \
-    --docker-server=quay.io \
-    --docker-username="${DOCKER_REGISTRY_USERNAME}" \
-    --docker-password="${DOCKER_REGISTRY_PASSWORD}" \
-    --docker-email=none
-```
-
-### add license secret
-
-Create a secret called _licenseaps_ containing the license file in the installation namespace:
-
-```bash
-kubectl create secret -n $DESIRED_NAMESPACE \
-  generic licenseaps --from-file activiti.lic
-```
 
 ### set environment specific variables
 
@@ -172,7 +153,6 @@ To include ACS in the infrastructure:
 ```bash
 HELM_OPTS+=" \
   --set alfresco-content-services.enabled=true \
-  --set alfresco-content-services.alfresco-digital-workspace.enabled=true \
   --set alfresco-deployment-service.alfresco-content-services.enabled=true"
 ```
 

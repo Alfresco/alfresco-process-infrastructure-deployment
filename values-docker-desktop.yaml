@@ -9,35 +9,62 @@ persistence:
   enabled: true
   accessModes:
     - ReadWriteOnce
-  baseSize: 20Gi
+  baseSize: 2Gi
 
 alfresco-content-services:
   repository:
+    replicaCount: 1
     livenessProbe:
       initialDelaySeconds: 420
     readinessProbe:
       initialDelaySeconds: 500
     resources:
       requests:
-        memory: "1800Mi"
+        memory: 256Mi
+        limit: 512Mi
   share:
-    replicaCount: 0
+    replicaCount: 1
     livenessProbe:
       initialDelaySeconds: 420
     readinessProbe:
       initialDelaySeconds: 500
     resources:
       requests:
-        memory: "1800Mi"
+        memory: 256Mi
+        limit: 512Mi
   pdfrenderer:
-    replicaCount: 0
+    replicaCount: 1
+    resources:
+      requests:
+        memory: 256Mi
+        limit: 512Mi
   libreoffice:
-    replicaCount: 0
+    replicaCount: 1
+    resources:
+      requests:
+        memory: 256Mi
+        limit: 512Mi
   imagemagick:
-    replicaCount: 0
+    replicaCount: 1
+    resources:
+      requests:
+        memory: 256Mi
+        limit: 512Mi
   transformrouter:
-    replicaCount: 0
+    replicaCount: 1
+    resources:
+      requests:
+        memory: 256Mi
+        limit: 512Mi
   tika:
-    replicaCount: 0
+    replicaCount: 1
+    resources:
+      requests:
+        memory: 256Mi
+        limit: 512Mi
   filestore:
-    replicaCount: 0
+    replicaCount: 1
+    resources:
+      requests:
+        memory: 256Mi
+        limit: 512Mi

@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
-CHART_NAME="helm/alfresco-process-infrastructure"
+HELM_EXE="${HELM_EXE:-helm}"
+CHART_REPO="${CHART_REPO:-helm}"
+DIR_NAME=$(basename "${PWD}")
+CHART_NAME=${CHART_NAME:-${DIR_NAME%%-deployment}}
 
-helm repo add alfresco https://kubernetes-charts.alfresco.com/stable
-helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
-helm repo add activiti https://activiti.github.io/activiti-cloud-helm-charts
-helm dependency update ${CHART_NAME}
+"$HELM_EXE" repo add activiti https://activiti.github.io/activiti-cloud-helm-charts
+"$HELM_EXE" repo add alfresco https://kubernetes-charts.alfresco.com/stable
+"$HELM_EXE" repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
+"$HELM_EXE" dep up "$CHART_REPO/$CHART_NAME"
 
-if [[ -z "${RELEASE_NAME}" ]]
-then
-  helm install ${HELM_OPTS} ${CHART_NAME}
-else
-  echo helm upgrade --install --reuse-values ${HELM_OPTS} ${RELEASE_NAME} ${CHART_NAME}
-fi
+"$HELM_EXE" upgrade --install --reuse-values ${HELM_OPTS[*]} "${RELEASE_NAME:-$CHART_NAME}" "$CHART_REPO/$CHART_NAME"
