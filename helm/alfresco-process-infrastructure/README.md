@@ -10,14 +10,14 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.36 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.0.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.2.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.2.0 |
-| https://kubernetes-charts.storage.googleapis.com | postgresql | 0.11.0 |
-| https://kubernetes-charts.storage.googleapis.com | postgresql | 0.11.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.40 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-identity-service | 2.0.2 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 2.2.1 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 2.2.1 |
+| https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
+| https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
 
 ## Chart Values
 
@@ -123,18 +123,24 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.baseSize | string | `"100Gi"` |  |
 | persistence.enabled | bool | `false` |  |
-| postgresql-ads.imageTag | string | `"11.3"` |  |
-| postgresql-ads.postgresConfig.log_min_messages | string | `"LOG"` |  |
-| postgresql-ads.postgresConfig.max_connections | int | `300` |  |
-| postgresql-ads.postgresPassword | string | `"alfresco"` |  |
-| postgresql-ads.postgresUser | string | `"alfresco"` |  |
+| postgresql-ads.image.repository | string | `"postgres"` |  |
+| postgresql-ads.image.tag | float | `11.4` |  |
+| postgresql-ads.postgresqlConfiguration.log_min_messages | string | `"LOG"` |  |
+| postgresql-ads.postgresqlConfiguration.max_connections | int | `300` |  |
+| postgresql-ads.postgresqlDataDir | string | `"/var/lib/postgresql/data/pgdata"` |  |
+| postgresql-ads.postgresqlDatabase | string | `"postgres"` |  |
+| postgresql-ads.postgresqlPassword | string | `"alfresco"` |  |
+| postgresql-ads.postgresqlUsername | string | `"alfresco"` |  |
 | postgresql-ads.resources.limits.memory | string | `"1500Mi"` |  |
 | postgresql-ads.resources.requests.memory | string | `"1500Mi"` |  |
-| postgresql-ams.imageTag | string | `"11.3"` |  |
-| postgresql-ams.postgresConfig.log_min_messages | string | `"LOG"` |  |
-| postgresql-ams.postgresConfig.max_connections | int | `300` |  |
-| postgresql-ams.postgresPassword | string | `"alfresco"` |  |
-| postgresql-ams.postgresUser | string | `"alfresco"` |  |
+| postgresql-ams.image.repository | string | `"postgres"` |  |
+| postgresql-ams.image.tag | float | `11.4` |  |
+| postgresql-ams.postgresqlConfiguration.log_min_messages | string | `"LOG"` |  |
+| postgresql-ams.postgresqlConfiguration.max_connections | int | `300` |  |
+| postgresql-ams.postgresqlDataDir | string | `"/var/lib/postgresql/data/pgdata"` |  |
+| postgresql-ams.postgresqlDatabase | string | `"postgres"` |  |
+| postgresql-ams.postgresqlPassword | string | `"alfresco"` |  |
+| postgresql-ams.postgresqlUsername | string | `"alfresco"` |  |
 | postgresql-ams.resources.limits.memory | string | `"1500Mi"` |  |
 | postgresql-ams.resources.requests.memory | string | `"1500Mi"` |  |
 | setup-acs-script-job.enabled | bool | `true` |  |
