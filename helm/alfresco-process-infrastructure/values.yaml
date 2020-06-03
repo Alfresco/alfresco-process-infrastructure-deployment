@@ -216,7 +216,7 @@ alfresco-deployment-service:
     name: postgresql-ads
     username: alfresco
     password: alfresco
-  application:
+  applications:
     database:
       external: false
   ingress:
