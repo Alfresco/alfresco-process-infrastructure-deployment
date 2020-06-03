@@ -310,7 +310,7 @@ alfresco-deployment-service:
     - name: PROJECT_RELEASE_VOLUME_PERMISSION
       value: "{{ .Values.connectorVolume.permission }}"
     - name: APPLICATIONS_DATABASE_EXTERNAL
-      value: "{{ .Values.application.database.external }}"
+      value: "{{ .Values.applications.database.external }}"
 
 alfresco-admin-app:
   nameOverride: "alfresco-admin-app"
