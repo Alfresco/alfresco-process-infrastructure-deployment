@@ -216,6 +216,9 @@ alfresco-deployment-service:
     name: postgresql-ads
     username: alfresco
     password: alfresco
+  application:
+    database:
+      external: false
   ingress:
     path: /deployment-service
     enabled: true
@@ -306,6 +309,8 @@ alfresco-deployment-service:
       value: "{{ .Values.connectorVolume.storageClass }}"
     - name: PROJECT_RELEASE_VOLUME_PERMISSION
       value: "{{ .Values.connectorVolume.permission }}"
+    - name: APPLICATIONS_DATABASE_EXTERNAL
+      value: "{{ .Values.application.database.external }}"
 
 alfresco-admin-app:
   nameOverride: "alfresco-admin-app"
