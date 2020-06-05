@@ -24,7 +24,7 @@ dependencies:
     alias: postgresql-ads
     version: 6.3.9
     repository: https://kubernetes-charts.storage.googleapis.com
-    condition: alfresco-deployment-service.enabled,alfresco-deployment-service.postgres.enabled
+    condition: alfresco-deployment-service.postgres.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-deployment-service
     version: 2.2.1
