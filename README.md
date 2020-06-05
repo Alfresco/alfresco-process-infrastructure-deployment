@@ -161,6 +161,17 @@ or just:
 HELM_OPTS+=" -f values-alfresco-content-services.yaml"
 ```
 
+## disable alfresco-deployment-service
+
+To disable alfresco-deployment-service in the infrastructure:
+
+```bash
+HELM_OPTS+=" \
+  --set alfresco-deployment-service.enabled=false"
+  --set alfresco-deployment-service.postgres.enabled=false"
+```
+
+
 ## File Storage
 
 ### NFS Storage
@@ -258,10 +269,7 @@ HELM_OPTS+="--debug --dry-run" ./install.sh
 
 Verify the k8s yaml output than launch again without `--dry-run`.
 
-### Docker for Desktop 
-
-
-#### run in Docker Desktop
+### run in Docker Desktop
 
 A custom extra values file to add settings for _Docker Desktop_ is provided:
 ```bash
