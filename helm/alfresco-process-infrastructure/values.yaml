@@ -321,10 +321,15 @@ alfresco-admin-app:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: develop
     pullPolicy: IfNotPresent
+  applications:
+    allow_custom_resources: true
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
+  extraEnv: |
+    - name: APP_ALLOW_CUSTOM_RESOURCES
+      value: "{{ .Values.applications.allow_custom_resources }}"
 
 setup-acs-script-job:
   enabled: true
