@@ -233,7 +233,7 @@ alfresco-deployment-service:
     apiToken: ""
     # alfresco-deployment-service.environment.namespace -- namespace to copy secrets from to application namespaces
     # @default -- installation namespace
-    namespace: ""
+    namespace: "{{ .Release.Namespace }}"
   connectorVolume:
     storageClass: "default-sc"
     permission: "ReadWriteMany"
@@ -309,7 +309,7 @@ alfresco-deployment-service:
     - name: ENVIRONMENT_API_TOKEN
       value: "{{ .Values.environment.apiToken }}"
     - name: ENVIRONMENT_NAMESPACE
-      value: "{{ .Values.environment.namespace | default .Release.Namespace }}"
+      value: "{{ tpl .Values.environment.namespace . }}"
     - name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS
       value: "{{ .Values.connectorVolume.storageClass }}"
     - name: PROJECT_RELEASE_VOLUME_PERMISSION
