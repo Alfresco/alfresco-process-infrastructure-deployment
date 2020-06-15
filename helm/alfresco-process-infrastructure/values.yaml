@@ -219,6 +219,12 @@ alfresco-deployment-service:
   applications:
     database:
       external: false
+    connectors:
+      emailConnector:
+        username: null
+        password: null
+        host: null
+        port: null
   ingress:
     path: /deployment-service
     enabled: true
@@ -316,6 +322,23 @@ alfresco-deployment-service:
       value: "{{ .Values.connectorVolume.permission }}"
     - name: APPLICATIONS_DATABASE_EXTERNAL
       value: "{{ .Values.applications.database.external }}"
+    {{- if .Values.applications.connectors.emailConnector.username }}
+    - name: CONNECTOR_EMAILCONNECTOR_USERNAME
+      value: "{{ .Values.applications.connectors.emailConnector.username }}"
+    {{- end }}
+    {{- if .Values.applications.connectors.emailConnector.password }}
+    - name: CONNECTOR_EMAILCONNECTOR_PASSWORD
+      value: "{{ .Values.applications.connectors.emailConnector.password }}"
+    {{- end }}
+    {{- if .Values.applications.connectors.emailConnector.host }}
+    - name: CONNECTOR_EMAILCONNECTOR_HOST
+      value: "{{ .Values.applications.connectors.emailConnector.host }}"
+    {{- end }}
+    {{- if .Values.applications.connectors.emailConnector.port }}
+    - name: CONNECTOR_EMAILCONNECTOR_PORT
+      value: "{{ .Values.applications.connectors.emailConnector.port }}"
+    {{- end }}
+
 
 alfresco-admin-app:
   nameOverride: "alfresco-admin-app"
