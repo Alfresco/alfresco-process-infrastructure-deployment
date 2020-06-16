@@ -216,6 +216,22 @@ HELM_OPTS+="
 "
 ```
 
+### Email Connector
+
+***NB***
+In order to set email connector all the variables need to be set. If these variables are set then deployment service will use these configs as default for any applications deployed. Once these variables are configured at the deployment of chart via Helm customer won’t have the possibility to override these values from the admin app. In case you want to configure email connector variable from admin-app please dont not configure email connector during helm deployment. 
+
+Add the helm properties to configure email connector:
+
+```bash
+HELM_OPTS+="
+  --set alfresco-deployment-service.applications.connectors.emailConnector.username=${email_connecor_username}
+  --set alfresco-deployment-service.applications.connectors.emailConnector.password=${email_connector_password}
+  --set alfresco-deployment-service.applications.connectors.emailConnector.host=${email_connector_host}
+  --set alfresco-deployment-service.applications.connectors.emailConnector.port=${email_connector_port}
+"
+```
+
 ## launch helm
 
 Set install parameters:

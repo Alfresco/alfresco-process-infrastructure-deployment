@@ -221,10 +221,10 @@ alfresco-deployment-service:
       external: false
     connectors:
       emailConnector:
-        username: null
-        password: null
-        host: null
-        port: null
+        username: ""
+        password: ""
+        host: ""
+        port: ""
   ingress:
     path: /deployment-service
     enabled: true
