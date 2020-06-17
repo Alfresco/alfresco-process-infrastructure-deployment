@@ -35,6 +35,10 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-admin-app.ingress.path | string | `"/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"alfresco-admin-app"` |  |
 | alfresco-deployment-service.alfresco-content-services.enabled | bool | `true` |  |
+| alfresco-deployment-service.applications.connectors.emailConnector.host | string | `""` |In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every applications in the cluster will share the same account.|
+| alfresco-deployment-service.applications.connectors.emailConnector.password | string | `""` |In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every applications in the cluster will share the same account.|
+| alfresco-deployment-service.applications.connectors.emailConnector.port | string | `""` |In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every applications in the cluster will share the same account.|
+| alfresco-deployment-service.applications.connectors.emailConnector.username | string | `""` |In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every applications in the cluster will share the same account.|
 | alfresco-deployment-service.applications.database.external | bool | `false` |  |
 | alfresco-deployment-service.connectorVolume.permission | string | `"ReadWriteMany"` |  |
 | alfresco-deployment-service.connectorVolume.storageClass | string | `"default-sc"` |  |
