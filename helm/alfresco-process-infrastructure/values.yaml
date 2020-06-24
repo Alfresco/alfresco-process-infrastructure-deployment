@@ -222,6 +222,9 @@ alfresco-deployment-service:
     username: alfresco
     password: alfresco
   applications:
+    max_number: 20
+      # alfresco-deployment-service.applications.max_number -- maximum number of application can be deployed
+      # @default -- 20 applications can be deployed by default
     database:
       external: false
     connectors:
@@ -348,6 +351,8 @@ alfresco-deployment-service:
     - name: CONNECTOR_EMAILCONNECTOR_PORT
       value: "{{ .Values.applications.connectors.emailConnector.port }}"
     {{- end }}
+    - name: APPLICATIONS_MAXNUMBER
+      value: "{{ .Values.applications.max_number }}"
 
 
 alfresco-admin-app:
