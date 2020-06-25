@@ -13,7 +13,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.40 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.1 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-identity-service | 2.0.2 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-identity-service | 2.1.0 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 2.2.1 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
