@@ -2,7 +2,7 @@ alfresco-process-infrastructure
 ===============================
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
-Current chart version is `7.1.0-M8`
+Current chart version is `7.1.0-M9`
 
 Source code can be found [here](https://github.com/Alfresco/alfresco-process-infrastructure)
 
