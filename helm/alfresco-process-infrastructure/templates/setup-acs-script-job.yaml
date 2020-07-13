@@ -28,6 +28,10 @@ spec:
           env:
             - name: "GATEWAY_URL"
               value: {{ template "alfresco-process-infrastructure.acs-url" . }}
+            - name: "REPOSITORY_ADMIN_USER"
+              value: {{ .Values.global.acs.admin.username | quote }}
+            - name: "REPOSITORY_ADMIN_PASSWORD"
+              value: {{ .Values.global.acs.admin.password | quote }}
           volumeMounts:
             - name: config
               mountPath: /tmp/init

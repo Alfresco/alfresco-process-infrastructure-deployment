@@ -88,7 +88,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-infrastructure.nginx-ingress.enabled | bool | `false` |  |
 | alfresco-modeling-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
-| alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
+| alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ template \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_OAUTH2_SILENT_LOGIN | string | `"true"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -119,8 +119,10 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rbac.create | bool | `false` |  |
 | alfresco-modeling-service.serviceAccount.create | bool | `false` |  |
-| global | object | `{"acs":{"host":"{{ template \"common.gateway-host\" . }}"},"gateway":{"annotations":{},"domain":"REPLACEME","host":"{{ template \"common.gateway-domain\" . }}","http":"false","tlsacme":"false"},"keycloak":{"host":"{{ template \"common.gateway-domain\" . }}","realm":"alfresco","resource":"activiti","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
+| global | object | `{"acs":{"admin":{"password":"","username":""},"host":"{{ template \"common.gateway-host\" . }}","url":""},"gateway":{"annotations":{},"domain":"REPLACEME","host":"{{ template \"common.gateway-domain\" . }}","http":"false","tlsacme":"false"},"keycloak":{"host":"{{ template \"common.gateway-domain\" . }}","realm":"alfresco","resource":"activiti","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
+| global.acs.admin | object | `{"password":"","username":""}` | admin credentials to setup required users/groups/acl on ACS |
 | global.acs.host | string | `"{{ template \"common.gateway-host\" . }}"` | host for content services |
+| global.acs.url | string | `""` | set full url to configure external ACS, https://acs.mydomain.com without /alfresco |
 | global.gateway.annotations | object | `{}` | Configure global annotations for all service ingresses |
 | global.gateway.domain | string | `"REPLACEME"` | Set to configure gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io  helm upgrade activiti . --install --set global.gateway.domain=1.2.3.4.nip.io |
 | global.gateway.host | string | `"{{ template \"common.gateway-domain\" . }}"` | Set to configure single host domain name for all services, i.e. "{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}" |

@@ -46,7 +46,9 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "alfresco-process-infrastructure.acs-url" -}}
-{{ template "common.gateway-proto" . }}://{{ template "alfresco-process-infrastructure.acs-host" . }}
+{{- $defaultValue := printf "%s://%s" (include "common.gateway-proto" .) (include "alfresco-process-infrastructure.acs-host" .) -}}
+{{- $value := default $defaultValue .Values.global.acs.url -}}
+{{- tpl (printf "%s" $value) . -}}
 {{- end -}}
 
 {{- define "alfresco-process-infrastructure.ads-registry-secret" }}
