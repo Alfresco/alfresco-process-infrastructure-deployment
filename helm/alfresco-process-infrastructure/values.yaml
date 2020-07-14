@@ -204,6 +204,11 @@ postgresql-ads:
 alfresco-deployment-service:
   alfresco-content-services:
     enabled: true
+    # alfresco-deployment-service.alfresco-content-services.activemq -- ACS ActiveMQ config for content connector events
+    activemq:
+      url: "tcp://acs-activemq-broker.acs:61616"
+      username: "admin"
+      password: "admin"
   enabled: true
   rbac:
     create: false
@@ -326,6 +331,12 @@ alfresco-deployment-service:
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_ENABLED
       value: '{{ index .Values "alfresco-content-services" "enabled" }}'
+    - name: CONTENT_SERVICE_ACTIVEMQ_URL
+      value: '{{ index .Values "alfresco-content-services" "activemq" "url" }}'
+    - name: CONTENT_SERVICE_ACTIVEMQ_USERNAME
+      value: '{{ index .Values "alfresco-content-services" "activemq" "username" }}'
+    - name: CONTENT_SERVICE_ACTIVEMQ_PASSWORD
+      value: '{{ index .Values "alfresco-content-services" "activemq" "password" }}'
     - name: MODELING_URL
       value: '{{ include "common.gateway-url" . }}/modeling-service'
     - name: ENVIRONMENT_HOST_URL
