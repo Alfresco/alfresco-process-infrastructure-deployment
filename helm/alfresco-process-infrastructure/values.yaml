@@ -43,6 +43,13 @@ global:
     # global.acs.host -- host for content services
     host: '{{ template "common.gateway-host" . }}'
 
+    # global.acs.url -- set full url to configure external ACS, https://acs.mydomain.com without /alfresco
+    url: ""
+    # global.acs.admin -- admin credentials to setup required users/groups/acl on ACS
+    admin:
+      username: ""
+      password: ""
+
 alfresco-infrastructure:
   nginx-ingress:
     enabled: false
@@ -173,7 +180,7 @@ alfresco-modeling-app:
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_OAUTH2_SILENT_LOGIN: "true"
-    APP_CONFIG_ECM_HOST: '{{ include "common.gateway-url" . }}'
+    APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
 
