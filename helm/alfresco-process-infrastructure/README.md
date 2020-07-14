@@ -10,7 +10,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.40 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.44 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
@@ -34,7 +34,9 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-admin-app.ingress.hostName | string | `nil` |  |
 | alfresco-admin-app.ingress.path | string | `"/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"alfresco-admin-app"` |  |
-| alfresco-deployment-service.alfresco-content-services.activemq | object | `{"password":"","url":"","username":""}` | ACS ActiveMQ config for content connector |
+| alfresco-deployment-service.alfresco-content-services.activemq.password | string | `""` |  |
+| alfresco-deployment-service.alfresco-content-services.activemq.url | string | `""` | ACS ActiveMQ URL for events |
+| alfresco-deployment-service.alfresco-content-services.activemq.username | string | `""` | ACS ActiveMQ password |
 | alfresco-deployment-service.alfresco-content-services.enabled | bool | `true` |  |
 | alfresco-deployment-service.applications.connectors.emailConnector | object | `{"host":"","password":"","port":"","username":""}` | In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every application in the cluster will share the same account. |
 | alfresco-deployment-service.applications.connectors.emailConnector.host | string | `""` | email host |

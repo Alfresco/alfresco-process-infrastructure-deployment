@@ -204,10 +204,12 @@ postgresql-ads:
 alfresco-deployment-service:
   alfresco-content-services:
     enabled: true
-    # alfresco-deployment-service.alfresco-content-services.activemq -- ACS ActiveMQ config for content connector
     activemq:
+      # alfresco-deployment-service.alfresco-content-services.activemq.url -- ACS ActiveMQ URL for events
       url: ""
+      # alfresco-deployment-service.alfresco-content-services.activemq.username -- ACS ActiveMQ username
       username: ""
+      # alfresco-deployment-service.alfresco-content-services.activemq.username -- ACS ActiveMQ password
       password: ""
   enabled: true
   rbac:
