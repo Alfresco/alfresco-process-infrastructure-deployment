@@ -204,11 +204,11 @@ postgresql-ads:
 alfresco-deployment-service:
   alfresco-content-services:
     enabled: true
-    # alfresco-deployment-service.alfresco-content-services.activemq -- ACS ActiveMQ config for content connector events
+    # alfresco-deployment-service.alfresco-content-services.activemq -- ACS ActiveMQ config for content connector
     activemq:
-      url: "tcp://acs-activemq-broker.acs:61616"
-      username: "admin"
-      password: "admin"
+      url: ""
+      username: ""
+      password: ""
   enabled: true
   rbac:
     create: false
@@ -331,12 +331,18 @@ alfresco-deployment-service:
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_ENABLED
       value: '{{ index .Values "alfresco-content-services" "enabled" }}'
+    {{- with index .Values "alfresco-content-services" "activemq" "url" }}
     - name: CONTENT_SERVICE_ACTIVEMQ_URL
-      value: '{{ index .Values "alfresco-content-services" "activemq" "url" }}'
+      value: "{{ . }}"
+    {{- end }}
+    {{- with index .Values "alfresco-content-services" "activemq" "username" }}
     - name: CONTENT_SERVICE_ACTIVEMQ_USERNAME
-      value: '{{ index .Values "alfresco-content-services" "activemq" "username" }}'
+      value: "{{ . }}"
+    {{- end }}
+    {{- with index .Values "alfresco-content-services" "activemq" "password" }}
     - name: CONTENT_SERVICE_ACTIVEMQ_PASSWORD
-      value: '{{ index .Values "alfresco-content-services" "activemq" "password" }}'
+      value: "{{ . }}"
+    {{- end }}
     - name: MODELING_URL
       value: '{{ include "common.gateway-url" . }}/modeling-service'
     - name: ENVIRONMENT_HOST_URL
@@ -353,21 +359,21 @@ alfresco-deployment-service:
       value: "{{ .Values.connectorVolume.permission }}"
     - name: APPLICATIONS_DATABASE_EXTERNAL
       value: "{{ .Values.applications.database.external }}"
-    {{- if .Values.applications.connectors.emailConnector.username }}
+    {{- with .Values.applications.connectors.emailConnector.username }}
     - name: CONNECTOR_EMAILCONNECTOR_USERNAME
-      value: "{{ .Values.applications.connectors.emailConnector.username }}"
+      value: "{{ . }}"
     {{- end }}
-    {{- if .Values.applications.connectors.emailConnector.password }}
+    {{- with .Values.applications.connectors.emailConnector.password }}
     - name: CONNECTOR_EMAILCONNECTOR_PASSWORD
-      value: "{{ .Values.applications.connectors.emailConnector.password }}"
+      value: "{{ . }}"
     {{- end }}
-    {{- if .Values.applications.connectors.emailConnector.host }}
+    {{- with .Values.applications.connectors.emailConnector.host }}
     - name: CONNECTOR_EMAILCONNECTOR_HOST
-      value: "{{ .Values.applications.connectors.emailConnector.host }}"
+      value: "{{ . }}"
     {{- end }}
-    {{- if .Values.applications.connectors.emailConnector.port }}
+    {{- with .Values.applications.connectors.emailConnector.port }}
     - name: CONNECTOR_EMAILCONNECTOR_PORT
-      value: "{{ .Values.applications.connectors.emailConnector.port }}"
+      value: "{{ . }}"
     {{- end }}
     - name: APPLICATIONS_MAXNUMBER
       value: "{{ .Values.applications.max_number }}"
