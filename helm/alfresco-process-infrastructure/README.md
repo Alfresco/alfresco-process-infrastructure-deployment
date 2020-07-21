@@ -26,6 +26,7 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-admin-app.applications.allow_custom_resources | bool | `true` |  |
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
+| alfresco-admin-app.env.APP_CONFIG_ECM_HOST | string | `"{{ template \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allow_custom_resources }}\"\n"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
