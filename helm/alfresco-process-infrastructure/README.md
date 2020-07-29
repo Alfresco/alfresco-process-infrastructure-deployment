@@ -11,8 +11,8 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | Repository | Name | Version |
 |------------|------|---------|
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.44 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.1 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.1 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.2 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 2.2.2 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.2.1 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.2.1 |
@@ -23,12 +23,12 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| alfresco-admin-app.alfresco_content_services.enabled | bool | `false` |  |
 | alfresco-admin-app.applications.allow_custom_resources | bool | `true` |  |
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
-| alfresco-admin-app.env.APP_CONFIG_ECM_HOST | string | `"{{ template \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allow_custom_resources }}\"\n"` |  |
+| alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allow_custom_resources }}\"\n{{- if  .Values.alfresco_content_services.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |

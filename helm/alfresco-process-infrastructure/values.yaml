@@ -392,14 +392,19 @@ alfresco-admin-app:
     pullPolicy: IfNotPresent
   applications:
     allow_custom_resources: true
+  alfresco_content_services:
+    enabled: false
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
-    APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
   extraEnv: |
     - name: APP_ALLOW_CUSTOM_RESOURCES
       value: "{{ .Values.applications.allow_custom_resources }}"
+    {{- if  .Values.alfresco_content_services.enabled }}
+    - name: APP_CONFIG_ECM_HOST
+      value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
+    {{- end }}
 
 setup-acs-script-job:
   enabled: true
