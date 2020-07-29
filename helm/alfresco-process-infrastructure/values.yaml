@@ -392,7 +392,6 @@ alfresco-admin-app:
     pullPolicy: IfNotPresent
   applications:
     allow_custom_resources: true
-    config_ecm_host: ""
   alfresco_content_services:
     enabled: false
   env:

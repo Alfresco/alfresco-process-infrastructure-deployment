@@ -25,7 +25,6 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 |-----|------|---------|-------------|
 | alfresco-admin-app.alfresco_content_services.enabled | bool | `false` |  |
 | alfresco-admin-app.applications.allow_custom_resources | bool | `true` |  |
-| alfresco-admin-app.applications.config_ecm_host | string | `""` |  |
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
