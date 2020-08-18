@@ -19,7 +19,7 @@ dependencies:
   - name: alfresco-adf-app
     alias: alfresco-modeling-app
     version: 2.2.2
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    repository: https://kubernetes-charts.alfresco.com/stable
   - name: postgresql
     alias: postgresql-ads
     version: 6.3.9
@@ -33,5 +33,5 @@ dependencies:
   - name: alfresco-adf-app
     alias: alfresco-admin-app
     version: 2.2.2
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    repository: https://kubernetes-charts.alfresco.com/stable
     condition: alfresco-deployment-service.enabled,alfresco-admin-app.enabled
