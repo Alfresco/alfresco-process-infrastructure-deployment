@@ -11,11 +11,11 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | Repository | Name | Version |
 |------------|------|---------|
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.44 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.2 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 2.2.2 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M10 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M10 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.2.1 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 2.2.1 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
 
