@@ -228,6 +228,9 @@ alfresco-deployment-service:
     username: alfresco
     password: alfresco
   applications:
+    image:
+      # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
+      tag: develop
     max_number: 20
       # alfresco-deployment-service.applications.max_number -- maximum number of application can be deployed
       # @default -- 20 applications can be deployed by default
@@ -283,7 +286,7 @@ alfresco-deployment-service:
     - name: KEYCLOAK_AUTH_SERVER_URL
       value: '{{ include "common.keycloak-url" . }}'
     - name: DOCKER_REGISTRY_IMAGE_TAG
-      value: "develop"
+      value: "{{ .Values.applications.image.tag }}"
     - name: CONTENT_SERVICE_BASE_URL
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_ENABLED
