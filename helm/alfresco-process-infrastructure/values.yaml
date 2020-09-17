@@ -135,7 +135,7 @@ alfresco-modeling-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: develop
+    tag: 7.1.0-A1
     pullPolicy: Always
   postgres:
     enabled: true
@@ -175,7 +175,7 @@ alfresco-modeling-app:
     path: /modeling
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: develop
+    tag: 7.1.0-A1
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
@@ -220,7 +220,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: develop
+    tag: 7.1.0-A1
     pullPolicy: Always
   postgres:
     enabled: true
@@ -230,7 +230,7 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
-      tag: develop
+      tag: 7.1.0-A1
     max_number: 20
       # alfresco-deployment-service.applications.max_number -- maximum number of application can be deployed
       # @default -- 20 applications can be deployed by default
@@ -346,7 +346,7 @@ alfresco-admin-app:
     path: /admin
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
+    tag: 7.1.0-A1
     pullPolicy: IfNotPresent
   applications:
     allow_custom_resources: true
