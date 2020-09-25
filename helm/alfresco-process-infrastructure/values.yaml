@@ -250,6 +250,9 @@ alfresco-deployment-service:
     processStorageService:
       # alfresco-deployment-service.applications.processStorageService.clientSecret --  pass secret for process storage service
       clientSecret: ""
+    activitiKeycloak:
+      # alfresco-deployment-service.applications.activitiKeycloak.clientPassword --  activiti keycloak client password.
+      clientPassword: ""
   ingress:
     path: /deployment-service
     enabled: true
@@ -344,7 +347,10 @@ alfresco-deployment-service:
     - name: PROCESS_STORAGE_SERVICE_CLIENTSECRET
       value: "{{ . }}"
     {{- end }}
-
+    {{- with .Values.applications.activitiKeycloak.clientPassword }}
+    - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
+      value: "{{ . }}"
+    {{- end }}
 
 alfresco-admin-app:
   nameOverride: "alfresco-admin-app"
