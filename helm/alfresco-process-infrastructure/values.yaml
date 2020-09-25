@@ -247,6 +247,9 @@ alfresco-deployment-service:
         host: ""
         # alfresco-deployment-service.applications.connectors.emailConnector.port -- email port
         port: ""
+    processStorageService:
+      # alfresco-deployment-service.applications.processStorageService.clientSecret --  pass secret for process storage service
+      clientSecret: ""
   ingress:
     path: /deployment-service
     enabled: true
@@ -337,6 +340,10 @@ alfresco-deployment-service:
     {{- end }}
     - name: APPLICATIONS_MAXNUMBER
       value: "{{ .Values.applications.max_number }}"
+    {{- with .Values.applications.processStorageService.clientSecret }}
+    - name: PROCESS_STORAGE_SERVICE_CLIENTSECRET
+      value: "{{ . }}"
+    {{- end }}
 
 
 alfresco-admin-app:
