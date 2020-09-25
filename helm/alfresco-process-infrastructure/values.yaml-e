@@ -135,7 +135,7 @@ alfresco-modeling-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: develop
+    tag: 7.1.0-M9
     pullPolicy: Always
   postgres:
     enabled: true
@@ -175,7 +175,7 @@ alfresco-modeling-app:
     path: /modeling
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: develop
+    tag: 7.1.0-M9
     pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
@@ -220,17 +220,22 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: develop
+    tag: 7.1.0-M9
     pullPolicy: Always
+  extraInit:
+    image:
+      repository: bitnami/minideb-extras
+      tag: stretch
+  dind:
+    image:
+      repository: docker
+      tag: 18.06.1-dind
   postgres:
     enabled: true
     name: postgresql-ads
     username: alfresco
     password: alfresco
   applications:
-    image:
-      # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
-      tag: develop
     max_number: 20
       # alfresco-deployment-service.applications.max_number -- maximum number of application can be deployed
       # @default -- 20 applications can be deployed by default
@@ -247,13 +252,15 @@ alfresco-deployment-service:
         host: ""
         # alfresco-deployment-service.applications.connectors.emailConnector.port -- email port
         port: ""
-    processStorageService:
-      # alfresco-deployment-service.applications.processStorageService.clientSecret --  pass secret for process storage service
-      clientSecret: ""
   ingress:
     path: /deployment-service
     enabled: true
   probePath: "{{ .Values.ingress.path }}/actuator/health"
+  dockerRegistry:
+    server: ""
+    password: ""
+    userName: ""
+    secretName: "aps2-registry-secret"
   environment:
     apiUrl: ""
     apiToken: ""
@@ -263,11 +270,33 @@ alfresco-deployment-service:
   connectorVolume:
     storageClass: "default-sc"
     permission: "ReadWriteMany"
+  extraContainers: |
+    - name: dind
+      image: "{{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}"
+      imagePullPolicy: IfNotPresent
+      securityContext:
+        privileged: true
+      tty: true
+      env:
+      - name: DOCKER_HOST
+        value: tcp://localhost:2375
+      resources:
+        requests:
+          cpu: 1
+          memory: 1024Mi
+        limits:
+          cpu: 2
+          memory: 2048Mi
+      volumeMounts:
+      - mountPath: /var/lib/docker
+        name: docker-daemon
   extraVolumes: |
     - name: config
       configMap:
         name: {{ .Release.Name }}-deployment-config
         defaultMode: 0744
+    - name: docker-daemon
+      emptyDir: {}
     - name: license
       secret:
         secretName: licenseaps
@@ -276,6 +305,8 @@ alfresco-deployment-service:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
   extraEnv: |
+    - name: DOCKER_HOST
+      value: tcp://localhost:2375
     - name: SERVER_PORT
       value: "8080"
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -288,8 +319,16 @@ alfresco-deployment-service:
       value: "*"
     - name: KEYCLOAK_AUTH_SERVER_URL
       value: '{{ include "common.keycloak-url" . }}'
+    - name: DOCKER_REGISTRY_SERVER
+      value: "{{ .Values.dockerRegistry.server }}"
+    - name: DOCKER_REGISTRY_USERNAME
+      value: "{{ .Values.dockerRegistry.userName }}"
+    - name: DOCKER_REGISTRY_PASSWORD
+      value: '{{ .Values.dockerRegistry.password }}'
+    - name: DOCKER_REGISTRY_SECRET_NAME
+      value: "{{ .Values.dockerRegistry.secretName }}"
     - name: DOCKER_REGISTRY_IMAGE_TAG
-      value: "{{ .Values.applications.image.tag }}"
+      value: "7.1.0-M9"
     - name: CONTENT_SERVICE_BASE_URL
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_ENABLED
@@ -340,10 +379,6 @@ alfresco-deployment-service:
     {{- end }}
     - name: APPLICATIONS_MAXNUMBER
       value: "{{ .Values.applications.max_number }}"
-    {{- with .Values.applications.processStorageService.clientSecret }}
-    - name: PROCESS_STORAGE_SERVICE_CLIENTSECRET
-      value: "{{ . }}"
-    {{- end }}
 
 
 alfresco-admin-app:
@@ -353,7 +388,7 @@ alfresco-admin-app:
     path: /admin
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
+    tag: 7.1.0-M9
     pullPolicy: IfNotPresent
   applications:
     allow_custom_resources: true
@@ -373,7 +408,6 @@ alfresco-admin-app:
 
 setup-acs-script-job:
   enabled: true
-  loadTestData: true
   image:
     repository: bitnami/minideb-extras
     tag: stretch

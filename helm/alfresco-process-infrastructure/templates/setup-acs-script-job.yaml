@@ -26,12 +26,14 @@ spec:
             - -c
             - /tmp/init/setup_acs.sh
           env:
-            - name: "GATEWAY_URL"
-              value: {{ template "alfresco-process-infrastructure.acs-url" . }}
+            - name: "ACS_URL"
+              value: "{{ template "alfresco-process-infrastructure.acs-url" . }}"
             - name: "REPOSITORY_ADMIN_USER"
               value: {{ .Values.global.acs.admin.username | quote }}
             - name: "REPOSITORY_ADMIN_PASSWORD"
               value: {{ .Values.global.acs.admin.password | quote }}
+            - name: "LOAD_TEST_DATA"
+              value: {{ index .Values "setup-acs-script-job" "loadTestData" | quote }}
           volumeMounts:
             - name: config
               mountPath: /tmp/init

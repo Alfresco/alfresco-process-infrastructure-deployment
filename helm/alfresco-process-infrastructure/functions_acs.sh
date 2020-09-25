@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-GATEWAY_URL=${GATEWAY_URL:-http://host.docker.internal}
-REPOSITORY_URL=${REPOSITORY_URL:-${GATEWAY_URL}/alfresco}
+ACS_URL=${ACS_URL:-http://host.docker.internal}
+REPOSITORY_URL=${REPOSITORY_URL:-${ACS_URL}/alfresco}
 REPOSITORY_ADMIN_USER=${REPOSITORY_ADMIN_USER:-admin}
 REPOSITORY_ADMIN_PASSWORD=${REPOSITORY_ADMIN_PASSWORD:-admin}
 

@@ -156,3 +156,4 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | setup-acs-script-job.enabled | bool | `true` |  |
 | setup-acs-script-job.image.repository | string | `"bitnami/minideb-extras"` |  |
 | setup-acs-script-job.image.tag | string | `"stretch"` |  |
+| setup-acs-script-job.loadTestData | bool | `true` |  |
