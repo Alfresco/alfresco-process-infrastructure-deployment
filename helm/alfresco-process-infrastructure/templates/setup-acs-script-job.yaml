@@ -3,6 +3,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: setup-acs-script-job
+  annotations:
+    "helm.sh/hook": post-install
 spec:
   template:
     spec:
