@@ -4,9 +4,7 @@
 
 Helm chart to install the Alfresco Activiti Enterprise (AAE) infrastructure to model and deploy your process applications:
 
-- PVC for storage
 - Alfresco Identity Service
-- ACS (optional)
 - Modeling Service
 - Modeling App
 - Deployment Service (optional)
@@ -17,8 +15,6 @@ Once installed, you can deploy new AAE applications:
 * via the _Admin App_ using the _Deployment Service_
 * manually customising the [alfresco-process-application](https://github.com/Alfresco/alfresco-process-application-deployment) helm chart.
 
-*NB* at the moment only installation in the `default` namespace is supported.
-
 ## Prerequisites
 
 ### setup cluster
@@ -27,19 +23,7 @@ Setup a Kubernetes cluster following your preferred procedure.
 
 ### install helm
 
-Install helm.
-
-
-If using helm 2, install helm server (tiller) on the cluster:
-```bash
-helm init --upgrade
-```
-
-If using the optional ACS skip API validation:
-
-```bash
-HELM_OPTS+=" --disable-openapi-validation"
-```
+Install the latest version of helm.
 
 Configure the required helm chart repositories:
 ```
@@ -51,12 +35,11 @@ helm repo update
 
 ### ingress
 
-An nginx-ingress bound to an external DNS address.
+An nginx-ingress should be installed and bound to an external DNS address, for example:
 
-### docker registry
-
-If the Deployment Service is installed, it requires in turn a Docker registry.
-An external docker registry should be provided for the _AAE Deployment Service_.
+```
+helm install ingress-nginx --repo https://kubernetes.github.io/ingress-nginx ingress-nginx
+```
 
 ### helm tips
 
@@ -66,9 +49,15 @@ To install from the development chart repo, use `alfresco-incubator` rather than
 
 ### kubectl tips
 
-Check deployment progress with `kubectl get pods --watch` until all containers are running.
-If anything is stuck check events with `kubectl get events --watch`.
+Check deployment progress with `kubectl get pods --watch --all-namespaces` until all containers are running.
+If anything is stuck, check events with `kubectl get events --watch`.
 
+
+### configure installation namespace
+
+```bash
+export DESIRED_NAMESPACE=${DESIRED_NAMESPACE:-aae}
+```
 
 ### add quay-registry-secret
 
@@ -76,12 +65,18 @@ Configure access to pull images from quay.io in the installation namespace:
 
 ```bash
 kubectl create secret \
+  --namespace $DESIRED_NAMESPACE \
   docker-registry quay-registry-secret \
     --docker-server=quay.io \
-    --docker-username="${DOCKER_REGISTRY_USERNAME}" \
-    --docker-password="${DOCKER_REGISTRY_PASSWORD}" \
+    --docker-username="$QUAY_USERNAME" \
+    --docker-password="$QUAY_PASSWORD" \
     --docker-email="none"
 ```
+
+where:
+
+* QUAY_USERNAME is your username on quay.io
+* QUAY_PASSWORD is the password for your username on quay.io
 
 ### add license secret
 
@@ -89,13 +84,18 @@ Create a secret called _licenseaps_ containing the license file in the installat
 
 ```bash
 kubectl create secret \
-  generic licenseaps --from-file activiti.lic
+  --namespace $DESIRED_NAMESPACE \
+  generic licenseaps --from-file \
+  "$AAE_LICENSE_FILE"~/Downloads/activiti.lic"
 ```
+
+where:
+
+* AAE_LICENSE_FILE is the location of the AAE license file
 
 ### set main helm env variables
 
 ```bash
-export DESIRED_NAMESPACE=${DESIRED_NAMESPACE:-default}
 export HELM_OPTS+=" --debug \
   --namespace $DESIRED_NAMESPACE \
   --set global.gateway.http=${HTTP} \
@@ -106,7 +106,6 @@ where:
 
 * HTTP is true/false depending if you want external URLs using HTTP or HTTPS
 * DOMAIN is your DNS domain
-* DESIRED_NAMESPACE is the installation namespace, at the moment only "default" namespace is supported
 
 
 ### set environment specific variables
@@ -115,50 +114,54 @@ where:
 
 ```bash
 export PROTOCOL=http
-export GATEWAY_HOST=kubernetes.docker.internal 
-export SSO_HOST=$GATEWAY_HOST
+export DOMAIN=host.docker.internal
 ```
 
-#### for AAE dev example environment
+*NB* add to your `/etc/hosts` the line `127.0.0.1 host.docker.internal` if not present
+
+#### for a cloud environment
 
 ```bash
-export ENVIRONMENT=aaedev
+export CLUSTER=aaedev
 export PROTOCOL=https
 export DOMAIN=${CLUSTER}.envalfresco.com
-export GATEWAY_HOST=${GATEWAY_HOST:-gateway.${DOMAIN}}
-export SSO_HOST=${SSO_HOST:-identity.${DOMAIN}}
 ```
 
+#### set generated variables
+
+```bash
+export GATEWAY_HOST=${DOMAIN}
+export SSO_HOST=${DOMAIN}
+```
+
+GATEWAY_HOST
 ### set helm env variables
 
 ```bash
 export HTTP=$(if [[ "${PROTOCOL}" == 'http' ]]; then echo true; else echo false; fi)
 HELM_OPTS+=" --set global.gateway.http=$HTTP \
-  --set global.gateway.host=$GATEWAY_HOST \
-  --set global.keycloak.host=$SSO_HOST"
+  --set global.gateway.domain=$DOMAIN"
 ```
 
-### set secrets (for deployment service only)
+### customise configuration
 
-Copy [secrets.yaml](helm/alfresco-process-infrastructure/secrets.yaml) to the root and customise its contents as in the comments and add to `HELM_OPTS`:
+Customise extra values following the contents of [values.yaml](helm/alfresco-process-infrastructure/values.yaml) and add to `HELM_OPTS`:
 
 ```bash
-HELM_OPTS+=" -f secrets.yaml"
+HELM_OPTS+="
+  --set alfresco-deployment-service.environment.apiUrl=...
+  --set alfresco-deployment-service.environment.apiToken=...
+"
 ```
 
 ## with ACS (optional)
 
-To include ACS in the infrastructure:
+To enable ACS support:
 
 ```bash
-HELM_OPTS+=" \
-  --set alfresco-content-services.enabled=true \
-  --set alfresco-deployment-service.alfresco-content-services.enabled=true"
-```
-
-or just:
-```bash
-HELM_OPTS+=" -f values-alfresco-content-services.yaml"
+HELM_OPTS+="
+  --set alfresco-deployment-service.alfresco-content-services.enabled=true
+"
 ```
 
 ## disable alfresco-deployment-service
@@ -166,9 +169,9 @@ HELM_OPTS+=" -f values-alfresco-content-services.yaml"
 To disable alfresco-deployment-service in the infrastructure:
 
 ```bash
-HELM_OPTS+=" \
-  --set alfresco-deployment-service.enabled=false"
-  --set alfresco-deployment-service.postgres.enabled=false"
+HELM_OPTS+="
+  --set alfresco-deployment-service.enabled=false
+"
 ```
 
 
@@ -209,8 +212,6 @@ Add the helm properties to use it:
 ```bash
 HELM_OPTS+="
   --set persistence.storageClassName=${DESIRED_NAMESPACE}-sc
-  --set alfresco-content-services.alfresco-infrastructure.persistence.storageClass.enabled=true \
-  --set alfresco-content-services.alfresco-infrastructure.persistence.storageClass.name=${DESIRED_NAMESPACE}-sc \
   --set alfresco-deployment-service.connectorVolume.storageClass=${DESIRED_NAMESPACE}-sc \
   --set alfresco-deployment-service.connectorVolume.permission=ReadWriteMany 
 "
@@ -237,8 +238,8 @@ HELM_OPTS+="
 Set install parameters:
 
 ```bash
-RELEASE_NAME=aae-infrastructure
-CHART_NAME=alfresco-process-infrastructure
+export RELEASE_NAME=aae
+export CHART_NAME=alfresco-process-infrastructure
 ```
 
 then install from the stable repo using a released chart version:
@@ -253,6 +254,7 @@ or from the incubator repo a development chart version:
 
 ```bash
 helm upgrade --install \
+  --namespace $DESIRED_NAMESPACE \
   --repo https://kubernetes-charts.alfresco.com/incubator \
   $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
 ```
@@ -263,6 +265,7 @@ or from the current repository directory:
 helm repo update
 helm dependency update helm/${CHART_NAME}
 helm upgrade --install \
+  --namespace $DESIRED_NAMESPACE \
   $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
 ```
 
@@ -291,7 +294,7 @@ A custom extra values file to add settings for _Docker Desktop_ is provided:
 ```bash
 HELM_OPTS+=" -f values-docker-desktop.yaml" ./install.sh
 ```
-*NB* with ACS enabled the startup might take as much as 10 minutes, use ```kubectl get pods --watch``` to check the status.
+*NB* the startup might take as much as 10 minutes, use ```kubectl get pods -A -w``` to check the status.
 
 ## Testing
 
@@ -306,7 +309,9 @@ open ${SSO_URL}
 
 To read back the realm from the secret, use:
 ```bash
-kubectl get secret realm-secret -o jsonpath="{['data']['alfresco-aps-realm\.json']}" | base64 -D > alfresco-aps-realm.json
+kubectl get secret \
+  --namespace $DESIRED_NAMESPACE \
+  realm-secret -o jsonpath="{['data']['alfresco-realm\.json']}" | base64 -D > alfresco-realm.json
 ```
 
 ### override Docker images with internal Docker Registry

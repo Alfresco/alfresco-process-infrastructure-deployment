@@ -1,7 +1,0 @@
-alfresco-content-services:
-  enabled: true
-  alfresco-digital-workspace:
-    enabled: true
-alfresco-deployment-service:
-  alfresco-content-services:
-    enabled: true

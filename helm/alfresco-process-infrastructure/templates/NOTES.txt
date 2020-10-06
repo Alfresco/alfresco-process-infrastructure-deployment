@@ -11,10 +11,9 @@ The alfresco-volume-claim is ready to use.
 
 Get the application URLs:
 
-Alfresco Identity Service  : {{ template "common.keycloak-url" . }}
-Alfresco Modeling          : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-modeling-app" "ingress" "path" }}
-Alfresco Admin             : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-admin-app" "ingress" "path" }}
-
+* Alfresco Identity Service : {{ template "common.keycloak-url" . }}
+* Alfresco Modeling         : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-modeling-app" "ingress" "path" }}
+* Alfresco Admin            : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-admin-app" "ingress" "path" }}
 
 To see deployment status, try:
 
