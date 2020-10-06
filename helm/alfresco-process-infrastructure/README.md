@@ -1,12 +1,16 @@
-alfresco-process-infrastructure
-===============================
+# alfresco-process-infrastructure
+
+![Version: 7.1.0-M10](https://img.shields.io/badge/Version-7.1.0-M10-informational?style=flat-square) ![AppVersion: 7.1.0-M10](https://img.shields.io/badge/AppVersion-7.1.0-M10-informational?style=flat-square)
+
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
-Current chart version is `7.1.0-M10`
+**Homepage:** <https://github.com/Alfresco/alfresco-process-infrastructure>
 
-Source code can be found [here](https://github.com/Alfresco/alfresco-process-infrastructure)
+## Source Code
 
-## Chart Requirements
+* <https://github.com/Alfresco/alfresco-process-infrastructure>
+
+## Requirements
 
 | Repository | Name | Version |
 |------------|------|---------|
@@ -17,19 +21,19 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M10 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
-| https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
 
-## Chart Values
+## Values
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | alfresco-admin-app.alfresco_content_services.enabled | bool | `false` |  |
 | alfresco-admin-app.applications.allow_custom_resources | bool | `true` |  |
+| alfresco-admin-app.enabled | bool | `true` |  |
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allow_custom_resources }}\"\n{{- if  .Values.alfresco_content_services.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n"` |  |
-| alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |
 | alfresco-admin-app.ingress.hostName | string | `nil` |  |
@@ -38,24 +42,23 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-deployment-service.alfresco-content-services.activemq.password | string | `""` |  |
 | alfresco-deployment-service.alfresco-content-services.activemq.url | string | `""` | ACS ActiveMQ URL for events |
 | alfresco-deployment-service.alfresco-content-services.activemq.username | string | `""` | ACS ActiveMQ password |
-| alfresco-deployment-service.alfresco-content-services.enabled | bool | `true` |  |
-| alfresco-deployment-service.applications.activitiKeycloak.clientPassword | string | `""` |  activiti keycloak client password. |
+| alfresco-deployment-service.alfresco-content-services.enabled | bool | `false` |  |
+| alfresco-deployment-service.applications.activiti.keycloak.clientPassword | string | `"client"` |  activiti keycloak client password. |
 | alfresco-deployment-service.applications.connectors.emailConnector | object | `{"host":"","password":"","port":"","username":""}` | In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every application in the cluster will share the same account. |
 | alfresco-deployment-service.applications.connectors.emailConnector.host | string | `""` | email host |
 | alfresco-deployment-service.applications.connectors.emailConnector.password | string | `""` | email password |
 | alfresco-deployment-service.applications.connectors.emailConnector.port | string | `""` | email port |
 | alfresco-deployment-service.applications.connectors.emailConnector.username | string | `""` | email username |
-| alfresco-deployment-service.applications.database.external | bool | `false` |  |
+| alfresco-deployment-service.applications.database.external | bool | `true` |  |
 | alfresco-deployment-service.applications.image.tag | string | `"develop"` | default tag for all images used in application |
 | alfresco-deployment-service.applications.max_number | int | 20 applications can be deployed by default | maximum number of application can be deployed |
-| alfresco-deployment-service.applications.processStorageService.clientSecret | string | `""` |  pass secret for process storage service |
-| alfresco-deployment-service.connectorVolume.permission | string | `"ReadWriteMany"` |  |
-| alfresco-deployment-service.connectorVolume.storageClass | string | `"default-sc"` |  |
+| alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` |  pass secret for process storage service |
 | alfresco-deployment-service.enabled | bool | `true` |  |
-| alfresco-deployment-service.environment.apiToken | string | `""` |  |
-| alfresco-deployment-service.environment.apiUrl | string | `""` |  |
+| alfresco-deployment-service.environment.apiToken | string | `""` | kubernetes API Token Create a service account alfresco-deployment-service and retrieve its token: $ kubectl create serviceaccount -n kube-system alfresco-deployment-service $ kubectl create clusterrolebinding alfresco-deployment-service-admin-binding --clusterrole cluster-admin --serviceaccount=kube-system:alfresco-deployment-service $ kubectl -n kube-system get secret $(kubectl -n kube-system get serviceaccount alfresco-deployment-service -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode |
+| alfresco-deployment-service.environment.apiUrl | string | `""` | kubernetes API URL, $ kubectl config view -o jsonpath='{.clusters[0].cluster.server}' |
 | alfresco-deployment-service.environment.namespace | string | installation namespace | namespace to copy secrets from to application namespaces |
-| alfresco-deployment-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ .Values.ingress.path }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: KEYCLOAK_AUTH_SERVER_URL\n  value: '{{ include \"common.keycloak-url\" . }}'\n- name: DOCKER_REGISTRY_IMAGE_TAG\n  value: \"{{ .Values.applications.image.tag }}\"\n- name: CONTENT_SERVICE_BASE_URL\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n- name: CONTENT_SERVICE_ENABLED\n  value: '{{ index .Values \"alfresco-content-services\" \"enabled\" }}'\n{{- with index .Values \"alfresco-content-services\" \"activemq\" \"url\" }}\n- name: CONTENT_SERVICE_ACTIVEMQ_URL\n  value: \"{{ . }}\"\n{{- end }}\n{{- with index .Values \"alfresco-content-services\" \"activemq\" \"username\" }}\n- name: CONTENT_SERVICE_ACTIVEMQ_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with index .Values \"alfresco-content-services\" \"activemq\" \"password\" }}\n- name: CONTENT_SERVICE_ACTIVEMQ_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n- name: MODELING_URL\n  value: '{{ include \"common.gateway-url\" . }}/modeling-service'\n- name: ENVIRONMENT_HOST_URL\n  value: '{{ include \"common.gateway-url\" . }}'\n- name: ENVIRONMENT_API_URL\n  value: \"{{ .Values.environment.apiUrl }}\"\n- name: ENVIRONMENT_API_TOKEN\n  value: \"{{ .Values.environment.apiToken }}\"\n- name: ENVIRONMENT_NAMESPACE\n  value: \"{{ tpl .Values.environment.namespace . }}\"\n- name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS\n  value: \"{{ .Values.connectorVolume.storageClass }}\"\n- name: PROJECT_RELEASE_VOLUME_PERMISSION\n  value: \"{{ .Values.connectorVolume.permission }}\"\n- name: APPLICATIONS_DATABASE_EXTERNAL\n  value: \"{{ .Values.applications.database.external }}\"\n{{- with .Values.applications.connectors.emailConnector.username }}\n- name: CONNECTOR_EMAILCONNECTOR_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.password }}\n- name: CONNECTOR_EMAILCONNECTOR_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.host }}\n- name: CONNECTOR_EMAILCONNECTOR_HOST\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.port }}\n- name: CONNECTOR_EMAILCONNECTOR_PORT\n  value: \"{{ . }}\"\n{{- end }}\n- name: APPLICATIONS_MAXNUMBER\n  value: \"{{ .Values.applications.max_number }}\"\n{{- with .Values.applications.processStorageService.clientSecret }}\n- name: PROCESS_STORAGE_SERVICE_CLIENTSECRET\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.activitiKeycloak.clientPassword }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n"` |  |
+| alfresco-deployment-service.extraEnv | string | `"- name: SPRING_DATASOURCE_URL\n  value: \"jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }}:{{ .Values.postgres.port }}/postgres\"\n- name: SPRING_DATASOURCE_USERNAME\n  value: \"{{ .Values.postgres.username }}\"\n- name: SPRING_DATASOURCE_PASSWORD\n  value: \"{{ .Values.postgres.password }}\"\n- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ .Values.ingress.path }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: KEYCLOAK_AUTH_SERVER_URL\n  value: '{{ include \"common.keycloak-url\" . }}'\n- name: DOCKER_REGISTRY_IMAGE_TAG\n  value: \"{{ .Values.applications.image.tag }}\"\n- name: CONTENT_SERVICE_BASE_URL\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n- name: CONTENT_SERVICE_ENABLED\n  value: '{{ index .Values \"alfresco-content-services\" \"enabled\" }}'\n{{- with index .Values \"alfresco-content-services\" \"activemq\" \"url\" }}\n- name: CONTENT_SERVICE_ACTIVEMQ_URL\n  value: \"{{ . }}\"\n{{- end }}\n{{- with index .Values \"alfresco-content-services\" \"activemq\" \"username\" }}\n- name: CONTENT_SERVICE_ACTIVEMQ_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with index .Values \"alfresco-content-services\" \"activemq\" \"password\" }}\n- name: CONTENT_SERVICE_ACTIVEMQ_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n- name: MODELING_URL\n  value: '{{ include \"common.gateway-url\" . }}/modeling-service'\n- name: ENVIRONMENT_HOST_URL\n  value: '{{ include \"common.gateway-url\" . }}'\n- name: ENVIRONMENT_API_URL\n  value: \"{{ .Values.environment.apiUrl }}\"\n- name: ENVIRONMENT_API_TOKEN\n  value: \"{{ .Values.environment.apiToken }}\"\n- name: ENVIRONMENT_NAMESPACE\n  value: \"{{ tpl .Values.environment.namespace . }}\"\n- name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS\n  value: \"{{ .Values.projectReleaseVolume.storageClass }}\"\n- name: PROJECT_RELEASE_VOLUME_PERMISSION\n  value: \"{{ .Values.projectReleaseVolume.permission }}\"\n- name: APPLICATIONS_DATABASE_EXTERNAL\n  value: \"{{ .Values.applications.database.external }}\"\n{{- with .Values.applications.connectors.emailConnector.username }}\n- name: CONNECTOR_EMAILCONNECTOR_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.password }}\n- name: CONNECTOR_EMAILCONNECTOR_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.host }}\n- name: CONNECTOR_EMAILCONNECTOR_HOST\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.port }}\n- name: CONNECTOR_EMAILCONNECTOR_PORT\n  value: \"{{ . }}\"\n{{- end }}\n- name: APPLICATIONS_MAXNUMBER\n  value: \"{{ .Values.applications.max_number }}\"\n{{- with .Values.applications.processStorageService.clientSecret }}\n- name: PROCESS_STORAGE_SERVICE_CLIENTSECRET\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.activiti.keycloak.clientPassword }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n"` |  |
+| alfresco-deployment-service.extraInitContainers | string | `"- name: wait-for-postgresql\n  image: {{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}\n  imagePullPolicy: {{ .Values.init.image.pullPolicy }}\n  command:\n    - sh\n    - -c\n    - |\n      until printf \".\" && nc -z -w 2 {{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }} {{ .Values.postgres.port }}; do\n          sleep 2;\n      done;\n\n      echo 'PostgreSQL OK ✓'\n"` |  |
 | alfresco-deployment-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744\n- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
@@ -63,33 +66,230 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-deployment-service.image.tag | string | `"develop"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
-| alfresco-deployment-service.postgres.enabled | bool | `true` |  |
-| alfresco-deployment-service.postgres.name | string | `"postgresql-ads"` |  |
+| alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
+| alfresco-deployment-service.postgres.name | string | `"postgresql"` |  |
 | alfresco-deployment-service.postgres.password | string | `"alfresco"` |  |
 | alfresco-deployment-service.postgres.username | string | `"alfresco"` |  |
 | alfresco-deployment-service.probePath | string | `"{{ .Values.ingress.path }}/actuator/health"` |  |
+| alfresco-deployment-service.projectReleaseVolume.permission | string | `"ReadWriteMany"` | permission for project release volume |
+| alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"#{null}"` | storage class for project release volume, set to null spring expression to use default |
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
-| alfresco-deployment-service.rbac.create | bool | `false` |  |
-| alfresco-deployment-service.serviceAccount.create | bool | `false` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
 | alfresco-identity-service.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"false"` |  |
 | alfresco-identity-service.ingress.common.enabled | bool | `true` |  |
 | alfresco-identity-service.ingress.enabled | bool | `false` |  |
 | alfresco-identity-service.keycloak.ingress.enabled | bool | `false` |  |
-| alfresco-identity-service.keycloak.keycloak.extraArgs | string | `"-Dkeycloak.import=/realm/alfresco-aps-realm.json"` |  |
-| alfresco-identity-service.keycloak.keycloak.extraEnv | string | `"- name: PROXY_ADDRESS_FORWARDING\n  value: \"true\"\n"` |  |
-| alfresco-identity-service.keycloak.keycloak.service.port | int | `80` |  |
-| alfresco-identity-service.keycloak.postgresql.imageTag | string | `"11.3"` |  |
-| alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `nil` |  |
+| alfresco-identity-service.keycloak.postgresql.imageTag | float | `11.7` |  |
+| alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `""` |  |
 | alfresco-identity-service.realm.alfresco.client.redirectUris[0] | string | `"*"` |  |
 | alfresco-identity-service.realm.alfresco.client.webOrigins[0] | string | `"*"` |  |
-| alfresco-infrastructure.nginx-ingress.enabled | bool | `false` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[0].clientId | string | `"activiti"` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[0].directAccessGrantsEnabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[0].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[0].implicitFlowEnabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[0].redirectUris[0] | string | `"*"` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[0].webOrigins[0] | string | `"*"` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[1].authorizationServicesEnabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[1].clientId | string | `"storage-service"` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[1].directAccessGrantsEnabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[1].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[1].secret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` |  |
+| alfresco-identity-service.realm.alfresco.extraGroups[0].name | string | `"hr"` |  |
+| alfresco-identity-service.realm.alfresco.extraGroups[0].realmRoles[0] | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraGroups[1].name | string | `"sales"` |  |
+| alfresco-identity-service.realm.alfresco.extraGroups[1].realmRoles[0] | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraGroups[2].name | string | `"testgroup"` |  |
+| alfresco-identity-service.realm.alfresco.extraGroups[3].name | string | `"processadmin"` |  |
+| alfresco-identity-service.realm.alfresco.extraGroups[3].realmRoles[0] | string | `"ACTIVITI_ADMIN"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[0].composites.client.realm-management[0] | string | `"view-users"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[0].composites.client.realm-management[1] | string | `"view-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[0].name | string | `"ACTIVITI_ADMIN"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[1].composites.client.realm-management[0] | string | `"view-users"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[1].composites.client.realm-management[1] | string | `"view-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[1].name | string | `"ACTIVITI_DEVOPS"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[2].composites.client.realm-management[0] | string | `"view-users"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[2].composites.client.realm-management[1] | string | `"view-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[2].name | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[3].composites.client.realm-management[0] | string | `"view-users"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[3].composites.client.realm-management[1] | string | `"view-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[3].name | string | `"ACTIVITI_MODELER"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].composites.client.realm-management[0] | string | `"view-users"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].composites.client.realm-management[1] | string | `"view-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].composites.client.realm-management[2] | string | `"query-realms"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].composites.client.realm-management[3] | string | `"query-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].composites.client.realm-management[4] | string | `"manage-users"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].composites.client.realm-management[5] | string | `"manage-authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].composites.client.realm-management[6] | string | `"manage-realm"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].composites.client.realm-management[7] | string | `"manage-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].description | string | `"user is able to see the identity section"` |  |
+| alfresco-identity-service.realm.alfresco.extraRealmRoles[4].name | string | `"ACTIVITI_IDENTITY"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.broker[0] | string | `"read-token"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[0] | string | `"manage-users"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[1] | string | `"manage-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[2] | string | `"manage-authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[3] | string | `"manage-events"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[4] | string | `"manage-realm"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[5] | string | `"create-client"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[6] | string | `"impersonation"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[7] | string | `"realm-admin"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].credentials[0].value | string | `"client"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].email | string | `"client@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].firstName | string | `"client"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].lastName | string | `"client"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].realmRoles[0] | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].realmRoles[1] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].realmRoles[2] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].username | string | `"client"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].email | string | `"modeler-qa@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].firstName | string | `"Modeler"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].lastName | string | `"User"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].realmRoles[2] | string | `"ACTIVITI_MODELER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].username | string | `"modeler-qa"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.broker[0] | string | `"read-token"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[0] | string | `"manage-users"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[1] | string | `"manage-clients"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[2] | string | `"manage-authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[3] | string | `"manage-events"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[4] | string | `"manage-realm"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[5] | string | `"create-client"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[6] | string | `"impersonation"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[7] | string | `"realm-admin"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].email | string | `"superadminuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].firstName | string | `"Super Admin"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].lastName | string | `"User"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].realmRoles[0] | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].realmRoles[1] | string | `"ACTIVITI_IDENTITY"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].realmRoles[2] | string | `"ACTIVITI_DEVOPS"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].realmRoles[3] | string | `"ACTIVITI_ADMIN"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].realmRoles[4] | string | `"ACTIVITI_MODELER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].realmRoles[5] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].realmRoles[6] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].username | string | `"superadminuser"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].email | string | `"devopsuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].firstName | string | `"DevOps"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].lastName | string | `"User"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].realmRoles[2] | string | `"ACTIVITI_DEVOPS"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].username | string | `"devopsuser"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].email | string | `"hruser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].firstName | string | `"HR"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].groups[0] | string | `"/hr"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].lastName | string | `"User"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].realmRoles[2] | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].username | string | `"hruser"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].email | string | `"processadminuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].firstName | string | `"Process Admin"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].groups[0] | string | `"/processadmin"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].lastName | string | `"User"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].realmRoles[2] | string | `"ACTIVITI_ADMIN"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].username | string | `"processadminuser"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].email | string | `"salesuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].firstName | string | `"Sales"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].groups[0] | string | `"/sales"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].lastName | string | `"User"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].realmRoles[2] | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].username | string | `"salesuser"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].email | string | `"testuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].firstName | string | `"Test"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].groups[0] | string | `"/testgroup"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].lastName | string | `"User"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].realmRoles[2] | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].username | string | `"testuser"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].email | string | `"testadmin@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].firstName | string | `"Test"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].groups[0] | string | `"/testgroup"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].lastName | string | `"Admin"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].realmRoles[2] | string | `"ACTIVITI_USER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].realmRoles[3] | string | `"ACTIVITI_ADMIN"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].username | string | `"testadmin"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].email | string | `"identityuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].firstName | string | `"Identity"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].lastName | string | `"Admin"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].realmRoles[2] | string | `"ACTIVITI_IDENTITY"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].username | string | `"identityuser"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].clientRoles.account[0] | string | `"manage-account"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].clientRoles.account[1] | string | `"view-profile"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].credentials[0].type | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].credentials[0].value | string | `"password"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].email | string | `"modeler@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].enabled | bool | `true` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].firstName | string | `"Modeler"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].lastName | string | `"User"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].realmRoles[0] | string | `"offline_access"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].realmRoles[1] | string | `"uma_authorization"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].realmRoles[2] | string | `"ACTIVITI_MODELER"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].username | string | `"modeler"` |  |
+| alfresco-modeling-app.enabled | bool | `true` |  |
 | alfresco-modeling-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ template \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_OAUTH2_SILENT_LOGIN | string | `"true"` |  |
-| alfresco-modeling-app.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"develop"` |  |
 | alfresco-modeling-app.ingress.path | string | `"/modeling"` |  |
@@ -97,7 +297,8 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-modeling-service.content.client.id | string | `""` |  |
 | alfresco-modeling-service.content.client.secret | string | `""` |  |
 | alfresco-modeling-service.content.service.path | string | `"alfresco"` |  |
-| alfresco-modeling-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: ACT_KEYCLOAK_URL\n  value: '{{ include \"common.keycloak-url\" . }}'\n- name: CONTENT_CLIENT_ID\n  value: \"{{ .Values.content.client.id }}\"\n- name: CONTENT_CLIENT_SECRET\n  value: \"{{ .Values.content.client.secret }}\"\n- name: CONTENT_SERVICE_URL\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n- name: CONTENT_SERVICE_PATH\n  value: \"{{ .Values.content.service.path }}\"\n"` |  |
+| alfresco-modeling-service.enabled | bool | `true` |  |
+| alfresco-modeling-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: CONTENT_CLIENT_ID\n  value: \"{{ .Values.content.client.id }}\"\n- name: CONTENT_CLIENT_SECRET\n  value: \"{{ .Values.content.client.secret }}\"\n- name: CONTENT_SERVICE_URL\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n- name: CONTENT_SERVICE_PATH\n  value: \"{{ .Values.content.service.path }}\"\n"` |  |
 | alfresco-modeling-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | alfresco-modeling-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
 | alfresco-modeling-service.image.pullPolicy | string | `"Always"` |  |
@@ -111,50 +312,37 @@ Source code can be found [here](https://github.com/Alfresco/alfresco-process-inf
 | alfresco-modeling-service.ingress.subPaths[2] | string | `"/script-service/?(.*)"` |  |
 | alfresco-modeling-service.nameOverride | string | `"alfresco-modeling-service"` |  |
 | alfresco-modeling-service.postgres.enabled | bool | `true` |  |
-| alfresco-modeling-service.postgres.name | string | `"postgresql-ams"` |  |
+| alfresco-modeling-service.postgres.name | string | `"postgresql"` |  |
 | alfresco-modeling-service.postgres.password | string | `"alfresco"` |  |
 | alfresco-modeling-service.postgres.username | string | `"alfresco"` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
-| alfresco-modeling-service.rbac.create | bool | `false` |  |
-| alfresco-modeling-service.serviceAccount.create | bool | `false` |  |
-| global | object | `{"acs":{"admin":{"password":"","username":""},"host":"{{ template \"common.gateway-host\" . }}","url":""},"gateway":{"annotations":{},"domain":"REPLACEME","host":"{{ template \"common.gateway-domain\" . }}","http":"false","tlsacme":"false"},"keycloak":{"host":"{{ template \"common.gateway-domain\" . }}","realm":"alfresco","resource":"activiti","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
+| alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
+| global | object | `{"acs":{"admin":{"password":"","username":""},"host":"{{ template \"common.gateway-host\" . }}","url":""},"gateway":{"annotations":{},"domain":"","host":"{{ template \"common.gateway-domain\" . }}","http":false,"tlsacme":false},"keycloak":{"host":"{{ template \"common.gateway-host\" . }}","realm":"alfresco","resource":"activiti","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
 | global.acs.admin | object | `{"password":"","username":""}` | admin credentials to setup required users/groups/acl on ACS |
 | global.acs.host | string | `"{{ template \"common.gateway-host\" . }}"` | host for content services |
 | global.acs.url | string | `""` | set full url to configure external ACS, https://acs.mydomain.com without /alfresco |
 | global.gateway.annotations | object | `{}` | Configure global annotations for all service ingresses |
-| global.gateway.domain | string | `"REPLACEME"` | Set to configure gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io  helm upgrade activiti . --install --set global.gateway.domain=1.2.3.4.nip.io |
+| global.gateway.domain | string | `""` | Set to configure gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io $ helm upgrade aae . --install --set global.gateway.domain=1.2.3.4.nip.io |
 | global.gateway.host | string | `"{{ template \"common.gateway-domain\" . }}"` | Set to configure single host domain name for all services, i.e. "{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}" |
-| global.gateway.http | string | `"false"` | Set to false enables HTTPS configuration on all urls |
-| global.gateway.tlsacme | string | `"false"` | Set to enable automatic TLS for ingress if https is enabled |
-| global.keycloak.host | string | `"{{ template \"common.gateway-domain\" . }}"` | Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}" |
+| global.gateway.http | bool | `false` | Set to false enables HTTPS configuration on all urls |
+| global.gateway.tlsacme | bool | `false` | Set to enable automatic TLS for ingress if https is enabled |
+| global.keycloak.host | string | `"{{ template \"common.gateway-host\" . }}"` | Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}" |
 | global.keycloak.realm | string | `"alfresco"` | Configure Keycloak realm |
 | global.keycloak.resource | string | `"activiti"` | Configure Keycloak resource |
 | global.keycloak.url | string | `""` | Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth |
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
-| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
-| persistence.baseSize | string | `"100Gi"` |  |
-| persistence.enabled | bool | `false` |  |
-| postgresql-ads.image.repository | string | `"postgres"` |  |
-| postgresql-ads.image.tag | float | `11.4` |  |
-| postgresql-ads.postgresqlConfiguration.log_min_messages | string | `"LOG"` |  |
-| postgresql-ads.postgresqlConfiguration.max_connections | int | `300` |  |
-| postgresql-ads.postgresqlDataDir | string | `"/var/lib/postgresql/data/pgdata"` |  |
-| postgresql-ads.postgresqlDatabase | string | `"postgres"` |  |
-| postgresql-ads.postgresqlPassword | string | `"alfresco"` |  |
-| postgresql-ads.postgresqlUsername | string | `"alfresco"` |  |
-| postgresql-ads.resources.limits.memory | string | `"1500Mi"` |  |
-| postgresql-ads.resources.requests.memory | string | `"1500Mi"` |  |
-| postgresql-ams.image.repository | string | `"postgres"` |  |
-| postgresql-ams.image.tag | float | `11.4` |  |
-| postgresql-ams.postgresqlConfiguration.log_min_messages | string | `"LOG"` |  |
-| postgresql-ams.postgresqlConfiguration.max_connections | int | `300` |  |
-| postgresql-ams.postgresqlDataDir | string | `"/var/lib/postgresql/data/pgdata"` |  |
-| postgresql-ams.postgresqlDatabase | string | `"postgres"` |  |
-| postgresql-ams.postgresqlPassword | string | `"alfresco"` |  |
-| postgresql-ams.postgresqlUsername | string | `"alfresco"` |  |
-| postgresql-ams.resources.limits.memory | string | `"1500Mi"` |  |
-| postgresql-ams.resources.requests.memory | string | `"1500Mi"` |  |
-| setup-acs-script-job.enabled | bool | `true` |  |
+| postgresql.enabled | bool | `true` |  |
+| postgresql.image.repository | string | `"postgres"` |  |
+| postgresql.image.tag | float | `11.7` |  |
+| postgresql.postgresqlConfiguration.log_min_messages | string | `"LOG"` |  |
+| postgresql.postgresqlConfiguration.max_connections | int | `300` |  |
+| postgresql.postgresqlDataDir | string | `"/var/lib/postgresql/data/pgdata"` |  |
+| postgresql.postgresqlDatabase | string | `"postgres"` |  |
+| postgresql.postgresqlPassword | string | `"alfresco"` |  |
+| postgresql.postgresqlUsername | string | `"alfresco"` |  |
+| postgresql.resources.limits.memory | string | `"1500Mi"` |  |
+| postgresql.resources.requests.memory | string | `"1500Mi"` |  |
+| setup-acs-script-job.enabled | bool | `false` |  |
 | setup-acs-script-job.image.repository | string | `"bitnami/minideb-extras"` |  |
 | setup-acs-script-job.image.tag | string | `"stretch"` |  |
 | setup-acs-script-job.loadTestData | bool | `true` |  |

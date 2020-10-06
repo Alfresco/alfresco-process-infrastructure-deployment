@@ -6,25 +6,20 @@ dependencies:
     version: 2.1.0
     repository: https://kubernetes-charts.alfresco.com/stable
     condition: alfresco-identity-service.enabled
-    alias: alfresco-identity-service
   - name: alfresco-process-springboot-service
     alias: alfresco-modeling-service
     version: 7.1.0-M10
     repository: https://kubernetes-charts.alfresco.com/incubator
+    condition: alfresco-modeling-service.enabled
   - name: postgresql
-    alias: postgresql-ams
     version: 6.3.9
     repository: https://kubernetes-charts.storage.googleapis.com
-    condition: alfresco-modeling-service.postgres.enabled
+    condition: postgresql.enabled
   - name: alfresco-adf-app
     alias: alfresco-modeling-app
     version: 7.1.0-M10
     repository: https://kubernetes-charts.alfresco.com/incubator
-  - name: postgresql
-    alias: postgresql-ads
-    version: 6.3.9
-    repository: https://kubernetes-charts.storage.googleapis.com
-    condition: alfresco-deployment-service.postgres.enabled
+    condition: alfresco-modeling-app.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-deployment-service
     version: 7.1.0-M10
@@ -34,4 +29,4 @@ dependencies:
     alias: alfresco-admin-app
     version: 7.1.0-M10
     repository: https://kubernetes-charts.alfresco.com/incubator
-    condition: alfresco-deployment-service.enabled,alfresco-admin-app.enabled
+    condition: alfresco-admin-app.enabled

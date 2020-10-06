@@ -7,34 +7,34 @@
 global:
   # global.registryPullSecrets -- Configure pull secrets for all deployments
   registryPullSecrets:
-    - "quay-registry-secret"
+    - quay-registry-secret
 
   keycloak:
     # global.keycloak.host -- Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
-    host: '{{ template "common.gateway-domain" . }}'
+    host: '{{ template "common.gateway-host" . }}'
 
     # global.keycloak.url -- Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth
     url: ""
 
     # global.keycloak.realm -- Configure Keycloak realm
-    realm: "alfresco"
+    realm: alfresco
 
     # global.keycloak.resource -- Configure Keycloak resource
-    resource: "activiti"
+    resource: activiti
 
   gateway:
     # global.gateway.host -- Set to configure single host domain name for all services, i.e. "{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}"
     host: '{{ template "common.gateway-domain" . }}'
 
     # global.gateway.http -- Set to false enables HTTPS configuration on all urls
-    http: "false"
+    http: false
 
     # global.gateway.tlsacme -- Set to enable automatic TLS for ingress if https is enabled
-    tlsacme: "false"
+    tlsacme: false
 
     # global.gateway.domain -- Set to configure gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io
-    #  helm upgrade activiti . --install --set global.gateway.domain=1.2.3.4.nip.io
-    domain: "REPLACEME"
+    # $ helm upgrade aae . --install --set global.gateway.domain=1.2.3.4.nip.io
+    domain: ""
 
     # global.gateway.annotations -- Configure global annotations for all service ingresses
     annotations: {}
@@ -45,14 +45,11 @@ global:
 
     # global.acs.url -- set full url to configure external ACS, https://acs.mydomain.com without /alfresco
     url: ""
+
     # global.acs.admin -- admin credentials to setup required users/groups/acl on ACS
     admin:
       username: ""
       password: ""
-
-alfresco-infrastructure:
-  nginx-ingress:
-    enabled: false
 
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
@@ -68,17 +65,9 @@ alfresco-identity-service:
     ingress:
       enabled: false
     postgresql:
-      imageTag: "11.3"
+      imageTag: 11.7
       persistence:
-        existingClaim: null # use default postgresql PVC
-    keycloak:
-      service:
-        port: 80
-      extraArgs: "-Dkeycloak.import=/realm/alfresco-aps-realm.json"
-      # Add explicit support for HTTPS proxy address forwarding
-      extraEnv: |
-        - name: PROXY_ADDRESS_FORWARDING
-          value: "true"
+        existingClaim: "" # use default postgresql PVC
   realm:
     alfresco:
       client:
@@ -86,17 +75,289 @@ alfresco-identity-service:
           - "*"
         webOrigins:
           - "*"
+      extraClients:
+        - clientId: activiti
+          enabled: true
+          redirectUris:
+            - "*"
+          webOrigins:
+            - "*"
+          directAccessGrantsEnabled: true
+          implicitFlowEnabled: true
+        - clientId: storage-service
+          enabled: true
+          authorizationServicesEnabled: true
+          directAccessGrantsEnabled: true
+          secret: 08102f0f-025c-4226-8a3e-674343bff231
+      extraRealmRoles:
+        - name: ACTIVITI_ADMIN
+          composites:
+            client:
+              realm-management:
+                - view-users
+                - view-clients
+        - name: ACTIVITI_DEVOPS
+          composites:
+            client:
+              realm-management:
+                - view-users
+                - view-clients
+        - name: ACTIVITI_USER
+          composites:
+            client:
+              realm-management:
+                - view-users
+                - view-clients
+        - name: ACTIVITI_MODELER
+          composites:
+            client:
+              realm-management:
+                - view-users
+                - view-clients
+        - name: ACTIVITI_IDENTITY
+          description: "user is able to see the identity section"
+          composites:
+            client:
+              realm-management:
+                - view-users
+                - view-clients
+                - query-realms
+                - query-clients
+                - manage-users
+                - manage-authorization
+                - manage-realm
+                - manage-clients
+      extraGroups:
+        - name: hr
+          realmRoles:
+            - ACTIVITI_USER
+        - name: sales
+          realmRoles:
+            - ACTIVITI_USER
+        - name: testgroup
+        - name: processadmin
+          realmRoles:
+            - ACTIVITI_ADMIN
+      extraUsers:
+        - username: client
+          enabled: true
+          firstName: client
+          lastName: client
+          email: client@test.com
+          credentials:
+            - type: password
+              value: client
+          realmRoles:
+            - ACTIVITI_USER
+            - offline_access
+            - uma_authorization
+          clientRoles:
+            realm-management:
+              - manage-users
+              - manage-clients
+              - manage-authorization
+              - manage-events
+              - manage-realm
+              - create-client
+              - impersonation
+              - realm-admin
+            broker:
+              - read-token
+            account:
+              - manage-account
+              - view-profile
+        - username: superadminuser
+          enabled: true
+          firstName: "Super Admin"
+          lastName: "User"
+          email: superadminuser@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - ACTIVITI_USER
+            - ACTIVITI_IDENTITY
+            - ACTIVITI_DEVOPS
+            - ACTIVITI_ADMIN
+            - ACTIVITI_MODELER
+            - offline_access
+            - uma_authorization
+          clientRoles:
+            realm-management:
+              - manage-users
+              - manage-clients
+              - manage-authorization
+              - manage-events
+              - manage-realm
+              - create-client
+              - impersonation
+              - realm-admin
+            broker:
+              - read-token
+            account:
+              - manage-account
+              - view-profile
+        - username: devopsuser
+          enabled: true
+          firstName: DevOps
+          lastName: User
+          email: devopsuser@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_DEVOPS
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+        - username: hruser
+          enabled: true
+          firstName: HR
+          lastName: User
+          email: hruser@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_USER
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+          groups:
+            - /hr
+        - username: processadminuser
+          enabled: true
+          firstName: "Process Admin"
+          lastName: User
+          email: processadminuser@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_ADMIN
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+          groups:
+            - /processadmin
+        - username: salesuser
+          enabled: true
+          firstName: Sales
+          lastName: User
+          email: salesuser@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_USER
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+          groups:
+            - /sales
+        - username: testuser
+          enabled: true
+          firstName: Test
+          lastName: User
+          email: testuser@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_USER
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+          groups:
+            - /testgroup
+        - username: testadmin
+          enabled: true
+          firstName: Test
+          lastName: Admin
+          email: testadmin@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_USER
+            - ACTIVITI_ADMIN
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+          groups:
+            - /testgroup
+        - username: identityuser
+          enabled: true
+          firstName: Identity
+          lastName: Admin
+          email: identityuser@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_IDENTITY
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+        - username: modeler
+          enabled: true
+          firstName: Modeler
+          lastName: User
+          email: modeler@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_MODELER
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+        - username: modeler-qa
+          enabled: true
+          firstName: Modeler
+          lastName: User
+          email: modeler-qa@test.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_MODELER
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
 
-persistence:
-  enabled: false
-  accessModes:
-    - ReadWriteOnce
-  baseSize: 100Gi
-
-postgresql-ams:
+postgresql:
+  enabled: true
   image:
     repository: postgres
-    tag: 11.4
+    tag: 11.7
   postgresqlUsername: alfresco
   postgresqlPassword: alfresco
   postgresqlDatabase: postgres
@@ -112,10 +373,7 @@ postgresql-ams:
 
 alfresco-modeling-service:
   nameOverride: alfresco-modeling-service
-  rbac:
-    create: false
-  serviceAccount:
-    create: false
+  enabled: true
   ingress:
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -139,10 +397,12 @@ alfresco-modeling-service:
     pullPolicy: Always
   postgres:
     enabled: true
-    name: postgresql-ams
+    name: postgresql
     username: alfresco
     password: alfresco
   probePath: /actuator/health
+  rabbitmq:
+    enabled: false
   content:
     service:
       path: alfresco
@@ -158,8 +418,6 @@ alfresco-modeling-service:
       value: ".*"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
-    - name: ACT_KEYCLOAK_URL
-      value: '{{ include "common.keycloak-url" . }}'
     - name: CONTENT_CLIENT_ID
       value: "{{ .Values.content.client.id }}"
     - name: CONTENT_CLIENT_SECRET
@@ -170,13 +428,14 @@ alfresco-modeling-service:
       value: "{{ .Values.content.service.path }}"
 
 alfresco-modeling-app:
-  nameOverride: "alfresco-modeling-app"
+  nameOverride: alfresco-modeling-app
+  enabled: true
   ingress:
     path: /modeling
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
     tag: develop
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   env:
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_OAUTH2_SILENT_LOGIN: "true"
@@ -184,26 +443,11 @@ alfresco-modeling-app:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
 
-postgresql-ads:
-  image:
-    repository: postgres
-    tag: 11.4
-  postgresqlUsername: alfresco
-  postgresqlPassword: alfresco
-  postgresqlDatabase: postgres
-  postgresqlDataDir: /var/lib/postgresql/data/pgdata
-  postgresqlConfiguration:
-    max_connections: 300
-    log_min_messages: LOG
-  resources:
-    requests:
-      memory: 1500Mi
-    limits:
-      memory: 1500Mi
-
 alfresco-deployment-service:
+  nameOverride: alfresco-deployment-service
+  enabled: true
   alfresco-content-services:
-    enabled: true
+    enabled: false
     activemq:
       # alfresco-deployment-service.alfresco-content-services.activemq.url -- ACS ActiveMQ URL for events
       url: ""
@@ -211,11 +455,6 @@ alfresco-deployment-service:
       username: ""
       # alfresco-deployment-service.alfresco-content-services.activemq.username -- ACS ActiveMQ password
       password: ""
-  enabled: true
-  rbac:
-    create: false
-  serviceAccount:
-    create: false
   rabbitmq:
     enabled: false
   image:
@@ -223,8 +462,7 @@ alfresco-deployment-service:
     tag: develop
     pullPolicy: Always
   postgres:
-    enabled: true
-    name: postgresql-ads
+    name: postgresql
     username: alfresco
     password: alfresco
   applications:
@@ -235,7 +473,7 @@ alfresco-deployment-service:
       # alfresco-deployment-service.applications.max_number -- maximum number of application can be deployed
       # @default -- 20 applications can be deployed by default
     database:
-      external: false
+      external: true
     connectors:
       # alfresco-deployment-service.applications.connectors.emailConnector -- In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every application in the cluster will share the same account.
       emailConnector:
@@ -249,24 +487,32 @@ alfresco-deployment-service:
         port: ""
     processStorageService:
       # alfresco-deployment-service.applications.processStorageService.clientSecret --  pass secret for process storage service
-      clientSecret: ""
+      clientSecret: 08102f0f-025c-4226-8a3e-674343bff231
     activiti:
       keycloak:
         # alfresco-deployment-service.applications.activiti.keycloak.clientPassword --  activiti keycloak client password.
-        clientPassword: ""
+        clientPassword: client
   ingress:
     path: /deployment-service
     enabled: true
   probePath: "{{ .Values.ingress.path }}/actuator/health"
   environment:
+    # alfresco-deployment-service.environment.apiUrl -- kubernetes API URL, $ kubectl config view -o jsonpath='{.clusters[0].cluster.server}'
     apiUrl: ""
+    # alfresco-deployment-service.environment.apiToken -- kubernetes API Token
+    # Create a service account alfresco-deployment-service and retrieve its token:
+    # $ kubectl create serviceaccount -n kube-system alfresco-deployment-service
+    # $ kubectl create clusterrolebinding alfresco-deployment-service-admin-binding --clusterrole cluster-admin --serviceaccount=kube-system:alfresco-deployment-service
+    # $ kubectl -n kube-system get secret $(kubectl -n kube-system get serviceaccount alfresco-deployment-service -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode
     apiToken: ""
     # alfresco-deployment-service.environment.namespace -- namespace to copy secrets from to application namespaces
     # @default -- installation namespace
     namespace: "{{ .Release.Namespace }}"
-  connectorVolume:
-    storageClass: "default-sc"
-    permission: "ReadWriteMany"
+  projectReleaseVolume:
+    # alfresco-deployment-service.projectReleaseVolume.storageClass -- storage class for project release volume, set to null spring expression to use default
+    storageClass: "#{null}"
+    # alfresco-deployment-service.projectReleaseVolume.permission -- permission for project release volume
+    permission: ReadWriteMany
   extraVolumes: |
     - name: config
       configMap:
@@ -279,7 +525,26 @@ alfresco-deployment-service:
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
+  extraInitContainers: |
+    - name: wait-for-postgresql
+      image: {{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}
+      imagePullPolicy: {{ .Values.init.image.pullPolicy }}
+      command:
+        - sh
+        - -c
+        - |
+          until printf "." && nc -z -w 2 {{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }} {{ .Values.postgres.port }}; do
+              sleep 2;
+          done;
+
+          echo 'PostgreSQL OK ✓'
   extraEnv: |
+    - name: SPRING_DATASOURCE_URL
+      value: "jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }}:{{ .Values.postgres.port }}/postgres"
+    - name: SPRING_DATASOURCE_USERNAME
+      value: "{{ .Values.postgres.username }}"
+    - name: SPRING_DATASOURCE_PASSWORD
+      value: "{{ .Values.postgres.password }}"
     - name: SERVER_PORT
       value: "8080"
     - name: SERVER_SERVLET_CONTEXTPATH
@@ -321,9 +586,9 @@ alfresco-deployment-service:
     - name: ENVIRONMENT_NAMESPACE
       value: "{{ tpl .Values.environment.namespace . }}"
     - name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS
-      value: "{{ .Values.connectorVolume.storageClass }}"
+      value: "{{ .Values.projectReleaseVolume.storageClass }}"
     - name: PROJECT_RELEASE_VOLUME_PERMISSION
-      value: "{{ .Values.connectorVolume.permission }}"
+      value: "{{ .Values.projectReleaseVolume.permission }}"
     - name: APPLICATIONS_DATABASE_EXTERNAL
       value: "{{ .Values.applications.database.external }}"
     {{- with .Values.applications.connectors.emailConnector.username }}
@@ -354,14 +619,15 @@ alfresco-deployment-service:
     {{- end }}
 
 alfresco-admin-app:
-  nameOverride: "alfresco-admin-app"
+  nameOverride: alfresco-admin-app
+  enabled: true
   ingress:
     hostName:
     path: /admin
   image:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: develop
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   applications:
     allow_custom_resources: true
   alfresco_content_services:
@@ -379,7 +645,7 @@ alfresco-admin-app:
     {{- end }}
 
 setup-acs-script-job:
-  enabled: true
+  enabled: false
   loadTestData: true
   image:
     repository: bitnami/minideb-extras
