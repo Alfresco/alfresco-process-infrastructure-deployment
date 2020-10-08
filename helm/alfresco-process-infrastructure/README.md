@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.1.0-M10](https://img.shields.io/badge/Version-7.1.0-M10-informational?style=flat-square) ![AppVersion: 7.1.0-M10](https://img.shields.io/badge/AppVersion-7.1.0-M10-informational?style=flat-square)
+![Version: 7.1.0-A8](https://img.shields.io/badge/Version-7.1.0--A8-informational?style=flat-square) ![AppVersion: 7.1.0-A8](https://img.shields.io/badge/AppVersion-7.1.0--A8-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -14,12 +14,12 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 1.1.44 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M10 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M10 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-A1 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 7.1.0-A1 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-adf-app | 7.1.0-A1 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 7.1.0-A1 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-process-springboot-service | 7.1.0-A1 |
 | https://kubernetes-charts.storage.googleapis.com | postgresql | 6.3.9 |
 
 ## Values
@@ -35,7 +35,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allow_custom_resources }}\"\n{{- if  .Values.alfresco_content_services.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"develop"` |  |
+| alfresco-admin-app.image.tag | string | `"7.1.0-A8"` |  |
 | alfresco-admin-app.ingress.hostName | string | `nil` |  |
 | alfresco-admin-app.ingress.path | string | `"/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"alfresco-admin-app"` |  |
@@ -43,16 +43,16 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | alfresco-deployment-service.alfresco-content-services.activemq.url | string | `""` | ACS ActiveMQ URL for events |
 | alfresco-deployment-service.alfresco-content-services.activemq.username | string | `""` | ACS ActiveMQ password |
 | alfresco-deployment-service.alfresco-content-services.enabled | bool | `false` |  |
-| alfresco-deployment-service.applications.activiti.keycloak.clientPassword | string | `"client"` |  activiti keycloak client password. |
+| alfresco-deployment-service.applications.activiti.keycloak.clientPassword | string | `"client"` | activiti keycloak client password. |
 | alfresco-deployment-service.applications.connectors.emailConnector | object | `{"host":"","password":"","port":"","username":""}` | In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every application in the cluster will share the same account. |
 | alfresco-deployment-service.applications.connectors.emailConnector.host | string | `""` | email host |
 | alfresco-deployment-service.applications.connectors.emailConnector.password | string | `""` | email password |
 | alfresco-deployment-service.applications.connectors.emailConnector.port | string | `""` | email port |
 | alfresco-deployment-service.applications.connectors.emailConnector.username | string | `""` | email username |
 | alfresco-deployment-service.applications.database.external | bool | `true` |  |
-| alfresco-deployment-service.applications.image.tag | string | `"develop"` | default tag for all images used in application |
+| alfresco-deployment-service.applications.image.tag | string | `"7.1.0-A8"` | default tag for all images used in application |
 | alfresco-deployment-service.applications.max_number | int | 20 applications can be deployed by default | maximum number of application can be deployed |
-| alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` |  pass secret for process storage service |
+| alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | pass secret for process storage service |
 | alfresco-deployment-service.enabled | bool | `true` |  |
 | alfresco-deployment-service.environment.apiToken | string | `""` | kubernetes API Token Create a service account alfresco-deployment-service and retrieve its token: $ kubectl create serviceaccount -n kube-system alfresco-deployment-service $ kubectl create clusterrolebinding alfresco-deployment-service-admin-binding --clusterrole cluster-admin --serviceaccount=kube-system:alfresco-deployment-service $ kubectl -n kube-system get secret $(kubectl -n kube-system get serviceaccount alfresco-deployment-service -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode |
 | alfresco-deployment-service.environment.apiUrl | string | `""` | kubernetes API URL, $ kubectl config view -o jsonpath='{.clusters[0].cluster.server}' |
@@ -63,7 +63,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744\n- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"develop"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.1.0-A8"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
 | alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
@@ -291,7 +291,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | alfresco-modeling-app.env.APP_CONFIG_OAUTH2_SILENT_LOGIN | string | `"true"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
-| alfresco-modeling-app.image.tag | string | `"develop"` |  |
+| alfresco-modeling-app.image.tag | string | `"7.1.0-A8"` |  |
 | alfresco-modeling-app.ingress.path | string | `"/modeling"` |  |
 | alfresco-modeling-app.nameOverride | string | `"alfresco-modeling-app"` |  |
 | alfresco-modeling-service.content.client.id | string | `""` |  |
@@ -303,7 +303,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | alfresco-modeling-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
 | alfresco-modeling-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
-| alfresco-modeling-service.image.tag | string | `"develop"` |  |
+| alfresco-modeling-service.image.tag | string | `"7.1.0-A8"` |  |
 | alfresco-modeling-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-modeling-service.ingress.enabled | bool | `true` |  |
 | alfresco-modeling-service.ingress.path | string | `""` |  |
@@ -346,3 +346,6 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | setup-acs-script-job.image.repository | string | `"bitnami/minideb-extras"` |  |
 | setup-acs-script-job.image.tag | string | `"stretch"` |  |
 | setup-acs-script-job.loadTestData | bool | `true` |  |
+
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.3.0](https://github.com/norwoodj/helm-docs/releases/v1.3.0)
