@@ -72,7 +72,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | alfresco-deployment-service.postgres.username | string | `"alfresco"` |  |
 | alfresco-deployment-service.probePath | string | `"{{ .Values.ingress.path }}/actuator/health"` |  |
 | alfresco-deployment-service.projectReleaseVolume.permission | string | `"ReadWriteMany"` | permission for project release volume |
-| alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"#{null}"` | storage class for project release volume, set to null spring expression to use default |
+| alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"default-sc"` | storage class for project release volume |
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
 | alfresco-identity-service.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"false"` |  |

@@ -509,8 +509,8 @@ alfresco-deployment-service:
     # @default -- installation namespace
     namespace: "{{ .Release.Namespace }}"
   projectReleaseVolume:
-    # alfresco-deployment-service.projectReleaseVolume.storageClass -- storage class for project release volume, set to null spring expression to use default
-    storageClass: "#{null}"
+    # alfresco-deployment-service.projectReleaseVolume.storageClass -- storage class for project release volume
+    storageClass: default-sc
     # alfresco-deployment-service.projectReleaseVolume.permission -- permission for project release volume
     permission: ReadWriteMany
   extraVolumes: |
