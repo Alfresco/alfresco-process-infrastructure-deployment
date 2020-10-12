@@ -342,7 +342,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | postgresql.postgresqlUsername | string | `"alfresco"` |  |
 | postgresql.resources.limits.memory | string | `"1500Mi"` |  |
 | postgresql.resources.requests.memory | string | `"1500Mi"` |  |
-| setup-acs-script-job.enabled | bool | `false` |  |
+| setup-acs-script-job.enabled | bool | `true` |  |
 | setup-acs-script-job.image.repository | string | `"bitnami/minideb-extras"` |  |
 | setup-acs-script-job.image.tag | string | `"stretch"` |  |
 | setup-acs-script-job.loadTestData | bool | `true` |  |

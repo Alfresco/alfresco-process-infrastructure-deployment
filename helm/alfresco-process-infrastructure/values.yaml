@@ -645,7 +645,7 @@ alfresco-admin-app:
     {{- end }}
 
 setup-acs-script-job:
-  enabled: false
+  enabled: true
   loadTestData: true
   image:
     repository: bitnami/minideb-extras
