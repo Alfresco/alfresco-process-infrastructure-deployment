@@ -1,4 +1,4 @@
-{{ if index .Values "setup-acs-script-job" "enabled" }}
+{{ if and (index .Values "setup-acs-script-job" "enabled") (index .Values "alfresco-deployment-service" "alfresco-content-services" "enabled") }}
 apiVersion: batch/v1
 kind: Job
 metadata:
