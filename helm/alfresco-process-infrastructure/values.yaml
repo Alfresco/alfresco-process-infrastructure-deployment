@@ -363,7 +363,7 @@ postgresql:
   postgresqlDatabase: postgres
   postgresqlDataDir: /data/pgdata
   persistence:
-    mountPath: /data/
+    mountPath: /data
   postgresqlConfiguration:
     max_connections: 300
     log_min_messages: LOG
