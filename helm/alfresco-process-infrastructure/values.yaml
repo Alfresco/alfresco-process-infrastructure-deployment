@@ -51,7 +51,6 @@ global:
       username: ""
       password: ""
 
-
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
   enabled: true
