@@ -12,8 +12,8 @@ dependencies:
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-modeling-service.enabled
   - name: postgresql
-    version: 6.3.9
-    repository: https://kubernetes-charts.storage.googleapis.com
+    version: 9.8.4
+    repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
   - name: alfresco-adf-app
     alias: alfresco-modeling-app
