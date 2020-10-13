@@ -26,13 +26,13 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| alfresco-admin-app.alfresco_content_services.enabled | bool | `false` |  |
-| alfresco-admin-app.applications.allow_custom_resources | bool | `true` |  |
+| alfresco-admin-app.alfresco-content-services.enabled | bool | `false` |  |
+| alfresco-admin-app.applications.allowCustomResources | bool | `true` |  |
 | alfresco-admin-app.enabled | bool | `true` |  |
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allow_custom_resources }}\"\n{{- if  .Values.alfresco_content_services.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n"` |  |
+| alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if index .Values \"alfresco-content-services\" \"enabled\" }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |
@@ -43,7 +43,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | alfresco-deployment-service.alfresco-content-services.activemq.url | string | `""` | ACS ActiveMQ URL for events |
 | alfresco-deployment-service.alfresco-content-services.activemq.username | string | `""` | ACS ActiveMQ password |
 | alfresco-deployment-service.alfresco-content-services.enabled | bool | `false` |  |
-| alfresco-deployment-service.applications.activiti.keycloak.clientPassword | string | `"client"` | activiti keycloak client password. |
+| alfresco-deployment-service.applications.activiti.keycloak.clientPassword | string | `"client"` | activiti keycloak client password |
 | alfresco-deployment-service.applications.connectors.emailConnector | object | `{"host":"","password":"","port":"","username":""}` | In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every application in the cluster will share the same account. |
 | alfresco-deployment-service.applications.connectors.emailConnector.host | string | `""` | email host |
 | alfresco-deployment-service.applications.connectors.emailConnector.password | string | `""` | email password |
@@ -51,8 +51,8 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | alfresco-deployment-service.applications.connectors.emailConnector.username | string | `""` | email username |
 | alfresco-deployment-service.applications.database.external | bool | `true` |  |
 | alfresco-deployment-service.applications.image.tag | string | `"develop"` | default tag for all images used in application |
-| alfresco-deployment-service.applications.max_number | int | 20 applications can be deployed by default | maximum number of application can be deployed |
-| alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | pass secret for process storage service |
+| alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
+| alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
 | alfresco-deployment-service.enabled | bool | `true` |  |
 | alfresco-deployment-service.environment.apiToken | string | `""` | kubernetes API Token Create a service account alfresco-deployment-service and retrieve its token: $ kubectl create serviceaccount -n kube-system alfresco-deployment-service $ kubectl create clusterrolebinding alfresco-deployment-service-admin-binding --clusterrole cluster-admin --serviceaccount=kube-system:alfresco-deployment-service $ kubectl -n kube-system get secret $(kubectl -n kube-system get serviceaccount alfresco-deployment-service -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode |
 | alfresco-deployment-service.environment.apiUrl | string | `""` | kubernetes API URL, $ kubectl config view -o jsonpath='{.clusters[0].cluster.server}' |

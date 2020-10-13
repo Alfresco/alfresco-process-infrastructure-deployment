@@ -50,11 +50,3 @@ Create chart name and version as used by the chart label.
 {{- $value := default $defaultValue .Values.global.acs.url -}}
 {{- tpl (printf "%s" $value) . -}}
 {{- end -}}
-
-{{- define "alfresco-process-infrastructure.ads-registry-secret" }}
-{{- $values := index .Values "alfresco-deployment-service" -}}
-{{- $registry := $values.dockerRegistry.server -}}
-{{- $username := $values.dockerRegistry.userName -}}
-{{- $password := $values.dockerRegistry.password -}}
-{{- printf "{\"auths\": {\"%s\": {\"auth\": \"%s\"}}}" $registry (printf "%s:%s" $username $password | b64enc) | b64enc }}
-{{- end }}

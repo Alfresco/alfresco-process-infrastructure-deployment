@@ -51,6 +51,7 @@ global:
       username: ""
       password: ""
 
+
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
   enabled: true
@@ -473,8 +474,8 @@ alfresco-deployment-service:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
       tag: develop
-    max_number: 20
-      # alfresco-deployment-service.applications.max_number -- maximum number of application can be deployed
+    maxNumber: 20
+      # alfresco-deployment-service.applications.maxNumber -- maximum number of application can be deployed
       # @default -- 20 applications can be deployed by default
     database:
       external: true
@@ -490,11 +491,11 @@ alfresco-deployment-service:
         # alfresco-deployment-service.applications.connectors.emailConnector.port -- email port
         port: ""
     processStorageService:
-      # alfresco-deployment-service.applications.processStorageService.clientSecret --  pass secret for process storage service
+      # alfresco-deployment-service.applications.processStorageService.clientSecret -- client secret for process storage
       clientSecret: 08102f0f-025c-4226-8a3e-674343bff231
     activiti:
       keycloak:
-        # alfresco-deployment-service.applications.activiti.keycloak.clientPassword --  activiti keycloak client password.
+        # alfresco-deployment-service.applications.activiti.keycloak.clientPassword -- activiti keycloak client password
         clientPassword: client
   ingress:
     path: /deployment-service
@@ -636,8 +637,8 @@ alfresco-admin-app:
     tag: develop
     pullPolicy: Always
   applications:
-    allow_custom_resources: true
-  alfresco_content_services:
+    allowCustomResources: true
+  alfresco-content-services:
     enabled: false
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
@@ -645,8 +646,8 @@ alfresco-admin-app:
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
   extraEnv: |
     - name: APP_ALLOW_CUSTOM_RESOURCES
-      value: "{{ .Values.applications.allow_custom_resources }}"
-    {{- if  .Values.alfresco_content_services.enabled }}
+      value: "{{ .Values.applications.allowCustomResources }}"
+    {{- if index .Values "alfresco-content-services" "enabled" }}
     - name: APP_CONFIG_ECM_HOST
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     {{- end }}
