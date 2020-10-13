@@ -658,14 +658,7 @@ rabbitmq:
     tag: management-alpine
     pullPolicy: Always
   rabbitmq:
-    plugins:
-      - rabbitmq_management
-      - rabbitmq_stomp
-  service:
-    extraPorts:
-      - 5672
-      - 15672
-      - 61613
+    extraPlugins: "rabbitmq_stomp"
   resources:
     requests:
       memory: 1500Mi
