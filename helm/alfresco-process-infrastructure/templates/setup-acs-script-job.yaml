@@ -2,7 +2,12 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: setup-acs-script-job
+  name: {{ template "alfresco-process-infrastructure.fullname" . }}-setup-acs-script-job
+  labels:
+    app: {{ template "alfresco-process-infrastructure.name" . }}
+    chart: {{ template "alfresco-process-infrastructure.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
   annotations:
     "helm.sh/hook": post-install
 spec:
@@ -18,7 +23,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ .Release.Name }}-deployment-config
+            name: {{ template "alfresco-process-infrastructure.fullname" . }}-setup-acs-script-config
             defaultMode: 0744
       containers:
         - name: init-acs

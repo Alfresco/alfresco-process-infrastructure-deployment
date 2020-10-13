@@ -361,7 +361,9 @@ postgresql:
   postgresqlUsername: alfresco
   postgresqlPassword: alfresco
   postgresqlDatabase: postgres
-  postgresqlDataDir: /var/lib/postgresql/data/pgdata
+  postgresqlDataDir: /data/pgdata
+  persistence:
+    mountPath: /data/
   postgresqlConfiguration:
     max_connections: 300
     log_min_messages: LOG
@@ -462,6 +464,8 @@ alfresco-deployment-service:
     tag: develop
     pullPolicy: Always
   postgres:
+    # workaround to use the namespace qualified postgres hostname
+    enabled: false
     name: postgresql
     username: alfresco
     password: alfresco
@@ -526,6 +530,7 @@ alfresco-deployment-service:
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
   extraInitContainers: |
+    {{- if not .Values.db.uri }}
     - name: wait-for-postgresql
       image: {{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}
       imagePullPolicy: {{ .Values.init.image.pullPolicy }}
@@ -534,17 +539,19 @@ alfresco-deployment-service:
         - -c
         - |
           until printf "." && nc -z -w 2 {{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }} {{ .Values.postgres.port }}; do
-              sleep 2;
+            sleep 2;
           done;
-
           echo 'PostgreSQL OK ✓'
+    {{- end }}
   extraEnv: |
+    {{- if not .Values.db.uri }}
     - name: SPRING_DATASOURCE_URL
       value: "jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }}:{{ .Values.postgres.port }}/postgres"
     - name: SPRING_DATASOURCE_USERNAME
       value: "{{ .Values.postgres.username }}"
     - name: SPRING_DATASOURCE_PASSWORD
       value: "{{ .Values.postgres.password }}"
+    {{- end }}
     - name: SERVER_PORT
       value: "8080"
     - name: SERVER_SERVLET_CONTEXTPATH
