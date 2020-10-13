@@ -11,10 +11,6 @@ alfresco-deployment-service:
     image:
       repository: ${DOCKER_REGISTRY}/alpine
       tag: "${ALPINE_TAG}"
-  dind:
-    image:
-      repository: ${DOCKER_REGISTRY}/docker
-      tag: "${DIND_TAG}"
   extraInit:
     image:
       repository: ${DOCKER_REGISTRY}/bitnami/minideb-extras
@@ -23,11 +19,6 @@ alfresco-deployment-service:
 alfresco-modeling-app:
   image:
     repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-modeling-app
-    tag: "${AAE_TAG}"
-
-alfresco-dmn-simulation-service:
-  image:
-    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-dmn-simulation-service
     tag: "${AAE_TAG}"
 
 alfresco-modeling-service:
@@ -39,123 +30,20 @@ alfresco-modeling-service:
       repository: ${DOCKER_REGISTRY}/alpine
       tag: "${ALPINE_TAG}"
 
-alfresco-digital-workspace:
-  image:
-    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-digital-workspace
-    tag: "${ALFRESCO_DIGITAL_WORKSPACE_TAG}"
-
-nfs-server-provisioner:
-  image:
-    repository: ${DOCKER_REGISTRY}/quay.io/kubernetes_incubator/nfs-provisioner
-    tag: "${NFS_PROVISIONER_TAG}"
-
-postgresql-ads:
+postgresql:
   image: ${DOCKER_REGISTRY}/postgres
   imageTag: "${POSTGRES_TAG}"
 
-postgresql-ams:
-  image: ${DOCKER_REGISTRY}/postgres
-  imageTag: "${POSTGRES_TAG}"
-
-alfresco-content-services:
-  aiTransformer:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-ai-docker-engine
-      tag: "${ALFRESCO_AI_DOCKER_ENGINE_TAG}"
-
-  alfresco-digital-workspace:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-digital-workspace
-      tag: "${ALFRESCO_DIGITAL_WORKSPACE_TAG}"
-
-  alfresco-search:
-    insightEngineImage:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/insight-engine
-      tag: "${INSIGHT_ENGINE_TAG}"
-
-    searchServicesImage:
-      repository: ${DOCKER_REGISTRY}/alfresco/alfresco-search-services
-      tag: "${ALFRESCO_SEARCH_SERVICES_TAG}"
-
-  filestore:
-    image:
-      repository: ${DOCKER_REGISTRY}/alfresco/alfresco-shared-file-store
-      tag: "${ALFRESCO_SHARED_FILE_STORE_TAG}"
-
-  imagemagick:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-imagemagick
-      tag: "${ALFRESCO_IMAGEMAGICK_TAG}"
-
-  libreoffice:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-libreoffice
-      tag: "${ALFRESCO_LIBREOFFICE_TAG}"
-
-  pdfrenderer:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-pdf-renderer
-      tag: "${ALFRESCO_PDF_RENDERER_TAG}"
-
-  postgresql:
-    image: ${DOCKER_REGISTRY}/postgres
-    imageTag: "${POSTGRES_TAG}"
-
-  repository:
-    image:
-      repository: ${DOCKER_REGISTRY}/alfresco/alfresco-content-repository
-      tag: "${ALFRESCO_CONTENT_REPOSITORY_TAG}"
-
-  share:
-    image:
-      repository: ${DOCKER_REGISTRY}/alfresco/alfresco-share
-      tag: "${ALFRESCO_SHARE_TAG}"
-
-  tika:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-tika
-      tag: "${ALFRESCO_TIKA_TAG}"
-
-  transformrouter:
-    image:
-      repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-transform-router
-      tag: "${ALFRESCO_TRANSFORM_ROUTER_TAG}"
-
-alfresco-infrastructure:
-  activemq:
-    image:
-      repository: ${DOCKER_REGISTRY}/alfresco/alfresco-activemq
-      tag: "${ALFRESCO_ACTIVEMQ_TAG}"
-  alfresco-identity-service:
+alfresco-identity-service:
+  keycloak:
+    init:
+      image:
+        repository: ${DOCKER_REGISTRY}/alpine
+        tag: "${ALPINE_TAG}"
     keycloak:
-      init:
-        image:
-          repository: ${DOCKER_REGISTRY}/alpine
-          tag: "${ALPINE_TAG}"
-      keycloak:
-        image:
-          repository: ${DOCKER_REGISTRY}/jboss/keycloak
-          tag: "${KEYCLOAK_TAG}"
-        extraInitContainers: |
-          - name: theme-provider
-            image: ${DOCKER_REGISTRY}/alfresco/alfresco-keycloak-theme:${KEYCLOAK_THEME_TAG}
-            imagePullPolicy: Always
-            command:
-              - sh
-            args:
-              - -c
-              - |
-                echo "Copying theme..."
-                cp -R /alfresco/* /theme
-            volumeMounts:
-              - name: theme
-                mountPath: /theme
-      postgresql:
-        image: ${DOCKER_REGISTRY}/postgres
-        imageTag: "${POSTGRES_TAG}"
-alfresco-script-model-runtime:
-  image:
-    repository: ${DOCKER_REGISTRY}/quay.io/alfresco/alfresco-script-model-runtime
-    tag: "${AAE_TAG}"
-
-
+      image:
+        repository: ${DOCKER_REGISTRY}/jboss/keycloak
+        tag: "${KEYCLOAK_TAG}"
+    postgresql:
+      image: ${DOCKER_REGISTRY}/postgres
+      imageTag: "${POSTGRES_TAG}"
