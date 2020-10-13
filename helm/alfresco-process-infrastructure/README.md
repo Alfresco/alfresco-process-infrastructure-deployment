@@ -15,7 +15,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | Repository | Name | Version |
 |------------|------|---------|
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.1 |
-| https://charts.bitnami.com/bitnami | postgresql | 9.8.4 |
+| https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M10 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M10 |
@@ -335,7 +335,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | postgresql.enabled | bool | `true` |  |
 | postgresql.image.repository | string | `"postgres"` |  |
 | postgresql.image.tag | float | `11.7` |  |
-| postgresql.persistence.mountPath | string | `"/data/"` |  |
+| postgresql.persistence.mountPath | string | `"/data"` |  |
 | postgresql.postgresqlConfiguration.log_min_messages | string | `"LOG"` |  |
 | postgresql.postgresqlConfiguration.max_connections | int | `300` |  |
 | postgresql.postgresqlDataDir | string | `"/data/pgdata"` |  |
