@@ -160,7 +160,7 @@ To enable ACS support:
 
 ```bash
 HELM_OPTS+="
-  --set alfresco-deployment-service.alfresco-content-services.enabled=true
+  --set global.acs.enabled=true
 "
 ```
 
