@@ -644,6 +644,27 @@ alfresco-admin-app:
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     {{- end }}
 
+rabbitmq:
+  enabled: true
+  image:
+    repository: bitnami/rabbitmq
+    tag: management-alpine
+    pullPolicy: Always
+  rabbitmq:
+    plugins:
+      - rabbitmq_management
+      - rabbitmq_stomp
+  service:
+    extraPorts:
+      - 5672
+      - 15672
+      - 61613
+  resources:
+    requests:
+      memory: 1500Mi
+    limits:
+      memory: 1500Mi
+
 setup-acs-script-job:
   enabled: true
   loadTestData: true
