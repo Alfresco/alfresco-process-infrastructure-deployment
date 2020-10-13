@@ -40,6 +40,9 @@ global:
     annotations: {}
 
   acs:
+    # global.acs.enabled -- enable support for ACS
+    enabled: false
+
     # global.acs.host -- host for content services
     host: '{{ template "common.gateway-host" . }}'
 
@@ -48,8 +51,22 @@ global:
 
     # global.acs.admin -- admin credentials to setup required users/groups/acl on ACS
     admin:
+
+      # global.acs.admin.username -- ACS admin username
       username: ""
+
+      # global.acs.admin.password -- ACS admin password
       password: ""
+
+    activemq:
+      # global.acs.activemq.url -- ACS ActiveMQ URL for events
+      url: ""
+      # global.acs.activemq.username -- ACS ActiveMQ username
+      username: ""
+      # global.acs.activemq.username -- ACS ActiveMQ password
+      password: ""
+
+
 
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
@@ -448,15 +465,6 @@ alfresco-modeling-app:
 alfresco-deployment-service:
   nameOverride: alfresco-deployment-service
   enabled: true
-  alfresco-content-services:
-    enabled: false
-    activemq:
-      # alfresco-deployment-service.alfresco-content-services.activemq.url -- ACS ActiveMQ URL for events
-      url: ""
-      # alfresco-deployment-service.alfresco-content-services.activemq.username -- ACS ActiveMQ username
-      username: ""
-      # alfresco-deployment-service.alfresco-content-services.activemq.username -- ACS ActiveMQ password
-      password: ""
   rabbitmq:
     enabled: false
   image:
@@ -569,16 +577,16 @@ alfresco-deployment-service:
     - name: CONTENT_SERVICE_BASE_URL
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_ENABLED
-      value: '{{ index .Values "alfresco-content-services" "enabled" }}'
-    {{- with index .Values "alfresco-content-services" "activemq" "url" }}
+      value: "{{ .Values.global.acs.enabled }}"
+    {{- with .Values.global.acs.activemq.url }}
     - name: CONTENT_SERVICE_ACTIVEMQ_URL
       value: "{{ . }}"
     {{- end }}
-    {{- with index .Values "alfresco-content-services" "activemq" "username" }}
+    {{- with .Values.global.acs.activemq.username }}
     - name: CONTENT_SERVICE_ACTIVEMQ_USERNAME
       value: "{{ . }}"
     {{- end }}
-    {{- with index .Values "alfresco-content-services" "activemq" "password" }}
+    {{- with .Values.global.acs.activemq.password }}
     - name: CONTENT_SERVICE_ACTIVEMQ_PASSWORD
       value: "{{ . }}"
     {{- end }}
@@ -637,8 +645,6 @@ alfresco-admin-app:
     pullPolicy: Always
   applications:
     allowCustomResources: true
-  alfresco-content-services:
-    enabled: false
   env:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_AUTH_TYPE: "OAUTH"
@@ -646,7 +652,7 @@ alfresco-admin-app:
   extraEnv: |
     - name: APP_ALLOW_CUSTOM_RESOURCES
       value: "{{ .Values.applications.allowCustomResources }}"
-    {{- if index .Values "alfresco-content-services" "enabled" }}
+    {{- if .Values.global.acs.enabled }}
     - name: APP_CONFIG_ECM_HOST
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     {{- end }}
