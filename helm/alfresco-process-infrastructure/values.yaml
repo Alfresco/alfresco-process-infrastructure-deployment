@@ -653,12 +653,12 @@ alfresco-admin-app:
 
 rabbitmq:
   enabled: true
-  image:
-    repository: bitnami/rabbitmq
-    tag: management-alpine
-    pullPolicy: Always
-  rabbitmq:
-    extraPlugins: "rabbitmq_stomp"
+  persistence:
+    storageClass:
+    accessMode:
+  auth:
+    username: guest
+    password: guest
   resources:
     requests:
       memory: 1500Mi
