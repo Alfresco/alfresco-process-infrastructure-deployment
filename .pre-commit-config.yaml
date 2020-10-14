@@ -3,21 +3,29 @@ repos:
     rev: v1.3.0
     hooks:
       - id: helm-docs
-  - repo: https://github.com/gruntwork-io/pre-commit
-    rev: v0.1.10
-    hooks:
-      - id: helmlint
   - repo: local
     hooks:
-      - id: kubepug-1.15
-        name: KubePug - k8s minimum version 1.15
+      - id: helm-deps
+        name: Helm Dependency Update
         entry: >-
-          env K8S_TARGET_VERSION=v1.15.0 find helm -mindepth 1 -maxdepth 1 -type d -exec bash -c 'helm dep up {} && helm template {} --api-versions $K8S_TARGET_VERSION | kubepug --error-on-deprecated --error-on-deleted --k8s-version $K8S_TARGET_VERSION --input-file /dev/stdin' \;
+          find helm -mindepth 1 -maxdepth 1 -type d -exec bash -c 'helm dep up {}' \;
+        language: system
+        pass_filenames: false
+      - id: helm-lint
+        name: Helm Lint
+        entry: >-
+          find helm -mindepth 1 -maxdepth 1 -type d -exec bash -c 'helm lint {}' \;
+        language: system
+        pass_filenames: false
+      - id: kubepug-1.15
+        name: KubePug - k8s v1.15 minimum
+        entry: >-
+          env K8S_TARGET_VERSION=v1.15.0 find helm -mindepth 1 -maxdepth 1 -type d -exec bash -c 'helm template {} --api-versions $K8S_TARGET_VERSION | kubepug --error-on-deprecated --error-on-deleted --k8s-version $K8S_TARGET_VERSION --input-file /dev/stdin' \;
         language: system
         pass_filenames: false
       - id: kubepug-1.17
-        name: KubePug - k8s recommended version 1.17
+        name: KubePug - k8s v1.17 recommended
         entry: >-
-          env K8S_TARGET_VERSION=v1.17.0 find helm -mindepth 1 -maxdepth 1 -type d -exec bash -c 'helm dep up {} && helm template {} --api-versions $K8S_TARGET_VERSION | kubepug --error-on-deprecated --error-on-deleted --k8s-version $K8S_TARGET_VERSION --input-file /dev/stdin' \;
+          env K8S_TARGET_VERSION=v1.17.0 find helm -mindepth 1 -maxdepth 1 -type d -exec bash -c 'helm template {} --api-versions $K8S_TARGET_VERSION | kubepug --error-on-deprecated --error-on-deleted --k8s-version $K8S_TARGET_VERSION --input-file /dev/stdin' \;
         language: system
         pass_filenames: false
