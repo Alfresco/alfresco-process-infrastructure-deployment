@@ -11,3 +11,20 @@ repos:
       - id: helm-lint
       - id: kubepug-minimum
       - id: kubepug-recommended
+  - repo: local
+    hooks:
+      - id: helm-template
+        name: Helm Template
+        entry: bash -c 'find helm -mindepth 1 -maxdepth 1 -type d | xargs -t -n1 -I% bash -c "helm template % > %/output.yaml"'
+        language: system
+        pass_filenames: false
+      - id: checkov
+        name: Checkov
+        entry: bash -c 'find helm -mindepth 1 -maxdepth 1 -type d | xargs -t -n1 -I% bash -c "checkov -f %/output.yaml"'
+        language: system
+        pass_filenames: false
+      - id: conftest
+        name: Conftest
+        entry: bash -c 'find helm -mindepth 1 -maxdepth 1 -type d | xargs -t -n1 -I% bash -c "conftest test -p %/policy %/output.yaml"'
+        language: system
+        pass_filenames: false
