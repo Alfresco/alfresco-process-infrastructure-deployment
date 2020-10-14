@@ -1,1 +1,8 @@
 import: Alfresco/alfresco-process-tools:.travis.helm.yml@master
+
+env:
+  global:
+    - KUBEPUG_VERSION=${KUBEPUG_VERSION:-1.1.3}
+
+before_install:
+  - curl -sSL https://github.com/rikatz/kubepug/releases/download/v$KUBEPUG_VERSION/kubepug_$(uname | tr '[:upper:]' '[:lower:]')_amd64.tar.gz | sudo tar xvfz - -C /usr/bin/
