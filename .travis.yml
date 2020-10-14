@@ -4,7 +4,9 @@ import:
 
 env:
   global:
+    - HELM_DOCS_VERSION=${HELM_DOCS_VERSION:-1.3.0}
     - KUBEPUG_VERSION=${KUBEPUG_VERSION:-1.1.3}
 
 before_install:
+  - curl -sSL https://github.com/norwoodj/helm-docs/releases/download/v$HELM_DOCS_VERSION/helm-docs_${HELM_DOCS_VERSION}_$(uname)_x86_64.tar.gz | sudo tar xvfz - -C /usr/bin/
   - curl -sSL https://github.com/rikatz/kubepug/releases/download/v$KUBEPUG_VERSION/kubepug_$(uname | tr '[:upper:]' '[:lower:]')_amd64.tar.gz | sudo tar xvfz - -C /usr/bin/
