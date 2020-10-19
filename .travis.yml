@@ -1,7 +1,7 @@
 import:
   - Alfresco/alfresco-process-tools:.travis.helm.yml@master
   - Alfresco/alfresco-process-tools:.travis.pre-commit.yml@master
-
+  - Alfresco/alfresco-process-scripts:slack_apa_channel_notification.yml@master
 env:
   global:
     - HELM_DOCS_VERSION=${HELM_DOCS_VERSION:-1.3.0}
