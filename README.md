@@ -1,6 +1,7 @@
 # alfresco-process-infrastructure
 
 [![Build Status](https://travis-ci.com/Alfresco/alfresco-process-infrastructure-deployment.svg?branch=develop)](https://travis-ci.com/Alfresco/alfresco-process-infrastructure-deployment)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 Helm chart to install the Alfresco Activiti Enterprise (AAE) infrastructure to model and deploy your process applications:
 
@@ -160,7 +161,7 @@ To enable ACS support:
 
 ```bash
 HELM_OPTS+="
-  --set alfresco-deployment-service.alfresco-content-services.enabled=true
+  --set global.acs.enabled=true
 "
 ```
 

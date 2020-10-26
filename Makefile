@@ -5,67 +5,29 @@ VALUES_REGISTRY_TMPL := $(or $(VALUES_REGISTRY_TMPL), values-registry.tmpl)
 
 ALPINE_TAG := 3.8
 SELENIUM_TAG := v1
-KEYCLOAK_TAG := 4.8.3.Final
-KEYCLOAK_THEME_TAG := 0.2
-POSTGRES_TAG := 11.3
-ALFRESCO_DIGITAL_WORKSPACE_TAG := 1.1.0
-AAE_TAG := 7.1.0-M7
-NFS_PROVISIONER_TAG := v2.2.1-k8s1.12
-DIND_TAG := 18.06.1-dind
+KEYCLOAK_TAG := 11.0.2.Final
+POSTGRES_TAG := 11.7
+AAE_TAG := 7.1.0-M10
 MINIDEB_EXTRAS_TAG := stretch
-ALFRESCO_AI_DOCKER_ENGINE_TAG := 1.0.1
-INSIGHT_ENGINE_TAG := 1.1.0.1
-ALFRESCO_SEARCH_SERVICES_TAG := 1.4.0
-ALFRESCO_SHARED_FILE_STORE_TAG := 0.5.3
-ALFRESCO_IMAGEMAGICK_TAG := 2.1.0
-ALFRESCO_LIBREOFFICE_TAG := 2.1.0
-ALFRESCO_PDF_RENDERER_TAG := 2.1.0
-ALFRESCO_CONTENT_REPOSITORY_TAG := 6.2.0
-ALFRESCO_SHARE_TAG := 6.2.0
-ALFRESCO_TIKA_TAG := 2.1.017
-ALFRESCO_TRANSFORM_ROUTER_TAG := 1.1.0
-ALFRESCO_ACTIVEMQ_TAG := 5.15.8-java-8-oracle-centos-7-87b15e37ce8b
-ALFRESCO_DBP_CONNECTOR_SERVICE_TAG := 0.5
 
 IMAGES := alpine@$(ALPINE_TAG) \
 jboss/keycloak@$(KEYCLOAK_TAG) \
 unguiculus/docker-python3-phantomjs-selenium@$(SELENIUM_TAG) \
-alfresco/alfresco-keycloak-theme@$(KEYCLOAK_THEME_TAG) \
 postgres@$(POSTGRES_TAG) \
 bitnami/minideb-extras@${MINIDEB_EXTRAS_TAG} \
 docker@${DIND_TAG} \
-quay.io/kubernetes_incubator/nfs-provisioner@${NFS_PROVISIONER_TAG} \
-alfresco/alfresco-search-services@${ALFRESCO_SEARCH_SERVICES_TAG} \
-alfresco/alfresco-shared-file-store@${ALFRESCO_SHARED_FILE_STORE_TAG} \
-alfresco/alfresco-content-repository@${ALFRESCO_CONTENT_REPOSITORY_TAG} \
-alfresco/alfresco-share@${ALFRESCO_SHARE_TAG} \
-alfresco/alfresco-activemq@${ALFRESCO_ACTIVEMQ_TAG} \
-quay.io/alfresco/alfresco-ai-docker-engine@${ALFRESCO_AI_DOCKER_ENGINE_TAG} \
-quay.io/alfresco/insight-engine@${INSIGHT_ENGINE_TAG} \
-quay.io/alfresco/alfresco-imagemagick@${ALFRESCO_IMAGEMAGICK_TAG} \
-quay.io/alfresco/alfresco-libreoffice@${ALFRESCO_LIBREOFFICE_TAG} \
-quay.io/alfresco/alfresco-pdf-renderer@${ALFRESCO_PDF_RENDERER_TAG} \
-quay.io/alfresco/alfresco-tika@${ALFRESCO_TIKA_TAG} \
-quay.io/alfresco/alfresco-transform-router@${ALFRESCO_TRANSFORM_ROUTER_TAG} \
-quay.io/alfresco/alfresco-digital-workspace@$(ALFRESCO_DIGITAL_WORKSPACE_TAG) \
 quay.io/alfresco/alfresco-admin-app@${AAA_TAG} \
 quay.io/alfresco/alfresco-deployment-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-modeling-app@${AMA_TAG} \
 quay.io/alfresco/alfresco-modeling-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-dmn-simulation-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-script-model-runtime@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-runtime-bundle-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-script-app-runtime@${AAE_TAG} \
-quay.io/alfresco/alfresco-form-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-dmn-runtime-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-query-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-process-audit-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-storage-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-notifications-graphql-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-preference-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-workspace-app@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-camel-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-comprehend-connector-service@${AAE_TAG} \
+quay.io/alfresco/alfresco-process-content-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-docgen-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-docusign-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-email-connector-service@${AAE_TAG} \
@@ -77,8 +39,7 @@ quay.io/alfresco/alfresco-process-slack-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-textract-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-twilio-connector-service@${AAE_TAG} \
 quay.io/alfresco/alfresco-process-elasticsearch-bridge-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-process-kafka-bridge-service@${AAE_TAG} \
-quay.io/alfresco/alfresco-dbp-connector-service@${ALFRESCO_DBP_CONNECTOR_SERVICE_TAG}
+quay.io/alfresco/alfresco-process-kafka-bridge-service@${AAE_TAG}
 
 .PHONY: $(IMAGES)
 

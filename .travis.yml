@@ -1,1 +1,6 @@
-import: Alfresco/alfresco-process-tools:.travis.helm.yml@master
+import:
+  - Alfresco/alfresco-process-tools:.travis.helm.yml@master
+  - Alfresco/alfresco-process-tools:.travis.pre-commit.yml@master
+  - Alfresco/alfresco-process-tools:.travis.helm-docs_install.yml@master
+  - Alfresco/alfresco-process-tools:.travis.kubepug_install.yml@master
+  - Alfresco/alfresco-process-scripts:slack_apa_channel_notification.yml@master

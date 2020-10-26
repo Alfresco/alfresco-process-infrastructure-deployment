@@ -8,7 +8,7 @@ dependencies:
     condition: alfresco-identity-service.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-modeling-service
-    version: 7.1.0-M10
+    version: 7.1.0-M11
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-modeling-service.enabled
   - name: postgresql
@@ -21,16 +21,16 @@ dependencies:
     condition: rabbitmq.enabled
   - name: alfresco-adf-app
     alias: alfresco-modeling-app
-    version: 7.1.0-M10
+    version: 7.1.0-M11
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-modeling-app.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-deployment-service
-    version: 7.1.0-M10
+    version: 7.1.0-M11
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-deployment-service.enabled
   - name: alfresco-adf-app
     alias: alfresco-admin-app
-    version: 7.1.0-M10
+    version: 7.1.0-M11
     repository: https://kubernetes-charts.alfresco.com/incubator
     condition: alfresco-admin-app.enabled
