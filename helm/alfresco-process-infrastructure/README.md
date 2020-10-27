@@ -16,6 +16,7 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 |------------|------|---------|
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.1 |
 | https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
+| https://charts.bitnami.com/bitnami | rabbitmq | 7.6.8 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M11 |
@@ -344,6 +345,13 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | postgresql.postgresqlUsername | string | `"alfresco"` |  |
 | postgresql.resources.limits.memory | string | `"1500Mi"` |  |
 | postgresql.resources.requests.memory | string | `"1500Mi"` |  |
+| rabbitmq.auth.password | string | `"guest"` |  |
+| rabbitmq.auth.username | string | `"guest"` |  |
+| rabbitmq.enabled | bool | `true` |  |
+| rabbitmq.persistence.accessMode | string | `nil` |  |
+| rabbitmq.persistence.storageClass | string | `nil` |  |
+| rabbitmq.resources.limits.memory | string | `"1500Mi"` |  |
+| rabbitmq.resources.requests.memory | string | `"1500Mi"` |  |
 | setup-acs-script-job.enabled | bool | `true` |  |
 | setup-acs-script-job.image.repository | string | `"bitnami/minideb-extras"` |  |
 | setup-acs-script-job.image.tag | string | `"stretch"` |  |
