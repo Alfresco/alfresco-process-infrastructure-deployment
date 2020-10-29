@@ -659,6 +659,20 @@ alfresco-admin-app:
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     {{- end }}
 
+rabbitmq:
+  enabled: true
+  persistence:
+    storageClass:
+    accessMode:
+  auth:
+    username: guest
+    password: guest
+  resources:
+    requests:
+      memory: 1500Mi
+    limits:
+      memory: 1500Mi
+
 setup-acs-script-job:
   enabled: true
   loadTestData: true
