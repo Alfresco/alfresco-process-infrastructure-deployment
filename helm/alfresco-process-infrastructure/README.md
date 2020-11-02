@@ -348,7 +348,6 @@ A Helm chart for Alfresco Activiti Enterprise infrastructure
 | rabbitmq.auth.password | string | `"guest"` |  |
 | rabbitmq.auth.username | string | `"guest"` |  |
 | rabbitmq.enabled | bool | `true` |  |
-| rabbitmq.persistence.accessMode | string | `nil` |  |
 | rabbitmq.persistence.storageClass | string | `nil` |  |
 | rabbitmq.resources.limits.memory | string | `"1500Mi"` |  |
 | rabbitmq.resources.requests.memory | string | `"1500Mi"` |  |

@@ -663,7 +663,6 @@ rabbitmq:
   enabled: true
   persistence:
     storageClass:
-    accessMode:
   auth:
     username: guest
     password: guest
