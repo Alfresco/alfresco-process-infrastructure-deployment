@@ -666,6 +666,7 @@ rabbitmq:
   auth:
     username: guest
     password: guest
+    erlangCookie: ylY79lOdNUWsJEwAGdVQnhjSazV4QZKO=
   resources:
     requests:
       memory: 1500Mi
