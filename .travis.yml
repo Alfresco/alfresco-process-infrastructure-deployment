@@ -3,6 +3,7 @@ import:
   - Alfresco/alfresco-process-tools:.travis.pre-commit.yml@master
   - Alfresco/alfresco-process-tools:.travis.helm-docs_install.yml@master
   - Alfresco/alfresco-process-tools:.travis.kubepug_install.yml@master
+  - Alfresco/alfresco-process-tools:.travis.checkov_install.yml@master
 
 notifications:
   slack:
