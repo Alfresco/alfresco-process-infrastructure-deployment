@@ -1,25 +1,14 @@
 repos:
   - repo: https://github.com/norwoodj/helm-docs
-    rev: v1.3.0
+    rev: v1.4.0
     hooks:
       - id: helm-docs
   - repo: https://github.com/Alfresco/alfresco-process-tools
-    rev: master
+    rev: a1162ed1f2123921b76f6a62c14fadf89fcc70d2
     hooks:
       - id: travis-yml-lint
       - id: helm-deps
       - id: helm-lint
       - id: kubepug-minimum
       - id: kubepug-recommended
-  - repo: local
-    hooks:
-      - id: helm-template
-        name: Helm Template
-        entry: bash -c 'find helm -mindepth 1 -maxdepth 1 -type d | xargs -t -n1 -I% bash -c "helm template % > %/output.yaml"'
-        language: system
-        pass_filenames: false
-      - id: checkov
-        name: Checkov
-        entry: bash -c 'find helm -mindepth 1 -maxdepth 1 -type d | xargs -t -n1 -I% bash -c "checkov -f %/output.yaml"'
-        language: system
-        pass_filenames: false
+      - id: checkov-helm
