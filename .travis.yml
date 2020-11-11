@@ -5,14 +5,6 @@ import:
   - Alfresco/alfresco-process-tools:.travis.kubepug_install.yml@master
   - Alfresco/alfresco-process-tools:.travis.checkov_install.yml@master
 
-env:
-  global:
-    - CONFTEST_VERSION=${CONFTEST_VERSION:-0.21.0}
-before_install:
-  - if [[ ":$PATH:" != *:$HOME/bin:* ]]; then PATH=$PATH:$HOME/bin; fi
-  - curl -fsSL https://github.com/open-policy-agent/conftest/releases/download/v$CONFTEST_VERSION/conftest_${CONFTEST_VERSION}_$(uname)_x86_64.tar.gz | tar xz -C $HOME/bin/ conftest &&
-    conftest --version
-
 notifications:
   slack:
     rooms:

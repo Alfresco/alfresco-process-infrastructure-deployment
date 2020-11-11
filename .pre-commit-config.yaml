@@ -23,8 +23,3 @@ repos:
         entry: bash -c 'find helm -mindepth 1 -maxdepth 1 -type d | xargs -t -n1 -I% bash -c "checkov -f %/output.yaml"'
         language: system
         pass_filenames: false
-      - id: conftest
-        name: Conftest
-        entry: bash -c 'find helm -mindepth 1 -maxdepth 1 -type d | xargs -t -n1 -I% bash -c "conftest test -p %/policy %/output.yaml"'
-        language: system
-        pass_filenames: false
