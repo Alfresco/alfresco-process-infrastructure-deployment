@@ -16,6 +16,8 @@ Once installed, you can deploy new AAE applications:
 * via the _Admin App_ using the _Deployment Service_
 * manually customising the [alfresco-process-application](https://github.com/Alfresco/alfresco-process-application-deployment) helm chart.
 
+For all the available values, see the chart [README.md](helm/alfresco-process-infrastructure/README.md#values).
+
 ## Prerequisites
 
 ### setup cluster
@@ -135,7 +137,6 @@ export GATEWAY_HOST=${DOMAIN}
 export SSO_HOST=${DOMAIN}
 ```
 
-GATEWAY_HOST
 ### set helm env variables
 
 ```bash
@@ -144,28 +145,7 @@ HELM_OPTS+=" --set global.gateway.http=$HTTP \
   --set global.gateway.domain=$DOMAIN"
 ```
 
-### customise configuration
-
-Customise extra values following the contents of [values.yaml](helm/alfresco-process-infrastructure/values.yaml) and add to `HELM_OPTS`:
-
-```bash
-HELM_OPTS+="
-  --set alfresco-deployment-service.environment.apiUrl=...
-  --set alfresco-deployment-service.environment.apiToken=...
-"
-```
-
-## with ACS (optional)
-
-To enable ACS support:
-
-```bash
-HELM_OPTS+="
-  --set global.acs.enabled=true
-"
-```
-
-## disable alfresco-deployment-service
+### disable alfresco-deployment-service
 
 To disable alfresco-deployment-service in the infrastructure:
 
@@ -175,46 +155,18 @@ HELM_OPTS+="
 "
 ```
 
+## Multi-AZ K8S cloud StorageClass for project release
 
-## File Storage
+A StorageClass that can work across multiple availability zones need to be available to store project release files per each application:
+* for EKS always use EFS
+* for AKS only if Multi-AZ is configured, use AFS
 
-### NFS Storage
-
-In order to support NFS in any cloud, install [nfs-server-provisioner](https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner).
-
-```bash
-helm install stable/nfs-server-provisioner \
-  --set persistence.storageClass=standard \
-  --set storageClass.name=${DESIRED_NAMESPACE}-sc \
-  --namespace $DESIRED_NAMESPACE
-```
-
-### EFS Storage
-
-Create an EFS storage on AWS in the same VPC as your cluster with NFS open inbound traffic in the nodes security group and store the name in `NFS_SERVER`. 
-
-Install the [nfs-client-provisioner](https://github.com/helm/charts/tree/master/stable/nfs-client-provisioner):
-
-```bash
-helm install stable/nfs-client-provisioner \
-  --set nfs.server=$NFS_SERVER \
-  --set nfs.path=/ \
-  --set storageClass.name=${DESIRED_NAMESPACE}-sc \
-  --namespace $DESIRED_NAMESPACE
-```
-
-***NB***
-The Persistent volume created with NFS to store the data has the [ReclaimPolicy](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#reclaim-policy) set by default to Delete.
-This means that by default, when you delete the release the saved data is deleted automatically.
-To change this behaviour and keep the data you can set the `storageClass.reclaimPolicy` value to `Retain`.
-
-Add the helm properties to use it:
+Add the helm values to use it:
 
 ```bash
 HELM_OPTS+="
-  --set persistence.storageClassName=${DESIRED_NAMESPACE}-sc
-  --set alfresco-deployment-service.connectorVolume.storageClass=${DESIRED_NAMESPACE}-sc \
-  --set alfresco-deployment-service.connectorVolume.permission=ReadWriteMany 
+  --set alfresco-deployment-service.projectReleaseVolume.storageClass=${STORAGE_CLASS_NAME} \
+  --set alfresco-deployment-service.projectReleaseVolume.permission=ReadWriteMany
 "
 ```
 
