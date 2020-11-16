@@ -1,0 +1,75 @@
+USER-SUPPLIED VALUES:
+alfresco-admin-app:
+  applications:
+    allowCustomResources: true
+  image:
+    tag: develop-9061
+alfresco-deployment-service:
+  applications:
+    activiti:
+      keycloak:
+        clientPassword: client
+    connectors:
+      emailConnector:
+        host: smtp.sendgrid.net
+        password: 123iopjkl
+        port: "587"
+        username: activiti.qa.test
+    database:
+      external: true
+    maxNumber: "20"
+    processStorageService:
+      clientSecret: 08102f0f-025c-4226-8a3e-674343bff231
+  db:
+    driver: org.postgresql.Driver
+    password: alfresco
+    uri: jdbc:postgresql://aae3990.cpcs2n7mznht.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require
+    username: alfresco
+  environment:
+    apiToken: eyJhbGciOiJSUzI1NiIsImtpZCI6IlY1aEw4ZjFVbU94Ung2Q1ZQZkpRd3JuUE9WWkxXdGNMMGlpTnVlcERrNVkifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhbGZyZXNjby1kZXBsb3ltZW50LXNlcnZpY2UtdG9rZW4temM5bmciLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiYWxmcmVzY28tZGVwbG95bWVudC1zZXJ2aWNlIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiODM4MDczNGUtYjcwOS00YjM3LTllNGMtMTE0MGJlNmYwOTk5Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmFsZnJlc2NvLWRlcGxveW1lbnQtc2VydmljZSJ9.OcUYGMOXxUEV7c9ELiKo_Scei_XLLcWHpxwdrOMsYjom6J_E0l6_pxkNUEeRJl1i4iPIWE02rGEpynKtRo3dSkV8mOn18q3e4dbhfCuWBTzzy1Wb9MH0h6qDNztPyNnFpSKOaJPH2D-mOlS_pIpSwAvJ7AmmpJVzBZrma0NQzbWJ-3ZvotUZ6CbZtx3Rvj9glPNQ2KtfY728gy5tzM8oUSODmhB6hWg6Phz7Kg1E_KwHgI3aEOND14muHMQAAejwc71Uln0I19vhbBAGEq0LVZfzk0cuCkcrsoWRVH-BQx5b1xQMIVGaXhB1VFmxcRodehprikLoN83C-lpsFHswqQ
+    apiUrl: https://B19E0F34D89D57A0417F5C835462DF99.gr7.us-east-1.eks.amazonaws.com
+  extraInitContainers: null
+  extraVolumes: |
+    - name: license
+      secret:
+        secretName: licenseaps
+  postgres:
+    enabled: false
+  projectReleaseVolume:
+    permission: ReadWriteMany
+    storageClass: default-sc
+alfresco-identity-service:
+  enabled: false
+alfresco-modeling-service:
+  db:
+    driver: org.postgresql.Driver
+    password: alfresco
+    uri: jdbc:postgresql://aae3990.cpcs2n7mznht.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require
+    username: alfresco
+  postgres:
+    enabled: false
+global:
+  acs:
+    activemq:
+      password: admin
+      url: ""
+      username: ""
+    admin:
+      password: adf$2018IloveAngular
+      username: admin
+    enabled: true
+    url: https://aae3990.envalfresco.com
+  gateway:
+    annotations:
+      application: alfresco-process-automation
+    host: aae3990.envalfresco.com
+    http: false
+  keycloak:
+    realm: alfresco
+    url: https://aae3990.envalfresco.com/auth
+  registryPullSecrets:
+  - quay-registry-secret
+postgresql:
+  enabled: false
+setup-acs-script-job:
+  loadTestData: true
