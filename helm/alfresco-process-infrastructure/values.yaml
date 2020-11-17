@@ -470,7 +470,6 @@ alfresco-deployment-service:
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
     tag: develop
-    pullPolicy: IfNotPresent
   postgres:
     # workaround to use the namespace qualified postgres hostname
     enabled: false
