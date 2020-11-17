@@ -481,7 +481,7 @@ alfresco-deployment-service:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
       tag: develop
-      # alfresco-deployment-service.applications.image.pullPolicy -- pull policy for alfresco-deployment-service image
+      # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all images used in application
       pullPolicy: IfNotPresent
     maxNumber: 20
       # alfresco-deployment-service.applications.maxNumber -- maximum number of application can be deployed
