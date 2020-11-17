@@ -48,7 +48,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.connectors.emailConnector.port | string | `""` | email port |
 | alfresco-deployment-service.applications.connectors.emailConnector.username | string | `""` | email username |
 | alfresco-deployment-service.applications.database.external | bool | `true` |  |
-| alfresco-deployment-service.applications.image.pullPolicy | string | `"IfNotPresent"` | pull policy for alfresco-deployment-service image |
+| alfresco-deployment-service.applications.image.pullPolicy | string | `"IfNotPresent"` | default pull policy for all images used in application |
 | alfresco-deployment-service.applications.image.tag | string | `"develop"` | default tag for all images used in application |
 | alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
 | alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
