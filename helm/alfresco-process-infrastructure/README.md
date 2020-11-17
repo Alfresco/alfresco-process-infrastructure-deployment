@@ -48,7 +48,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.connectors.emailConnector.port | string | `""` | email port |
 | alfresco-deployment-service.applications.connectors.emailConnector.username | string | `""` | email username |
 | alfresco-deployment-service.applications.database.external | bool | `true` |  |
-| alfresco-deployment-service.applications.image.pullPolicy | string | do not pull new image if already exists on the running node | pull policy for alfresco-deployment-service image |
+| alfresco-deployment-service.applications.image.pullPolicy | string | `"IfNotPresent"` | pull policy for alfresco-deployment-service image |
 | alfresco-deployment-service.applications.image.tag | string | `"develop"` | default tag for all images used in application |
 | alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
 | alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
@@ -60,6 +60,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraInitContainers | string | `"{{- if not .Values.db.uri }}\n- name: wait-for-postgresql\n  image: {{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}\n  imagePullPolicy: {{ .Values.init.image.pullPolicy }}\n  command:\n    - sh\n    - -c\n    - |\n      until printf \".\" && nc -z -w 2 {{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }} {{ .Values.postgres.port }}; do\n        sleep 2;\n      done;\n      echo 'PostgreSQL OK ✓'\n{{- end }}\n"` |  |
 | alfresco-deployment-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true\n"` |  |
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744\n- name: license\n  secret:\n    secretName: licenseaps\n"` |  |
+| alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
 | alfresco-deployment-service.image.tag | string | `"develop"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
