@@ -28,14 +28,6 @@ Setup a Kubernetes cluster following your preferred procedure.
 
 Install the latest version of helm.
 
-Configure the required helm chart repositories:
-```
-helm repo add activiti https://activiti.github.io/activiti-cloud-helm-charts
-helm repo add alfresco https://kubernetes-charts.alfresco.com/stable
-helm repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
-helm repo update
-```
-
 ### ingress
 
 An nginx-ingress should be installed and bound to an external DNS address, for example:

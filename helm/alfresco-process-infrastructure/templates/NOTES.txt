@@ -7,8 +7,6 @@ To learn more about the release, try:
   $ helm status {{ .Release.Name }}
   $ helm get {{ .Release.Name }}
 
-The alfresco-volume-claim is ready to use.
-
 Get the application URLs:
 
 * Alfresco Identity Service : {{ template "common.keycloak-url" . }}
