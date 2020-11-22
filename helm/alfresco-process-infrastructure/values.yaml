@@ -13,13 +13,10 @@ global:
   keycloak:
     # global.keycloak.host -- Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}"
     host: '{{ template "common.gateway-host" . }}'
-
     # global.keycloak.url -- Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth
     url: ""
-
     # global.keycloak.realm -- Configure Keycloak realm
     realm: alfresco
-
     # global.keycloak.resource -- Configure Keycloak resource
     resource: alfresco
 
@@ -56,7 +53,6 @@ global:
       username: ""
       # global.acs.activemq.username -- ACS ActiveMQ password
       password: ""
-
 
 # set to false to disable custom alfresco-identity-service ingress with hostname support
 alfresco-identity-service:
@@ -391,11 +387,11 @@ alfresco-modeling-service:
       - /modeling-service/?(.*)
       - /dmn-service/?(.*)
       - /script-service/?(.*)
-  extraVolumes: |
+  extraVolumes: |-
     - name: license
       secret:
         secretName: licenseaps
-  extraVolumeMounts: |
+  extraVolumeMounts: |-
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
@@ -417,7 +413,7 @@ alfresco-modeling-service:
     client:
       id: ""
       secret: ""
-  extraEnv: |
+  extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
     - name: SERVER_USEFORWARDHEADERS
@@ -495,6 +491,16 @@ alfresco-deployment-service:
       keycloak:
         # alfresco-deployment-service.applications.activiti.keycloak.clientPassword -- activiti keycloak client password
         clientPassword: client
+    rabbitmq:
+      # alfresco-deployment-service.applications.rabbitmq.host -- RabbitMQ host
+      host: "{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}"
+      # alfresco-deployment-service.applications.rabbitmq.username -- RabbitMQ username
+      username: "user"
+      # alfresco-deployment-service.applications.rabbitmq.password -- RabbitMQ password
+      password: "CHANGEME"
+      admin:
+        # alfresco-deployment-service.applications.rabbitmq.admin.url -- RabbitMQ admin URL, derived from host if not set
+        url: ""
   ingress:
     path: /deployment-service
     enabled: true
@@ -516,7 +522,7 @@ alfresco-deployment-service:
     storageClass: "#{null}"
     # alfresco-deployment-service.projectReleaseVolume.permission -- permission for project release volume
     permission: ReadWriteMany
-  extraVolumes: |
+  extraVolumes: |-
     - name: config
       configMap:
         name: {{ .Release.Name }}-deployment-config
@@ -524,11 +530,11 @@ alfresco-deployment-service:
     - name: license
       secret:
         secretName: licenseaps
-  extraVolumeMounts: |
+  extraVolumeMounts: |-
     - name: license
       mountPath: "/root/.activiti/enterprise-license/"
       readOnly: true
-  extraInitContainers: |
+  extraInitContainers: |-
     {{- if not .Values.db.uri }}
     - name: wait-for-postgresql
       image: {{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}
@@ -536,13 +542,13 @@ alfresco-deployment-service:
       command:
         - sh
         - -c
-        - |
+        - |-
           until printf "." && nc -z -w 2 {{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }} {{ .Values.postgres.port }}; do
             sleep 2;
           done;
           echo 'PostgreSQL OK ✓'
     {{- end }}
-  extraEnv: |
+  extraEnv: |-
     {{- if not .Values.db.uri }}
     - name: SPRING_DATASOURCE_URL
       value: "jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }}:{{ .Values.postgres.port }}/postgres"
@@ -627,14 +633,22 @@ alfresco-deployment-service:
     - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
       value: "{{ . }}"
     {{- end }}
+    {{- with .Values.applications.rabbitmq.host }}
     - name: APPLICATIONS_RABBITMQ_HOST
-      value: {{ include "rabbitmq.fullname" . }}.{{ .Release.Namespace }}
-    - name: APPLICATIONS_RABBITMQ_ADMIN_URL
-      value: http://{{ include "rabbitmq.fullname" . }}:15672/api/
+      value: "{{ . }}"
+    {{- end }}
+    {{- with .Values.applications.rabbitmq.username }}
     - name: APPLICATIONS_RABBITMQ_USERNAME
-      value: user
+      value: "{{ . }}"
+    {{- end }}
+    {{- with .Values.applications.rabbitmq.password }}
     - name: APPLICATIONS_RABBITMQ_PASSWORD
-      value: CHANGEME
+      value: "{{ . }}"
+    {{- end }}
+    {{- with .Values.applications.rabbitmq.admin.url }}
+    - name: APPLICATIONS_RABBITMQ_ADMIN_URL
+      value: "{{ . }}"
+    {{- end }}
 
 alfresco-admin-app:
   nameOverride: alfresco-admin-app
@@ -652,7 +666,7 @@ alfresco-admin-app:
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_AUTH_TYPE: "OAUTH"
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
-  extraEnv: |
+  extraEnv: |-
     - name: APP_ALLOW_CUSTOM_RESOURCES
       value: "{{ .Values.applications.allowCustomResources }}"
     {{- if .Values.global.acs.enabled }}
@@ -667,7 +681,9 @@ rabbitmq:
     enabled: false
   customLivenessProbe:
     exec:
-      command: ["rabbitmq-diagnostics", "status"]
+      command:
+        - rabbitmq-diagnostics
+        - status
     initialDelaySeconds: 60
     timeoutSeconds: 15
     periodSeconds: 60
@@ -675,7 +691,9 @@ rabbitmq:
     enabled: false
   customReadinessProbe:
     exec:
-      command: ["rabbitmq-diagnostics", "ping"]
+      command:
+        - rabbitmq-diagnostics
+        - ping
     initialDelaySeconds: 20
     periodSeconds: 60
   persistence:
