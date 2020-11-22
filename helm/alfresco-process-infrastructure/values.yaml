@@ -633,9 +633,9 @@ alfresco-deployment-service:
     - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
       value: "{{ . }}"
     {{- end }}
-    {{- with .Values.applications.rabbitmq.host }}
+    {{- if .Values.applications.rabbitmq.host }}
     - name: APPLICATIONS_RABBITMQ_HOST
-      value: "{{ . }}"
+      value: "{{ tpl .Values.applications.rabbitmq.host . }}"
     {{- end }}
     {{- with .Values.applications.rabbitmq.username }}
     - name: APPLICATIONS_RABBITMQ_USERNAME
@@ -645,9 +645,9 @@ alfresco-deployment-service:
     - name: APPLICATIONS_RABBITMQ_PASSWORD
       value: "{{ . }}"
     {{- end }}
-    {{- with .Values.applications.rabbitmq.admin.url }}
+    {{- if .Values.applications.rabbitmq.admin.url }}
     - name: APPLICATIONS_RABBITMQ_ADMIN_URL
-      value: "{{ . }}"
+      value: "{{ tpl .Values.applications.rabbitmq.admin.url . }}"
     {{- end }}
 
 alfresco-admin-app:
