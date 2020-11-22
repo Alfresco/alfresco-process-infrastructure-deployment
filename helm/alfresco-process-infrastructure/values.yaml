@@ -5,6 +5,7 @@
 
 # global -- for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md
 global:
+
   # global.registryPullSecrets -- Configure pull secrets for all deployments
   registryPullSecrets:
     - quay-registry-secret
@@ -25,39 +26,29 @@ global:
   gateway:
     # global.gateway.host -- Set to configure single host domain name for all services, i.e. "{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}"
     host: '{{ template "common.gateway-domain" . }}'
-
     # global.gateway.http -- Set to false enables HTTPS configuration on all urls
     http: false
-
     # global.gateway.tlsacme -- Set to enable automatic TLS for ingress if https is enabled
     tlsacme: false
-
     # global.gateway.domain -- Set to configure gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io
     # $ helm upgrade aae . --install --set global.gateway.domain=1.2.3.4.nip.io
     domain: ""
-
     # global.gateway.annotations -- Configure global annotations for all service ingresses
     annotations: {}
 
   acs:
     # global.acs.enabled -- enable support for ACS
     enabled: false
-
     # global.acs.host -- host for content services
     host: '{{ template "common.gateway-host" . }}'
-
     # global.acs.url -- set full url to configure external ACS, https://acs.mydomain.com without /alfresco
     url: ""
-
     # global.acs.admin -- admin credentials to setup required users/groups/acl on ACS
     admin:
-
       # global.acs.admin.username -- ACS admin username
       username: ""
-
       # global.acs.admin.password -- ACS admin password
       password: ""
-
     activemq:
       # global.acs.activemq.url -- ACS ActiveMQ URL for events
       url: ""
@@ -65,7 +56,6 @@ global:
       username: ""
       # global.acs.activemq.username -- ACS ActiveMQ password
       password: ""
-
 
 
 # set to false to disable custom alfresco-identity-service ingress with hostname support
@@ -76,8 +66,7 @@ alfresco-identity-service:
     common:
       enabled: true
     annotations:
-      # Disable Nginx CORS for Identity Service
-      nginx.ingress.kubernetes.io/enable-cors: "false"
+      nginx.ingress.kubernetes.io/enable-cors: "false" # disable NGINX CORS as it's managed by Identity Service
   keycloak:
     ingress:
       enabled: false
@@ -638,6 +627,14 @@ alfresco-deployment-service:
     - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
       value: "{{ . }}"
     {{- end }}
+    - name: APPLICATIONS_RABBITMQ_HOST
+      value: {{ include "rabbitmq.fullname" . }}.{{ .Release.Namespace }}
+    - name: APPLICATIONS_RABBITMQ_ADMIN_URL
+      value: http://{{ include "rabbitmq.fullname" . }}:15672/api/
+    - name: APPLICATIONS_RABBITMQ_USERNAME
+      value: user
+    - name: APPLICATIONS_RABBITMQ_PASSWORD
+      value: CHANGEME
 
 alfresco-admin-app:
   nameOverride: alfresco-admin-app
@@ -665,11 +662,28 @@ alfresco-admin-app:
 
 rabbitmq:
   enabled: true
+  extraPlugins: ""
+  livenessProbe:
+    enabled: false
+  customLivenessProbe:
+    exec:
+      command: ["rabbitmq-diagnostics", "status"]
+    initialDelaySeconds: 60
+    timeoutSeconds: 15
+    periodSeconds: 60
+  readinessProbe:
+    enabled: false
+  customReadinessProbe:
+    exec:
+      command: ["rabbitmq-diagnostics", "ping"]
+    initialDelaySeconds: 20
+    periodSeconds: 60
   persistence:
     storageClass:
+    accessMode: ReadWriteOnce
   auth:
-    username: guest
-    password: guest
+    username: user
+    password: CHANGEME
     erlangCookie: ylY79lOdNUWsJEwAGdVQnhjSazV4QZKO=
   resources:
     requests:
