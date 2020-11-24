@@ -413,6 +413,10 @@ alfresco-modeling-service:
     client:
       id: ""
       secret: ""
+  activiti:
+    keycloak:
+      # alfresco-modeling-service.activiti.keycloak.clientPassword -- activiti keycloak client password
+      clientPassword: client
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
@@ -430,6 +434,10 @@ alfresco-modeling-service:
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_PATH
       value: "{{ .Values.content.service.path }}"
+    {{- with .Values.activiti.keycloak.clientPassword }}
+    - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
+      value: "{{ . }}"
+    {{- end }}
 
 alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
