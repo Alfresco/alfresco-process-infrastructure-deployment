@@ -22,7 +22,7 @@ dependencies:
   - name: alfresco-adf-app
     alias: alfresco-modeling-app
     version: 7.1.0-M11
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    repository: file://local/alfresco-adf-app
     condition: alfresco-modeling-app.enabled
   - name: alfresco-process-springboot-service
     alias: alfresco-deployment-service
@@ -32,5 +32,5 @@ dependencies:
   - name: alfresco-adf-app
     alias: alfresco-admin-app
     version: 7.1.0-M11
-    repository: https://kubernetes-charts.alfresco.com/incubator
+    repository: file://local/alfresco-adf-app
     condition: alfresco-admin-app.enabled

@@ -16,11 +16,11 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
+| file://local/alfresco-adf-app | alfresco-adf-app | 7.1.0-M11 |
+| file://local/alfresco-adf-app | alfresco-adf-app | 7.1.0-M11 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M10 |
 | https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M11 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M11 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
