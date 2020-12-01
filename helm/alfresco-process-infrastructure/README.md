@@ -16,7 +16,7 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M10 |
 | https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
 | https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
@@ -292,7 +292,6 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ template \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-modeling-app.env.APP_CONFIG_OAUTH2_SILENT_LOGIN | string | `"true"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"develop"` |  |
