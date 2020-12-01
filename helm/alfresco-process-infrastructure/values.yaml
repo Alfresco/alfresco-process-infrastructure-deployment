@@ -577,7 +577,7 @@ alfresco-deployment-service:
       value: "*"
     - name: KEYCLOAK_AUTH_SERVER_URL
       value: '{{ include "common.keycloak-url" . }}'
-    - name: DOCKER_REGISTRY_IMAGE_TAG
+    - name: ALFRESCO_DOCKER_REGISTRY_IMAGE_TAG
       value: "{{ .Values.applications.image.tag }}"
     - name: ALFRESCO_DOCKER_REGISTRY_IMAGEPULLPOLICY
       value: "{{ .Values.applications.image.pullPolicy }}"
