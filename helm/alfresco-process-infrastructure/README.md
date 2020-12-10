@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.1.0-A13](https://img.shields.io/badge/Version-7.1.0--A13-informational?style=flat-square) ![AppVersion: 7.1.0-A13](https://img.shields.io/badge/AppVersion-7.1.0--A13-informational?style=flat-square)
+![Version: 7.1.0-M12](https://img.shields.io/badge/Version-7.1.0--M12-informational?style=flat-square) ![AppVersion: 7.1.0-M12](https://img.shields.io/badge/AppVersion-7.1.0--M12-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -16,13 +16,13 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M10 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M11 |
 | https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M11 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M12 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
 
 ## Values
