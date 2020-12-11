@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.1.0-M11](https://img.shields.io/badge/Version-7.1.0--M11-informational?style=flat-square) ![AppVersion: 7.1.0-M11](https://img.shields.io/badge/AppVersion-7.1.0--M11-informational?style=flat-square)
+![Version: 7.1.0-M12](https://img.shields.io/badge/Version-7.1.0--M12-informational?style=flat-square) ![AppVersion: 7.1.0-M12](https://img.shields.io/badge/AppVersion-7.1.0--M12-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -16,13 +16,13 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M11 |
 | https://charts.bitnami.com/bitnami | postgresql | 8.9.6 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M11 |
-| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M11 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-process-springboot-service | 7.1.0-M12 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
 
 ## Values
@@ -37,7 +37,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"develop"` |  |
+| alfresco-admin-app.image.tag | string | `"7.1.0-A13"` |  |
 | alfresco-admin-app.ingress.hostName | string | `nil` |  |
 | alfresco-admin-app.ingress.path | string | `"/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"alfresco-admin-app"` |  |
@@ -49,7 +49,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.connectors.emailConnector.username | string | `""` | email username |
 | alfresco-deployment-service.applications.database.external | bool | `true` |  |
 | alfresco-deployment-service.applications.image.pullPolicy | string | `"Always"` | default pull policy for all images used in application |
-| alfresco-deployment-service.applications.image.tag | string | `"develop"` | default tag for all images used in application |
+| alfresco-deployment-service.applications.image.tag | string | `"7.1.0-A13"` | default tag for all images used in application |
 | alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
 | alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
 | alfresco-deployment-service.applications.rabbitmq.admin.url | string | `""` | RabbitMQ admin URL, derived from host if not set |
@@ -66,7 +66,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744\n- name: license\n  secret:\n    secretName: licenseaps"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"develop"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.1.0-A13"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
 | alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
@@ -292,10 +292,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ template \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-modeling-app.env.APP_CONFIG_OAUTH2_SILENT_LOGIN | string | `"true"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
-| alfresco-modeling-app.image.tag | string | `"develop"` |  |
+| alfresco-modeling-app.image.tag | string | `"7.1.0-A13"` |  |
 | alfresco-modeling-app.ingress.path | string | `"/modeling"` |  |
 | alfresco-modeling-app.nameOverride | string | `"alfresco-modeling-app"` |  |
 | alfresco-modeling-service.activiti.keycloak.clientPassword | string | `"client"` | activiti keycloak client password |
@@ -308,7 +307,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps"` |  |
 | alfresco-modeling-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
-| alfresco-modeling-service.image.tag | string | `"develop"` |  |
+| alfresco-modeling-service.image.tag | string | `"7.1.0-A13"` |  |
 | alfresco-modeling-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-modeling-service.ingress.enabled | bool | `true` |  |
 | alfresco-modeling-service.ingress.path | string | `""` |  |

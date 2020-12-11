@@ -397,7 +397,7 @@ alfresco-modeling-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: develop
+    tag: 7.1.0-A13
     pullPolicy: Always
   postgres:
     enabled: true
@@ -446,11 +446,10 @@ alfresco-modeling-app:
     path: /modeling
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: develop
+    tag: 7.1.0-A13
     pullPolicy: Always
   env:
-    APP_CONFIG_AUTH_TYPE: "OAUTH"
-    APP_CONFIG_OAUTH2_SILENT_LOGIN: "true"
+    APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
@@ -462,7 +461,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: develop
+    tag: 7.1.0-A13
     pullPolicy: Always
   postgres:
     # workaround to use the namespace qualified postgres hostname
@@ -473,7 +472,7 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
-      tag: develop
+      tag: 7.1.0-A13
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all images used in application
       pullPolicy: Always
     maxNumber: 20
@@ -666,7 +665,7 @@ alfresco-admin-app:
     path: /admin
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
+    tag: 7.1.0-A13
     pullPolicy: Always
   applications:
     allowCustomResources: true
