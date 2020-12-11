@@ -259,18 +259,12 @@ kubectl get secret \
   realm-secret -o jsonpath="{['data']['alfresco-realm\.json']}" | base64 -D > alfresco-realm.json
 ```
 
-### override Docker images with internal Docker Registry
+### Use an internal Docker Registry
 
-Upload images to your internal registry and generate a values file with the new image locations for helm with:
+In an [air gapped](https://en.wikipedia.org/wiki/Air_gap_(networking)) environment where the Kubernetes cluster has no direct access to external image repositories, use a tool like [helm-image-mirror](https://github.com/shashankv02/helm-image-mirror) to tag and push images to your internal registry and modify helm charts with the new image locations.
 
-```bash
-export REGISTRY_HOST=internal.registry.io
-make login
-make values-registry.yaml
-export HELM_OPTS+=" -f values-registry.yaml"
-```
 
-### use an external PostgreSQL database
+### Use an external PostgreSQL database
 
 Modify the file values-external-postgresql.yaml providing values for your external database per each service, then run:
 

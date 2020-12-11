@@ -397,8 +397,8 @@ alfresco-modeling-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.1.0-A13
-    pullPolicy: Always
+    tag: 7.1.0-M11
+    pullPolicy: IfNotPresent
   postgres:
     enabled: true
     name: postgresql
@@ -446,8 +446,8 @@ alfresco-modeling-app:
     path: /modeling
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.1.0-A13
-    pullPolicy: Always
+    tag: 7.1.0-M11
+    pullPolicy: IfNotPresent
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
@@ -461,8 +461,8 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.1.0-A13
-    pullPolicy: Always
+    tag: 7.1.0-M11
+    pullPolicy: IfNotPresent
   postgres:
     # workaround to use the namespace qualified postgres hostname
     enabled: false
@@ -472,9 +472,9 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
-      tag: 7.1.0-A13
+      tag: 7.1.0-M11
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all images used in application
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
     maxNumber: 20
       # alfresco-deployment-service.applications.maxNumber -- maximum number of application can be deployed
       # @default -- 20 applications can be deployed by default
@@ -665,8 +665,8 @@ alfresco-admin-app:
     path: /admin
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.1.0-A13
-    pullPolicy: Always
+    tag: 7.1.0-M11
+    pullPolicy: IfNotPresent
   applications:
     allowCustomResources: true
   env:
