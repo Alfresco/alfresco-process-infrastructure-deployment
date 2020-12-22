@@ -23,4 +23,3 @@ alfresco-deployment-service:
     platform:
     generateDdl:
     ddlAuto:
-

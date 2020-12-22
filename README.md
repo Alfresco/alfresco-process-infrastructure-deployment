@@ -56,7 +56,7 @@ export DESIRED_NAMESPACE=${DESIRED_NAMESPACE:-aae}
 
 ### add quay-registry-secret
 
-Configure access to pull images from quay.io in the installation namespace: 
+Configure access to pull images from quay.io in the installation namespace:
 
 ```bash
 kubectl create secret \
@@ -165,7 +165,7 @@ HELM_OPTS+="
 ### Email Connector
 
 ***NB***
-In order to set email connector all the variables need to be set. If these variables are set then deployment service will use these configs as default for any applications deployed. Once these variables are configured at the deployment of chart via Helm customer won’t have the possibility to override these values from the admin app. In case you want to configure email connector variable from admin-app please dont not configure email connector during helm deployment. 
+In order to set email connector all the variables need to be set. If these variables are set then deployment service will use these configs as default for any applications deployed. Once these variables are configured at the deployment of chart via Helm customer won’t have the possibility to override these values from the admin app. In case you want to configure email connector variable from admin-app please dont not configure email connector during helm deployment.
 
 Add the helm properties to configure email connector:
 
@@ -219,7 +219,7 @@ helm upgrade --install \
 Both support the following optional vars:
 
 * RELEASE_NAME to handle upgrade or a non auto-generated release name
-* HELM_OPTS to pass extra options to helm 
+* HELM_OPTS to pass extra options to helm
 
 ### install.sh
 
