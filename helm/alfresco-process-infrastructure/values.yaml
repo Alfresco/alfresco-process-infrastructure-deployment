@@ -67,6 +67,8 @@ alfresco-identity-service:
     ingress:
       enabled: false
     postgresql:
+      tls:
+        enabled: false
       imageTag: 11.7
       persistence:
         existingClaim: "" # use default postgresql PVC
