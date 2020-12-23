@@ -20,6 +20,7 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
@@ -37,9 +38,17 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |
-| alfresco-admin-app.ingress.hostName | string | `nil` |  |
+| alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
+| alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-admin-app.ingress.path | string | `"/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"alfresco-admin-app"` |  |
+| alfresco-admin-app.resources.limits.cpu | string | `"500m"` |  |
+| alfresco-admin-app.resources.limits.memory | string | `"1024Mi"` |  |
+| alfresco-admin-app.resources.requests.cpu | string | `"200m"` |  |
+| alfresco-admin-app.resources.requests.memory | string | `"256Mi"` |  |
+| alfresco-admin-app.service.envType | string | `"frontend"` |  |
+| alfresco-admin-app.service.name | string | `"admin-app"` |  |
 | alfresco-deployment-service.applications.activiti.keycloak.clientPassword | string | `"client"` | activiti keycloak client password |
 | alfresco-deployment-service.applications.connectors.emailConnector | object | `{"host":"","password":"","port":"","username":""}` | In order to apply default account configuration to the email connector, all the variables need to be set. All email connectors in every application in the cluster will share the same account. |
 | alfresco-deployment-service.applications.connectors.emailConnector.host | string | `""` | email host |
@@ -60,7 +69,6 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.environment.apiUrl | string | `""` | kubernetes API URL, $ kubectl config view -o jsonpath='{.clusters[0].cluster.server}' |
 | alfresco-deployment-service.environment.namespace | string | installation namespace | namespace to copy secrets from to application namespaces |
 | alfresco-deployment-service.extraEnv | string | `"{{- if not .Values.db.uri }}\n- name: SPRING_DATASOURCE_URL\n  value: \"jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }}:{{ .Values.postgres.port }}/postgres\"\n- name: SPRING_DATASOURCE_USERNAME\n  value: \"{{ .Values.postgres.username }}\"\n- name: SPRING_DATASOURCE_PASSWORD\n  value: \"{{ .Values.postgres.password }}\"\n{{- end }}\n- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ .Values.ingress.path }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: KEYCLOAK_AUTH_SERVER_URL\n  value: '{{ include \"common.keycloak-url\" . }}'\n- name: DOCKER_REGISTRY_IMAGE_TAG\n  value: \"{{ .Values.applications.image.tag }}\"\n- name: ALFRESCO_DOCKER_REGISTRY_IMAGEPULLPOLICY\n  value: \"{{ .Values.applications.image.pullPolicy }}\"\n- name: CONTENT_SERVICE_BASE_URL\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ .Values.global.acs.enabled }}\"\n{{- with .Values.global.acs.activemq.url }}\n- name: CONTENT_SERVICE_ACTIVEMQ_URL\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.global.acs.activemq.username }}\n- name: CONTENT_SERVICE_ACTIVEMQ_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.global.acs.activemq.password }}\n- name: CONTENT_SERVICE_ACTIVEMQ_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n- name: MODELING_URL\n  value: '{{ include \"common.gateway-url\" . }}/modeling-service'\n- name: ENVIRONMENT_HOST_URL\n  value: '{{ include \"common.gateway-url\" . }}'\n- name: ENVIRONMENT_API_URL\n  value: \"{{ .Values.environment.apiUrl }}\"\n- name: ENVIRONMENT_API_TOKEN\n  value: \"{{ .Values.environment.apiToken }}\"\n- name: ENVIRONMENT_NAMESPACE\n  value: \"{{ tpl .Values.environment.namespace . }}\"\n- name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS\n  value: \"{{ .Values.projectReleaseVolume.storageClass }}\"\n- name: PROJECT_RELEASE_VOLUME_PERMISSION\n  value: \"{{ .Values.projectReleaseVolume.permission }}\"\n- name: APPLICATIONS_DATABASE_EXTERNAL\n  value: \"{{ .Values.applications.database.external }}\"\n{{- with .Values.applications.connectors.emailConnector.username }}\n- name: CONNECTOR_EMAILCONNECTOR_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.password }}\n- name: CONNECTOR_EMAILCONNECTOR_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.host }}\n- name: CONNECTOR_EMAILCONNECTOR_HOST\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.port }}\n- name: CONNECTOR_EMAILCONNECTOR_PORT\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.maxNumber }}\n- name: APPLICATIONS_MAXNUMBER\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.processStorageService.clientSecret }}\n- name: PROCESS_STORAGE_SERVICE_CLIENTSECRET\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.activiti.keycloak.clientPassword }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.host }}\n- name: APPLICATIONS_RABBITMQ_HOST\n  value: \"{{ tpl .Values.applications.rabbitmq.host . }}\"\n{{- end }}\n{{- with .Values.applications.rabbitmq.username }}\n- name: APPLICATIONS_RABBITMQ_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.rabbitmq.password }}\n- name: APPLICATIONS_RABBITMQ_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.admin.url }}\n- name: APPLICATIONS_RABBITMQ_ADMIN_URL\n  value: \"{{ tpl .Values.applications.rabbitmq.admin.url . }}\"\n{{- end }}"` |  |
-| alfresco-deployment-service.extraInitContainers | string | `"{{- if not .Values.db.uri }}\n- name: wait-for-postgresql\n  image: {{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}\n  imagePullPolicy: {{ .Values.init.image.pullPolicy }}\n  command:\n    - sh\n    - -c\n    - |-\n      until printf \".\" && nc -z -w 2 {{ .Release.Name }}-{{ .Values.postgres.name }}.{{ .Release.Namespace }} {{ .Values.postgres.port }}; do\n        sleep 2;\n      done;\n      echo 'PostgreSQL OK ✓'\n{{- end }}"` |  |
 | alfresco-deployment-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true"` |  |
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744\n- name: license\n  secret:\n    secretName: licenseaps"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
@@ -85,6 +93,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.keycloak.postgresql.imageTag | float | `11.7` |  |
 | alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `""` |  |
 | alfresco-identity-service.keycloak.postgresql.tls.enabled | bool | `false` |  |
+| alfresco-identity-service.rbac.create | bool | `false` |  |
 | alfresco-identity-service.realm.alfresco.client.redirectUris[0] | string | `"*"` |  |
 | alfresco-identity-service.realm.alfresco.client.webOrigins[0] | string | `"*"` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[0].clientId | string | `"activiti"` |  |
@@ -287,6 +296,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[9].realmRoles[1] | string | `"uma_authorization"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].realmRoles[2] | string | `"ACTIVITI_MODELER"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].username | string | `"modeler"` |  |
+| alfresco-identity-service.serviceAccount.create | bool | `false` |  |
 | alfresco-modeling-app.enabled | bool | `true` |  |
 | alfresco-modeling-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
@@ -295,8 +305,17 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"develop"` |  |
+| alfresco-modeling-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
+| alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-modeling-app.ingress.path | string | `"/modeling"` |  |
 | alfresco-modeling-app.nameOverride | string | `"alfresco-modeling-app"` |  |
+| alfresco-modeling-app.resources.limits.cpu | string | `"500m"` |  |
+| alfresco-modeling-app.resources.limits.memory | string | `"1024Mi"` |  |
+| alfresco-modeling-app.resources.requests.cpu | string | `"200m"` |  |
+| alfresco-modeling-app.resources.requests.memory | string | `"256Mi"` |  |
+| alfresco-modeling-app.service.envType | string | `"frontend"` |  |
+| alfresco-modeling-app.service.name | string | `"modeling-app"` |  |
 | alfresco-modeling-service.activiti.keycloak.clientPassword | string | `"client"` | activiti keycloak client password |
 | alfresco-modeling-service.content.client.id | string | `""` |  |
 | alfresco-modeling-service.content.client.secret | string | `""` |  |
@@ -321,7 +340,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.postgres.username | string | `"alfresco"` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
-| global | object | `{"acs":{"activemq":{"password":"","url":"","username":""},"admin":{"password":"","username":""},"enabled":false,"host":"{{ template \"common.gateway-host\" . }}","url":""},"gateway":{"annotations":{},"domain":"","host":"{{ template \"common.gateway-domain\" . }}","http":false,"tlsacme":false},"keycloak":{"host":"{{ template \"common.gateway-host\" . }}","realm":"alfresco","resource":"alfresco","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
+| global | object | `{"acs":{"activemq":{"password":"","url":"","username":""},"admin":{"password":"","username":""},"enabled":false,"host":"{{ template \"common.gateway-host\" . }}","url":""},"gateway":{"annotations":{},"domain":"","host":"{{ template \"common.gateway-domain\" . }}","http":"false","tlsacme":"false"},"keycloak":{"host":"{{ template \"common.gateway-host\" . }}","realm":"alfresco","resource":"alfresco","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
 | global.acs.activemq.url | string | `""` | ACS ActiveMQ URL for events |
 | global.acs.activemq.username | string | `""` | ACS ActiveMQ password |
 | global.acs.admin | object | `{"password":"","username":""}` | admin credentials to setup required users/groups/acl on ACS |
@@ -333,13 +352,14 @@ Kubernetes: `>=1.15.0-0`
 | global.gateway.annotations | object | `{}` | Configure global annotations for all service ingresses |
 | global.gateway.domain | string | `""` | Set to configure gateway domain template, i.e. {{ .Release.Namespace }}.1.3.4.5.nip.io $ helm upgrade aae . --install --set global.gateway.domain=1.2.3.4.nip.io |
 | global.gateway.host | string | `"{{ template \"common.gateway-domain\" . }}"` | Set to configure single host domain name for all services, i.e. "{{ .Release.Namespace }}.{{ template "common.gateway-domain" . }}" |
-| global.gateway.http | bool | `false` | Set to false enables HTTPS configuration on all urls |
-| global.gateway.tlsacme | bool | `false` | Set to enable automatic TLS for ingress if https is enabled |
+| global.gateway.http | string | `"false"` | Set to false enables HTTPS configuration on all urls |
+| global.gateway.tlsacme | string | `"false"` | Set to enable automatic TLS for ingress if https is enabled |
 | global.keycloak.host | string | `"{{ template \"common.gateway-host\" . }}"` | Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}" |
 | global.keycloak.realm | string | `"alfresco"` | Configure Keycloak realm |
 | global.keycloak.resource | string | `"alfresco"` | Configure Keycloak resource |
 | global.keycloak.url | string | `""` | Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth |
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
+| postgresql.commonAnnotations.application | string | `"activiti"` |  |
 | postgresql.enabled | bool | `true` |  |
 | postgresql.image.repository | string | `"postgres"` |  |
 | postgresql.image.tag | float | `11.7` |  |
