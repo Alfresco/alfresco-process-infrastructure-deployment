@@ -19,10 +19,10 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
+| https://kubernetes-charts.alfresco.com/incubator | alfresco-adf-app | 7.1.0-M12 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
 
 ## Values
