@@ -401,7 +401,7 @@ alfresco-modeling-service:
     tag: develop
     pullPolicy: Always
   postgresql:
-    enabled: true
+    enabled: false
     name: postgresql
     username: alfresco
     password: alfresco
