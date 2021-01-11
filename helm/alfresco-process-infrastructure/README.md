@@ -16,11 +16,11 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.7 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.10 |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
@@ -77,10 +77,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
 | alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
-| alfresco-deployment-service.postgres.enabled | bool | `false` |  |
-| alfresco-deployment-service.postgres.name | string | `"postgresql"` |  |
-| alfresco-deployment-service.postgres.password | string | `"alfresco"` |  |
-| alfresco-deployment-service.postgres.username | string | `"alfresco"` |  |
+| alfresco-deployment-service.postgresql.enabled | bool | `false` |  |
+| alfresco-deployment-service.postgresql.name | string | `"postgresql"` |  |
+| alfresco-deployment-service.postgresql.password | string | `"alfresco"` |  |
+| alfresco-deployment-service.postgresql.username | string | `"alfresco"` |  |
 | alfresco-deployment-service.probePath | string | `"{{ .Values.ingress.path }}/actuator/health"` |  |
 | alfresco-deployment-service.projectReleaseVolume.permission | string | `"ReadWriteMany"` | permission for project release volume |
 | alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"#{null}"` | storage class for project release volume, set to null spring expression to use default |
@@ -334,10 +334,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.ingress.subPaths[1] | string | `"/dmn-service/?(.*)"` |  |
 | alfresco-modeling-service.ingress.subPaths[2] | string | `"/script-service/?(.*)"` |  |
 | alfresco-modeling-service.nameOverride | string | `"alfresco-modeling-service"` |  |
-| alfresco-modeling-service.postgres.enabled | bool | `true` |  |
-| alfresco-modeling-service.postgres.name | string | `"postgresql"` |  |
-| alfresco-modeling-service.postgres.password | string | `"alfresco"` |  |
-| alfresco-modeling-service.postgres.username | string | `"alfresco"` |  |
+| alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
+| alfresco-modeling-service.postgresql.name | string | `"postgresql"` |  |
+| alfresco-modeling-service.postgresql.password | string | `"alfresco"` |  |
+| alfresco-modeling-service.postgresql.username | string | `"alfresco"` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
 | global | object | `{"acs":{"activemq":{"password":"","url":"","username":""},"admin":{"password":"","username":""},"enabled":false,"host":"{{ template \"common.gateway-host\" . }}","url":""},"gateway":{"annotations":{},"domain":"","host":"{{ template \"common.gateway-domain\" . }}","http":"false","tlsacme":"false"},"keycloak":{"host":"{{ template \"common.gateway-host\" . }}","realm":"alfresco","resource":"alfresco","url":""},"registryPullSecrets":["quay-registry-secret"]}` | for common values see https://github.com/Activiti/activiti-cloud-common-chart/blob/master/charts/common/README.md |
