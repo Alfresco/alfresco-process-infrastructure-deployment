@@ -400,7 +400,7 @@ alfresco-modeling-service:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: develop
     pullPolicy: Always
-  postgres:
+  postgresql:
     enabled: true
     name: postgresql
     username: alfresco
@@ -476,7 +476,7 @@ alfresco-deployment-service:
     repository: quay.io/alfresco/alfresco-deployment-service
     tag: develop
     pullPolicy: Always
-  postgres:
+  postgresql:
     # workaround to use the namespace qualified postgres hostname
     enabled: false
     name: postgresql
