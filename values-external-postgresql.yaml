@@ -1,5 +1,5 @@
 alfresco-modeling-service:
-  postgres:
+  postgresql:
     enabled: false
   # set external postgres database variables as required
   db:
@@ -12,7 +12,7 @@ alfresco-modeling-service:
     ddlAuto:
 
 alfresco-deployment-service:
-  postgres:
+  postgresql:
     enabled: false
   # set external postgres database variables as required
   db:
