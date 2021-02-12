@@ -648,6 +648,8 @@ alfresco-deployment-service:
     - name: APPLICATIONS_RABBITMQ_ADMIN_URL
       value: "{{ tpl .Values.applications.rabbitmq.admin.url . }}"
     {{- end }}
+    - name: ATS_TRANSFORMER_TIKA_URL
+      value: "http://tika.{{ .Release.Namespace }}/transform"
 alfresco-admin-app:
   enabled: true
   nameOverride: alfresco-admin-app
@@ -724,3 +726,27 @@ setup-acs-script-job:
   image:
     repository: bitnami/minideb-extras
     tag: stretch
+alfresco-tika-service:
+  nameOverride: alfresco-tika-service
+  enabled: true
+  image:
+    repository: alfresco/alfresco-tika
+    tag: 2.3.6
+  service:
+    name: tika
+    internalPort: 8090
+  ingress:
+    enabled: false
+  readinessProbe:
+    path: /ready
+  livenessProbe:
+    path: /live
+  resources:
+    requests:
+      memory: 1000Mi
+    limits:
+      memory: 1000Mi
+  javaOpts:
+    other: >-
+      -XX:MinRAMPercentage=50
+      -XX:MaxRAMPercentage=80
