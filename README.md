@@ -8,8 +8,9 @@ Helm chart to install the Alfresco Activiti Enterprise (AAE) infrastructure to m
 - Alfresco Identity Service
 - Modeling Service
 - Modeling App
-- Deployment Service (optional)
+- Deployment Service
 - Admin App
+- Transformation (Tika) Service
 
 Once installed, you can deploy new AAE applications:
 
@@ -30,7 +31,7 @@ Install the latest version of helm.
 
 ### ingress
 
-An nginx-ingress should be installed and bound to an external DNS address, for example:
+An `ingress-nginx` should be installed and bound to an external DNS address, for example:
 
 ```
 helm install ingress-nginx --repo https://kubernetes.github.io/ingress-nginx ingress-nginx
@@ -63,15 +64,14 @@ kubectl create secret \
   --namespace $DESIRED_NAMESPACE \
   docker-registry quay-registry-secret \
     --docker-server=quay.io \
-    --docker-username="$QUAY_USERNAME" \
-    --docker-password="$QUAY_PASSWORD" \
-    --docker-email="none"
+    --docker-username=$QUAY_USERNAME \
+    --docker-password=$QUAY_PASSWORD
 ```
 
 where:
 
-* QUAY_USERNAME is your username on quay.io
-* QUAY_PASSWORD is the password for your username on quay.io
+* _QUAY_USERNAME_ is your username on Quay
+* _QUAY_PASSWORD_ is your password on Quay
 
 ### add license secret
 
@@ -81,26 +81,26 @@ Create a secret called _licenseaps_ containing the license file in the installat
 kubectl create secret \
   --namespace $DESIRED_NAMESPACE \
   generic licenseaps --from-file \
-  "$AAE_LICENSE_FILE"~/Downloads/activiti.lic"
+  $AAE_LICENSE_FILE
 ```
 
 where:
 
-* AAE_LICENSE_FILE is the location of the AAE license file
+* _AAE_LICENSE_FILE_ is the location of your AAE license file
 
 ### set main helm env variables
 
 ```bash
 export HELM_OPTS+=" --debug \
   --namespace $DESIRED_NAMESPACE \
-  --set global.gateway.http=${HTTP} \
-  --set global.gateway.domain=${DOMAIN}"
+  --set global.gateway.http=$HTTP \
+  --set global.gateway.domain=$DOMAIN"
 ```
 
 where:
 
-* HTTP is true/false depending if you want external URLs using HTTP or HTTPS
-* DOMAIN is your DNS domain
+* _HTTP_ is true/false depending if you want external URLs using HTTP or HTTPS
+* _DOMAIN_ is your DNS domain
 
 
 ### set environment specific variables
@@ -119,20 +119,20 @@ export DOMAIN=host.docker.internal
 ```bash
 export CLUSTER=aaedev
 export PROTOCOL=https
-export DOMAIN=${CLUSTER}.envalfresco.com
+export DOMAIN=$CLUSTER.envalfresco.com
 ```
 
 #### set generated variables
 
 ```bash
-export GATEWAY_HOST=${DOMAIN}
-export SSO_HOST=${DOMAIN}
+export GATEWAY_HOST=$DOMAIN
+export SSO_HOST=$DOMAIN
 ```
 
 ### set helm env variables
 
 ```bash
-export HTTP=$(if [[ "${PROTOCOL}" == 'http' ]]; then echo true; else echo false; fi)
+export HTTP=$(if [[ "$PROTOCOL" == 'http' ]]; then echo true; else echo false; fi)
 HELM_OPTS+=" --set global.gateway.http=$HTTP \
   --set global.gateway.domain=$DOMAIN"
 ```
