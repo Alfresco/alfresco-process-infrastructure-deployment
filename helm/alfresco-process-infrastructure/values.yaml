@@ -403,6 +403,7 @@ alfresco-modeling-service:
   postgresql:
     enabled: true
   db:
+    uri: "jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgresql.name }}:{{ .Values.postgresql.port }}/postgres"
     username: alfresco
     password: alfresco
   probePath: /actuator/health

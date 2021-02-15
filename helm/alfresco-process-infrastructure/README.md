@@ -322,6 +322,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.content.client.secret | string | `""` |  |
 | alfresco-modeling-service.content.service.path | string | `"alfresco"` |  |
 | alfresco-modeling-service.db.password | string | `"alfresco"` |  |
+| alfresco-modeling-service.db.uri | string | `"jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgresql.name }}:{{ .Values.postgresql.port }}/postgres"` |  |
 | alfresco-modeling-service.db.username | string | `"alfresco"` |  |
 | alfresco-modeling-service.enabled | bool | `true` |  |
 | alfresco-modeling-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: CONTENT_CLIENT_ID\n  value: \"{{ .Values.content.client.id }}\"\n- name: CONTENT_CLIENT_SECRET\n  value: \"{{ .Values.content.client.secret }}\"\n- name: CONTENT_SERVICE_URL\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n- name: CONTENT_SERVICE_PATH\n  value: \"{{ .Values.content.service.path }}\"\n{{- with .Values.activiti.keycloak.clientPassword }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}"` |  |
