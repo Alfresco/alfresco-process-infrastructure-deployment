@@ -337,6 +337,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.ingress.subPaths[0] | string | `"/modeling-service/?(.*)"` |  |
 | alfresco-modeling-service.ingress.subPaths[1] | string | `"/dmn-service/?(.*)"` |  |
 | alfresco-modeling-service.ingress.subPaths[2] | string | `"/script-service/?(.*)"` |  |
+| alfresco-modeling-service.liquibase.enabled | bool | `true` |  |
 | alfresco-modeling-service.nameOverride | string | `"alfresco-modeling-service"` |  |
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |

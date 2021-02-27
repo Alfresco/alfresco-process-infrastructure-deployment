@@ -400,6 +400,8 @@ alfresco-modeling-service:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: develop
     pullPolicy: Always
+  liquibase:
+    enabled: true
   postgresql:
     enabled: true
   db:
