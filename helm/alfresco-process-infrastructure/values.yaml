@@ -63,6 +63,9 @@ alfresco-identity-service:
     annotations:
       nginx.ingress.kubernetes.io/enable-cors: "false" # disable NGINX CORS as it's managed by Identity Service
   keycloak:
+    keycloak:
+      image:
+        tag: 1.4.0
     ingress:
       enabled: false
     postgresql:

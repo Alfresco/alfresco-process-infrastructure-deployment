@@ -91,6 +91,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.ingress.common.enabled | bool | `true` |  |
 | alfresco-identity-service.ingress.enabled | bool | `false` |  |
 | alfresco-identity-service.keycloak.ingress.enabled | bool | `false` |  |
+| alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.4.0"` |  |
 | alfresco-identity-service.keycloak.postgresql.imageTag | float | `11.7` |  |
 | alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `""` |  |
 | alfresco-identity-service.keycloak.postgresql.tls.enabled | bool | `false` |  |
