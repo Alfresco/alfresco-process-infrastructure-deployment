@@ -10,8 +10,12 @@ To learn more about the release, try:
 Get the application URLs:
 
 * Alfresco Identity Service : {{ template "common.keycloak-url" . }}
+{{- if index .Values "alfresco-modeling-app" "enabled" }}
 * Alfresco Modeling         : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-modeling-app" "ingress" "path" }}
+{{- end -}}
+{{- if index .Values "alfresco-admin-app" "enabled" }}
 * Alfresco Admin            : {{ template "common.gateway-url" . }}{{ index .Values "alfresco-admin-app" "ingress" "path" }}
+{{- end }}
 
 To see deployment status, try:
 
