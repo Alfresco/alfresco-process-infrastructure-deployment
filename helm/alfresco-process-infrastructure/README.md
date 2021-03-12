@@ -24,7 +24,7 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 2.1.0 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 3.0.0 |
 
 ## Values
 
@@ -87,10 +87,18 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"#{null}"` | storage class for project release volume, set to null spring expression to use default |
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
-| alfresco-identity-service.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"false"` |  |
-| alfresco-identity-service.ingress.common.enabled | bool | `true` |  |
+| alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_USER\n  value: admin\n- name: KEYCLOAK_PASSWORD\n  value: admin\n- name: KEYCLOAK_IMPORT\n  value: /realm/alfresco-realm.json\n- name: PROXY_ADDRESS_FORWARDING\n  value: \"true\"\n"` |  |
 | alfresco-identity-service.ingress.enabled | bool | `false` |  |
-| alfresco-identity-service.keycloak.ingress.enabled | bool | `false` |  |
+| alfresco-identity-service.keycloak.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/affinity" | string | `"cookie"` |  |
+| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"false"` |  |
+| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/proxy-buffer-size" | string | `"128k"` |  |
+| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-hash" | string | `"sha1"` |  |
+| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-name" | string | `"identity_affinity_route"` |  |
+| alfresco-identity-service.keycloak.ingress.enabled | bool | `true` |  |
+| alfresco-identity-service.keycloak.ingress.rules[0].host | string | `"{{ include \"common.keycloak-host\" . }}"` |  |
+| alfresco-identity-service.keycloak.ingress.rules[0].paths[0] | string | `"/auth"` |  |
+| alfresco-identity-service.keycloak.ingress.tls | list | `[]` |  |
 | alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.4.0"` |  |
 | alfresco-identity-service.keycloak.postgresql.imageTag | float | `11.7` |  |
 | alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `""` |  |
@@ -151,7 +159,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[0].clientRoles.realm-management[7] | string | `"realm-admin"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[0].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[0].credentials[0].value | string | `"client"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[0].email | string | `"client@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[0].email | string | `"client@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[0].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[0].firstName | string | `"client"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[0].lastName | string | `"client"` |  |
@@ -163,7 +171,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[10].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[10].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[10].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[10].email | string | `"modeler-qa@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[10].email | string | `"modeler-qa@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[10].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[10].firstName | string | `"Modeler"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[10].lastName | string | `"User"` |  |
@@ -184,7 +192,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[1].clientRoles.realm-management[7] | string | `"realm-admin"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[1].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[1].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[1].email | string | `"superadminuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[1].email | string | `"superadminuser@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[1].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[1].firstName | string | `"Super Admin"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[1].lastName | string | `"User"` |  |
@@ -200,7 +208,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[2].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[2].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[2].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[2].email | string | `"devopsuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[2].email | string | `"devopsuser@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[2].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[2].firstName | string | `"DevOps"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[2].lastName | string | `"User"` |  |
@@ -212,7 +220,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[3].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[3].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[3].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[3].email | string | `"hruser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[3].email | string | `"hruser@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[3].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[3].firstName | string | `"HR"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[3].groups[0] | string | `"/hr"` |  |
@@ -225,7 +233,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[4].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[4].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[4].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[4].email | string | `"processadminuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[4].email | string | `"processadminuser@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[4].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[4].firstName | string | `"Process Admin"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[4].groups[0] | string | `"/processadmin"` |  |
@@ -238,7 +246,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[5].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[5].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[5].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[5].email | string | `"salesuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[5].email | string | `"salesuser@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[5].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[5].firstName | string | `"Sales"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[5].groups[0] | string | `"/sales"` |  |
@@ -251,7 +259,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[6].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[6].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[6].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[6].email | string | `"testuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[6].email | string | `"testuser@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[6].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[6].firstName | string | `"Test"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[6].groups[0] | string | `"/testgroup"` |  |
@@ -264,7 +272,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[7].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[7].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[7].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[7].email | string | `"testadmin@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[7].email | string | `"testadmin@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[7].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[7].firstName | string | `"Test"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[7].groups[0] | string | `"/testgroup"` |  |
@@ -278,7 +286,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[8].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[8].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[8].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[8].email | string | `"identityuser@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[8].email | string | `"identityuser@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[8].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[8].firstName | string | `"Identity"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[8].lastName | string | `"Admin"` |  |
@@ -290,7 +298,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[9].clientRoles.account[1] | string | `"view-profile"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].credentials[0].type | string | `"password"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].credentials[0].value | string | `"password"` |  |
-| alfresco-identity-service.realm.alfresco.extraUsers[9].email | string | `"modeler@test.com"` |  |
+| alfresco-identity-service.realm.alfresco.extraUsers[9].email | string | `"modeler@example.com"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].firstName | string | `"Modeler"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].lastName | string | `"User"` |  |
