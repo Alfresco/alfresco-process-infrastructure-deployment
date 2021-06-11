@@ -348,7 +348,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.ingress.subPaths[2] | string | `"/script-service/?(.*)"` |  |
 | alfresco-modeling-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
 | alfresco-modeling-service.javaOpts.xms | string | `"512m"` |  |
-| alfresco-modeling-service.javaOpts.xmx | string | `"4096m"` |  |
+| alfresco-modeling-service.javaOpts.xmx | string | `"3072m"` |  |
 | alfresco-modeling-service.liquibase.enabled | bool | `true` |  |
 | alfresco-modeling-service.nameOverride | string | `"alfresco-modeling-service"` |  |
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
