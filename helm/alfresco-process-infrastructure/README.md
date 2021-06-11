@@ -354,8 +354,6 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
-| alfresco-modeling-service.exampleProjects.endpoint | string | `"https://alfrescolabs.github.io/apa-templates.github.io"` |  |
-| alfresco-modeling-service.exampleProjects.resource | string | `"index_7.1.0-GA.json"` |  |
 | alfresco-tika-service.enabled | bool | `true` |  |
 | alfresco-tika-service.image.repository | string | `"alfresco/alfresco-tika"` |  |
 | alfresco-tika-service.image.tag | string | `"2.3.6"` |  |
