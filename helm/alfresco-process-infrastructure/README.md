@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.1.0-M13](https://img.shields.io/badge/Version-7.1.0--M13-informational?style=flat-square) ![AppVersion: 7.1.0-M13](https://img.shields.io/badge/AppVersion-7.1.0--M13-informational?style=flat-square)
+![Version: 7.1.0-M14](https://img.shields.io/badge/Version-7.1.0--M14-informational?style=flat-square) ![AppVersion: 7.1.0-M14](https://img.shields.io/badge/AppVersion-7.1.0--M14-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -16,12 +16,12 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M12 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M13 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M13 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M13 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M13 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M13 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M13 |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 3.0.0 |
