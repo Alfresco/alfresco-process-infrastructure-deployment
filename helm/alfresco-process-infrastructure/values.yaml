@@ -462,6 +462,17 @@ alfresco-modeling-service:
     - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
       value: "{{ . }}"
     {{- end }}
+  javaOpts:
+    xms: 512m
+    xmx: 3072m
+    other: >-
+      -XX:+UnlockExperimentalVMOptions
+      -Dsun.zip.disableMemoryMapping=true
+      -XX:+UseParallelGC
+      -XX:MinHeapFreeRatio=5
+      -XX:GCTimeRatio=4
+      -XX:AdaptiveSizePolicyWeight=90
+
 alfresco-modeling-app:
   enabled: true
   nameOverride: alfresco-modeling-app
