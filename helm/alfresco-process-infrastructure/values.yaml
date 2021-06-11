@@ -464,7 +464,7 @@ alfresco-modeling-service:
     {{- end }}
   javaOpts:
     xms: 512m
-    xmx: 4096m
+    xmx: 3072m
     other: >-
       -XX:+UnlockExperimentalVMOptions
       -Dsun.zip.disableMemoryMapping=true
