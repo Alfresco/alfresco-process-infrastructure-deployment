@@ -442,8 +442,8 @@ alfresco-modeling-service:
       # alfresco-modeling-service.activiti.keycloak.clientPassword -- activiti keycloak client password
       clientPassword: client
   exampleProjects:
-    endpoint: "https://alfrescolabs.github.io/apa-templates.github.io"
-    resource: "index_7.1.0-GA.json"
+    endpoint: https://alfrescolabs.github.io/apa-templates.github.io
+    resource: index_7.1.0-GA.json
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
@@ -490,11 +490,18 @@ alfresco-modeling-app:
   service:
     name: modeling-app
     envType: frontend
+  exampleProjects:
+    disabled: false
+    host: https://alfrescolabs.github.io/apa-templates.github.io
+    resource: index_7.1.0-GA.json
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
+    APP_CONFIG_DISABLED_EXAMPLE_PROJECTS: "{{ .Values.exampleProjects.disabled }}"
+    APP_CONFIG_EXAMPLE_PROJECTS_HOST: "{{ .Values.exampleProjects.host }}"
+    APP_CONFIG_EXAMPLE_PROJECTS_RESOURCE: "{{ .Values.exampleProjects.resource }}"
   ingress:
     path: /modeling
     annotations:
