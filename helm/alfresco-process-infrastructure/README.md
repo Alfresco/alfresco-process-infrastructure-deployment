@@ -316,8 +316,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.env.APP_CONFIG_EXAMPLE_PROJECTS_RESOURCE | string | `"{{ .Values.exampleProjects.resource }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.exampleProjects.disabled | bool | `false` |  |
-| alfresco-modeling-app.exampleProjects.host | string | `"https://alfrescolabs.github.io/apa-templates.github.io"` |  |
-| alfresco-modeling-app.exampleProjects.resource | string | `"index_7.1.0-GA.json"` |  |
+| alfresco-modeling-app.exampleProjects.host | string | `"https://alfresco.github.io/apa-templates"` |  |
+| alfresco-modeling-app.exampleProjects.resource | string | `"index_7.1.0-dev.json"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"develop"` |  |
@@ -340,8 +340,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.db.uri | string | `"jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgresql.name }}:{{ .Values.postgresql.port }}/postgres"` |  |
 | alfresco-modeling-service.db.username | string | `"alfresco"` |  |
 | alfresco-modeling-service.enabled | bool | `true` |  |
-| alfresco-modeling-service.exampleProjects.endpoint | string | `"https://alfrescolabs.github.io/apa-templates.github.io"` |  |
-| alfresco-modeling-service.exampleProjects.resource | string | `"index_7.1.0-GA.json"` |  |
+| alfresco-modeling-service.exampleProjects.endpoint | string | `"https://alfresco.github.io/apa-templates"` |  |
+| alfresco-modeling-service.exampleProjects.resource | string | `"index_7.1.0-dev.json"` |  |
 | alfresco-modeling-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: CONTENT_CLIENT_ID\n  value: \"{{ .Values.content.client.id }}\"\n- name: CONTENT_CLIENT_SECRET\n  value: \"{{ .Values.content.client.secret }}\"\n- name: CONTENT_SERVICE_URL\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n- name: CONTENT_SERVICE_PATH\n  value: \"{{ .Values.content.service.path }}\"\n{{- with .Values.activiti.keycloak.clientPassword }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_ENDPOINT\n  value: \"{{ .Values.exampleProjects.endpoint }}\"\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE\n  value: \"{{ .Values.exampleProjects.resource }}\""` |  |
 | alfresco-modeling-service.extraVolumeMounts | string | `"- name: license\n  mountPath: \"/root/.activiti/enterprise-license/\"\n  readOnly: true"` |  |
 | alfresco-modeling-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps"` |  |
