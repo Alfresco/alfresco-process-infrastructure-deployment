@@ -720,6 +720,9 @@ alfresco-admin-app:
     {{- if .Values.global.acs.enabled }}
     - name: APP_CONFIG_ECM_HOST
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
+    {{- else }}
+    - name: APP_CONFIG_PROVIDER
+      value: BPM
     {{- end }}
   ingress:
     path: /admin
