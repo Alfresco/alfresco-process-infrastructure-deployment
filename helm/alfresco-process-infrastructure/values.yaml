@@ -418,8 +418,8 @@ alfresco-modeling-service:
       readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: develop
-    pullPolicy: Always
+    tag: 7.1.0-M14
+    pullPolicy: IfNotPresent
   liquibase:
     enabled: true
   postgresql:
@@ -485,8 +485,8 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: develop
-    pullPolicy: Always
+    tag: 7.1.0-M14
+    pullPolicy: IfNotPresent
   service:
     name: modeling-app
     envType: frontend
@@ -522,8 +522,8 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: develop
-    pullPolicy: Always
+    tag: 7.1.0-M14
+    pullPolicy: IfNotPresent
   postgresql:
     enabled: true
   db:
@@ -534,9 +534,9 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
-      tag: develop
+      tag: 7.1.0-M14
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all images used in application
-      pullPolicy: Always
+      pullPolicy: IfNotPresent
     maxNumber: 20
       # alfresco-deployment-service.applications.maxNumber -- maximum number of application can be deployed
       # @default -- 20 applications can be deployed by default
@@ -703,8 +703,8 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
-    pullPolicy: Always
+    tag: 7.1.0-M14
+    pullPolicy: IfNotPresent
   service:
     name: admin-app
     envType: frontend
