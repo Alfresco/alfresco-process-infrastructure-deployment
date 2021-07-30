@@ -7,7 +7,7 @@ add_user_to_group "service-account-storage-service" "ALFRESCO_ADMINISTRATORS"
 
 if [[ "$LOAD_TEST_DATA" == "true" ]]
 then
-	create_user "admin.adf" "admin.adf@alfresco.com" $(generate_alfpwd)
+  create_user "admin.adf" "admin.adf@alfresco.com"
   add_user_to_group "admin.adf" "ALFRESCO_MODEL_ADMINISTRATORS"
 
   create_user "superadminuser" "superadminuser@test.com" $(generate_alfpwd)
