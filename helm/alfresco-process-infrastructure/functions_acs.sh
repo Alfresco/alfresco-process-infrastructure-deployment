@@ -17,8 +17,9 @@ done
 echo "connection OK"
 
 create_user() {
-  local ACS_USER="$1";
-  local ACS_PASSWORD="${2:-${ACS_USER}@example.com}";
+  local ACS_USER="$1"
+  local ACS_EMAIL="${2:-${ACS_USER}@example.com}"
+  local ACS_PASSWORD:"${3:-password}"
   echo "create user ${ACS_USER}"
 
   curl -X POST \
@@ -28,8 +29,8 @@ create_user() {
     \"id\": \"${ACS_USER}\",
     \"firstName\": \"${ACS_USER}\",
     \"lastName\": \"User\",
-    \"email\": \"${ACS_PASSWORD}\",
-    \"password\": \"password\"
+    \"email\": \"${ACS_EMAIL}\",
+    \"password\": \"${ACS_PASSWORD}\"
   }" "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/people"
 
   echo
@@ -47,6 +48,11 @@ create_group() {
   }" "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/groups"
 
   echo
+}
+
+generate_alfpwd() {
+  local LANG=POSIX
+  grep -ao '\w[[:punct:]]*\w*' /dev/urandom | tr -d '\n' | dd bs=1 count=64 2>/dev/null
 }
 
 add_user_to_group() {
