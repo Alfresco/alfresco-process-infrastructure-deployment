@@ -112,6 +112,18 @@ alfresco-identity-service:
           authorizationServicesEnabled: true
           directAccessGrantsEnabled: true
           secret: 08102f0f-025c-4226-8a3e-674343bff231
+        - clientId: activiti-keycloak
+          enabled: true
+          clientAuthenticatorType: client-secret
+          secret: d2b835b5-efdf-4448-8d55-89eaaca9fc96
+          bearerOnly: false
+          standardFlowEnabled: false
+          implicitFlowEnabled: false
+          directAccessGrantsEnabled: true
+          serviceAccountsEnabled: true
+          publicClient: false
+          protocol: openid-connect
+          fullScopeAllowed: true
       extraRealmRoles:
         - name: ACTIVITI_ADMIN
           composites:
@@ -162,33 +174,6 @@ alfresco-identity-service:
           realmRoles:
             - ACTIVITI_ADMIN
       extraUsers:
-        - username: client
-          enabled: true
-          firstName: client
-          lastName: client
-          email: client@example.com
-          credentials:
-            - type: password
-              value: client
-          realmRoles:
-            - ACTIVITI_USER
-            - offline_access
-            - uma_authorization
-          clientRoles:
-            realm-management:
-              - manage-users
-              - manage-clients
-              - manage-authorization
-              - manage-events
-              - manage-realm
-              - create-client
-              - impersonation
-              - realm-admin
-            broker:
-              - read-token
-            account:
-              - manage-account
-              - view-profile
         - username: superadminuser
           enabled: true
           firstName: "Super Admin"
@@ -375,6 +360,13 @@ alfresco-identity-service:
             account:
               - manage-account
               - view-profile
+        - username: service-account-activiti-keycloak
+          enabled: true
+          serviceAccountClientId: activiti-keycloak
+          clientRoles:
+            realm-management:
+              - query-realms
+              - view-users
 postgresql:
   enabled: true
   image:
