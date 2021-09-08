@@ -19,7 +19,7 @@ echo "connection OK"
 create_user() {
   local ACS_USER="$1"
   local ACS_EMAIL="${2:-${ACS_USER}@example.com}"
-  local ACS_PASSWORD:"${3:-password}"
+  local ACS_PASSWORD="${3:-password}"
   echo "create user ${ACS_USER}"
 
   curl -X POST \
