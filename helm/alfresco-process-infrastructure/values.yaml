@@ -29,6 +29,10 @@ global:
     realm: alfresco
     # global.keycloak.resource -- Configure Keycloak resource
     resource: alfresco
+    # global.keycloak.clientId -- Configure Activiti Keycloak Client Id
+    clientId: activiti-keycloak
+    # global.keycloak.clientSecret -- Configure Activiti Keycloak Client Secret.
+    clientSecret: d2b835b5-efdf-4448-8d55-89eaaca9fc96
   acs:
     # global.acs.enabled -- enable support for ACS
     enabled: false
@@ -112,6 +116,18 @@ alfresco-identity-service:
           authorizationServicesEnabled: true
           directAccessGrantsEnabled: true
           secret: 08102f0f-025c-4226-8a3e-674343bff231
+        - clientId: activiti-keycloak
+          enabled: true
+          clientAuthenticatorType: client-secret
+          secret: d2b835b5-efdf-4448-8d55-89eaaca9fc96
+          bearerOnly: false
+          standardFlowEnabled: false
+          implicitFlowEnabled: false
+          directAccessGrantsEnabled: true
+          serviceAccountsEnabled: true
+          publicClient: false
+          protocol: openid-connect
+          fullScopeAllowed: true
       extraRealmRoles:
         - name: ACTIVITI_ADMIN
           composites:
@@ -162,33 +178,6 @@ alfresco-identity-service:
           realmRoles:
             - ACTIVITI_ADMIN
       extraUsers:
-        - username: client
-          enabled: true
-          firstName: client
-          lastName: client
-          email: client@example.com
-          credentials:
-            - type: password
-              value: client
-          realmRoles:
-            - ACTIVITI_USER
-            - offline_access
-            - uma_authorization
-          clientRoles:
-            realm-management:
-              - manage-users
-              - manage-clients
-              - manage-authorization
-              - manage-events
-              - manage-realm
-              - create-client
-              - impersonation
-              - realm-admin
-            broker:
-              - read-token
-            account:
-              - manage-account
-              - view-profile
         - username: superadminuser
           enabled: true
           firstName: "Super Admin"
@@ -375,6 +364,13 @@ alfresco-identity-service:
             account:
               - manage-account
               - view-profile
+        - username: service-account-activiti-keycloak
+          enabled: true
+          serviceAccountClientId: activiti-keycloak
+          clientRoles:
+            realm-management:
+              - query-realms
+              - view-users
 postgresql:
   enabled: true
   image:
@@ -439,8 +435,10 @@ alfresco-modeling-service:
       secret: ""
   activiti:
     keycloak:
-      # alfresco-modeling-service.activiti.keycloak.clientPassword -- activiti keycloak client password
-      clientPassword: client
+      # alfresco-modeling-service.applications.activiti.keycloak.clientId -- activiti keycloak client id
+      clientId: "{{ .Values.global.keycloak.clientId }}"
+      # alfresco-modeling-service.applications.activiti.keycloak.clientSecret -- activiti keycloak client secret
+      clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
   exampleProjects:
     endpoint: https://alfresco.github.io/apa-templates
     resource: index_7.1.0-dev.json
@@ -461,9 +459,13 @@ alfresco-modeling-service:
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     - name: CONTENT_SERVICE_PATH
       value: "{{ .Values.content.service.path }}"
-    {{- with .Values.activiti.keycloak.clientPassword }}
-    - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
-      value: "{{ . }}"
+    {{- with .Values.activiti.keycloak.clientId }}
+    - name: ACTIVITI_KEYCLOAK_CLIENT_ID
+      value: "{{ tpl . $ }}"
+    {{- end }}
+    {{- with .Values.activiti.keycloak.clientSecret }}
+    - name: ACTIVITI_KEYCLOAK_CLIENT_SECRET
+      value: "{{ tpl . $ }}"
     {{- end }}
     - name: ACT_ALFRESCO_MODELING_TEMPLATES_ENDPOINT
       value: "{{ .Values.exampleProjects.endpoint }}"
@@ -558,8 +560,10 @@ alfresco-deployment-service:
       clientSecret: 08102f0f-025c-4226-8a3e-674343bff231
     activiti:
       keycloak:
-        # alfresco-deployment-service.applications.activiti.keycloak.clientPassword -- activiti keycloak client password
-        clientPassword: client
+        # alfresco-deployment-service.applications.activiti.keycloak.clientId -- activiti keycloak client id
+        clientId: "{{ .Values.global.keycloak.clientId }}"
+        # alfresco-deployment-service.applications.activiti.keycloak.clientSecret -- activiti keycloak client secret
+        clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
     rabbitmq:
       # alfresco-deployment-service.applications.rabbitmq.host -- RabbitMQ host
       host: "{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}"
@@ -676,9 +680,13 @@ alfresco-deployment-service:
     - name: PROCESS_STORAGE_SERVICE_CLIENTSECRET
       value: "{{ . }}"
     {{- end }}
-    {{- with .Values.applications.activiti.keycloak.clientPassword }}
-    - name: ACTIVITI_KEYCLOAK_CLIENT_PASSWORD
-      value: "{{ . }}"
+    {{- with .Values.applications.activiti.keycloak.clientId }}
+    - name: ACTIVITI_KEYCLOAK_CLIENT_ID
+      value: "{{ tpl . $ }}"
+    {{- end }}
+    {{- with .Values.applications.activiti.keycloak.clientSecret }}
+    - name: ACTIVITI_KEYCLOAK_CLIENT_SECRET
+      value: "{{ tpl . $ }}"
     {{- end }}
     {{- if .Values.applications.rabbitmq.host }}
     - name: APPLICATIONS_RABBITMQ_HOST
