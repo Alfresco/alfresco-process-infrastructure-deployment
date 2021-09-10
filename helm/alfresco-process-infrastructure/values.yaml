@@ -707,7 +707,7 @@ alfresco-deployment-service:
     - name: ATS_TRANSFORMER_TIKA_URL
       value: "http://tika.{{ .Release.Namespace }}/transform"
     - name: PROCESS_UI_URL
-      value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
+      value: '{{ include "common.gateway-url" . }}'
 alfresco-admin-app:
   enabled: true
   nameOverride: alfresco-admin-app
