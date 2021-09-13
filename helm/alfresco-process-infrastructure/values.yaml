@@ -792,7 +792,7 @@ alfresco-tika-service:
   enabled: true
   image:
     repository: alfresco/alfresco-tika
-    tag: 2.3.6
+    tag: 2.5.3
   service:
     name: tika
     internalPort: 8090
