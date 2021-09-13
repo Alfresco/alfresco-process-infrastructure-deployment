@@ -362,7 +362,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-tika-service.enabled | bool | `true` |  |
 | alfresco-tika-service.image.repository | string | `"alfresco/alfresco-tika"` |  |
-| alfresco-tika-service.image.tag | string | `"2.3.6"` |  |
+| alfresco-tika-service.image.tag | string | `"2.5.3"` |  |
 | alfresco-tika-service.ingress.enabled | bool | `false` |  |
 | alfresco-tika-service.javaOpts.other | string | `"-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80"` |  |
 | alfresco-tika-service.livenessProbe.path | string | `"/live"` |  |
