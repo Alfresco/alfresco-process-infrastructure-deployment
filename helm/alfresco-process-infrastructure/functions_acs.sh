@@ -52,7 +52,7 @@ create_group() {
 
 generate_alfpwd() {
   local LANG=POSIX
-  grep -ao '\w[[:punct:]]*\w*' /dev/urandom | tr -d '\n' | dd bs=1 count=64 2>/dev/null
+  grep -ao '\w' /dev/urandom | tr -d '\n' | dd bs=1 count=64 2>/dev/null
 }
 
 add_user_to_group() {
