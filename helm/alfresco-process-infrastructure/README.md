@@ -24,7 +24,7 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.1.0-M14 |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 7.8.0 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 4.0.0 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 5.0.0 |
 
 ## Values
 
@@ -100,7 +100,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.keycloak.ingress.rules[0].host | string | `"{{ include \"common.keycloak-host\" . }}"` |  |
 | alfresco-identity-service.keycloak.ingress.rules[0].paths[0] | string | `"/auth"` |  |
 | alfresco-identity-service.keycloak.ingress.tls | list | `[]` |  |
-| alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.5.0"` |  |
+| alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.6.0"` |  |
 | alfresco-identity-service.keycloak.postgresql.imageTag | float | `11.7` |  |
 | alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `""` |  |
 | alfresco-identity-service.keycloak.postgresql.tls.enabled | bool | `false` |  |
