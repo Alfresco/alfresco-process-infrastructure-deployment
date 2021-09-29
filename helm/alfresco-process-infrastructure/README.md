@@ -98,7 +98,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-name" | string | `"identity_affinity_route"` |  |
 | alfresco-identity-service.keycloak.ingress.enabled | bool | `true` |  |
 | alfresco-identity-service.keycloak.ingress.rules[0].host | string | `"{{ include \"common.keycloak-host\" . }}"` |  |
-| alfresco-identity-service.keycloak.ingress.rules[0].paths[0] | string | `"/auth"` |  |
+| alfresco-identity-service.keycloak.ingress.rules[0].paths[0].path | string | `"/auth"` |  |
+| alfresco-identity-service.keycloak.ingress.rules[0].paths[0].pathType | string | `"Prefix"` |  |
 | alfresco-identity-service.keycloak.ingress.tls | list | `[]` |  |
 | alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.6.0"` |  |
 | alfresco-identity-service.keycloak.postgresql.imageTag | float | `11.7` |  |
