@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.1.0-M15](https://img.shields.io/badge/Version-7.1.0--M15-informational?style=flat-square) ![AppVersion: 7.1.0-M15](https://img.shields.io/badge/AppVersion-7.1.0--M15-informational?style=flat-square)
+![Version: 7.1.0-M16](https://img.shields.io/badge/Version-7.1.0--M16-informational?style=flat-square) ![AppVersion: 7.1.0-M16](https://img.shields.io/badge/AppVersion-7.1.0--M16-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -16,15 +16,15 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M14 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.1.0-M14 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.1.0-M14 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.1.0-M14 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.1.0-M14 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.1.0-M14 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M15 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.1.0-M15 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.1.0-M15 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.1.0-M15 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.1.0-M15 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.1.0-M15 |
 | https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 8.20.5 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 4.0.0 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 5.0.0 |
 
 ## Values
 
@@ -98,9 +98,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-name" | string | `"identity_affinity_route"` |  |
 | alfresco-identity-service.keycloak.ingress.enabled | bool | `true` |  |
 | alfresco-identity-service.keycloak.ingress.rules[0].host | string | `"{{ include \"common.keycloak-host\" . }}"` |  |
-| alfresco-identity-service.keycloak.ingress.rules[0].paths[0] | string | `"/auth"` |  |
+| alfresco-identity-service.keycloak.ingress.rules[0].paths[0].path | string | `"/auth"` |  |
+| alfresco-identity-service.keycloak.ingress.rules[0].paths[0].pathType | string | `"Prefix"` |  |
 | alfresco-identity-service.keycloak.ingress.tls | list | `[]` |  |
-| alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.5.0"` |  |
+| alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.6.0"` |  |
 | alfresco-identity-service.keycloak.postgresql.imageTag | float | `11.7` |  |
 | alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `""` |  |
 | alfresco-identity-service.keycloak.postgresql.tls.enabled | bool | `false` |  |
