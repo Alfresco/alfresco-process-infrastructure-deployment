@@ -576,9 +576,11 @@ alfresco-deployment-service:
         # alfresco-deployment-service.applications.rabbitmq.admin.url -- RabbitMQ admin URL, derived from host if not set
         url: ""
   ingress:
-    path: /deployment-service
+    path: /deployment-service/?(.*)
     enabled: true
-  probePath: "{{ .Values.ingress.path }}/actuator/health"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+  probePath: /actuator/health
   environment:
     # alfresco-deployment-service.environment.apiUrl -- kubernetes API URL, $ kubectl config view -o jsonpath='{.clusters[0].cluster.server}'
     apiUrl: ""
