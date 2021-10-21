@@ -79,11 +79,12 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
 | alfresco-deployment-service.image.tag | string | `"develop"` |  |
+| alfresco-deployment-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
-| alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
+| alfresco-deployment-service.ingress.path | string | `"/deployment-service/?(.*)"` |  |
 | alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
 | alfresco-deployment-service.postgresql.enabled | bool | `true` |  |
-| alfresco-deployment-service.probePath | string | `"{{ .Values.ingress.path }}/actuator/health"` |  |
+| alfresco-deployment-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-deployment-service.projectReleaseVolume.permission | string | `"ReadWriteMany"` | permission for project release volume |
 | alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"#{null}"` | storage class for project release volume, set to null spring expression to use default |
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
