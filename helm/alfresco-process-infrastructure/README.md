@@ -81,7 +81,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.image.tag | string | `"develop"` |  |
 | alfresco-deployment-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
-| alfresco-deployment-service.ingress.path | string | `"/deployment-service/?(.*)"` |  |
+| alfresco-deployment-service.ingress.path | string | `""` |  |
+| alfresco-deployment-service.ingress.subPaths[0] | string | `"/deployment-service/?(.*)"` |  |
 | alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
 | alfresco-deployment-service.postgresql.enabled | bool | `true` |  |
 | alfresco-deployment-service.probePath | string | `"/actuator/health"` |  |
