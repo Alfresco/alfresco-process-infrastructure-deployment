@@ -578,7 +578,10 @@ alfresco-deployment-service:
   ingress:
     path: /deployment-service
     enabled: true
-  probePath: "{{ .Values.ingress.path }}/actuator/health"
+  readinessProbe:
+    path: '{{ .Values.ingress.path }}/actuator/health/readiness'
+  livenessProbe:
+    path: '{{ .Values.ingress.path }}/actuator/health/liveness'
   environment:
     # alfresco-deployment-service.environment.apiUrl -- kubernetes API URL, $ kubectl config view -o jsonpath='{.clusters[0].cluster.server}'
     apiUrl: ""

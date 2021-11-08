@@ -81,12 +81,13 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.image.tag | string | `"develop"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
+| alfresco-deployment-service.livenessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/liveness"` |  |
 | alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
 | alfresco-deployment-service.postgresql.enabled | bool | `true` |  |
-| alfresco-deployment-service.probePath | string | `"{{ .Values.ingress.path }}/actuator/health"` |  |
 | alfresco-deployment-service.projectReleaseVolume.permission | string | `"ReadWriteMany"` | permission for project release volume |
 | alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"#{null}"` | storage class for project release volume, set to null spring expression to use default |
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
+| alfresco-deployment-service.readinessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/readiness"` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
 | alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_USER\n  value: admin\n- name: KEYCLOAK_PASSWORD\n  value: admin\n- name: KEYCLOAK_IMPORT\n  value: /realm/alfresco-realm.json\n- name: PROXY_ADDRESS_FORWARDING\n  value: \"true\"\n"` |  |
 | alfresco-identity-service.ingress.enabled | bool | `false` |  |
