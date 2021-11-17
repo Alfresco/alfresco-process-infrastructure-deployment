@@ -442,7 +442,7 @@ alfresco-modeling-service:
       clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
   exampleProjects:
     endpoint: https://alfresco.github.io/apa-templates
-    resource: index_7.1.0-dev.json
+    resource: index_7.1.0-M16.json
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
@@ -496,7 +496,7 @@ alfresco-modeling-app:
   exampleProjects:
     disabled: false
     host: https://alfresco.github.io/apa-templates
-    resource: index_7.1.0-dev.json
+    resource: index_7.1.0-M16.json
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
