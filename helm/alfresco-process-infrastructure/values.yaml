@@ -692,9 +692,17 @@ alfresco-deployment-service:
     - name: ACTIVITI_KEYCLOAK_CLIENT_SECRET
       value: "{{ tpl . $ }}"
     {{- end }}
+    {{- if .Values.applications.rabbitmq.port }}
+    - name: APPLICATIONS_RABBITMQ_PORT
+      value: "{{ tpl .Values.applications.rabbitmq.port . }}"
+    {{- end }}
     {{- if .Values.applications.rabbitmq.host }}
     - name: APPLICATIONS_RABBITMQ_HOST
       value: "{{ tpl .Values.applications.rabbitmq.host . }}"
+    {{- end }}
+    {{- if .Values.applications.rabbitmq.ssl.enabled}}
+    - name: APPLICATIONS_RABBITMQ_SSL_ENABLED
+      value: "{{ tpl .Values.applications.rabbitmq.ssl.enabled . }}"
     {{- end }}
     {{- with .Values.applications.rabbitmq.username }}
     - name: APPLICATIONS_RABBITMQ_USERNAME
