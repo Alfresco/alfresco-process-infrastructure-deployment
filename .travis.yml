@@ -1,3 +1,7 @@
+env:
+  global:
+    - HELM_DOCS_VERSION=1.6.0
+
 import:
   - source: Alfresco/alfresco-build-tools:.travis.helm.yml@v1.1.7
   - source: Alfresco/alfresco-build-tools:.travis.pre-commit.yml@v1.1.7
