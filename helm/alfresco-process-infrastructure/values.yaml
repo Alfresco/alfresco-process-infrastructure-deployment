@@ -536,10 +536,12 @@ alfresco-deployment-service:
     password: alfresco
   applications:
     image:
-      # alfresco-deployment-service.applications.image.tag -- default tag for all images used in application
+      # alfresco-deployment-service.applications.image.tag -- default tag for all application images
       tag: develop
-      # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all images used in application
+      # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all application images
       pullPolicy: Always
+      # alfresco-deployment-service.applications.image.pullSecretName -- pull secret name for all application images
+      pullSecretName: quay-registry-secret
     maxNumber: 20
       # alfresco-deployment-service.applications.maxNumber -- maximum number of application can be deployed
       # @default -- 20 applications can be deployed by default
@@ -631,6 +633,8 @@ alfresco-deployment-service:
       value: '{{ include "common.keycloak-url" . }}'
     - name: DOCKER_REGISTRY_IMAGE_TAG
       value: "{{ .Values.applications.image.tag }}"
+    - name: ALFRESCO_DOCKER_REGISTRY_SECRET_NAME
+      value: "{{ .Values.applications.image.pullSecretName }}"
     - name: ALFRESCO_DOCKER_REGISTRY_IMAGEPULLPOLICY
       value: "{{ .Values.applications.image.pullPolicy }}"
     - name: CONTENT_SERVICE_BASE_URL
