@@ -405,14 +405,6 @@ alfresco-modeling-service:
       - /modeling-service/?(.*)
       - /dmn-service/?(.*)
       - /script-service/?(.*)
-  extraVolumes: |-
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |-
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: 7.1.0-M17
@@ -611,13 +603,6 @@ alfresco-deployment-service:
       configMap:
         name: {{ .Release.Name }}-deployment-config
         defaultMode: 0744
-    - name: license
-      secret:
-        secretName: licenseaps
-  extraVolumeMounts: |-
-    - name: license
-      mountPath: "/root/.activiti/enterprise-license/"
-      readOnly: true
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
