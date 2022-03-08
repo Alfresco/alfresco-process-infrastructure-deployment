@@ -73,21 +73,6 @@ where:
 * _QUAY_USERNAME_ is your username on Quay
 * _QUAY_PASSWORD_ is your password on Quay
 
-### add license secret
-
-Create a secret called _licenseaps_ containing the license file in the installation namespace.
-
-```bash
-kubectl create secret \
-  --namespace $DESIRED_NAMESPACE \
-  generic licenseaps --from-file \
-  $AAE_LICENSE_FILE
-```
-
-where:
-
-* _AAE_LICENSE_FILE_ is the location of your AAE license file
-
 ### set main helm env variables
 
 ```bash
