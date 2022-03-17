@@ -10,6 +10,7 @@ import:
 branches:
   only:
     - develop
+    - hotfix-M17.4
 
 notifications:
   slack:
