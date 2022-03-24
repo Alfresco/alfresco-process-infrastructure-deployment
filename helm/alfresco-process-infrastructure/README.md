@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.1.0-M17.4](https://img.shields.io/badge/Version-7.1.0--M17.4-informational?style=flat-square) ![AppVersion: 7.1.0-M17.4](https://img.shields.io/badge/AppVersion-7.1.0--M17.4-informational?style=flat-square)
+![Version: 7.1.0-M17.5](https://img.shields.io/badge/Version-7.1.0--M17.5-informational?style=flat-square) ![AppVersion: 7.1.0-M17.5](https://img.shields.io/badge/AppVersion-7.1.0--M17.5-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -38,7 +38,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- else }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"7.1.0-M17.1"` |  |
+| alfresco-admin-app.image.tag | string | `"7.1.0-M17.2"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -81,7 +81,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744\n- name: license\n  secret:\n    secretName: licenseaps"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"7.1.0-M17.4"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.1.0-M17.5"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
 | alfresco-deployment-service.livenessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/liveness"` |  |
@@ -322,7 +322,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.exampleProjects.resource | string | `"index_7.1.0-M17.json"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
-| alfresco-modeling-app.image.tag | string | `"7.1.0-M17"` |  |
+| alfresco-modeling-app.image.tag | string | `"7.1.0-M17.2"` |  |
 | alfresco-modeling-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -350,7 +350,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.extraVolumes | string | `"- name: license\n  secret:\n    secretName: licenseaps"` |  |
 | alfresco-modeling-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
-| alfresco-modeling-service.image.tag | string | `"7.1.0-M17"` |  |
+| alfresco-modeling-service.image.tag | string | `"7.1.0-M17.5"` |  |
 | alfresco-modeling-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-modeling-service.ingress.enabled | bool | `true` |  |
 | alfresco-modeling-service.ingress.path | string | `""` |  |
