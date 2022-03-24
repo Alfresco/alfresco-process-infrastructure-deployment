@@ -65,7 +65,7 @@ alfresco-identity-service:
   keycloak:
     keycloak:
       image:
-        tag: 1.6.0
+        tag: 1.7.0
     ingress:
       enabled: true
       rules:
@@ -84,7 +84,8 @@ alfresco-identity-service:
     postgresql:
       tls:
         enabled: false
-      imageTag: 11.7
+      image:
+        tag: 13.3.0
       persistence:
         existingClaim: "" # use default postgresql PVC
   extraEnv: |
@@ -375,15 +376,14 @@ alfresco-identity-service:
 postgresql:
   enabled: true
   image:
-    repository: postgres
-    tag: 11.7
+    tag: 13.3.0
   postgresqlUsername: alfresco
   postgresqlPassword: alfresco
   postgresqlDatabase: postgres
   postgresqlDataDir: /data/pgdata
   persistence:
     mountPath: /data
-  postgresqlConfiguration:
+  postgresqlExtendedConf:
     max_connections: 300
     log_min_messages: LOG
   resources:
@@ -399,6 +399,7 @@ alfresco-modeling-service:
   ingress:
     enabled: true
     annotations:
+      kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$1
     path: ""
     subPaths:
@@ -407,7 +408,7 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.1.0-M17
+    tag: 7.2.0
     pullPolicy: IfNotPresent
   liquibase:
     enabled: true
@@ -434,7 +435,7 @@ alfresco-modeling-service:
       clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
   exampleProjects:
     endpoint: https://alfresco.github.io/apa-templates
-    resource: index_7.1.0-M17.json
+    resource: index_7.2.0.json
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
@@ -480,7 +481,7 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.1.0-M17
+    tag: 7.2.0
     pullPolicy: IfNotPresent
   service:
     name: modeling-app
@@ -488,7 +489,7 @@ alfresco-modeling-app:
   exampleProjects:
     disabled: false
     host: https://alfresco.github.io/apa-templates
-    resource: index_7.1.0-M17.json
+    resource: index_7.2.0.json
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
@@ -517,7 +518,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.1.0-M17.3
+    tag: 7.2.0
     pullPolicy: IfNotPresent
   postgresql:
     enabled: true
@@ -529,7 +530,7 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all application images
-      tag: 7.1.0-M17
+      tag: 7.2.0
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all application images
       pullPolicy: IfNotPresent
       # alfresco-deployment-service.applications.image.pullSecretName -- pull secret name for all application images
@@ -577,6 +578,8 @@ alfresco-deployment-service:
   ingress:
     path: /deployment-service
     enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
   readinessProbe:
     path: '{{ .Values.ingress.path }}/actuator/health/readiness'
   livenessProbe:
@@ -719,7 +722,7 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.1.0-M17.1
+    tag: 7.2.0
     pullPolicy: IfNotPresent
   service:
     name: admin-app
@@ -798,7 +801,7 @@ alfresco-tika-service:
   enabled: true
   image:
     repository: alfresco/alfresco-tika
-    tag: 2.5.3
+    tag: 2.5.7
   service:
     name: tika
     internalPort: 8090

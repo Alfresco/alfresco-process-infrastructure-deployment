@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.1.0-M17.3](https://img.shields.io/badge/Version-7.1.0--M17.3-informational?style=flat-square) ![AppVersion: 7.1.0-M17.3](https://img.shields.io/badge/AppVersion-7.1.0--M17.3-informational?style=flat-square)
+![Version: 7.2.0](https://img.shields.io/badge/Version-7.2.0-informational?style=flat-square) ![AppVersion: 7.2.0](https://img.shields.io/badge/AppVersion-7.2.0-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -16,15 +16,15 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.1.0-M17 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.1.0-M17 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.1.0-M17 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.1.0-M17 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.1.0-M17 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.1.0-M17 |
-| https://charts.bitnami.com/bitnami | postgresql | 9.1.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.2.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.2.0 |
+| https://charts.bitnami.com/bitnami | postgresql | 10.3.13 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 8.20.5 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 5.0.0 |
+| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 
 ## Values
 
@@ -38,7 +38,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- else }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"7.1.0-M17.1"` |  |
+| alfresco-admin-app.image.tag | string | `"7.2.0"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -60,7 +60,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.database.external | bool | `true` |  |
 | alfresco-deployment-service.applications.image.pullPolicy | string | `"IfNotPresent"` | default pull policy for all application images |
 | alfresco-deployment-service.applications.image.pullSecretName | string | `"quay-registry-secret"` | pull secret name for all application images |
-| alfresco-deployment-service.applications.image.tag | string | `"7.1.0-M17"` | default tag for all application images |
+| alfresco-deployment-service.applications.image.tag | string | `"7.2.0"` | default tag for all application images |
 | alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
 | alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
 | alfresco-deployment-service.applications.rabbitmq.admin.url | string | `""` | RabbitMQ admin URL, derived from host if not set |
@@ -80,7 +80,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"7.1.0-M17.3"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.2.0"` |  |
+| alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
 | alfresco-deployment-service.livenessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/liveness"` |  |
@@ -104,8 +105,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.keycloak.ingress.rules[0].paths[0].path | string | `"/auth"` |  |
 | alfresco-identity-service.keycloak.ingress.rules[0].paths[0].pathType | string | `"Prefix"` |  |
 | alfresco-identity-service.keycloak.ingress.tls | list | `[]` |  |
-| alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.6.0"` |  |
-| alfresco-identity-service.keycloak.postgresql.imageTag | float | `11.7` |  |
+| alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.7.0"` |  |
+| alfresco-identity-service.keycloak.postgresql.image.tag | string | `"13.3.0"` |  |
 | alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `""` |  |
 | alfresco-identity-service.keycloak.postgresql.tls.enabled | bool | `false` |  |
 | alfresco-identity-service.rbac.create | bool | `false` |  |
@@ -318,10 +319,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.exampleProjects.disabled | bool | `false` |  |
 | alfresco-modeling-app.exampleProjects.host | string | `"https://alfresco.github.io/apa-templates"` |  |
-| alfresco-modeling-app.exampleProjects.resource | string | `"index_7.1.0-M17.json"` |  |
+| alfresco-modeling-app.exampleProjects.resource | string | `"index_7.2.0.json"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
-| alfresco-modeling-app.image.tag | string | `"7.1.0-M17"` |  |
+| alfresco-modeling-app.image.tag | string | `"7.2.0"` |  |
 | alfresco-modeling-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -343,11 +344,12 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.db.username | string | `"alfresco"` |  |
 | alfresco-modeling-service.enabled | bool | `true` |  |
 | alfresco-modeling-service.exampleProjects.endpoint | string | `"https://alfresco.github.io/apa-templates"` |  |
-| alfresco-modeling-service.exampleProjects.resource | string | `"index_7.1.0-M17.json"` |  |
+| alfresco-modeling-service.exampleProjects.resource | string | `"index_7.2.0.json"` |  |
 | alfresco-modeling-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: CONTENT_CLIENT_ID\n  value: \"{{ .Values.content.client.id }}\"\n- name: CONTENT_CLIENT_SECRET\n  value: \"{{ .Values.content.client.secret }}\"\n- name: CONTENT_SERVICE_URL\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n- name: CONTENT_SERVICE_PATH\n  value: \"{{ .Values.content.service.path }}\"\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_ENDPOINT\n  value: \"{{ .Values.exampleProjects.endpoint }}\"\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE\n  value: \"{{ .Values.exampleProjects.resource }}\""` |  |
 | alfresco-modeling-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
-| alfresco-modeling-service.image.tag | string | `"7.1.0-M17"` |  |
+| alfresco-modeling-service.image.tag | string | `"7.2.0"` |  |
+| alfresco-modeling-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-modeling-service.ingress.enabled | bool | `true` |  |
 | alfresco-modeling-service.ingress.path | string | `""` |  |
@@ -364,7 +366,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-tika-service.enabled | bool | `true` |  |
 | alfresco-tika-service.image.repository | string | `"alfresco/alfresco-tika"` |  |
-| alfresco-tika-service.image.tag | string | `"2.5.3"` |  |
+| alfresco-tika-service.image.tag | string | `"2.5.7"` |  |
 | alfresco-tika-service.ingress.enabled | bool | `false` |  |
 | alfresco-tika-service.javaOpts.other | string | `"-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80"` |  |
 | alfresco-tika-service.livenessProbe.path | string | `"/live"` |  |
@@ -397,13 +399,12 @@ Kubernetes: `>=1.15.0-0`
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
 | postgresql.commonAnnotations.application | string | `"activiti"` |  |
 | postgresql.enabled | bool | `true` |  |
-| postgresql.image.repository | string | `"postgres"` |  |
-| postgresql.image.tag | float | `11.7` |  |
+| postgresql.image.tag | string | `"13.3.0"` |  |
 | postgresql.persistence.mountPath | string | `"/data"` |  |
-| postgresql.postgresqlConfiguration.log_min_messages | string | `"LOG"` |  |
-| postgresql.postgresqlConfiguration.max_connections | int | `300` |  |
 | postgresql.postgresqlDataDir | string | `"/data/pgdata"` |  |
 | postgresql.postgresqlDatabase | string | `"postgres"` |  |
+| postgresql.postgresqlExtendedConf.log_min_messages | string | `"LOG"` |  |
+| postgresql.postgresqlExtendedConf.max_connections | int | `300` |  |
 | postgresql.postgresqlPassword | string | `"alfresco"` |  |
 | postgresql.postgresqlUsername | string | `"alfresco"` |  |
 | postgresql.resources.limits.memory | string | `"1500Mi"` |  |

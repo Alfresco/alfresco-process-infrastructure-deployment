@@ -5,5 +5,5 @@ global:
 
 alfresco-deployment-service:
   environment:
-    apiUrl: "https://kubernetes.docker.internal:6443"
+    apiUrl: https://host.docker.internal:6443
     apiToken: "REPLACEME"
