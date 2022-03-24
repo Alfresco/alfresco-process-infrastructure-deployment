@@ -12,4 +12,4 @@ RELEASE_NAME=${RELEASE_NAME:-$CHART_NAME}
 "$HELM_EXE" repo add alfresco-incubator https://kubernetes-charts.alfresco.com/incubator
 "$HELM_EXE" dep up "$CHART_REPO/$CHART_NAME"
 
-"$HELM_EXE" upgrade --install --reuse-values ${HELM_OPTS[*]} --namespace "$DESIRED_NAMESPACE" "$RELEASE_NAME" "$CHART_REPO/$CHART_NAME"
+"$HELM_EXE" upgrade --install --wait --reuse-values ${HELM_OPTS[*]} --namespace "$DESIRED_NAMESPACE" "$RELEASE_NAME" "$CHART_REPO/$CHART_NAME"

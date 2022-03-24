@@ -4,7 +4,7 @@ repos:
     hooks:
       - id: helm-docs
   - repo: https://github.com/Alfresco/alfresco-build-tools
-    rev: v1.2.0
+    rev: v1.2.1
     hooks:
       - id: travis-yml-lint
       - id: helm-deps
@@ -12,5 +12,16 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        exclude: helm/.*/templates
+      - id: check-json
+      - id: check-merge-conflict
+      - id: fix-byte-order-marker
+      - id: mixed-line-ending
+        args: ['--fix=lf']
       - id: end-of-file-fixer
-      - id: trailing-whitespace
+  - repo: https://github.com/sirosen/check-jsonschema
+    rev: 0.14.0
+    hooks:
+      - id: check-travis

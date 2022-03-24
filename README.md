@@ -34,7 +34,7 @@ Install the latest version of helm.
 An `ingress-nginx` should be installed and bound to an external DNS address, for example:
 
 ```
-helm install ingress-nginx --repo https://kubernetes.github.io/ingress-nginx ingress-nginx
+helm upgrade --install --wait --repo https://kubernetes.github.io/ingress-nginx ingress-nginx ingress-nginx
 ```
 
 ### helm tips
@@ -90,7 +90,7 @@ where:
 
 ### set environment specific variables
 
-#### for Docker Desktop
+#### for localhost
 
 ```bash
 export PROTOCOL=http
@@ -175,18 +175,18 @@ export CHART_NAME=alfresco-process-infrastructure
 then install from the stable repo using a released chart version:
 
 ```bash
-helm upgrade --install \
+helm upgrade --install --wait \
   --repo https://kubernetes-charts.alfresco.com/stable \
-  $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
+  $HELM_OPTS $RELEASE_NAME $CHART_NAME
 ```
 
 or from the incubator repo a development chart version:
 
 ```bash
-helm upgrade --install \
+helm upgrade --install --wait \
   --namespace $DESIRED_NAMESPACE \
   --repo https://kubernetes-charts.alfresco.com/incubator \
-  $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
+  $HELM_OPTS $RELEASE_NAME $CHART_NAME
 ```
 
 or from the current repository directory:
@@ -194,7 +194,7 @@ or from the current repository directory:
 ```bash
 helm repo update
 helm dependency update helm/${CHART_NAME}
-helm upgrade --install \
+helm upgrade --install --wait \
   --namespace $DESIRED_NAMESPACE \
   $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
 ```
@@ -218,11 +218,11 @@ HELM_OPTS+="--debug --dry-run" ./install.sh
 
 Verify the k8s yaml output than launch again without `--dry-run`.
 
-### run in Docker Desktop
+### run on localhost
 
-A custom extra values file to add settings for _Docker Desktop_ is provided:
+A custom extra values file to add settings for _localhost_ is provided:
 ```bash
-HELM_OPTS+=" -f values-docker-desktop.yaml" ./install.sh
+HELM_OPTS+=" -f values-localhost.yaml" ./install.sh
 ```
 *NB* the startup might take as much as 10 minutes, use ```kubectl get pods -A -w``` to check the status.
 
@@ -261,6 +261,6 @@ export HELM_OPTS+=" -f values-external-postgresql.yaml"
 
 Running on Travis, requires the following environment variable to be set:
 
-| Name | Description |
-|------|-------------|
+| Name         | Description                          |
+|--------------|--------------------------------------|
 | GITHUB_TOKEN | GitHub token to clone/push helm repo |
