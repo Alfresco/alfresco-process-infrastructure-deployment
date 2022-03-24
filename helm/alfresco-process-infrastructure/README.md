@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.1.0-M17.4](https://img.shields.io/badge/Version-7.1.0--M17.4-informational?style=flat-square) ![AppVersion: 7.1.0-M17.4](https://img.shields.io/badge/AppVersion-7.1.0--M17.4-informational?style=flat-square)
+![Version: 7.1.0-M17.5](https://img.shields.io/badge/Version-7.1.0--M17.5-informational?style=flat-square) ![AppVersion: 7.1.0-M17.5](https://img.shields.io/badge/AppVersion-7.1.0--M17.5-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -81,7 +81,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744\n- name: license\n  secret:\n    secretName: licenseaps"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"7.1.0-M17.4"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.1.0-M17.5"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
 | alfresco-deployment-service.livenessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/liveness"` |  |
