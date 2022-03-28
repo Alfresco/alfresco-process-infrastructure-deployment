@@ -430,7 +430,7 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.resources.limits.memory | string | `"1500Mi"` |  |
 | rabbitmq.resources.requests.memory | string | `"1500Mi"` |  |
 | setup-acs-script-job.enabled | bool | `true` |  |
-| setup-acs-script-job.image.repository | string | `"bitnami/shell"` |  |
+| setup-acs-script-job.image.repository | string | `"bitnami/bitnami-shell"` |  |
 | setup-acs-script-job.image.tag | int | `10` |  |
 | setup-acs-script-job.loadTestData | bool | `true` |  |
 
