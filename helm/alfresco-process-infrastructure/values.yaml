@@ -794,7 +794,7 @@ setup-acs-script-job:
   enabled: true
   loadTestData: true
   image:
-    repository: bitnami/shell
+    repository: bitnami/bitnami-shell
     tag: 10
 alfresco-tika-service:
   nameOverride: alfresco-tika-service
