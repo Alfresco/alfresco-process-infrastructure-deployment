@@ -652,7 +652,7 @@ alfresco-deployment-service:
     - name: ENVIRONMENT_NAMESPACE
       value: "{{ tpl .Values.environment.namespace . }}"
     - name: ENVIRONMENT_DOMAIN
-      value: '{{ include "common.gateway-domain" . }}'
+      value: '{{ .Values.global.gateway.domain }}'
     - name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS
       value: "{{ .Values.projectReleaseVolume.storageClass }}"
     - name: PROJECT_RELEASE_VOLUME_PERMISSION
