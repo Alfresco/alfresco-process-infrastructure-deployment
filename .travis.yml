@@ -6,6 +6,7 @@ import:
 branches:
   only:
     - develop
+    - 7.2.1
 
 notifications:
   slack:
