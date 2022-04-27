@@ -408,8 +408,8 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   liquibase:
     enabled: true
   postgresql:
@@ -435,7 +435,7 @@ alfresco-modeling-service:
       clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
   exampleProjects:
     endpoint: https://alfresco.github.io/apa-templates
-    resource: index_7.2.0.json
+    resource: index_7.3.0.json
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
@@ -469,27 +469,21 @@ alfresco-modeling-service:
     xms: 512m
     xmx: 3072m
     other: >-
-      -XX:+UnlockExperimentalVMOptions
-      -Dsun.zip.disableMemoryMapping=true
-      -XX:+UseParallelGC
-      -XX:MinHeapFreeRatio=5
-      -XX:GCTimeRatio=4
-      -XX:AdaptiveSizePolicyWeight=90
-
+      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
 alfresco-modeling-app:
   enabled: true
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   service:
     name: modeling-app
     envType: frontend
   exampleProjects:
     disabled: false
     host: https://alfresco.github.io/apa-templates
-    resource: index_7.2.0.json
+    resource: index_7.3.0.json
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
@@ -518,8 +512,8 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   postgresql:
     enabled: true
   db:
@@ -530,14 +524,14 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all application images
-      tag: 7.2.0
+      tag: 7.3.0
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all application images
       pullPolicy: Always
       # alfresco-deployment-service.applications.image.pullSecretName -- pull secret name for all application images
       pullSecretName: quay-registry-secret
     maxNumber: 20
-      # alfresco-deployment-service.applications.maxNumber -- maximum number of application can be deployed
-      # @default -- 20 applications can be deployed by default
+    # alfresco-deployment-service.applications.maxNumber -- maximum number of application can be deployed
+    # @default -- 20 applications can be deployed by default
     database:
       external: true
     connectors:
@@ -724,8 +718,8 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: develop
-    pullPolicy: Always
+    tag: 7.3.0
+    pullPolicy: IfNotPresent
   service:
     name: admin-app
     envType: frontend
@@ -820,5 +814,4 @@ alfresco-tika-service:
       memory: 1000Mi
   javaOpts:
     other: >-
-      -XX:MinRAMPercentage=50
-      -XX:MaxRAMPercentage=80
+      -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
