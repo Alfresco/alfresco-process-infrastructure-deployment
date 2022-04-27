@@ -408,8 +408,8 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.3.0
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   liquibase:
     enabled: true
   postgresql:
@@ -475,8 +475,8 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.3.0
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   service:
     name: modeling-app
     envType: frontend
@@ -512,8 +512,8 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.3.0
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   postgresql:
     enabled: true
   db:
@@ -718,8 +718,8 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.3.0
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   service:
     name: admin-app
     envType: frontend
