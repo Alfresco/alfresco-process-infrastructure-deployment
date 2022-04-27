@@ -408,8 +408,8 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.3.0
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   liquibase:
     enabled: true
   postgresql:
@@ -435,7 +435,7 @@ alfresco-modeling-service:
       clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
   exampleProjects:
     endpoint: https://alfresco.github.io/apa-templates
-    resource: index_7.3.0.json
+    resource: index_7.4.0.json
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
@@ -475,15 +475,15 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.3.0
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   service:
     name: modeling-app
     envType: frontend
   exampleProjects:
     disabled: false
     host: https://alfresco.github.io/apa-templates
-    resource: index_7.3.0.json
+    resource: index_7.4.0.json
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
@@ -512,8 +512,8 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.3.0
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   postgresql:
     enabled: true
   db:
@@ -524,7 +524,7 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all application images
-      tag: 7.3.0
+      tag: develop
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all application images
       pullPolicy: Always
       # alfresco-deployment-service.applications.image.pullSecretName -- pull secret name for all application images
@@ -718,8 +718,8 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.3.0
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   service:
     name: admin-app
     envType: frontend
