@@ -368,7 +368,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-process-analytics-playground.enabled | bool | `true` |  |
-| alfresco-process-analytics-playground.env.GRAPHQL_CLIENT_URL | string | `"https://alfresco-process-analytics-service/analytics/graphql"` |  |
+| alfresco-process-analytics-playground.env.GRAPHQL_CLIENT_URL | string | `"http://alfresco-process-analytics-service/analytics/graphql"` |  |
 | alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_ID | string | `"analytics-playground"` |  |
 | alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_SECRET | string | `"2181210d-ec04-4bcf-8649-8a5dcb1c6342"` |  |
