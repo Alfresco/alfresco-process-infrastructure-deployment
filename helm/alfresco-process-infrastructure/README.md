@@ -19,12 +19,15 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 7.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 7.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.3.0 |
 | https://charts.bitnami.com/bitnami | postgresql | 10.3.13 |
 | https://charts.bitnami.com/bitnami | rabbitmq | 8.20.5 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
+| https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 
 ## Values
 
@@ -364,6 +367,48 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
+| alfresco-process-analytics-playground.enabled | bool | `true` |  |
+| alfresco-process-analytics-playground.env.GRAPHQL_CLIENT_URL | string | `"https://alfresco-process-analytics-service/analytics/graphql"` |  |
+| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
+| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_ID | string | `"analytics-playground"` |  |
+| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_SECRET | string | `"2181210d-ec04-4bcf-8649-8a5dcb1c6342"` |  |
+| alfresco-process-analytics-playground.env.SPRING_WEBFLUX_BASE_PATH | string | `"/analytics/playground"` |  |
+| alfresco-process-analytics-playground.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
+| alfresco-process-analytics-playground.image.pullPolicy | string | `"Always"` |  |
+| alfresco-process-analytics-playground.image.repository | string | `"igdianov/alfresco-process-analytics-graphql-playground"` |  |
+| alfresco-process-analytics-playground.image.tag | string | `"7.4.0-SNAPSHOT"` |  |
+| alfresco-process-analytics-playground.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
+| alfresco-process-analytics-playground.ingress.path | string | `"/analytics/playground/"` |  |
+| alfresco-process-analytics-playground.nameOverride | string | `"alfresco-process-analytics-playground"` |  |
+| alfresco-process-analytics-playground.probePath | string | `"/analytics/playground/actuator/health"` |  |
+| alfresco-process-analytics-playground.resources.limits.cpu | string | `"1000m"` |  |
+| alfresco-process-analytics-playground.resources.limits.memory | string | `"1024Mi"` |  |
+| alfresco-process-analytics-playground.resources.requests.cpu | string | `"200m"` |  |
+| alfresco-process-analytics-playground.resources.requests.memory | string | `"512Mi"` |  |
+| alfresco-process-analytics-playground.service.internalPort | int | `5000` |  |
+| alfresco-process-analytics-playground.service.name | string | `"alfresco-process-analytics-playground"` |  |
+| alfresco-process-analytics-service.enabled | bool | `true` |  |
+| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_HOST | string | `"http://opensearch-cluster-master:9200"` |  |
+| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_PASSWORD | string | `"admin"` |  |
+| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_USERNAME | string | `"admin"` |  |
+| alfresco-process-analytics-service.env.SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
+| alfresco-process-analytics-service.env.SPRING_WEBFLUX_BASE_PATH | string | `"/analytics"` |  |
+| alfresco-process-analytics-service.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
+| alfresco-process-analytics-service.image.pullPolicy | string | `"Always"` |  |
+| alfresco-process-analytics-service.image.repository | string | `"igdianov/alfresco-process-analytics-graphql-service"` |  |
+| alfresco-process-analytics-service.image.tag | string | `"7.4.0-SNAPSHOT"` |  |
+| alfresco-process-analytics-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-process-analytics-service.ingress.enabled | bool | `true` |  |
+| alfresco-process-analytics-service.ingress.path | string | `"/analytics"` |  |
+| alfresco-process-analytics-service.nameOverride | string | `"alfresco-process-analytics-service"` |  |
+| alfresco-process-analytics-service.probePath | string | `"/analytics/actuator/health"` |  |
+| alfresco-process-analytics-service.resources.limits.cpu | string | `"1000m"` |  |
+| alfresco-process-analytics-service.resources.limits.memory | string | `"1024Mi"` |  |
+| alfresco-process-analytics-service.resources.requests.cpu | string | `"200m"` |  |
+| alfresco-process-analytics-service.resources.requests.memory | string | `"512Mi"` |  |
+| alfresco-process-analytics-service.service.internalPort | int | `8080` |  |
+| alfresco-process-analytics-service.service.name | string | `"alfresco-process-analytics-service"` |  |
 | alfresco-tika-service.enabled | bool | `true` |  |
 | alfresco-tika-service.image.repository | string | `"alfresco/alfresco-tika"` |  |
 | alfresco-tika-service.image.tag | string | `"2.5.7"` |  |
@@ -397,6 +442,11 @@ Kubernetes: `>=1.15.0-0`
 | global.keycloak.resource | string | `"alfresco"` | Configure Keycloak resource |
 | global.keycloak.url | string | `""` | Set full url to configure external Keycloak, https://keycloak.mydomain.com/auth |
 | global.registryPullSecrets | list | `["quay-registry-secret"]` | Configure pull secrets for all deployments |
+| opensearch.enabled | bool | `true` |  |
+| opensearch.extraEnvs[0].name | string | `"DISABLE_INSTALL_DEMO_CONFIG"` |  |
+| opensearch.extraEnvs[0].value | string | `"true"` |  |
+| opensearch.extraEnvs[1].name | string | `"DISABLE_SECURITY_PLUGIN"` |  |
+| opensearch.extraEnvs[1].value | string | `"true"` |  |
 | postgresql.commonAnnotations.application | string | `"activiti"` |  |
 | postgresql.enabled | bool | `true` |  |
 | postgresql.image.tag | string | `"13.3.0"` |  |
