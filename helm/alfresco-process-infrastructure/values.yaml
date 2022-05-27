@@ -816,6 +816,68 @@ alfresco-tika-service:
     other: >-
       -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
 
+alfresco-process-analytics-service:
+  enabled: true
+  nameOverride: alfresco-process-analytics-service
+  image:
+    repository: igdianov/alfresco-process-analytics-graphql-service
+    tag: 7.4.0-SNAPSHOT
+    pullPolicy: Always
+  service:
+    name: alfresco-process-analytics-service
+    internalPort: 8080
+  env:
+    SPRING_WEBFLUX_BASE_PATH: /analytics
+    SPRING_ZIPKIN_ENABLED: "false"
+    ELASTICSEARCH_CLIENT_HOST: 'http://opensearch-cluster-master:9200'
+    ELASTICSEARCH_CLIENT_USERNAME: admin
+    ELASTICSEARCH_CLIENT_PASSWORD: admin
+    SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
+  ingress:
+    enabled: true
+    path: /analytics
+    annotations:
+      kubernetes.io/ingress.class: nginx
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  probePath: /analytics/actuator/health
+
+alfresco-process-analytics-playground:
+  enabled: true
+  nameOverride: alfresco-process-analytics-playground
+  image:
+    repository: igdianov/alfresco-process-analytics-graphql-playground
+    tag: 7.4.0-SNAPSHOT
+    pullPolicy: Always
+  service:
+    name: alfresco-process-analytics-playground
+    internalPort: 5000
+  env:
+    SPRING_WEBFLUX_BASE_PATH: /analytics/playground
+    SPRING_ZIPKIN_ENABLED: "false"
+    GRAPHQL_CLIENT_URL: https://alfresco-process-analytics-service/analytics/graphql
+    SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_ID: analytics-playground
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_SECRET: 2181210d-ec04-4bcf-8649-8a5dcb1c6342
+  ingress:
+    enabled: true
+    path: /analytics/playground/
+    annotations:
+      kubernetes.io/ingress.class: nginx
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  probePath: /analytics/playground/actuator/health
+
 opensearch:
   enabled: true
   extraEnvs:
