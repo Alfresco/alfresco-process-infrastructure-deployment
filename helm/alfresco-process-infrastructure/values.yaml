@@ -130,6 +130,30 @@ alfresco-identity-service:
           publicClient: false
           protocol: openid-connect
           fullScopeAllowed: true
+        - clientId: analytics-playground
+          enabled: true
+          clientAuthenticatorType: client-secret
+          secret: 2181210d-ec04-4bcf-8649-8a5dcb1c6342
+          redirectUris:
+            - "*"
+          webOrigins:
+            - "*"
+          standardFlowEnabled: true
+          implicitFlowEnabled: false
+          directAccessGrantsEnabled: false
+          serviceAccountsEnabled: false
+          publicClient: false
+          protocol: openid-connect
+          protocolMappers:
+            - name: realm roles
+              protocol: openid-connect
+              protocolMapper: oidc-usermodel-realm-role-mapper
+              consentRequired: false
+              config:
+                access.token.claim: 'true'
+                claim.name: realm_roles
+                jsonType.label: String
+                multivalued: 'true'
       extraRealmRoles:
         - name: ACTIVITI_ADMIN
           composites:
@@ -168,6 +192,13 @@ alfresco-identity-service:
                 - manage-authorization
                 - manage-realm
                 - manage-clients
+        - name: ACTIVITI_ANALYTICS
+          description: "user is able to use analytics graphql api"
+          composites:
+            client:
+              realm-management:
+                - view-users
+                - view-clients
       extraGroups:
         - name: hr
           realmRoles:
@@ -179,6 +210,9 @@ alfresco-identity-service:
         - name: processadmin
           realmRoles:
             - ACTIVITI_ADMIN
+        - name: processanalytics
+          realmRoles:
+            - ACTIVITI_ANALYTICS
       extraUsers:
         - username: superadminuser
           enabled: true
@@ -194,6 +228,7 @@ alfresco-identity-service:
             - ACTIVITI_DEVOPS
             - ACTIVITI_ADMIN
             - ACTIVITI_MODELER
+            - ACTIVITI_ANALYTICS
             - offline_access
             - uma_authorization
           clientRoles:
@@ -263,6 +298,24 @@ alfresco-identity-service:
               - view-profile
           groups:
             - /processadmin
+        - username: processanalyticsuser
+          enabled: true
+          firstName: Process Analytics
+          lastName: User
+          email: processanalyticsuser@example.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_ANALYTICS
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+          groups:
+            - /processanalytics
         - username: salesuser
           enabled: true
           firstName: Sales
