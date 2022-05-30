@@ -407,11 +407,14 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
+| alfresco-process-analytics-playground.analyticsClientId | string | `"analytics-playground"` |  |
+| alfresco-process-analytics-playground.analyticsClientIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
+| alfresco-process-analytics-playground.analyticsClientSecret | string | `"2181210d-ec04-4bcf-8649-8a5dcb1c6342"` |  |
 | alfresco-process-analytics-playground.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.env.GRAPHQL_CLIENT_URL | string | `"{{ tpl .Values.graphqlClientUrl $ }}"` |  |
-| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI | string | `"{{ tpl .Values.oauth2ClientIssuerUri $ }}"` |  |
-| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_ID | string | `"{{ tpl .Values.oauth2ClientId $ }}"` |  |
-| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_SECRET | string | `"{{ tpl .Values.oauth2ClientSecret $ }}"` |  |
+| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI | string | `"{{ tpl .Values.analyticsClientIssuerUri $ }}"` |  |
+| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_ID | string | `"{{ tpl .Values.analyticsClientId $ }}"` |  |
+| alfresco-process-analytics-playground.env.SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GRAPHQL_CLIENT_SECRET | string | `"{{ tpl .Values.analyticsClientSecret $ }}"` |  |
 | alfresco-process-analytics-playground.env.SPRING_WEBFLUX_BASE_PATH | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}"` |  |
 | alfresco-process-analytics-playground.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
 | alfresco-process-analytics-playground.graphqlClientUrl | string | `"http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql"` |  |
@@ -423,9 +426,6 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.ingress.path | string | `"/analytics/playground/"` |  |
 | alfresco-process-analytics-playground.nameOverride | string | `"alfresco-process-analytics-playground"` |  |
-| alfresco-process-analytics-playground.oauth2ClientId | string | `"analytics-playground"` |  |
-| alfresco-process-analytics-playground.oauth2ClientIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-process-analytics-playground.oauth2ClientSecret | string | `"2181210d-ec04-4bcf-8649-8a5dcb1c6342"` |  |
 | alfresco-process-analytics-playground.probePath | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}/actuator/health"` |  |
 | alfresco-process-analytics-playground.resources.limits.cpu | string | `"1000m"` |  |
 | alfresco-process-analytics-playground.resources.limits.memory | string | `"1024Mi"` |  |
