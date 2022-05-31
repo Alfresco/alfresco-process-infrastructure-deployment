@@ -434,9 +434,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.service.internalPort | int | `5000` |  |
 | alfresco-process-analytics-playground.service.name | string | `"alfresco-process-analytics-playground"` |  |
 | alfresco-process-analytics-service.enabled | bool | `true` |  |
-| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_HOST | string | `"{{ tpl .Values.opensearchHost $ }}"` |  |
-| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_PASSWORD | string | `"{{ tpl .Values.opensearchPassword $ }}"` |  |
-| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_USERNAME | string | `"{{ tpl .Values.opensearchUsername $ }}"` |  |
+| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_HOST | string | `"{{ tpl .Values.opensearch.host $ }}"` |  |
+| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_PASSWORD | string | `"{{ tpl .Values.opensearch.password $ }}"` |  |
+| alfresco-process-analytics-service.env.ELASTICSEARCH_CLIENT_USERNAME | string | `"{{ tpl .Values.opensearch.username $ }}"` |  |
 | alfresco-process-analytics-service.env.SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI | string | `"{{ tpl .Values.oauth2JwtIssuerUri $ }}"` |  |
 | alfresco-process-analytics-service.env.SPRING_WEBFLUX_BASE_PATH | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}"` |  |
 | alfresco-process-analytics-service.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
@@ -449,9 +449,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.ingress.path | string | `"/analytics"` |  |
 | alfresco-process-analytics-service.nameOverride | string | `"alfresco-process-analytics-service"` |  |
 | alfresco-process-analytics-service.oauth2JwtIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-process-analytics-service.opensearchHost | string | `"http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200"` |  |
-| alfresco-process-analytics-service.opensearchPassword | string | `"admin"` |  |
-| alfresco-process-analytics-service.opensearchUsername | string | `"admin"` |  |
+| alfresco-process-analytics-service.opensearch.host | string | `"http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200"` |  |
+| alfresco-process-analytics-service.opensearch.password | string | `"admin"` |  |
+| alfresco-process-analytics-service.opensearch.username | string | `"admin"` |  |
 | alfresco-process-analytics-service.probePath | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}/actuator/health"` |  |
 | alfresco-process-analytics-service.resources.limits.cpu | string | `"1000m"` |  |
 | alfresco-process-analytics-service.resources.limits.memory | string | `"1024Mi"` |  |
