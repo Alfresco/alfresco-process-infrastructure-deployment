@@ -772,11 +772,11 @@ alfresco-deployment-service:
     {{- end }}
     {{- if .Values.applications.opensearch.host }}
     - name: APPLICATIONS_OPENSEARCH_HOST
-      value: "{{ tpl .Values.applications.opensearch.host $ | quote }}"
+      value: "{{ tpl .Values.applications.opensearch.host $ }}"
     - name: APPLICATIONS_OPENSEARCH_USERNAME
-      value: "{{ tpl .Values.applications.opensearch.username $ | quote }}"
+      value: "{{ tpl .Values.applications.opensearch.username $ }}"
     - name: APPLICATIONS_OPENSEARCH_PASSWORD
-      value: "{{ tpl .Values.applications.opensearch.password $ | quote }}"
+      value: "{{ tpl .Values.applications.opensearch.password $ }}"
     {{- end }}
     - name: ATS_TRANSFORMER_TIKA_URL
       value: "http://tika.{{ .Release.Namespace }}/transform"
@@ -903,9 +903,9 @@ alfresco-process-analytics-service:
   env:
     SPRING_WEBFLUX_BASE_PATH: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}'
     SPRING_ZIPKIN_ENABLED: "false"
-    ELASTICSEARCH_CLIENT_HOST: '{{ tpl .Values.opensearch.host $ | quote }}'
-    ELASTICSEARCH_CLIENT_USERNAME: '{{ tpl .Values.opensearch.username $ | quote }}'
-    ELASTICSEARCH_CLIENT_PASSWORD: '{{ tpl .Values.opensearch.password $ | quote }}'
+    ELASTICSEARCH_CLIENT_HOST: '{{ tpl .Values.opensearch.host $ }}'
+    ELASTICSEARCH_CLIENT_USERNAME: '{{ tpl .Values.opensearch.username $ }}'
+    ELASTICSEARCH_CLIENT_PASSWORD: '{{ tpl .Values.opensearch.password $ }}'
     SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: '{{ tpl .Values.oauth2JwtIssuerUri $ }}'
   ingress:
     enabled: true
