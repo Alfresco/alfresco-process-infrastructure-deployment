@@ -890,8 +890,8 @@ alfresco-process-analytics-service:
   nameOverride: alfresco-process-analytics-service
   opensearch:
     host: '{{ tpl .Values.global.opensearch.host $ }}'
-    username: '{{ tpl .Values.global.opensearch.username $ }}'
-    password: '{{ tpl .Values.global.opensearch.password $ }}'
+    username: '{{ .Values.global.opensearch.username }}'
+    password: '{{ .Values.global.opensearch.password }}'
   oauth2JwtIssuerUri: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
   image:
     repository: igdianov/alfresco-process-analytics-graphql-service
@@ -903,9 +903,9 @@ alfresco-process-analytics-service:
   env:
     SPRING_WEBFLUX_BASE_PATH: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}'
     SPRING_ZIPKIN_ENABLED: "false"
-    ELASTICSEARCH_CLIENT_HOST: '{{ tpl .Values.opensearch.host $ }}'
-    ELASTICSEARCH_CLIENT_USERNAME: '{{ tpl .Values.opensearch.username $ }}'
-    ELASTICSEARCH_CLIENT_PASSWORD: '{{ tpl .Values.opensearch.password $ }}'
+    ELASTICSEARCH_CLIENT_HOST: '{{ tpl .Values.opensearch.host $ | quote }}'
+    ELASTICSEARCH_CLIENT_USERNAME: '{{ tpl .Values.opensearch.username $ | quote }}'
+    ELASTICSEARCH_CLIENT_PASSWORD: '{{ tpl .Values.opensearch.password $ | quote }}'
     SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: '{{ tpl .Values.oauth2JwtIssuerUri $ }}'
   ingress:
     enabled: true
