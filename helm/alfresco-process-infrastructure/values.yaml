@@ -53,6 +53,10 @@ global:
       username: ""
       # global.acs.activemq.username -- ACS ActiveMQ password
       password: ""
+  opensearch:
+    host: 'http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200'
+    username: admin
+    password: admin
 alfresco-identity-service:
   # set to false to disable custom alfresco-identity-service ingress with hostname support
   enabled: true
@@ -622,6 +626,10 @@ alfresco-deployment-service:
       admin:
         # alfresco-deployment-service.applications.rabbitmq.admin.url -- RabbitMQ admin URL, derived from host if not set
         url: ""
+    opensearch:
+      host: '{{ tpl .Values.global.opensearch.host $ }}'
+      username: '{{ .Values.global.opensearch.username }}'
+      password: '{{ .Values.global.opensearch.password }}'
   ingress:
     path: /deployment-service
     enabled: true
@@ -762,6 +770,14 @@ alfresco-deployment-service:
     - name: APPLICATIONS_RABBITMQ_ADMIN_URL
       value: "{{ tpl .Values.applications.rabbitmq.admin.url . }}"
     {{- end }}
+    {{- if .Values.applications.opensearch.host }}
+    - name: APPLICATIONS_OPENSEARCH_HOST
+      value: "{{ tpl .Values.applications.opensearch.host $ | quote }}"
+    - name: APPLICATIONS_OPENSEARCH_USERNAME
+      value: "{{ tpl .Values.applications.opensearch.username $ | quote }}"
+    - name: APPLICATIONS_OPENSEARCH_PASSWORD
+      value: "{{ tpl .Values.applications.opensearch.password $ | quote }}"
+    {{- end }}
     - name: ATS_TRANSFORMER_TIKA_URL
       value: "http://tika.{{ .Release.Namespace }}/transform"
     - name: PROCESS_UI_URL
@@ -873,9 +889,9 @@ alfresco-process-analytics-service:
   enabled: true
   nameOverride: alfresco-process-analytics-service
   opensearch:
-    host: 'http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200'
-    username: admin
-    password: admin
+    host: '{{ tpl .Values.global.opensearch.host $ }}'
+    username: '{{ tpl .Values.global.opensearch.username $ }}'
+    password: '{{ tpl .Values.global.opensearch.password $ }}'
   oauth2JwtIssuerUri: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
   image:
     repository: igdianov/alfresco-process-analytics-graphql-service
