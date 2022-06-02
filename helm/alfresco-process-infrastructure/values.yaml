@@ -611,6 +611,13 @@ alfresco-deployment-service:
         clientId: "{{ .Values.global.keycloak.clientId }}"
         # alfresco-deployment-service.applications.activiti.keycloak.clientSecret -- activiti keycloak client secret
         clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
+    analytics:
+      metrics:
+        enabled: true
+      opensearch:
+        host: '{{ tpl .Values.global.opensearch.host $ }}'
+        username: '{{ .Values.global.opensearch.username }}'
+        password: '{{ .Values.global.opensearch.password }}'
     rabbitmq:
       # alfresco-deployment-service.applications.rabbitmq.host -- RabbitMQ host
       host: "{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}"
@@ -626,10 +633,6 @@ alfresco-deployment-service:
       admin:
         # alfresco-deployment-service.applications.rabbitmq.admin.url -- RabbitMQ admin URL, derived from host if not set
         url: ""
-    opensearch:
-      host: '{{ tpl .Values.global.opensearch.host $ }}'
-      username: '{{ .Values.global.opensearch.username }}'
-      password: '{{ .Values.global.opensearch.password }}'
   ingress:
     path: /deployment-service
     enabled: true
@@ -770,14 +773,14 @@ alfresco-deployment-service:
     - name: APPLICATIONS_RABBITMQ_ADMIN_URL
       value: "{{ tpl .Values.applications.rabbitmq.admin.url . }}"
     {{- end }}
-    {{- if .Values.applications.opensearch.host }}
-    - name: APPLICATIONS_OPENSEARCH_HOST
-      value: "{{ tpl .Values.applications.opensearch.host $ }}"
-    - name: APPLICATIONS_OPENSEARCH_USERNAME
-      value: "{{ tpl .Values.applications.opensearch.username $ }}"
-    - name: APPLICATIONS_OPENSEARCH_PASSWORD
-      value: "{{ tpl .Values.applications.opensearch.password $ }}"
-    {{- end }}
+    - name: APPLICATIONS_ANALYTICS_METRICS_ENABLED
+      value: "{{ .Values.applications.analytics.metrics.enabled | quote }}"
+    - name: APPLICATIONS_ANALYTICS_OPENSEARCH_HOST
+      value: "{{ tpl .Values.applications.analytics.opensearch.host $ | quote }}"
+    - name: APPLICATIONS_ANALYTICS_OPENSEARCH_USERNAME
+      value: "{{ tpl .Values.applications.analytics.opensearch.username $ | quote }}"
+    - name: APPLICATIONS_ANALYTICS_OPENSEARCH_PASSWORD
+      value: "{{ tpl .Values.applications.analytics.opensearch.password $ | quote }}"
     - name: ATS_TRANSFORMER_TIKA_URL
       value: "http://tika.{{ .Release.Namespace }}/transform"
     - name: PROCESS_UI_URL
