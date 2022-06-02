@@ -423,8 +423,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
 | alfresco-process-analytics-playground.graphqlClientUrl | string | `"http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql"` |  |
 | alfresco-process-analytics-playground.image.pullPolicy | string | `"Always"` |  |
-| alfresco-process-analytics-playground.image.repository | string | `"igdianov/alfresco-process-analytics-graphql-playground"` |  |
-| alfresco-process-analytics-playground.image.tag | string | `"7.4.0-SNAPSHOT"` |  |
+| alfresco-process-analytics-playground.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-playground"` |  |
+| alfresco-process-analytics-playground.image.tag | string | `"develop"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
@@ -445,8 +445,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.env.SPRING_WEBFLUX_BASE_PATH | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}"` |  |
 | alfresco-process-analytics-service.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
 | alfresco-process-analytics-service.image.pullPolicy | string | `"Always"` |  |
-| alfresco-process-analytics-service.image.repository | string | `"igdianov/alfresco-process-analytics-graphql-service"` |  |
-| alfresco-process-analytics-service.image.tag | string | `"7.4.0-SNAPSHOT"` |  |
+| alfresco-process-analytics-service.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-service"` |  |
+| alfresco-process-analytics-service.image.tag | string | `"develop"` |  |
 | alfresco-process-analytics-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-service.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-process-analytics-service.ingress.enabled | bool | `true` |  |
