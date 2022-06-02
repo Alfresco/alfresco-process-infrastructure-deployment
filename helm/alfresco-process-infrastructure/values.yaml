@@ -774,13 +774,13 @@ alfresco-deployment-service:
       value: "{{ tpl .Values.applications.rabbitmq.admin.url . }}"
     {{- end }}
     - name: APPLICATIONS_ANALYTICS_METRICS_ENABLED
-      value: "{{ .Values.applications.analytics.metrics.enabled | quote }}"
+      value: "{{ .Values.applications.analytics.metrics.enabled }}"
     - name: APPLICATIONS_ANALYTICS_OPENSEARCH_HOST
-      value: "{{ tpl .Values.applications.analytics.opensearch.host $ | quote }}"
+      value: "{{ tpl .Values.applications.analytics.opensearch.host $ }}"
     - name: APPLICATIONS_ANALYTICS_OPENSEARCH_USERNAME
-      value: "{{ tpl .Values.applications.analytics.opensearch.username $ | quote }}"
+      value: "{{ tpl .Values.applications.analytics.opensearch.username $ }}"
     - name: APPLICATIONS_ANALYTICS_OPENSEARCH_PASSWORD
-      value: "{{ tpl .Values.applications.analytics.opensearch.password $ | quote }}"
+      value: "{{ tpl .Values.applications.analytics.opensearch.password $ }}"
     - name: ATS_TRANSFORMER_TIKA_URL
       value: "http://tika.{{ .Release.Namespace }}/transform"
     - name: PROCESS_UI_URL
