@@ -28,11 +28,11 @@ dependencies:
     condition: alfresco-modeling-service.enabled
   - name: postgresql
     version: 10.3.13
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami
     condition: postgresql.enabled
   - name: rabbitmq
     version: 8.20.5
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami
     condition: rabbitmq.enabled
   - name: common
     version: 7.3.0
