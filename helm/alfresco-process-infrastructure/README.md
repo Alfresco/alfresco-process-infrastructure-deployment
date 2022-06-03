@@ -22,9 +22,9 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.3.0 |
-| https://charts.bitnami.com/bitnami | postgresql | 10.3.13 |
-| https://charts.bitnami.com/bitnami | rabbitmq | 8.20.5 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
+| https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | postgresql | 10.3.13 |
+| https://raw.githubusercontent.com/bitnami/charts/eb5f9a9513d987b519f0ecd732e7031241c50328/bitnami | rabbitmq | 8.20.5 |
 
 ## Values
 
