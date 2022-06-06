@@ -130,6 +130,30 @@ alfresco-identity-service:
           publicClient: false
           protocol: openid-connect
           fullScopeAllowed: true
+        - clientId: analytics-playground
+          enabled: true
+          clientAuthenticatorType: client-secret
+          secret: 2181210d-ec04-4bcf-8649-8a5dcb1c6342
+          redirectUris:
+            - "*"
+          webOrigins:
+            - "*"
+          standardFlowEnabled: true
+          implicitFlowEnabled: false
+          directAccessGrantsEnabled: false
+          serviceAccountsEnabled: false
+          publicClient: false
+          protocol: openid-connect
+          protocolMappers:
+            - name: realm roles
+              protocol: openid-connect
+              protocolMapper: oidc-usermodel-realm-role-mapper
+              consentRequired: false
+              config:
+                access.token.claim: 'true'
+                claim.name: role
+                jsonType.label: String
+                multivalued: 'true'
       extraRealmRoles:
         - name: ACTIVITI_ADMIN
           composites:
@@ -168,6 +192,13 @@ alfresco-identity-service:
                 - manage-authorization
                 - manage-realm
                 - manage-clients
+        - name: ACTIVITI_ANALYTICS
+          description: "user is able to use analytics graphql api"
+          composites:
+            client:
+              realm-management:
+                - view-users
+                - view-clients
       extraGroups:
         - name: hr
           realmRoles:
@@ -179,6 +210,9 @@ alfresco-identity-service:
         - name: processadmin
           realmRoles:
             - ACTIVITI_ADMIN
+        - name: processanalytics
+          realmRoles:
+            - ACTIVITI_ANALYTICS
       extraUsers:
         - username: superadminuser
           enabled: true
@@ -194,6 +228,7 @@ alfresco-identity-service:
             - ACTIVITI_DEVOPS
             - ACTIVITI_ADMIN
             - ACTIVITI_MODELER
+            - ACTIVITI_ANALYTICS
             - offline_access
             - uma_authorization
           clientRoles:
@@ -263,6 +298,24 @@ alfresco-identity-service:
               - view-profile
           groups:
             - /processadmin
+        - username: processanalyticsuser
+          enabled: true
+          firstName: Process Analytics
+          lastName: User
+          email: processanalyticsuser@example.com
+          credentials:
+            - type: password
+              value: password
+          realmRoles:
+            - offline_access
+            - uma_authorization
+            - ACTIVITI_ANALYTICS
+          clientRoles:
+            account:
+              - manage-account
+              - view-profile
+          groups:
+            - /processanalytics
         - username: salesuser
           enabled: true
           firstName: Sales
@@ -554,6 +607,13 @@ alfresco-deployment-service:
         clientId: "{{ .Values.global.keycloak.clientId }}"
         # alfresco-deployment-service.applications.activiti.keycloak.clientSecret -- activiti keycloak client secret
         clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
+    analytics:
+      metrics:
+        export:
+          enabled: true
+          host: 'http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200'
+          username: admin
+          password: admin
     rabbitmq:
       # alfresco-deployment-service.applications.rabbitmq.host -- RabbitMQ host
       host: "{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}"
@@ -709,6 +769,16 @@ alfresco-deployment-service:
     - name: APPLICATIONS_RABBITMQ_ADMIN_URL
       value: "{{ tpl .Values.applications.rabbitmq.admin.url . }}"
     {{- end }}
+    - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_ENABLED
+      value: "{{ .Values.applications.analytics.metrics.export.enabled }}"
+    {{- if .Values.applications.analytics.metrics.export.enabled }}
+    - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_HOST
+      value: "{{ tpl .Values.applications.analytics.metrics.export.host $ }}"
+    - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_USERNAME
+      value: "{{ tpl .Values.applications.analytics.metrics.export.username $ }}"
+    - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_PASSWORD
+      value: "{{ tpl .Values.applications.analytics.metrics.export.password $ }}"
+    {{- end }}
     - name: ATS_TRANSFORMER_TIKA_URL
       value: "http://tika.{{ .Release.Namespace }}/transform"
     - name: PROCESS_UI_URL
@@ -815,3 +885,90 @@ alfresco-tika-service:
   javaOpts:
     other: >-
       -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
+
+alfresco-process-analytics-service:
+  enabled: true
+  nameOverride: alfresco-process-analytics-service
+  metrics:
+    client:
+      host: 'http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200'
+      username: admin
+      password: admin
+  graphql:
+    service:
+      jwtIssuerUri: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
+  image:
+    repository: quay.io/alfresco/alfresco-process-analytics-graphql-service
+    tag: develop
+    pullPolicy: Always
+  service:
+    name: alfresco-process-analytics-service
+    internalPort: 8080
+  env:
+    SPRING_WEBFLUX_BASE_PATH: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}'
+    SPRING_ZIPKIN_ENABLED: "false"
+    ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_HOST: '{{ tpl .Values.metrics.client.host $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_USERNAME: '{{ tpl .Values.metrics.client.username $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_PASSWORD: '{{ tpl .Values.metrics.client.password $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_JWT_ISSUER_URI: '{{ tpl .Values.graphql.service.jwtIssuerUri $ }}'
+  ingress:
+    enabled: true
+    path: /analytics
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  probePath: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health'
+
+alfresco-process-analytics-playground:
+  enabled: true
+  nameOverride: alfresco-process-analytics-playground
+  graphql:
+    client:
+      oauth2ClientId: analytics-playground
+      oauth2ClientSecret: 2181210d-ec04-4bcf-8649-8a5dcb1c6342
+      jwtIssuerUri: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
+      url: 'http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql'
+  image:
+    repository: quay.io/alfresco/alfresco-process-analytics-graphql-playground
+    tag: develop
+    pullPolicy: Always
+  service:
+    name: alfresco-process-analytics-playground
+    internalPort: 5000
+  env:
+    SPRING_WEBFLUX_BASE_PATH: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}'
+    SPRING_ZIPKIN_ENABLED: "false"
+    ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_URL: '{{ tpl .Values.graphql.client.url $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_JWT_ISSUER_URI: '{{ tpl .Values.graphql.client.jwtIssuerUri $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_OAUTH2_CLIENT_ID: '{{ tpl .Values.graphql.client.oauth2ClientId $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_OAUTH2_CLIENT_SECRET: '{{ tpl .Values.graphql.client.oauth2ClientSecret $ }}'
+  ingress:
+    enabled: true
+    path: /analytics/playground/
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  probePath: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health'
+
+opensearch:
+  enabled: true
+  replicas: 2
+  extraEnvs:
+    - name: DISABLE_INSTALL_DEMO_CONFIG
+      value: "true"
+    - name: DISABLE_SECURITY_PLUGIN
+      value: "true"
