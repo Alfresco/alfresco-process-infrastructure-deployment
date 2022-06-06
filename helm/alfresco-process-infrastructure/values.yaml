@@ -151,7 +151,7 @@ alfresco-identity-service:
               consentRequired: false
               config:
                 access.token.claim: 'true'
-                claim.name: realm_roles
+                claim.name: role
                 jsonType.label: String
                 multivalued: 'true'
       extraRealmRoles:

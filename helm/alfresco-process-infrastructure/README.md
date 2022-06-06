@@ -149,7 +149,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraClients[3].implicitFlowEnabled | bool | `false` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[3].protocol | string | `"openid-connect"` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[3].protocolMappers[0].config."access.token.claim" | string | `"true"` |  |
-| alfresco-identity-service.realm.alfresco.extraClients[3].protocolMappers[0].config."claim.name" | string | `"realm_roles"` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[3].protocolMappers[0].config."claim.name" | string | `"role"` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[3].protocolMappers[0].config."jsonType.label" | string | `"String"` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[3].protocolMappers[0].config.multivalued | string | `"true"` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[3].protocolMappers[0].consentRequired | bool | `false` |  |
