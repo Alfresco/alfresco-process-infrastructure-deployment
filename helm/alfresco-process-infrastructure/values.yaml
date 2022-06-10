@@ -461,7 +461,7 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: develop
+    tag: 7.4.0-alpha.6
     pullPolicy: Always
   liquibase:
     enabled: true
@@ -885,7 +885,6 @@ alfresco-tika-service:
   javaOpts:
     other: >-
       -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
-
 alfresco-process-analytics-service:
   enabled: true
   nameOverride: alfresco-process-analytics-service
@@ -925,7 +924,6 @@ alfresco-process-analytics-service:
       cpu: 200m
       memory: 512Mi
   probePath: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health'
-
 alfresco-process-analytics-playground:
   enabled: true
   nameOverride: alfresco-process-analytics-playground
@@ -963,7 +961,6 @@ alfresco-process-analytics-playground:
       cpu: 200m
       memory: 512Mi
   probePath: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health'
-
 opensearch:
   enabled: true
   replicas: 2
