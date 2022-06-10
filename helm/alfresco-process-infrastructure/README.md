@@ -437,6 +437,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.resources.requests.memory | string | `"512Mi"` |  |
 | alfresco-process-analytics-playground.service.internalPort | int | `5000` |  |
 | alfresco-process-analytics-playground.service.name | string | `"alfresco-process-analytics-playground"` |  |
+| alfresco-process-analytics-playground.tag | string | `"7.4.0-alpha.5"` |  |
 | alfresco-process-analytics-service.enabled | bool | `true` |  |
 | alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_JWT_ISSUER_URI | string | `"{{ tpl .Values.graphql.service.jwtIssuerUri $ }}"` |  |
 | alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_HOST | string | `"{{ tpl .Values.metrics.client.host $ }}"` |  |
@@ -447,7 +448,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.graphql.service.jwtIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-process-analytics-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-analytics-service.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-service"` |  |
-| alfresco-process-analytics-service.image.tag | string | `"develop"` |  |
+| alfresco-process-analytics-service.image.tag | string | `"7.4.0-alpha.5"` |  |
 | alfresco-process-analytics-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-service.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-process-analytics-service.ingress.enabled | bool | `true` |  |

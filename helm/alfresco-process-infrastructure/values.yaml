@@ -885,7 +885,6 @@ alfresco-tika-service:
   javaOpts:
     other: >-
       -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
-
 alfresco-process-analytics-service:
   enabled: true
   nameOverride: alfresco-process-analytics-service
@@ -899,7 +898,7 @@ alfresco-process-analytics-service:
       jwtIssuerUri: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-service
-    tag: develop
+    tag: 7.4.0-alpha.5
     pullPolicy: Always
   service:
     name: alfresco-process-analytics-service
@@ -925,7 +924,6 @@ alfresco-process-analytics-service:
       cpu: 200m
       memory: 512Mi
   probePath: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health'
-
 alfresco-process-analytics-playground:
   enabled: true
   nameOverride: alfresco-process-analytics-playground
@@ -963,7 +961,7 @@ alfresco-process-analytics-playground:
       cpu: 200m
       memory: 512Mi
   probePath: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health'
-
+  tag: 7.4.0-alpha.5
 opensearch:
   enabled: true
   replicas: 2
