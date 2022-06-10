@@ -815,3 +815,8 @@ alfresco-tika-service:
   javaOpts:
     other: >-
       -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
+alfresco-process-analytics-service:
+  image:
+    tag: 7.4.0-alpha.4
+alfresco-process-analytics-playground:
+  tag: 7.4.0-alpha.4
