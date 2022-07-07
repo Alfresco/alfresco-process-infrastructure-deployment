@@ -1,10 +1,9 @@
 name: Versions propagation auto-merge
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - labeled
+    types: [opened, reopened, labeled]
+    branches:
+      - develop
 
 jobs:
   enable-auto-merge:
