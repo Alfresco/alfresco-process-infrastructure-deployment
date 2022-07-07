@@ -1,7 +1,7 @@
 name: Versions propagation auto-merge
 on:
   pull_request:
-    types: [opened, reopened, labeled]
+    types: [labeled]
     branches:
       - develop
 
