@@ -969,3 +969,51 @@ opensearch:
       value: "true"
     - name: DISABLE_SECURITY_PLUGIN
       value: "true"
+alfresco-identity-adapter-service:
+  enabled: true
+  nameOverride: alfresco-identity-adapter-service
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+    path: "/identity-adapter-service/?(.*)"
+  image:
+    repository: quay.io/alfresco/alfresco-identity-adapter-service
+    tag: 7.5.0-alpha.1
+    pullPolicy: Always
+  liquibase:
+    enabled: false
+  postgresql:
+    enabled: false
+  probePath: /actuator/health
+  rabbitmq:
+    enabled: false
+  activiti:
+    keycloak:
+      # alfresco-modeling-service.applications.activiti.keycloak.clientId -- activiti keycloak client id
+      clientId: "{{ .Values.global.keycloak.clientId }}"
+      # alfresco-modeling-service.applications.activiti.keycloak.clientSecret -- activiti keycloak client secret
+      clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
+  extraEnv: |-
+    - name: SERVER_PORT
+      value: "8080"
+    - name: SERVER_USEFORWARDHEADERS
+      value: "true"
+    - name: SERVER_TOMCAT_INTERNALPROXIES
+      value: ".*"
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: "*"
+    {{- with .Values.activiti.keycloak.clientId }}
+    - name: ACTIVITI_KEYCLOAK_CLIENT_ID
+      value: "{{ tpl . $ }}"
+    {{- end }}
+    {{- with .Values.activiti.keycloak.clientSecret }}
+    - name: ACTIVITI_KEYCLOAK_CLIENT_SECRET
+      value: "{{ tpl . $ }}"
+    {{- end }}
+  javaOpts:
+    xms: 512m
+    xmx: 3072m
+    other: >-
+      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
