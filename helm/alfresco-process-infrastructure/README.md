@@ -411,6 +411,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
+| alfresco-identity-adapter-service.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_JWT_ISSUER_URI | string | `"{{ tpl .Values.graphql.client.jwtIssuerUri $ }}"` |  |
 | alfresco-process-analytics-playground.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_OAUTH2_CLIENT_ID | string | `"{{ tpl .Values.graphql.client.oauth2ClientId $ }}"` |  |
