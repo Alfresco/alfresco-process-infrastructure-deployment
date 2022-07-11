@@ -16,14 +16,15 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.4.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.4.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 7.4.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.4.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 7.4.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 7.4.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.4.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.4.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.4.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.4.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 7.4.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 7.4.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
@@ -98,6 +99,25 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"#{null}"` | storage class for project release volume, set to null spring expression to use default |
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-deployment-service.readinessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/readiness"` |  |
+| alfresco-identity-adapter-service.activiti.keycloak.clientId | string | `"{{ .Values.global.keycloak.clientId }}"` |  |
+| alfresco-identity-adapter-service.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` |  |
+| alfresco-identity-adapter-service.enabled | bool | `true` |  |
+| alfresco-identity-adapter-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}"` |  |
+| alfresco-identity-adapter-service.image.pullPolicy | string | `"Always"` |  |
+| alfresco-identity-adapter-service.image.repository | string | `"quay.io/alfresco/alfresco-identity-adapter-service"` |  |
+| alfresco-identity-adapter-service.image.tag | string | `"7.5.0-alpha.1"` |  |
+| alfresco-identity-adapter-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-identity-adapter-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
+| alfresco-identity-adapter-service.ingress.enabled | bool | `true` |  |
+| alfresco-identity-adapter-service.ingress.path | string | `"/identity-adapter-service/?(.*)"` |  |
+| alfresco-identity-adapter-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
+| alfresco-identity-adapter-service.javaOpts.xms | string | `"512m"` |  |
+| alfresco-identity-adapter-service.javaOpts.xmx | string | `"3072m"` |  |
+| alfresco-identity-adapter-service.liquibase.enabled | bool | `false` |  |
+| alfresco-identity-adapter-service.nameOverride | string | `"alfresco-identity-adapter-service"` |  |
+| alfresco-identity-adapter-service.postgresql.enabled | bool | `false` |  |
+| alfresco-identity-adapter-service.probePath | string | `"/actuator/health"` |  |
+| alfresco-identity-adapter-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
 | alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_USER\n  value: admin\n- name: KEYCLOAK_PASSWORD\n  value: admin\n- name: KEYCLOAK_IMPORT\n  value: /realm/alfresco-realm.json\n- name: PROXY_ADDRESS_FORWARDING\n  value: \"true\"\n"` |  |
 | alfresco-identity-service.ingress.enabled | bool | `false` |  |
