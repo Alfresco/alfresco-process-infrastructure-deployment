@@ -461,7 +461,7 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.5.0-alpha.13
+    tag: 7.5.0-alpha.14
     pullPolicy: Always
   liquibase:
     enabled: true
@@ -565,7 +565,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.5.0-alpha.19
+    tag: 7.5.0-alpha.20
     pullPolicy: Always
   postgresql:
     enabled: true
