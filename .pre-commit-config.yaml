@@ -4,13 +4,14 @@ repos:
     hooks:
       - id: helm-docs
   - repo: https://github.com/Alfresco/alfresco-build-tools
-    rev: v1.5.0
+    rev: v1.9.2
     hooks:
-      - id: travis-yml-lint
       - id: helm-deps
       - id: helm-lint
+      - id: kubepug-minimum
+      - id: kubepug-recommended
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.2.0
+    rev: v4.3.0
     hooks:
       - id: check-yaml
         args: [--allow-multiple-documents]
@@ -21,7 +22,13 @@ repos:
       - id: mixed-line-ending
         args: ['--fix=lf']
       - id: end-of-file-fixer
+      - id: trailing-whitespace
   - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.15.1
+    rev: 0.17.0
     hooks:
-      - id: check-travis
+      - id: check-github-workflows
+      - id: check-jsonschema
+        alias: check-dependabot
+        name: "Validate Dependabot Config"
+        files: '.github/dependabot\.yml$'
+        args: ["--schemafile", "https://json.schemastore.org/dependabot-2.0.json"]

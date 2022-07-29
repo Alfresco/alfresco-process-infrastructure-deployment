@@ -4,11 +4,11 @@
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
-**Homepage:** <https://github.com/Alfresco/alfresco-process-infrastructure>
+**Homepage:** <https://github.com/Alfresco/alfresco-process-infrastructure-deployment>
 
 ## Source Code
 
-* <https://github.com/Alfresco/alfresco-process-infrastructure>
+* <https://github.com/Alfresco/alfresco-process-infrastructure-deployment>
 
 ## Requirements
 
