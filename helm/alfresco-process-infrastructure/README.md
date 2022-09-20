@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.5.0](https://img.shields.io/badge/Version-7.5.0-informational?style=flat-square) ![AppVersion: 7.5.0](https://img.shields.io/badge/AppVersion-7.5.0-informational?style=flat-square)
+![Version: 7.5.1](https://img.shields.io/badge/Version-7.5.1-informational?style=flat-square) ![AppVersion: 7.5.1](https://img.shields.io/badge/AppVersion-7.5.1-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -88,7 +88,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"7.5.0"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.5.1-alpha.4"` |  |
 | alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
