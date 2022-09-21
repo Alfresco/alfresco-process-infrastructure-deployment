@@ -528,7 +528,7 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.5.0
+    tag: 7.5.1
     pullPolicy: IfNotPresent
   service:
     name: modeling-app
@@ -577,7 +577,7 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all application images
-      tag: 7.5.0
+      tag: 7.5.1
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all application images
       pullPolicy: Always
       # alfresco-deployment-service.applications.image.pullSecretName -- pull secret name for all application images
@@ -788,7 +788,7 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.5.0
+    tag: 7.5.1
     pullPolicy: IfNotPresent
   service:
     name: admin-app
