@@ -565,7 +565,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: develop
+    tag: 7.5.1-alpha.9
     pullPolicy: Always
   postgresql:
     enabled: true
