@@ -461,7 +461,7 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.6.0-alpha.39
+    tag: 7.6.0-alpha.40
     pullPolicy: Always
   liquibase:
     enabled: true
