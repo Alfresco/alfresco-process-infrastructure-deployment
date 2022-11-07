@@ -69,6 +69,10 @@ jobs:
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
+      - uses: actions/download-artifact@v3
+        with:
+          name: ${{ steps.package-helm-chart.outputs.package-file }}
+
       - name: Publish Helm chart
         uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@AAE-10136-review-helm-actions
         with:
