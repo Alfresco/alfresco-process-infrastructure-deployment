@@ -8,8 +8,6 @@ repos:
     hooks:
       - id: helm-deps
       - id: helm-lint
-      - id: kubepug-minimum
-      - id: kubepug-recommended
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.3.0
     hooks:
