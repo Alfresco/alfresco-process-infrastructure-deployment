@@ -9,9 +9,9 @@ keywords:
   - alfresco
   - activiti
   - alfresco activiti enterprise
-home: https://github.com/Alfresco/alfresco-process-infrastructure
+home: https://github.com/Alfresco/alfresco-process-infrastructure-deployment
 sources:
-  - https://github.com/Alfresco/alfresco-process-infrastructure
+  - https://github.com/Alfresco/alfresco-process-infrastructure-deployment
 icon: https://avatars0.githubusercontent.com/u/391127?s=200&v=4
 dependencies:
   - name: common
