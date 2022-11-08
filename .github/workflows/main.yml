@@ -41,7 +41,7 @@ jobs:
         env:
           RUN_ID: ${{ github.run_id }}
           REPO_NAME: ${{ github.event.repository.name }}
-        run: echo "::set-output name=name::gh-$REPO_NAME-$RUN_ID"
+        run: echo "name=gh-$REPO_NAME-$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Build
         uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@AAE-10136-review-helm-actions
