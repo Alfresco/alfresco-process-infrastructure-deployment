@@ -54,7 +54,7 @@ jobs:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Execute dry run
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-dry-run@AAE-10136-review-helm-actions
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@AAE-10136-review-helm-actions
         with:
           chart-dir: ${{ env.CHART_DIR }}
           test-rancher-url: ${{ secrets.RANCHER2_URL }}
