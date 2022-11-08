@@ -21,9 +21,9 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@v1.9.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@v1.9.2
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.9.2
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@v1.20.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@v1.20.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.20.0
       - uses: bridgecrewio/checkov-action@v12.1708.0
         with:
           framework: kubernetes
@@ -91,7 +91,7 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Slack Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@v1.9.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@v1.20.0
         with:
           channel-id: 'eng-hxp-studio-be-gh-notifs'
           token: ${{ secrets.SLACK_NOTIFICATION_BOT_TOKEN }}
