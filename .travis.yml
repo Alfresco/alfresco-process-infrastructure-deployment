@@ -5,7 +5,17 @@ import:
 
 branches:
   only:
-    - develop
+    - 7.6.x
+
+before_script:
+  - |
+    REPO_NAME=${TRAVIS_REPO_SLUG##*/}
+    PROJECT_NAME=${REPO_NAME%%-deployment}
+    if [[ "${TRAVIS_BRANCH}" == '7.6.x' ]]
+    then
+      export HELM_REPO=incubator
+    fi
+    echo using PROJECT_NAME=${PROJECT_NAME},BRANCH=${BRANCH},HELM_REPO=${HELM_REPO}
 
 notifications:
   slack:
