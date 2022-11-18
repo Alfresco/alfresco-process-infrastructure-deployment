@@ -21,9 +21,9 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@v1.21.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@v1.21.0
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.21.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@v1.22.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@v1.22.0
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v1.22.0
       - uses: bridgecrewio/checkov-action@v12.1839.0
         with:
           framework: kubernetes
@@ -44,17 +44,17 @@ jobs:
         run: echo "name=gh-$REPO_NAME-$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Build
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@v1.21.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@v1.22.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Unit Tests
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-unit-tests@v1.21.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-unit-tests@v1.22.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Execute dry run
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@v1.21.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@v1.22.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
           test-rancher-url: ${{ secrets.RANCHER2_URL }}
@@ -65,7 +65,7 @@ jobs:
 
       - name: Package Helm Chart
         id: package-helm-chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@v1.21.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@v1.22.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
@@ -77,7 +77,7 @@ jobs:
           echo "message=$MSG" >> $GITHUB_OUTPUT
 
       - name: Publish Helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@v1.21.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@v1.22.0
         with:
           chart-package: ${{ steps.package-helm-chart.outputs.package-file-path }}
           helm-charts-repo: ${{ env.HELM_REPO }}
@@ -95,7 +95,7 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Slack Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@v1.21.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@v1.22.0
         with:
           channel-id: 'eng-hxp-studio-be-gh-notifs'
           token: ${{ secrets.SLACK_NOTIFICATION_BOT_TOKEN }}
