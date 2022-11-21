@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - develop
+      # TODO: remove before merge
+      - dev-igdianov-AAE-11371
   pull_request:
     branches:
       - develop
@@ -69,25 +71,32 @@ jobs:
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
-      - name: Get commit message
-        id: get-commit-message
-        shell: bash
-        run: |
-          MSG=$(git log --pretty=format:%s --max-count=1)
-          echo "message=$MSG" >> $GITHUB_OUTPUT
-
-      - name: Publish Helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@v1.22.0
+  parse-next-release:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+    outputs:
+      next-release: ${{ steps.parse-next-release.outputs.next-release }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Parse next release
+        id: parse-next-release
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@v1.22.0
         with:
-          chart-package: ${{ steps.package-helm-chart.outputs.package-file-path }}
-          helm-charts-repo: ${{ env.HELM_REPO }}
-          helm-charts-repo-branch: ${{ env.HELM_REPO_BRANCH }}
-          helm-charts-repo-subfolder: ${{ env.HELM_REPO_SUBFOLDER }}
-          helm-charts-repo-base-url: ${{ env.HELM_REPO_BASE_URL }}
-          token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          git-username: ${{ secrets.BOT_GITHUB_USERNAME }}
-          git-message: ${{ steps.get-commit-message.outputs.message }}
-          do-push: ${{ github.event_name == 'push' }}
+          chart-dir: ${{ env.CHART_DIR }}
+
+  release:
+    needs: parse-next-release
+    if: github.event_name == 'push'
+    uses: Alfresco/alfresco-build-tools/.github/workflows/helm-publish-new-package-version.yml@v1.22.0
+    with:
+      next-version: ${{ needs.parse-next-release.outputs.next-release }}
+      chart-dir: ${{ env.CHART_DIR }}
+      helm-charts-repo: ${{ env.HELM_REPO }}
+      helm-charts-repo-branch: ${{ env.HELM_REPO_BRANCH }}
+      helm-charts-repo-subfolder: ${{ env.HELM_REPO_SUBFOLDER }}
+      helm-charts-repo-base-url: ${{ env.HELM_REPO_BASE_URL }}
+    secrets: inherit
 
   notify:
     runs-on: ubuntu-latest
