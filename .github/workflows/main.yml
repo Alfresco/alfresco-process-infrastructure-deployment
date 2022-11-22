@@ -112,7 +112,8 @@ jobs:
     if: github.event_name == 'push'
     env:
       VERSION: ${{ needs.release.outputs.version }}
-      DEVELOPMENT_BRANCH: ${{ github.ref_name }}
+      # TODO: cleanup before merge
+      DEVELOPMENT_BRANCH: develop # ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v3
       - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@v1.22.0
