@@ -5,28 +5,4 @@ import:
 
 branches:
   only:
-    - 7.6.x
-
-before_script:
-  - |
-    REPO_NAME=${TRAVIS_REPO_SLUG##*/}
-    PROJECT_NAME=${REPO_NAME%%-deployment}
-    if [[ "${TRAVIS_BRANCH}" == '7.6.x' ]]
-    then
-      export HELM_REPO=incubator
-    fi
-    echo using PROJECT_NAME=${PROJECT_NAME},BRANCH=${BRANCH},HELM_REPO=${HELM_REPO}
-
-notifications:
-  slack:
-    rooms:
-      - secure: "MiAz0C4PgvPO6u/BItODnKffwCbq56Bwud+n3f8RzfH9+kkBgKeYvwqoydUxpkP5MNg6tu7KidBPJG1h2F4WwIqFeU7yEl76saCcYkFlkgSn4J7diQoeOJOj46lJbiX+bAiSHcfn1v4enscHRIBdFs+bA654bgwD7fP+pZGhU6WwidkFVLqbSlj5qOHP5f+0prWWgs1M4LNMBzvCgaX0xTJWFMpv8/ssyt1TP+9geip9kDd67W5GjezhPyNG4soJG+GQU5IZBVZykW/mw7T0Fp83rtq1Qrhwel/83PM1jzjdKigiJ6mO4op92DVV6arOcFcmaPIy+RAjOFV1YRYxEAX1EFxc9LcRm0VCQEyZujzWe0QKgWF8T5vLwqHBW8qP3eXHXnpgBrLbNUfsLSX+B098HDF7K0e0lGBHjawhHWvhliNvje8siNCRESYd9aTuUezsDuUMRnVG9xLvAM3STZjLWhAhhUdXkS8ns+ZTLKcJk47utFuKHq9QcTNyB3No6ywwuXcHRJ1o+6WSHR6XSzXZo/Tly1uFW/0ZRbOd9sQhPui6l7Ohv30OJKaJv4BLOrfZsoWVo6lZphkDtKtFXGgID+iiNX3D/5BEjOxetP10SqDkia2J9Qd+MZJis1x6pOGoGzWCOoYenxiOZ2r4n5phgBX9kStLhDgQMw/Lehw="
-    on_pull_requests: false
-    on_failure: always
-    on_success: never
-    on_cancel: never
-    on_error: always
-    template:
-      - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
-      - "Author: %{author} Execution time: *%{duration}*"
-      - "Message: %{message}"
+    - release-7.6.1
