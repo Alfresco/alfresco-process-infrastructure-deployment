@@ -10,3 +10,9 @@ spec:
             pattern: "<alfresco-process-infrastructure-deployment.version>(.*)</alfresco-process-infrastructure-deployment.version>"
             files:
               - pom.xml
+        - command:
+            name: sh
+            args:
+              - -c
+              - |
+                sed -i "s/<activiti-cloud-common-chart.version>.*<\/activiti-cloud-common-chart.version>/<activiti-cloud-common-chart.version>${ACTIVITI_CLOUD_COMMON_CHART_VERSION}<\/activiti-cloud-common-chart.version>/g" pom.xml

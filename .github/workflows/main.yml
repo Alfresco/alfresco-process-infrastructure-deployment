@@ -116,7 +116,14 @@ jobs:
       DEVELOPMENT_BRANCH: dev-igdianov-AAE-11372 # ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v3
+      - id: activiti-cloud-common-chart-version
+        run: |
+          RESULT=`yq '.dependencies | map(select(.name == "common")) | .[0].version' helm/alfresco-process-infrastructure/Chart.yaml`
+          echo ${RESULT}
+          echo "result=${RESULT}" >> $GITHUB_OUTPUT
       - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@v1.22.0
+        env:
+          ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.activiti-cloud-common-chart-version.outputs.result }}
         with:
           version: ${{ env.VERSION }}
           auto-merge: 'true'
