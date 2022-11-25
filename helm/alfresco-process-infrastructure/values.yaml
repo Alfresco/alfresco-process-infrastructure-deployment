@@ -694,12 +694,12 @@ alfresco-deployment-service:
       value: "{{ .Values.applications.image.pullPolicy }}"
     - name: CONTENT_SERVICE_BASE_URL
     {{- if .Values.global.hxpr.enabled}}
-      value: {{ .Values.global.hxpr.url }}
+      value: "{{ .Values.global.hxpr.url }}"
     {{- else }}
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
     {{- end }}
     - name: CONTENT_SERVICE_ENABLED
-      value: {{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}
+      value: "{{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}"
     {{- with .Values.global.acs.activemq.url }}
     - name: CONTENT_SERVICE_ACTIVEMQ_URL
       value: "{{ . }}"
