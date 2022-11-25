@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - develop
-      # TODO: cleanup before merge
-      - dev-igdianov-AAE-11371
   pull_request:
     branches:
       - develop
@@ -91,7 +89,6 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push'
     outputs:
       version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
     steps:
@@ -111,8 +108,7 @@ jobs:
 
       - id: helm-release-and-publish
         name: Release and publish helm chart
-        # TODO: clean before release
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@dev-igdianov-AAE-11371
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@v1.23.0
         with:
           version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
           chart-dir: ${{ env.CHART_DIR }}
@@ -122,6 +118,7 @@ jobs:
           helm-repository-base-url: ${{ env.HELM_REPO_BASE_URL }}
           helm-repository-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           git-username: ${{ secrets.BOT_GITHUB_USERNAME }}
+          do-push: ${{ github.event_name == 'push' }}
 
   promote:
     runs-on: ubuntu-latest
@@ -129,18 +126,25 @@ jobs:
     if: github.event_name == 'push'
     env:
       VERSION: ${{ needs.release.outputs.version }}
-      # TODO: cleanup before merge
-      DEVELOPMENT_BRANCH: dev-igdianov-AAE-11372 # ${{ github.ref_name }}
+      DEVELOPMENT_BRANCH: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v3
       - id: activiti-cloud-common-chart-version
+        working-directory: helm/alfresco-process-infrastructure
         run: |
-          RESULT=`yq '.dependencies | map(select(.name == "common")) | .[0].version' helm/alfresco-process-infrastructure/Chart.yaml`
+          RESULT=`yq '.dependencies | map(select(.name == "common")) | .[0].version' Chart.yaml`
+          echo ${RESULT}
+          echo "result=${RESULT}" >> $GITHUB_OUTPUT
+      - id: alfresco-deployment-service-version
+        working-directory: helm/alfresco-process-infrastructure
+        run: |
+          RESULT=`yq '.alfresco-deployment-service.image.tag' values.yaml`
           echo ${RESULT}
           echo "result=${RESULT}" >> $GITHUB_OUTPUT
       - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@v1.22.0
         env:
           ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.activiti-cloud-common-chart-version.outputs.result }}
+          ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.alfresco-deployment-service-version.outputs.result }}
         with:
           version: ${{ env.VERSION }}
           auto-merge: 'true'
