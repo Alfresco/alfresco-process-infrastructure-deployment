@@ -28,9 +28,26 @@ jobs:
         with:
           framework: kubernetes
 
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@v1.22.0
+        with:
+          maven-username: ${{ secrets.NEXUS_USERNAME }}
+          maven-password: ${{ secrets.NEXUS_PASSWORD }}
+
   build:
     runs-on: ubuntu-latest
-    needs: pre-commit
+    needs:
+      - pre-commit
+      - validate
     env:
       TARGET_CHARTS_PATH: charts
     steps:
@@ -69,29 +86,80 @@ jobs:
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
-      - name: Get commit message
-        id: get-commit-message
-        shell: bash
-        run: |
-          MSG=$(git log --pretty=format:%s --max-count=1)
-          echo "message=$MSG" >> $GITHUB_OUTPUT
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
+    steps:
+      - uses: actions/checkout@v3
 
-      - name: Publish Helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@v1.22.0
+      - name: Parse next release
+        id: helm-parse-next-release
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@v1.22.0
         with:
-          chart-package: ${{ steps.package-helm-chart.outputs.package-file-path }}
-          helm-charts-repo: ${{ env.HELM_REPO }}
-          helm-charts-repo-branch: ${{ env.HELM_REPO_BRANCH }}
-          helm-charts-repo-subfolder: ${{ env.HELM_REPO_SUBFOLDER }}
-          helm-charts-repo-base-url: ${{ env.HELM_REPO_BASE_URL }}
-          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          chart-dir: ${{ env.CHART_DIR }}
+
+      - id: calculate-next-internal-version
+        name: Calculate next internal release
+        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@v1.22.0
+        with:
+          next-version: ${{ steps.helm-parse-next-release.outputs.next-release }}
+
+      - id: helm-release-and-publish
+        name: Release and publish helm chart
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@v1.23.0
+        with:
+          version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
+          chart-dir: ${{ env.CHART_DIR }}
+          helm-repository: ${{ env.HELM_REPO }}
+          helm-repository-branch: ${{ env.HELM_REPO_BRANCH }}
+          helm-repository-subfolder: ${{ env.HELM_REPO_SUBFOLDER }}
+          helm-repository-base-url: ${{ env.HELM_REPO_BASE_URL }}
+          helm-repository-token: ${{ secrets.BOT_GITHUB_TOKEN }}
           git-username: ${{ secrets.BOT_GITHUB_USERNAME }}
-          git-message: ${{ steps.get-commit-message.outputs.message }}
           do-push: ${{ github.event_name == 'push' }}
+
+  promote:
+    runs-on: ubuntu-latest
+    needs: release
+    if: github.event_name == 'push'
+    env:
+      VERSION: ${{ needs.release.outputs.version }}
+      DEVELOPMENT_BRANCH: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: activiti-cloud-common-chart-version
+        working-directory: helm/alfresco-process-infrastructure
+        run: |
+          RESULT=`yq '.dependencies | map(select(.name == "common")) | .[0].version' Chart.yaml`
+          echo ${RESULT}
+          echo "result=${RESULT}" >> $GITHUB_OUTPUT
+      - id: alfresco-deployment-service-version
+        working-directory: helm/alfresco-process-infrastructure
+        run: |
+          RESULT=`yq '.alfresco-deployment-service.image.tag' values.yaml`
+          echo ${RESULT}
+          echo "result=${RESULT}" >> $GITHUB_OUTPUT
+      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@v1.22.0
+        env:
+          ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.activiti-cloud-common-chart-version.outputs.result }}
+          ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.alfresco-deployment-service-version.outputs.result }}
+        with:
+          version: ${{ env.VERSION }}
+          auto-merge: 'true'
+          labels: ${{ env.DEVELOPMENT_BRANCH }}
+          base-branch-name: ${{ env.DEVELOPMENT_BRANCH }}
+          git-username: ${{ secrets.BOT_GITHUB_USERNAME }}
+          git-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          git-author-name: ${{ secrets.BOT_GITHUB_USERNAME }}
 
   notify:
     runs-on: ubuntu-latest
-    needs: build
+    needs:
+      - build
+      - release
+      - promote
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Slack Notification

@@ -1,0 +1,19 @@
+apiVersion: updatebot.jenkins-x.io/v1alpha1
+kind: UpdateConfig
+spec:
+  rules:
+    - urls:
+        - https://github.com/Alfresco/alfresco-process-releases
+      reusePullRequest: true
+      changes:
+        - regex:
+            pattern: "<alfresco-process-infrastructure-deployment.version>(.*)</alfresco-process-infrastructure-deployment.version>"
+            files:
+              - pom.xml
+        - command:
+            name: sh
+            args:
+              - -c
+              - |
+                mvn -ntp versions:set-property -Dproperty=activiti-cloud-common-chart.version -DnewVersion=${ACTIVITI_CLOUD_COMMON_CHART_VERSION}
+                mvn -ntp versions:set-property -Dproperty=alfresco-deployment-service.version -DnewVersion=${ALFRESCO_DEPLOYMENT_SERVICE_VERSION}
