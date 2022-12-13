@@ -53,6 +53,19 @@ global:
       username: ""
       # global.acs.activemq.username -- ACS ActiveMQ password
       password: ""
+  hxpr:
+    # global.hxpr.enabled -- enable support for HxP Repository
+    enabled: false
+    # global.hxpr.url -- the HxP Repository base URL
+    url: ""
+    # global.hxpr.accountId -- the HxP IAM account id which the HxP Repository belongs to
+    accountId: ""
+    # global.hxpr.admin -- admin credentials to manage HxP Repository models
+    admin:
+      # global.hxpr.admin.clientId -- HxP Repository admin client id
+      clientId: ""
+      # global.hxpr.admin.clientId -- HxP Repository admin client secret
+      clientSecret: ""
 alfresco-identity-service:
   # set to false to disable custom alfresco-identity-service ingress with hostname support
   enabled: true
@@ -680,9 +693,13 @@ alfresco-deployment-service:
     - name: ALFRESCO_DOCKER_REGISTRY_IMAGEPULLPOLICY
       value: "{{ .Values.applications.image.pullPolicy }}"
     - name: CONTENT_SERVICE_BASE_URL
+    {{- if .Values.global.hxpr.enabled}}
+      value: "{{ .Values.global.hxpr.url }}"
+    {{- else }}
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
+    {{- end }}
     - name: CONTENT_SERVICE_ENABLED
-      value: "{{ .Values.global.acs.enabled }}"
+      value: "{{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}"
     {{- with .Values.global.acs.activemq.url }}
     - name: CONTENT_SERVICE_ACTIVEMQ_URL
       value: "{{ . }}"
@@ -733,9 +750,11 @@ alfresco-deployment-service:
     - name: APPLICATIONS_MAXNUMBER
       value: "{{ . }}"
     {{- end }}
-    {{- with .Values.applications.processStorageService.clientSecret }}
     - name: PROCESS_STORAGE_SERVICE_CLIENTSECRET
-      value: "{{ . }}"
+    {{- if .Values.global.hxpr.enabled}}
+      value: "{{ .Values.global.hxpr.admin.clientSecret }}"
+    {{- else }}
+      value: "{{ tpl .Values.applications.processStorageService.clientSecret . }}"
     {{- end }}
     {{- with .Values.applications.activiti.keycloak.clientId }}
     - name: ACTIVITI_KEYCLOAK_CLIENT_ID
@@ -783,6 +802,14 @@ alfresco-deployment-service:
       value: "http://tika.{{ .Release.Namespace }}/transform"
     - name: PROCESS_UI_URL
       value: '{{ include "common.gateway-url" . }}'
+    {{- if .Values.global.hxpr.enabled }}
+    - name: CONTENT_REPOSITORY_TYPE
+      value: "hxp"
+    - name: PROCESS_STORAGE_SERVICE_CLIENTID
+      value: "{{ .Values.global.hxpr.admin.clientId }}"
+    - name: HXPIDP_ACCOUNTID
+      value: "{{ .Values.global.hxpr.accountId }}"
+    {{- end }}
 alfresco-admin-app:
   enabled: true
   nameOverride: alfresco-admin-app
