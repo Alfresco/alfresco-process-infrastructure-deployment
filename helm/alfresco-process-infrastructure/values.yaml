@@ -56,7 +56,7 @@ global:
   hxpr:
     # global.hxpr.enabled -- enable support for HxP Repository
     enabled: false
-    # global.hxpr.url -- the HxP Repository base path
+    # global.hxpr.url -- the HxP Repository base URL
     url: ""
     # global.hxpr.accountId -- the HxP IAM account id which the HxP Repository belongs to
     accountId: ""

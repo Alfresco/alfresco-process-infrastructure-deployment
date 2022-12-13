@@ -513,7 +513,7 @@ Kubernetes: `>=1.15.0-0`
 | global.hxpr.admin | object | `{"clientId":"","clientSecret":""}` | admin credentials to manage HxP Repository models |
 | global.hxpr.admin.clientId | string | `""` | HxP Repository admin client secret |
 | global.hxpr.enabled | bool | `false` | enable support for HxP Repository |
-| global.hxpr.url | string | `""` | the HxP Repository base path |
+| global.hxpr.url | string | `""` | the HxP Repository base URL |
 | global.keycloak.clientId | string | `"activiti-keycloak"` | Configure Activiti Keycloak Client Id |
 | global.keycloak.clientSecret | string | `"d2b835b5-efdf-4448-8d55-89eaaca9fc96"` | Configure Activiti Keycloak Client Secret. |
 | global.keycloak.host | string | `"{{ template \"common.gateway-host\" . }}"` | Configure Keycloak host template, i.e. "{{ .Release.Namespace }}.{{ .Values.global.gateway.domain }}" |
