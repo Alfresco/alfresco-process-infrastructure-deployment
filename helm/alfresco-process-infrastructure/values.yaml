@@ -516,9 +516,19 @@ alfresco-modeling-service:
     - name: CONTENT_CLIENT_SECRET
       value: "{{ .Values.content.client.secret }}"
     - name: CONTENT_SERVICE_URL
+    {{- if .Values.global.hxpr.enabled}}
+      value: "{{ .Values.global.hxpr.url }}"
+    {{- else }}
       value: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
+    {{- end }}
     - name: CONTENT_SERVICE_PATH
       value: "{{ .Values.content.service.path }}"
+    - name: CONTENT_SERVICE_ENABLED
+      value: "{{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}"
+    {{- if .Values.global.hxpr.enabled }}
+    - name: CONTENT_REPOSITORY_TYPE
+      value: "hxp"
+    {{- end }}
     {{- with .Values.activiti.keycloak.clientId }}
     - name: ACTIVITI_KEYCLOAK_CLIENT_ID
       value: "{{ tpl . $ }}"
