@@ -652,6 +652,9 @@ alfresco-deployment-service:
       admin:
         # alfresco-deployment-service.applications.rabbitmq.admin.url -- RabbitMQ admin URL, derived from host if not set
         url: ""
+  custom:
+    redirect:
+      uris: "http://localhost:4200,http://localhost:8080,{{ template 'common.gateway-domain' . }},{{ template 'common.gateway-host' . }}"
   ingress:
     path: /deployment-service
     enabled: true

@@ -77,6 +77,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.rabbitmq.port | string | `""` | RabbitMQ port |
 | alfresco-deployment-service.applications.rabbitmq.ssl.enabled | string | `""` | RabbitMQ SSL enabled |
 | alfresco-deployment-service.applications.rabbitmq.username | string | `"user"` | RabbitMQ username |
+| alfresco-deployment-service.custom.redirect.uris | string | `"http://localhost:4200,http://localhost:8080,{{ template 'common.gateway-domain' . }},{{ template 'common.gateway-host' . }}"` |  |
 | alfresco-deployment-service.db.password | string | `"alfresco"` |  |
 | alfresco-deployment-service.db.uri | string | `"jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgresql.name }}.{{ .Release.Namespace }}:{{ .Values.postgresql.port }}/postgres"` |  |
 | alfresco-deployment-service.db.username | string | `"alfresco"` |  |
