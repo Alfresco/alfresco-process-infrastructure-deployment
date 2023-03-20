@@ -830,7 +830,7 @@ alfresco-admin-app:
   enabled: true
   nameOverride: alfresco-admin-app
   image:
-    repository: quay.io/alfresco/hxp-admin-app
+    repository: quay.io/alfresco/alfresco-admin-app
     tag: develop
     pullPolicy: Always
   service:
