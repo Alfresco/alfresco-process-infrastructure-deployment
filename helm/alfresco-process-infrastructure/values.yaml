@@ -634,7 +634,7 @@ alfresco-deployment-service:
       metrics:
         export:
           enabled: true
-          host: 'http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200'
+          url: 'http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200'
           username: admin
           password: admin
     rabbitmq:
@@ -807,8 +807,8 @@ alfresco-deployment-service:
     - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_ENABLED
       value: "{{ .Values.applications.analytics.metrics.export.enabled }}"
     {{- if .Values.applications.analytics.metrics.export.enabled }}
-    - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_HOST
-      value: "{{ tpl .Values.applications.analytics.metrics.export.host $ }}"
+    - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_URL
+      value: "{{ tpl .Values.applications.analytics.metrics.export.url $ }}"
     - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_USERNAME
       value: "{{ tpl .Values.applications.analytics.metrics.export.username $ }}"
     - name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_PASSWORD
@@ -933,7 +933,7 @@ alfresco-process-analytics-service:
   nameOverride: alfresco-process-analytics-service
   metrics:
     client:
-      host: 'http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200'
+      url: 'http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200'
       username: admin
       password: admin
   graphql:
@@ -949,7 +949,7 @@ alfresco-process-analytics-service:
   env:
     SPRING_WEBFLUX_BASE_PATH: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}'
     SPRING_ZIPKIN_ENABLED: "false"
-    ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_HOST: '{{ tpl .Values.metrics.client.host $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_URL: '{{ tpl .Values.metrics.client.url $ }}'
     ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_USERNAME: '{{ tpl .Values.metrics.client.username $ }}'
     ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_PASSWORD: '{{ tpl .Values.metrics.client.password $ }}'
     ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_JWT_ISSUER_URI: '{{ tpl .Values.graphql.service.jwtIssuerUri $ }}'
