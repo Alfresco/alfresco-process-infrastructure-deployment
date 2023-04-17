@@ -66,6 +66,8 @@ global:
       clientId: ""
       # global.hxpr.admin.clientId -- HxP Repository admin client secret
       clientSecret: ""
+    # global.hxpr.forceSingleRepositoryUrl -- when true, the repository URL is not based on the target environment, but forced to be global.hxpr.url
+    forceSingleRepositoryUrl: false
 alfresco-identity-service:
   # set to false to disable custom alfresco-identity-service ingress with hostname support
   enabled: true
@@ -825,6 +827,8 @@ alfresco-deployment-service:
       value: "{{ .Values.global.hxpr.admin.clientId }}"
     - name: HXPIDP_ACCOUNTID
       value: "{{ .Values.global.hxpr.accountId }}"
+    - name: ENVIRONMENT_FORCE_SINGLE_REPOSITORY_URL
+      value: "{{ .Values.global.hxpr.forceSingleRepositoryUrl }}"
     {{- end }}
 alfresco-admin-app:
   enabled: true
