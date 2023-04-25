@@ -56,16 +56,18 @@ global:
   hxpr:
     # global.hxpr.enabled -- enable support for HxP Repository
     enabled: false
-    # global.hxpr.url -- the HxP Repository base URL
-    url: ""
-    # global.hxpr.accountId -- the HxP IAM account id which the HxP Repository belongs to
-    accountId: ""
     # global.hxpr.admin -- admin credentials to manage HxP Repository models
     admin:
       # global.hxpr.admin.clientId -- HxP Repository admin client id
       clientId: ""
       # global.hxpr.admin.clientId -- HxP Repository admin client secret
       clientSecret: ""
+  hxp:
+    # global.hxp.accountId -- the HxP IAM account id which the HxP Repository belongs to
+    accountId: ""
+    context:
+      # global.hxp.context.environment -- the HxP environment to be used by default by the identity adapter
+      environment: ""
 alfresco-identity-service:
   # set to false to disable custom alfresco-identity-service ingress with hostname support
   enabled: true
@@ -541,6 +543,10 @@ alfresco-modeling-service:
       value: "{{ .Values.exampleProjects.endpoint }}"
     - name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE
       value: "{{ .Values.exampleProjects.resource }}"
+    {{- if .Values.global.hxpr.enabled }}
+    - name: HXP_CONTEXT_ENVIRONMENT
+      value: "{{ .Values.global.hxp.context.environment }}"
+    {{- end }}
   javaOpts:
     xms: 512m
     xmx: 3072m
@@ -824,7 +830,9 @@ alfresco-deployment-service:
     - name: PROCESS_STORAGE_SERVICE_CLIENTID
       value: "{{ .Values.global.hxpr.admin.clientId }}"
     - name: HXPIDP_ACCOUNTID
-      value: "{{ .Values.global.hxpr.accountId }}"
+      value: "{{ .Values.global.hxp.accountId }}"
+    - name: HXP_CONTEXT_ENVIRONMENT
+      value: "{{ .Values.global.hxp.context.environment }}"
     {{- end }}
 alfresco-admin-app:
   enabled: true
@@ -1054,6 +1062,10 @@ alfresco-identity-adapter-service:
     {{- with .Values.activiti.keycloak.clientSecret }}
     - name: ACTIVITI_KEYCLOAK_CLIENT_SECRET
       value: "{{ tpl . $ }}"
+    {{- end }}
+    {{- if .Values.global.hxpr.enabled }}
+    - name: HXP_CONTEXT_ENVIRONMENT
+      value: "{{ .Values.global.hxp.context.environment }}"
     {{- end }}
   javaOpts:
     xms: 512m
