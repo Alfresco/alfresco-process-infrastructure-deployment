@@ -544,9 +544,16 @@ alfresco-modeling-service:
     {{- end }}
   javaOpts:
     xms: 512m
-    xmx: 3072m
+    xmx: 1024m
     other: >-
       -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+  resources:
+    limits:
+      cpu: 2500m
+      memory: 2000Mi
+    requests:
+      cpu: 1000m
+      memory: 1000Mi
 alfresco-modeling-app:
   enabled: true
   nameOverride: alfresco-modeling-app
@@ -829,6 +836,18 @@ alfresco-deployment-service:
     - name: HXP_CONTEXT_ENVIRONMENT
       value: "{{ .Values.global.hxp.context.environment }}"
     {{- end }}
+  javaOpts:
+    xms: 256m
+    xmx: 512m
+    other: >-
+      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1000Mi
+    requests:
+      cpu: 300m
+      memory: 500Mi
 alfresco-admin-app:
   enabled: true
   nameOverride: alfresco-admin-app
