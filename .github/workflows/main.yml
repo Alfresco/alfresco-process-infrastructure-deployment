@@ -10,7 +10,7 @@ on:
 env:
   CHART_DIR: "helm/alfresco-process-infrastructure"
   # TODO: create dedicated cluster?
-  TEST_CLUSTER_NAME: activiti-test
+  TEST_CLUSTER_NAME: activiti
   HELM_REPO_BASE_URL: https://kubernetes-charts.alfresco.com
   HELM_REPO: Alfresco/charts
   HELM_REPO_BRANCH: master
