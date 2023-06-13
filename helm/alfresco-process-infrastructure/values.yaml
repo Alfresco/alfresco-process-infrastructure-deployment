@@ -925,8 +925,8 @@ setup-acs-script-job:
   enabled: true
   loadTestData: true
   image:
-    repository: bitnami/minideb-extras
-    tag: stretch
+    repository: rockylinux/rockylinux
+    tag: 9-minimal
 alfresco-tika-service:
   nameOverride: alfresco-tika-service
   enabled: true
