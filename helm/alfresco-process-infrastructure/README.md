@@ -571,6 +571,6 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.resources.limits.memory | string | `"1500Mi"` |  |
 | rabbitmq.resources.requests.memory | string | `"1500Mi"` |  |
 | setup-acs-script-job.enabled | bool | `true` |  |
-| setup-acs-script-job.image.repository | string | `"bitnami/minideb-extras"` |  |
-| setup-acs-script-job.image.tag | string | `"stretch"` |  |
+| setup-acs-script-job.image.repository | string | `"rockylinux/rockylinux"` |  |
+| setup-acs-script-job.image.tag | string | `"9-minimal"` |  |
 | setup-acs-script-job.loadTestData | bool | `true` |  |
