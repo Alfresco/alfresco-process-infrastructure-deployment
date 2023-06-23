@@ -8,11 +8,11 @@ REPOSITORY_ADMIN_PASSWORD=${REPOSITORY_ADMIN_PASSWORD:-admin}
 # 5 min timeout
 echo "connecting to ${REPOSITORY_URL}"
 COUNTER=0
-while [[ $COUNTER -lt 300 && "$(curl -s -o /dev/null -w '%{http_code}' ${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/probes/-ready-)" != "200" ]]
+while [[ $COUNTER -lt 300 && "$(curl -s -o /dev/null -w '%{http_code}' "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/probes/-ready-")" != "200" ]]
 do
   echo "."
   sleep 5
-  let COUNTER=COUNTER+1
+  (( ++COUNTER ))
 done
 echo "connection OK"
 
@@ -24,7 +24,7 @@ create_user() {
 
   curl -X POST \
     --header 'Content-Type: application/json' --header 'Accept: application/json' \
-    --user ${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD} \
+    --user "${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD}" \
     -d "{
     \"id\": \"${ACS_USER}\",
     \"firstName\": \"${ACS_USER}\",
@@ -42,7 +42,7 @@ create_group() {
 
   curl -X POST \
     --header 'Content-Type: application/json' --header 'Accept: application/json' \
-    --user ${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD} \
+    --user "${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD}" \
     -d "{
     \"id\": \"GROUP_${ACS_GROUP}\"
   }" "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/groups"
@@ -61,7 +61,7 @@ add_user_to_group() {
 
   curl -X POST \
     --header 'Content-Type: application/json' --header 'Accept: application/json' \
-    --user ${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD} \
+    --user "${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD}" \
     -d "{
     \"id\": \"${ACS_USER}\",
     \"memberType\": \"PERSON\"
