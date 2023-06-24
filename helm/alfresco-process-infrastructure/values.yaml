@@ -65,6 +65,9 @@ global:
   hxp:
     # global.hxp.accountId -- the HxP IAM account id which the HxP Repository belongs to
     accountId: ""
+    # global.hxp.nucleusSnsArn -- the SNS ARN used for sending events for usage and audit
+    nucleusSnsArn: ""
+
 alfresco-identity-service:
   # set to false to disable custom alfresco-identity-service ingress with hostname support
   enabled: true
@@ -835,6 +838,14 @@ alfresco-deployment-service:
       value: "{{ .Values.global.hxp.accountId }}"
     - name: HXP_CONTEXT_ENVIRONMENT
       value: "{{ .Values.global.hxp.context.environment }}"
+    - name: HXP_CLOUD_EVENTS_APP_KEY
+      value: "HXPS"
+    - name: HXP_CLOUD_EVENTS_USAGE_RUNTIME_ENABLED
+      value: "true"
+    - name: HXP_CLOUD_EVENTS_AUDIT_RUNTIME_ENABLED
+      value: "true"
+    - name: HXP_CLOUD_EVENTS_NUCLEUS_SNS_ARN
+      value: "{{ .Values.global.hxp.nucleusSnsArn }}"
     {{- end }}
   javaOpts:
     xms: 256m

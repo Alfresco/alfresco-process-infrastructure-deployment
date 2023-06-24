@@ -522,6 +522,7 @@ Kubernetes: `>=1.15.0-0`
 | global.gateway.http | string | `"false"` | Set to false enables HTTPS configuration on all urls |
 | global.gateway.tlsacme | string | `"false"` | Set to enable automatic TLS for ingress if https is enabled |
 | global.hxp.accountId | string | `""` | the HxP IAM account id which the HxP Repository belongs to |
+| global.hxp.nucleusSnsArn | string | `""` | the SNS ARN used for sending events for usage and audit |
 | global.hxpr.admin | object | `{"clientId":"","clientSecret":""}` | admin credentials to manage HxP Repository models |
 | global.hxpr.admin.clientId | string | `""` | HxP Repository admin client secret |
 | global.hxpr.enabled | bool | `false` | enable support for HxP Repository |
