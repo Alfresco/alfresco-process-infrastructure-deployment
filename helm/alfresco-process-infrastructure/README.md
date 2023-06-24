@@ -33,7 +33,7 @@ Kubernetes: `>=1.15.0-0`
 ## Values
 
 | Key | Type | Default | Description |
-|-----|------|---------|------------|
+|-----|------|---------|-------------|
 | alfresco-admin-app.applications.allowCustomResources | bool | `true` |  |
 | alfresco-admin-app.enabled | bool | `true` |  |
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
