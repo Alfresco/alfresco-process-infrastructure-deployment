@@ -2,10 +2,10 @@ name: Build
 on:
   push:
     branches:
-      - develop
+      - 7.11.x
   pull_request:
     branches:
-      - develop
+      - 7.11.x
 
 env:
   CHART_DIR: "helm/alfresco-process-infrastructure"
