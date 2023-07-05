@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.11.1](https://img.shields.io/badge/Version-7.11.1-informational?style=flat-square) ![AppVersion: 7.11.1](https://img.shields.io/badge/AppVersion-7.11.1-informational?style=flat-square)
+![Version: 7.11.2-SNAPSHOT](https://img.shields.io/badge/Version-7.11.2--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.11.2-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.11.2--SNAPSHOT-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -40,7 +40,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- else }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
-| alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"7.11.0"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -87,7 +87,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.environment.namespace | string | installation namespace | namespace to copy secrets from to application namespaces |
 | alfresco-deployment-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ .Values.ingress.path }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: KEYCLOAK_AUTH_SERVER_URL\n  value: '{{ include \"common.keycloak-url\" . }}'\n- name: DOCKER_REGISTRY_IMAGE_TAG\n  value: \"{{ .Values.applications.image.tag }}\"\n- name: ALFRESCO_DOCKER_REGISTRY_SECRET_NAME\n  value: \"{{ .Values.applications.image.pullSecretName }}\"\n- name: ALFRESCO_DOCKER_REGISTRY_IMAGEPULLPOLICY\n  value: \"{{ .Values.applications.image.pullPolicy }}\"\n- name: CONTENT_SERVICE_BASE_URL\n{{- if .Values.global.hxpr.enabled}}\n  value: \"{{ .Values.global.hxpr.url }}\"\n{{- else }}\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}\"\n{{- with .Values.global.acs.activemq.url }}\n- name: CONTENT_SERVICE_ACTIVEMQ_URL\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.global.acs.activemq.username }}\n- name: CONTENT_SERVICE_ACTIVEMQ_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.global.acs.activemq.password }}\n- name: CONTENT_SERVICE_ACTIVEMQ_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n- name: MODELING_URL\n  value: '{{ include \"common.gateway-url\" . }}/modeling-service'\n- name: ENVIRONMENT_HOST_URL\n  value: '{{ include \"common.gateway-url\" . }}'\n- name: ENVIRONMENT_API_URL\n  value: \"{{ .Values.environment.apiUrl }}\"\n- name: ENVIRONMENT_API_TOKEN\n  value: \"{{ .Values.environment.apiToken }}\"\n- name: ENVIRONMENT_NAMESPACE\n  value: \"{{ tpl .Values.environment.namespace . }}\"\n- name: ENVIRONMENT_DOMAIN\n  value: '{{ include \"common.gateway-domain\" . }}'\n- name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS\n  value: \"{{ .Values.projectReleaseVolume.storageClass }}\"\n- name: PROJECT_RELEASE_VOLUME_PERMISSION\n  value: \"{{ .Values.projectReleaseVolume.permission }}\"\n- name: APPLICATIONS_DATABASE_EXTERNAL\n  value: \"{{ .Values.applications.database.external }}\"\n{{- with .Values.applications.connectors.emailConnector.username }}\n- name: CONNECTOR_EMAILCONNECTOR_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.password }}\n- name: CONNECTOR_EMAILCONNECTOR_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.host }}\n- name: CONNECTOR_EMAILCONNECTOR_HOST\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.port }}\n- name: CONNECTOR_EMAILCONNECTOR_PORT\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.maxNumber }}\n- name: APPLICATIONS_MAXNUMBER\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.customRedirectUris }}\n- name: CUSTOM_REDIRECT_URIS\n  value: \"{{ . }}\"\n{{- end }}\n- name: PROCESS_STORAGE_SERVICE_CLIENTSECRET\n{{- if .Values.global.hxpr.enabled}}\n  value: \"{{ .Values.global.hxpr.admin.clientSecret }}\"\n{{- else }}\n  value: \"{{ tpl .Values.applications.processStorageService.clientSecret . }}\"\n{{- end }}\n{{- with .Values.applications.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.applications.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.port }}\n- name: APPLICATIONS_RABBITMQ_PORT\n  value: \"{{ tpl .Values.applications.rabbitmq.port . }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.host }}\n- name: APPLICATIONS_RABBITMQ_HOST\n  value: \"{{ tpl .Values.applications.rabbitmq.host . }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.ssl.enabled}}\n- name: APPLICATIONS_RABBITMQ_SSL_ENABLED\n  value: \"{{ tpl .Values.applications.rabbitmq.ssl.enabled . }}\"\n{{- end }}\n{{- with .Values.applications.rabbitmq.username }}\n- name: APPLICATIONS_RABBITMQ_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.rabbitmq.password }}\n- name: APPLICATIONS_RABBITMQ_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.admin.url }}\n- name: APPLICATIONS_RABBITMQ_ADMIN_URL\n  value: \"{{ tpl .Values.applications.rabbitmq.admin.url . }}\"\n{{- end }}\n- name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.applications.analytics.metrics.export.enabled }}\"\n{{- if .Values.applications.analytics.metrics.export.enabled }}\n- name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_URL\n  value: \"{{ tpl .Values.applications.analytics.metrics.export.url $ }}\"\n- name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_USERNAME\n  value: \"{{ tpl .Values.applications.analytics.metrics.export.username $ }}\"\n- name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_PASSWORD\n  value: \"{{ tpl .Values.applications.analytics.metrics.export.password $ }}\"\n{{- end }}\n- name: ATS_TRANSFORMER_TIKA_URL\n  value: \"http://tika.{{ .Release.Namespace }}/transform\"\n- name: PROCESS_UI_URL\n  value: '{{ include \"common.gateway-url\" . }}'\n{{- if .Values.global.hxpr.enabled }}\n- name: CONTENT_REPOSITORY_TYPE\n  value: \"hxp\"\n- name: PROCESS_STORAGE_SERVICE_CLIENTID\n  value: \"{{ .Values.global.hxpr.admin.clientId }}\"\n- name: HXPIDP_ACCOUNTID\n  value: \"{{ .Values.global.hxp.accountId }}\"\n- name: HXP_CONTEXT_ENVIRONMENT\n  value: \"{{ .Values.global.hxp.context.environment }}\"\n{{- end }}"` |  |
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744"` |  |
-| alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
 | alfresco-deployment-service.image.tag | string | `"7.11.1-alpha.1"` |  |
 | alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -111,7 +111,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` |  |
 | alfresco-identity-adapter-service.enabled | bool | `true` |  |
 | alfresco-identity-adapter-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}"` |  |
-| alfresco-identity-adapter-service.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-identity-adapter-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-identity-adapter-service.image.repository | string | `"quay.io/alfresco/alfresco-identity-adapter-service"` |  |
 | alfresco-identity-adapter-service.image.tag | string | `"7.11.1-alpha.1"` |  |
 | alfresco-identity-adapter-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -395,7 +395,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.exampleProjects.disabled | bool | `false` |  |
 | alfresco-modeling-app.exampleProjects.host | string | `"https://alfresco.github.io/apa-templates"` |  |
 | alfresco-modeling-app.exampleProjects.resource | string | `"index_7.4.0.json"` |  |
-| alfresco-modeling-app.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"7.11.0"` |  |
 | alfresco-modeling-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -421,7 +421,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.exampleProjects.endpoint | string | `"https://alfresco.github.io/apa-templates"` |  |
 | alfresco-modeling-service.exampleProjects.resource | string | `"index_7.4.0.json"` |  |
 | alfresco-modeling-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: CONTENT_CLIENT_ID\n  value: \"{{ .Values.content.client.id }}\"\n- name: CONTENT_CLIENT_SECRET\n  value: \"{{ .Values.content.client.secret }}\"\n- name: CONTENT_SERVICE_URL\n{{- if .Values.global.hxpr.enabled}}\n  value: \"{{ .Values.global.hxpr.url }}\"\n{{- else }}\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n- name: CONTENT_SERVICE_PATH\n  value: \"{{ .Values.content.service.path }}\"\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}\"\n{{- if .Values.global.hxpr.enabled }}\n- name: CONTENT_REPOSITORY_TYPE\n  value: \"hxp\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_ENDPOINT\n  value: \"{{ .Values.exampleProjects.endpoint }}\"\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE\n  value: \"{{ .Values.exampleProjects.resource }}\"\n{{- if .Values.global.hxpr.enabled }}\n{{- end }}"` |  |
-| alfresco-modeling-service.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-modeling-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
 | alfresco-modeling-service.image.tag | string | `"7.11.1-alpha.2"` |  |
 | alfresco-modeling-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -454,7 +454,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.graphql.client.oauth2ClientId | string | `"analytics-playground"` |  |
 | alfresco-process-analytics-playground.graphql.client.oauth2ClientSecret | string | `"2181210d-ec04-4bcf-8649-8a5dcb1c6342"` |  |
 | alfresco-process-analytics-playground.graphql.client.url | string | `"http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql"` |  |
-| alfresco-process-analytics-playground.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-process-analytics-playground.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-analytics-playground.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-playground"` |  |
 | alfresco-process-analytics-playground.image.tag | string | `"7.11.1-alpha.2"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -477,7 +477,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.env.SPRING_WEBFLUX_BASE_PATH | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}"` |  |
 | alfresco-process-analytics-service.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
 | alfresco-process-analytics-service.graphql.service.jwtIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-process-analytics-service.image.pullPolicy | string | `"IfNotPresent"` |  |
+| alfresco-process-analytics-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-analytics-service.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-service"` |  |
 | alfresco-process-analytics-service.image.tag | string | `"7.11.1-alpha.2"` |  |
 | alfresco-process-analytics-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |

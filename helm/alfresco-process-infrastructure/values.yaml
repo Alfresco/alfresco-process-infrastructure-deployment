@@ -474,7 +474,7 @@ alfresco-modeling-service:
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: 7.11.1-alpha.2
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   liquibase:
     enabled: true
   postgresql:
@@ -560,7 +560,7 @@ alfresco-modeling-app:
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
     tag: 7.11.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     name: modeling-app
     envType: frontend
@@ -597,7 +597,7 @@ alfresco-deployment-service:
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
     tag: 7.11.1-alpha.1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   postgresql:
     enabled: true
   db:
@@ -854,7 +854,7 @@ alfresco-admin-app:
   image:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: 7.11.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     name: admin-app
     envType: frontend
@@ -964,7 +964,7 @@ alfresco-process-analytics-service:
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-service
     tag: 7.11.1-alpha.2
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     name: alfresco-process-analytics-service
     internalPort: 8080
@@ -1001,7 +1001,7 @@ alfresco-process-analytics-playground:
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-playground
     tag: 7.11.1-alpha.2
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     name: alfresco-process-analytics-playground
     internalPort: 5000
@@ -1046,7 +1046,7 @@ alfresco-identity-adapter-service:
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
     tag: 7.11.1-alpha.1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   liquibase:
     enabled: false
   postgresql:
