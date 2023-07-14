@@ -541,6 +541,8 @@ alfresco-modeling-service:
     - name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE
       value: "{{ .Values.exampleProjects.resource }}"
     {{- if .Values.global.hxpr.enabled }}
+    - name: HXPIDP_ACCOUNTID
+      value: "{{ .Values.global.hxp.accountId }}"
     {{- end }}
   javaOpts:
     xms: 512m
