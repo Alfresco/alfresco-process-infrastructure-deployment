@@ -109,6 +109,14 @@ alfresco-identity-service:
       value: /realm/alfresco-realm.json
     - name: PROXY_ADDRESS_FORWARDING
       value: "true"
+    {{- if .Values.global.hxpr.enabled }}
+    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_TYPE
+      value: "account"
+    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_ID
+      value: "{{ .Values.global.hxp.accountId }}"
+    - name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED
+      value: "true"
+    {{- end }}        
   realm:
     alfresco:
       client:
@@ -541,7 +549,13 @@ alfresco-modeling-service:
     - name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE
       value: "{{ .Values.exampleProjects.resource }}"
     {{- if .Values.global.hxpr.enabled }}
-    {{- end }}
+    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_TYPE
+      value: "account"
+    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_ID
+      value: "{{ .Values.global.hxp.accountId }}"
+    - name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED
+      value: "true"
+    {{- end }}  
   javaOpts:
     xms: 512m
     xmx: 1024m
@@ -835,7 +849,13 @@ alfresco-deployment-service:
       value: "{{ .Values.global.hxp.accountId }}"
     - name: HXP_CONTEXT_ENVIRONMENT
       value: "{{ .Values.global.hxp.context.environment }}"
-    {{- end }}
+    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_TYPE
+      value: "account"
+    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_ID
+      value: "{{ .Values.global.hxp.accountId }}"
+    - name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED
+      value: "true"
+    {{- end }}    
   javaOpts:
     xms: 256m
     xmx: 512m
