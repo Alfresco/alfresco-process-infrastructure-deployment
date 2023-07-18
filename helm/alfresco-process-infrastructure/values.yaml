@@ -116,7 +116,7 @@ alfresco-identity-service:
       value: "{{ .Values.global.hxp.accountId }}"
     - name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED
       value: "true"
-    {{- end }}        
+    {{- end }}
   realm:
     alfresco:
       client:
@@ -555,7 +555,7 @@ alfresco-modeling-service:
       value: "{{ .Values.global.hxp.accountId }}"
     - name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED
       value: "true"
-    {{- end }}  
+    {{- end }}
   javaOpts:
     xms: 512m
     xmx: 1024m
@@ -855,7 +855,7 @@ alfresco-deployment-service:
       value: "{{ .Values.global.hxp.accountId }}"
     - name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED
       value: "true"
-    {{- end }}    
+    {{- end }}
   javaOpts:
     xms: 256m
     xmx: 512m
