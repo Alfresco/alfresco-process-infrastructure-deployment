@@ -8,8 +8,7 @@ REPOSITORY_ADMIN_PASSWORD=${REPOSITORY_ADMIN_PASSWORD:-admin}
 # 5 min timeout
 echo "connecting to ${REPOSITORY_URL}"
 COUNTER=0
-while [[ "$(curl -s -o /dev/null -w '%{http_code}' "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/probes/-ready-")" != "200" ]]
-do
+while ! curl --fail -s -o /dev/null "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/probes/-ready-"; do
   echo "."
   sleep 5
 
