@@ -110,7 +110,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.activiti.keycloak.clientId | string | `"{{ .Values.global.keycloak.clientId }}"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` |  |
 | alfresco-identity-adapter-service.enabled | bool | `true` |  |
-| alfresco-identity-adapter-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}"` |  |
+| alfresco-identity-adapter-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- if .Values.global.hxpr.enabled }}\n- name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_TYPE\n  value: \"account\"\n- name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_ID\n  value: \"{{ .Values.global.hxp.accountId }}\"\n- name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED\n  value: \"true\"\n{{- end }}    "` |  |
 | alfresco-identity-adapter-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-identity-adapter-service.image.repository | string | `"quay.io/alfresco/alfresco-identity-adapter-service"` |  |
 | alfresco-identity-adapter-service.image.tag | string | `"7.12.0-alpha.66"` |  |
@@ -127,7 +127,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-identity-adapter-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
-| alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_USER\n  value: admin\n- name: KEYCLOAK_PASSWORD\n  value: admin\n- name: KEYCLOAK_IMPORT\n  value: /realm/alfresco-realm.json\n- name: PROXY_ADDRESS_FORWARDING\n  value: \"true\"\n{{- if .Values.global.hxpr.enabled }}\n- name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_TYPE\n  value: \"account\"\n- name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_ID\n  value: \"{{ .Values.global.hxp.accountId }}\"\n- name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED\n  value: \"true\"\n{{- end }}\n"` |  |
+| alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_USER\n  value: admin\n- name: KEYCLOAK_PASSWORD\n  value: admin\n- name: KEYCLOAK_IMPORT\n  value: /realm/alfresco-realm.json\n- name: PROXY_ADDRESS_FORWARDING\n  value: \"true\"\n"` |  |
 | alfresco-identity-service.ingress.enabled | bool | `false` |  |
 | alfresco-identity-service.keycloak.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/affinity" | string | `"cookie"` |  |

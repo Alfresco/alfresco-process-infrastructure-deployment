@@ -109,14 +109,6 @@ alfresco-identity-service:
       value: /realm/alfresco-realm.json
     - name: PROXY_ADDRESS_FORWARDING
       value: "true"
-    {{- if .Values.global.hxpr.enabled }}
-    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_TYPE
-      value: "account"
-    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_ID
-      value: "{{ .Values.global.hxp.accountId }}"
-    - name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED
-      value: "true"
-    {{- end }}
   realm:
     alfresco:
       client:
@@ -1096,6 +1088,14 @@ alfresco-identity-adapter-service:
     {{- with .Values.activiti.keycloak.clientSecret }}
     - name: ACTIVITI_KEYCLOAK_CLIENT_SECRET
       value: "{{ tpl . $ }}"
+    {{- end }}
+    {{- if .Values.global.hxpr.enabled }}
+    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_TYPE
+      value: "account"
+    - name: FEATURE_FLAG_LAUNCHDARKLY_CONTEXT_ID
+      value: "{{ .Values.global.hxp.accountId }}"
+    - name: FEATURE_FLAG_LAUNCHDARKLY_ENABLED
+      value: "true"
     {{- end }}
   javaOpts:
     xms: 512m
