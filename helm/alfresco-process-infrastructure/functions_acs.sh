@@ -14,7 +14,7 @@ do
   sleep 5
 
   (( ++COUNTER ))
-  if [ $COUNTER -ge 300 ]; then
+  if [ $COUNTER -ge 60 ]; then
     echo "repository unavailable"
     exit 1
   fi
