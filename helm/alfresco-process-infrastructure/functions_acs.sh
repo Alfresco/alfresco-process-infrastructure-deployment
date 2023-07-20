@@ -8,11 +8,16 @@ REPOSITORY_ADMIN_PASSWORD=${REPOSITORY_ADMIN_PASSWORD:-admin}
 # 5 min timeout
 echo "connecting to ${REPOSITORY_URL}"
 COUNTER=0
-while [[ $COUNTER -lt 300 && "$(curl -s -o /dev/null -w '%{http_code}' "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/probes/-ready-")" != "200" ]]
+while [[ "$(curl -s -o /dev/null -w '%{http_code}' "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/probes/-ready-")" != "200" ]]
 do
   echo "."
   sleep 5
+
   (( ++COUNTER ))
+  if [ $COUNTER -ge 300 ]; then
+    echo "repository unavailable"
+    exit 1
+  fi
 done
 echo "connection OK"
 
