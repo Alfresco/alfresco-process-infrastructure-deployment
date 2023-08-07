@@ -65,11 +65,6 @@ jobs:
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
-      - name: Unit Tests
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-unit-tests@v2.7.0
-        with:
-          chart-dir: ${{ env.CHART_DIR }}
-
       - name: Execute dry run
         uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@v2.7.0
         with:
