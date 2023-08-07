@@ -57,8 +57,8 @@ jobs:
         id: define-namespace
         env:
           RUN_ID: ${{ github.run_id }}
-          REPO_NAME: ${{ github.event.repository.name }}
-        run: echo "name=gh-$REPO_NAME-$RUN_ID" >> $GITHUB_OUTPUT
+        # hardcode repo name as helm release name is limited to 53 chars
+        run: echo "name=gh-process-infrastructure-deployment-$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Build
         uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@v2.7.0
@@ -71,7 +71,7 @@ jobs:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Execute dry run
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@v2.7.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@v3.0.2
         with:
           chart-dir: ${{ env.CHART_DIR }}
           test-rancher-url: ${{ secrets.RANCHER2_URL }}
