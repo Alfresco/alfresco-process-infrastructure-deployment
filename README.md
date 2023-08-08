@@ -259,7 +259,11 @@ export HELM_OPTS+=" -f values-external-postgresql.yaml"
 
 ## CI/CD
 
-Running on GH Actions, requires the following secrets to be set:
+Running on GH Actions.
+
+For Dependabot PRs to be validated by CI, the label "CI" should be added to the PR.
+
+Requires the following secrets to be set:
 
 | Name                          | Description                          |
 |-------------------------------|--------------------------------------|
@@ -269,13 +273,3 @@ Running on GH Actions, requires the following secrets to be set:
 | RANCHER2_ACCESS_KEY           | Rancher access key                   |
 | RANCHER2_SECRET_KEY           | Rancher secret key                   |
 | SLACK_NOTIFICATION_BOT_TOKEN  | Token to notify slack on failure     |
-
-Dependabot secrets:
-
-| Name                          | Description                          |
-|-------------------------------|--------------------------------------|
-| BOT_GITHUB_TOKEN              | Token to launch other builds on GH   |
-| DEPENDABOT_GITHUB_TOKEN       | Token for automated dependabot PRs   |
-| RANCHER2_URL                  | Rancher URL to perform helm tests    |
-| RANCHER2_ACCESS_KEY           | Rancher access key                   |
-| RANCHER2_SECRET_KEY           | Rancher secret key                   |
