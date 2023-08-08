@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: Alfresco/alfresco-process/.github/actions/check-dependabot-build@fix-AAE-15950-dependabot-validation
+      - uses: Activiti/Activiti/.github/actions/check-ext-build@fix-AAE-15950-dependabot-validation
 
   pre-commit:
     needs: check-bot-build
