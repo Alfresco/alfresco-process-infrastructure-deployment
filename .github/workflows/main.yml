@@ -22,18 +22,17 @@ env:
   HELM_REPO_SUBFOLDER: incubator
 
 jobs:
+
   check-bot-build:
     name: Check dependabot build
-    if: github.event.sender.login == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo "This workflow run was triggered by dependabot. Validate the upgraded dependencies, then add the 'CI' label to the pull request to trigger this workflow."
-        exit 1
+      - uses: actions/checkout@v3
+      - uses: Activiti/Activiti/.github/actions/check-ext-build@fix-AAE-15950-dependabot-validation
 
   pre-commit:
+    needs: check-bot-build
     runs-on: ubuntu-latest
-    if: (github.event.action != 'labeled' && github.event.sender.login != 'dependabot[bot]') || (github.event.action == 'labeled' && github.event.label.name == 'CI')
     steps:
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@v2.7.0
       - uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@v2.7.0
@@ -43,6 +42,7 @@ jobs:
           framework: kubernetes
 
   validate:
+    needs: pre-commit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
