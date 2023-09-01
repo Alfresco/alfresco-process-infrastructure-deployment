@@ -66,9 +66,18 @@ global:
     # global.hxp.accountId -- the HxP IAM account id which the HxP Repository belongs to
     accountId: ""
   datadog:
-    # global.datadog.enabled -- enable support for Datadog tracing agent instrumentation
+    # global.datadog.enabled -- enable support for Datadog tracing agent instrumentation for AEE infrastructure services
     enabled: false
+    # global.datadog.admissionEnabled -- enables application Datadog trace agent admission webhook instrumentation
+    admissionEnabled: true
+    # global.datadog.traceAgentUrl -- configures Datadog trace agent url for AEE infrastructure services
     traceAgentUrl: null
+    # global.datadog.env -- configures Datadog trace agent environment tag. Required if enabled=true.
+    env: null
+    # global.datadog.logsInjectionEnabled -- configures Datadog trace agent logs injection support.
+    logsInjectionEnabled: true
+    # global.datadog.profilingEnabled -- configures Datadog trace agent profiling support.
+    profilingEnabled: false
 alfresco-identity-service:
   # set to false to disable custom alfresco-identity-service ingress with hostname support
   enabled: true
@@ -547,12 +556,24 @@ alfresco-modeling-service:
     - name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE
       value: "{{ .Values.exampleProjects.resource }}"
     {{- if .Values.global.datadog.enabled }}
-    - name: DATADOG_JAVA_AGENT
-      value: "{{ .Values.global.datadog.enabled }}"
     {{- with .Values.global.datadog.traceAgentUrl }}
     - name: DD_TRACE_AGENT_URL
       value: {{ . }}
     {{- end }}
+    {{- if not .Values.global.datadog.admissionEnabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
+    {{- end }}
+    - name: DD_SERVICE
+      value: "{{ .Chart.Name }}"
+    - name: DD_ENV
+      value: {{ .Values.global.datadog.env | required ".global.datadog.env is required." | quote }}
+    - name: DD_VERSION
+      value: "{{ .Values.image.tag }}"
+    - name: DD_LOGS_INJECTION
+      value: "{{ .Values.global.datadog.logsInjectionEnabled }}"
+    - name: DD_PROFILING_ENABLED
+      value: "{{ .Values.global.datadog.profilingEnabled }}"
     {{- end }}
   javaOpts:
     xms: 512m
@@ -675,14 +696,16 @@ alfresco-deployment-service:
     # alfresco-deployment-service.applications.customRedirectUris -- custom URIs to allow for local development
     customRedirectUris: ""
     datadog:
-      # alfresco-deployment-service.applications.datadog.enabled -- enable support for Datadog tracing agent instrumentation for applications
-      enabled: false
-      javaLibVersion: v1.14.0
-      traceAgentUrl: null
+      # alfresco-deployment-service.applications.datadog.traceAgentUrl -- configures application Datadog Java agent version. Required if admissionEnabled=true
+      javaLibVersion: null
+      # alfresco-deployment-service.applications.datadog.apiKey -- enables application Datadog metrics export.
       metricsExportEnabled: false
+      # alfresco-deployment-service.applications.datadog.apiKey -- configures application Datadog metrics export api key. Required if metricsExportEnabled=true
       apiKey: null
+      # alfresco-deployment-service.applications.datadog.profilingEnabled -- configures application Datadog trace agent profiling support.
       profilingEnabled: false
-      logInjectionEnabled: true
+      # alfresco-deployment-service.applications.datadog.logsInjectionEnabled -- configures application Datadog trace agent logs injection support.
+      logsInjectionEnabled: true
   ingress:
     path: /deployment-service
     enabled: true
@@ -857,37 +880,37 @@ alfresco-deployment-service:
     - name: HXP_CONTEXT_ENVIRONMENT
       value: "{{ .Values.global.hxp.context.environment }}"
     {{- end }}
+    - name: APPLICATIONS_DATADOG_ENABLED
+      value: {{ .Values.global.datadog.enabled | quote }}
     {{- if .Values.global.datadog.enabled }}
-    - name: DATADOG_JAVA_AGENT
-      value: "{{ .Values.global.datadog.enabled }}"
     {{- with .Values.applications.datadog.traceAgentUrl }}
     - name: DD_TRACE_AGENT_URL
       value: {{ . }}
     {{- end }}
+    {{- if not .Values.global.datadog.admissionEnabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
     {{- end }}
-    - name: APPLICATIONS_DATADOG_ENABLED
-      value: {{ .Values.applications.datadog.enabled | quote }}
-    {{- if .Values.applications.datadog.enabled }}
-    {{- with .Values.applications.datadog.javaLibVersion }}
+    - name: APPLICATIONS_DATADOG_ADMISSION_ENABLED
+      value: {{ .Values.global.datadog.admissionEnabled | quote }}
+    {{- if .Values.global.datadog.admissionEnabled }}
     - name: APPLICATIONS_DATADOG_JAVA_LIB_VERSION
-      value: "{{ . }}"
+      value: {{ .Values.applications.datadog.javaLibVersion | required ".applications.datadog.javaLibVersion is required." | quote }}
     {{- end }}
-    {{- with .Values.applications.datadog.env }}
     - name: APPLICATIONS_DATADOG_ENV
-      value: "{{ . }}"
-    {{- end }}
-    {{- with .Values.applications.datadog.apiKey }}
-    - name: APPLICATIONS_DATADOG_API_KEY
-      value: "{{ . }}"
-    {{- end }}
-    {{- with .Values.applications.datadog.traceAgentUrl }}
+      value: {{ .Values.global.datadog.env | required ".global.datadog.env is required." | quote }}
+    {{- with .Values.global.datadog.traceAgentUrl }}
     - name: APPLICATIONS_DATADOG_TRACE_AGENT_URL
-      value: "{{ . }}"
+      value: {{ . | quote }}
     {{- end }}
     - name: APPLICATIONS_DATADOG_METRICS_EXPORT_ENABLED
       value: "{{ .Values.applications.datadog.metricsExportEnabled }}"
+    {{- if .Values.applications.datadog.metricsExportEnabled }}
+    - name: APPLICATIONS_DATADOG_API_KEY
+      value: {{ .Values.applications.datadog.apiKey | quote | required ".applications.datadog.apiKey is required." }}
+    {{- end }}
     - name: APPLICATIONS_DATADOG_LOG_INJECTION_ENABLED
-      value: "{{ .Values.applications.datadog.logInjectionEnabled }}"
+      value: "{{ .Values.applications.datadog.logsInjectionEnabled }}"
     - name: APPLICATIONS_DATADOG_PROFILING_ENABLED
       value: "{{ .Values.applications.datadog.profilingEnabled }}"
     {{- end }}
@@ -1032,13 +1055,26 @@ alfresco-process-analytics-service:
     ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_JWT_ISSUER_URI: '{{ tpl .Values.graphql.service.jwtIssuerUri $ }}'
   extraEnv: |
     {{- if .Values.global.datadog.enabled }}
-    - name: DATADOG_JAVA_AGENT
-      value: "{{ .Values.global.datadog.enabled }}"
     {{- with .Values.global.datadog.traceAgentUrl }}
     - name: DD_TRACE_AGENT_URL
       value: {{ . }}
     {{- end }}
+    {{- if not .Values.global.datadog.admissionEnabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
     {{- end }}
+    - name: DD_SERVICE
+      value: "{{ .Chart.Name }}"
+    - name: DD_ENV
+      value: {{ .Values.global.datadog.env | required ".global.datadog.env is required." | quote }}
+    - name: DD_VERSION
+      value: "{{ .Values.image.tag }}"
+    - name: DD_LOGS_INJECTION
+      value: "{{ .Values.global.datadog.logsInjectionEnabled }}"
+    - name: DD_PROFILING_ENABLED
+      value: "{{ .Values.global.datadog.profilingEnabled }}"
+    {{- end }}
+
   ingress:
     enabled: true
     path: /analytics
@@ -1078,13 +1114,26 @@ alfresco-process-analytics-playground:
     ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_OAUTH2_CLIENT_SECRET: '{{ tpl .Values.graphql.client.oauth2ClientSecret $ }}'
   extraEnv: |
     {{- if .Values.global.datadog.enabled }}
-    - name: DATADOG_JAVA_AGENT
-      value: "{{ .Values.global.datadog.enabled }}"
     {{- with .Values.global.datadog.traceAgentUrl }}
     - name: DD_TRACE_AGENT_URL
       value: {{ . }}
     {{- end }}
+    {{- if not .Values.global.datadog.admissionEnabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
     {{- end }}
+    - name: DD_SERVICE
+      value: "{{ .Chart.Name }}"
+    - name: DD_ENV
+      value: {{ .Values.global.datadog.env | required ".global.datadog.env is required." | quote }}
+    - name: DD_VERSION
+      value: "{{ .Values.image.tag }}"
+    - name: DD_LOGS_INJECTION
+      value: "{{ .Values.global.datadog.logsInjectionEnabled }}"
+    - name: DD_PROFILING_ENABLED
+      value: "{{ .Values.global.datadog.profilingEnabled }}"
+    {{- end }}
+
   ingress:
     enabled: true
     path: /analytics/playground/
@@ -1151,13 +1200,26 @@ alfresco-identity-adapter-service:
       value: "{{ tpl . $ }}"
     {{- end }}
     {{- if .Values.global.datadog.enabled }}
-    - name: DATADOG_JAVA_AGENT
-      value: "{{ .Values.global.datadog.enabled }}"
     {{- with .Values.global.datadog.traceAgentUrl }}
     - name: DD_TRACE_AGENT_URL
       value: {{ . }}
     {{- end }}
+    {{- if not .Values.global.datadog.admissionEnabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
     {{- end }}
+    - name: DD_SERVICE
+      value: "{{ .Chart.Name }}"
+    - name: DD_ENV
+      value: {{ .Values.global.datadog.env | required ".global.datadog.env is required." | quote }}
+    - name: DD_VERSION
+      value: "{{ .Values.image.tag }}"
+    - name: DD_LOGS_INJECTION
+      value: "{{ .Values.global.datadog.logsInjectionEnabled }}"
+    - name: DD_PROFILING_ENABLED
+      value: "{{ .Values.global.datadog.profilingEnabled }}"
+    {{- end }}
+
   javaOpts:
     xms: 512m
     xmx: 3072m

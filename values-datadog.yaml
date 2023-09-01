@@ -1,10 +1,12 @@
 global:
   datadog:
     enabled: true
+    env: local
+    admissionEnabled: false
+    traceAgentUrl: unix:///var/run/datadog/apm.socket
 alfresco-deployment-service:
   applications:
     datadog:
-      enabled: true
-      traceAgentUrl: unix:///var/run/datadog/apm.socket
+      javaLibVersion: latest
       metricsExportEnabled: true
       apiKey: 25773059-6dbd-4a87-8534-be8761a78017
