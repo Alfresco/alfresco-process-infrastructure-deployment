@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.12.0-alpha.159](https://img.shields.io/badge/Version-7.12.0--alpha.159-informational?style=flat-square) ![AppVersion: 7.12.0-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.12.0--SNAPSHOT-informational?style=flat-square)
+![Version: 7.12.0-rc.97](https://img.shields.io/badge/Version-7.12.0--rc.97-informational?style=flat-square) ![AppVersion: 7.12.0-rc.97](https://img.shields.io/badge/AppVersion-7.12.0--rc.97-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -42,7 +42,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- else }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"develop"` |  |
+| alfresco-admin-app.image.tag | string | `"7.12.0-rc.97"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -69,7 +69,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.database.external | bool | `true` |  |
 | alfresco-deployment-service.applications.image.pullPolicy | string | `"Always"` | default pull policy for all application images |
 | alfresco-deployment-service.applications.image.pullSecretName | string | `"quay-registry-secret"` | pull secret name for all application images |
-| alfresco-deployment-service.applications.image.tag | string | `"develop"` | default tag for all application images |
+| alfresco-deployment-service.applications.image.tag | string | `"7.12.0-rc.97"` | default tag for all application images |
 | alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
 | alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
 | alfresco-deployment-service.applications.rabbitmq.admin.url | string | `""` | RabbitMQ admin URL, derived from host if not set |
@@ -89,7 +89,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"7.12.0-alpha.167"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.12.0-rc.97"` |  |
 | alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
@@ -113,7 +113,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}"` |  |
 | alfresco-identity-adapter-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-identity-adapter-service.image.repository | string | `"quay.io/alfresco/alfresco-identity-adapter-service"` |  |
-| alfresco-identity-adapter-service.image.tag | string | `"7.12.0-alpha.101"` |  |
+| alfresco-identity-adapter-service.image.tag | string | `"7.12.0-rc.97"` |  |
 | alfresco-identity-adapter-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-identity-adapter-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-identity-adapter-service.ingress.enabled | bool | `true` |  |
@@ -397,7 +397,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.exampleProjects.resource | string | `"index_7.4.0.json"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
-| alfresco-modeling-app.image.tag | string | `"develop"` |  |
+| alfresco-modeling-app.image.tag | string | `"7.12.0-rc.97"` |  |
 | alfresco-modeling-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -423,7 +423,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: CONTENT_CLIENT_ID\n  value: \"{{ .Values.content.client.id }}\"\n- name: CONTENT_CLIENT_SECRET\n  value: \"{{ .Values.content.client.secret }}\"\n- name: CONTENT_SERVICE_URL\n{{- if .Values.global.hxpr.enabled}}\n  value: \"{{ .Values.global.hxpr.url }}\"\n{{- else }}\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n- name: CONTENT_SERVICE_PATH\n  value: \"{{ .Values.content.service.path }}\"\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}\"\n{{- if .Values.global.hxpr.enabled}}\n- name: CONTENT_REPOSITORY_TYPE\n  value: \"hxp\"\n- name: HXPIDP_ACCOUNTID\n  value: \"{{ .Values.global.hxp.accountId }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_ENDPOINT\n  value: \"{{ .Values.exampleProjects.endpoint }}\"\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE\n  value: \"{{ .Values.exampleProjects.resource }}\""` |  |
 | alfresco-modeling-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
-| alfresco-modeling-service.image.tag | string | `"7.12.0-alpha.120"` |  |
+| alfresco-modeling-service.image.tag | string | `"7.12.0-rc.97"` |  |
 | alfresco-modeling-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-modeling-service.ingress.enabled | bool | `true` |  |
@@ -456,7 +456,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.graphql.client.url | string | `"http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql"` |  |
 | alfresco-process-analytics-playground.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-analytics-playground.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-playground"` |  |
-| alfresco-process-analytics-playground.image.tag | string | `"7.12.0-alpha.99"` |  |
+| alfresco-process-analytics-playground.image.tag | string | `"7.12.0-rc.97"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
@@ -479,7 +479,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.graphql.service.jwtIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-process-analytics-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-analytics-service.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-service"` |  |
-| alfresco-process-analytics-service.image.tag | string | `"7.12.0-alpha.99"` |  |
+| alfresco-process-analytics-service.image.tag | string | `"7.12.0-rc.97"` |  |
 | alfresco-process-analytics-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-service.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-process-analytics-service.ingress.enabled | bool | `true` |  |
