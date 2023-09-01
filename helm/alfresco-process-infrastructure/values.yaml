@@ -65,6 +65,10 @@ global:
   hxp:
     # global.hxp.accountId -- the HxP IAM account id which the HxP Repository belongs to
     accountId: ""
+  datadog:
+    # global.datadog.enabled -- enable support for Datadog tracing agent instrumentation
+    enabled: false
+    traceAgentUrl: null
 alfresco-identity-service:
   # set to false to disable custom alfresco-identity-service ingress with hostname support
   enabled: true
@@ -542,6 +546,14 @@ alfresco-modeling-service:
       value: "{{ .Values.exampleProjects.endpoint }}"
     - name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE
       value: "{{ .Values.exampleProjects.resource }}"
+    {{- if .Values.global.datadog.enabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
+    {{- with .Values.global.datadog.traceAgentUrl }}
+    - name: DD_TRACE_AGENT_URL
+      value: {{ . }}
+    {{- end }}
+    {{- end }}
   javaOpts:
     xms: 512m
     xmx: 1024m
@@ -662,6 +674,15 @@ alfresco-deployment-service:
         url: ""
     # alfresco-deployment-service.applications.customRedirectUris -- custom URIs to allow for local development
     customRedirectUris: ""
+    datadog:
+      # alfresco-deployment-service.applications.datadog.enabled -- enable support for Datadog tracing agent instrumentation for applications
+      enabled: false
+      javaLibVersion: v1.14.0
+      traceAgentUrl: null
+      metricsExportEnabled: false
+      apiKey: null
+      profilingEnabled: false
+      logInjectionEnabled: true
   ingress:
     path: /deployment-service
     enabled: true
@@ -836,6 +857,40 @@ alfresco-deployment-service:
     - name: HXP_CONTEXT_ENVIRONMENT
       value: "{{ .Values.global.hxp.context.environment }}"
     {{- end }}
+    {{- if .Values.global.datadog.enabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
+    {{- with .Values.applications.datadog.traceAgentUrl }}
+    - name: DD_TRACE_AGENT_URL
+      value: {{ . }}
+    {{- end }}
+    {{- end }}
+    - name: APPLICATIONS_DATADOG_ENABLED
+      value: {{ .Values.applications.datadog.enabled | quote }}
+    {{- if .Values.applications.datadog.enabled }}
+    {{- with .Values.applications.datadog.javaLibVersion }}
+    - name: APPLICATIONS_DATADOG_JAVA_LIB_VERSION
+      value: "{{ . }}"
+    {{- end }}
+    {{- with .Values.applications.datadog.env }}
+    - name: APPLICATIONS_DATADOG_ENV
+      value: "{{ . }}"
+    {{- end }}
+    {{- with .Values.applications.datadog.apiKey }}
+    - name: APPLICATIONS_DATADOG_API_KEY
+      value: "{{ . }}"
+    {{- end }}
+    {{- with .Values.applications.datadog.traceAgentUrl }}
+    - name: APPLICATIONS_DATADOG_TRACE_AGENT_URL
+      value: "{{ . }}"
+    {{- end }}
+    - name: APPLICATIONS_DATADOG_METRICS_EXPORT_ENABLED
+      value: "{{ .Values.applications.datadog.metricsExportEnabled }}"
+    - name: APPLICATIONS_DATADOG_LOG_INJECTION_ENABLED
+      value: "{{ .Values.applications.datadog.logInjectionEnabled }}"
+    - name: APPLICATIONS_DATADOG_PROFILING_ENABLED
+      value: "{{ .Values.applications.datadog.profilingEnabled }}"
+    {{- end }}
   javaOpts:
     xms: 256m
     xmx: 512m
@@ -975,6 +1030,15 @@ alfresco-process-analytics-service:
     ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_USERNAME: '{{ tpl .Values.metrics.client.username $ }}'
     ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_PASSWORD: '{{ tpl .Values.metrics.client.password $ }}'
     ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_JWT_ISSUER_URI: '{{ tpl .Values.graphql.service.jwtIssuerUri $ }}'
+  extraEnv: |
+    {{- if .Values.global.datadog.enabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
+    {{- with .Values.global.datadog.traceAgentUrl }}
+    - name: DD_TRACE_AGENT_URL
+      value: {{ . }}
+    {{- end }}
+    {{- end }}
   ingress:
     enabled: true
     path: /analytics
@@ -1012,6 +1076,15 @@ alfresco-process-analytics-playground:
     ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_JWT_ISSUER_URI: '{{ tpl .Values.graphql.client.jwtIssuerUri $ }}'
     ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_OAUTH2_CLIENT_ID: '{{ tpl .Values.graphql.client.oauth2ClientId $ }}'
     ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_OAUTH2_CLIENT_SECRET: '{{ tpl .Values.graphql.client.oauth2ClientSecret $ }}'
+  extraEnv: |
+    {{- if .Values.global.datadog.enabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
+    {{- with .Values.global.datadog.traceAgentUrl }}
+    - name: DD_TRACE_AGENT_URL
+      value: {{ . }}
+    {{- end }}
+    {{- end }}
   ingress:
     enabled: true
     path: /analytics/playground/
@@ -1076,6 +1149,14 @@ alfresco-identity-adapter-service:
     {{- with .Values.activiti.keycloak.clientSecret }}
     - name: ACTIVITI_KEYCLOAK_CLIENT_SECRET
       value: "{{ tpl . $ }}"
+    {{- end }}
+    {{- if .Values.global.datadog.enabled }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
+    {{- with .Values.global.datadog.traceAgentUrl }}
+    - name: DD_TRACE_AGENT_URL
+      value: {{ . }}
+    {{- end }}
     {{- end }}
   javaOpts:
     xms: 512m
