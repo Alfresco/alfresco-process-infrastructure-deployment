@@ -27,7 +27,7 @@ jobs:
     name: Check dependabot build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: Activiti/Activiti/.github/actions/check-ext-build@8.0.0-alpha.10
 
   pre-commit:
@@ -45,7 +45,7 @@ jobs:
     needs: pre-commit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
@@ -65,7 +65,7 @@ jobs:
     env:
       TARGET_CHARTS_PATH: charts
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Define test namespace
         id: define-namespace
@@ -101,7 +101,7 @@ jobs:
     outputs:
       version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Parse next release
         id: helm-parse-next-release
@@ -137,7 +137,7 @@ jobs:
       VERSION: ${{ needs.release.outputs.version }}
       DEVELOPMENT_BRANCH: ${{ github.ref_name }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: activiti-cloud-common-chart-version
         working-directory: helm/alfresco-process-infrastructure
         run: |
