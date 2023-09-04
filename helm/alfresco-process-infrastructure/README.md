@@ -113,7 +113,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}"` |  |
 | alfresco-identity-adapter-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-identity-adapter-service.image.repository | string | `"quay.io/alfresco/alfresco-identity-adapter-service"` |  |
-| alfresco-identity-adapter-service.image.tag | string | `"7.12.0-alpha.115"` |  |
+| alfresco-identity-adapter-service.image.tag | string | `"7.12.0-alpha.116"` |  |
 | alfresco-identity-adapter-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-identity-adapter-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-identity-adapter-service.ingress.enabled | bool | `true` |  |
