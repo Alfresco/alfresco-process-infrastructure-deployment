@@ -66,13 +66,13 @@ global:
     # global.hxp.accountId -- the HxP IAM account id which the HxP Repository belongs to
     accountId: ""
   datadog:
-    # global.datadog.enabled -- enable support for Datadog tracing agent instrumentation for AEE infrastructure services
+    # global.datadog.enabled -- enable support for Datadog tracing agent instrumentation for AAE and runtime application services
     enabled: false
     # global.datadog.admissionEnabled -- enables application Datadog trace agent admission webhook instrumentation
     admissionEnabled: true
-    # global.datadog.traceAgentUrl -- configures Datadog trace agent url for AEE infrastructure services
+    # global.datadog.traceAgentUrl -- configured default Datadog trace agent url, if needed, i.e. unix:///var/run/datadog/apm.socket
     traceAgentUrl: null
-    # global.datadog.env -- configures Datadog trace agent environment tag. Required if enabled=true.
+    # global.datadog.env -- configures Datadog trace agent environment tag. Required if enabled is true.
     env: null
     # global.datadog.logsInjectionEnabled -- configures Datadog trace agent logs injection support.
     logsInjectionEnabled: true
@@ -698,14 +698,31 @@ alfresco-deployment-service:
     datadog:
       # alfresco-deployment-service.applications.datadog.traceAgentUrl -- configures application Datadog Java agent version. Required if admissionEnabled=true
       javaLibVersion: null
-      # alfresco-deployment-service.applications.datadog.apiKey -- enables application Datadog metrics export.
-      metricsExportEnabled: false
-      # alfresco-deployment-service.applications.datadog.apiKey -- configures application Datadog metrics export api key. Required if metricsExportEnabled=true
-      apiKey: null
       # alfresco-deployment-service.applications.datadog.profilingEnabled -- configures application Datadog trace agent profiling support.
       profilingEnabled: false
       # alfresco-deployment-service.applications.datadog.logsInjectionEnabled -- configures application Datadog trace agent logs injection support.
       logsInjectionEnabled: true
+      metrics:
+        # alfresco-deployment-service.applications.datadog.metrics.enabled -- enables application Datadog metrics registry export.
+        enabled: false
+        # alfresco-deployment-service.applications.datadog.metrics.apiKey -- configures application Datadog metrics export api key. Required if metrics.enabled is true
+        apiKey: null
+        # alfresco-deployment-service.applications.datadog.metrics.applicationKey -- configures application Datadog metrics export application key if needed.
+        applicationKey: null
+        # alfresco-deployment-service.applications.datadog.metrics.uri -- configures application Datadog metrics export uri, i.e. https://api.datadoghq.com
+        uri: null
+        # alfresco-deployment-service.applications.datadog.metrics.hostTag -- configures application Datadog metrics export host tag property, i.e. instance
+        hostTag: null
+        # alfresco-deployment-service.applications.datadog.metrics.descriptions -- enables application Datadog metrics export details.
+        descriptions: true
+        # alfresco-deployment-service.applications.datadog.metrics.step -- configures application Datadog metrics registry step interval, i.e. PT1M
+        step: null
+        # alfresco-deployment-service.applications.datadog.metrics.connectTimeout -- configures application Datadog metrics export connect timeout, i.e. PT1S.
+        connectTimeout: null
+        # alfresco-deployment-service.applications.datadog.metrics.readTimeout -- configures application Datadog metrics export read timeout, i.e. PT10S.
+        readTimeout: null
+        # alfresco-deployment-service.applications.datadog.metrics.batchSize -- configures application Datadog metrics export batch size, i.e. 10000.
+        batchSize: null
   ingress:
     path: /deployment-service
     enabled: true
@@ -903,11 +920,41 @@ alfresco-deployment-service:
     - name: APPLICATIONS_DATADOG_TRACE_AGENT_URL
       value: {{ . | quote }}
     {{- end }}
-    - name: APPLICATIONS_DATADOG_METRICS_EXPORT_ENABLED
-      value: "{{ .Values.applications.datadog.metricsExportEnabled }}"
-    {{- if .Values.applications.datadog.metricsExportEnabled }}
-    - name: APPLICATIONS_DATADOG_API_KEY
-      value: {{ .Values.applications.datadog.apiKey | quote | required ".applications.datadog.apiKey is required." }}
+    - name: APPLICATIONS_DATADOG_METRICS_ENABLED
+      value: "{{ .Values.applications.datadog.metrics.enabled }}"
+    {{- if .Values.applications.datadog.metrics.enabled }}
+    - name: APPLICATIONS_DATADOG_METRICS_API_KEY
+      value: {{ .Values.applications.datadog.metrics.apiKey | required ".applications.datadog.metrics.apiKey is required." | quote }}
+    - name: APPLICATIONS_DATADOG_METRICS_DESCRIPTIONS
+      value: {{ .Values.applications.datadog.metrics.descriptions | required ".applications.datadog.metrics.descriptions is required." | quote }}
+    {{- with .Values.applications.datadog.metrics.applicationKey }}
+    - name: APPLICATIONS_DATADOG_METRICS_APPLICATION_KEY
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.applications.datadog.metrics.uri }}
+    - name: APPLICATIONS_DATADOG_METRICS_URI
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.applications.datadog.metrics.hostTag }}
+    - name: APPLICATIONS_DATADOG_METRICS_HOST_TAG
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.applications.datadog.metrics.step }}
+    - name: APPLICATIONS_DATADOG_METRICS_STEP
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.applications.datadog.metrics.connectTimeout }}
+    - name: APPLICATIONS_DATADOG_METRICS_CONNECT_TIMEOUT
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.applications.datadog.metrics.readTimeout }}
+    - name: APPLICATIONS_DATADOG_METRICS_READ_TIMEOUT
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.applications.datadog.metrics.batchSize }}
+    - name: APPLICATIONS_DATADOG_METRICS_BATCH_SIZE
+      value: {{ . | quote }}
+    {{- end }}
     {{- end }}
     - name: APPLICATIONS_DATADOG_LOG_INJECTION_ENABLED
       value: "{{ .Values.applications.datadog.logsInjectionEnabled }}"
