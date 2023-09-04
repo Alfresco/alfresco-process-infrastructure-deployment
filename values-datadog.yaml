@@ -1,0 +1,12 @@
+global:
+  datadog:
+    enabled: true
+    env: dev
+    admissionEnabled: false
+    traceAgentUrl: unix:///var/run/datadog/apm.socket
+alfresco-deployment-service:
+  applications:
+    datadog:
+      logsInjectionEnabled: true
+      profilingEnabled: false
+      javaLibVersion: latest
