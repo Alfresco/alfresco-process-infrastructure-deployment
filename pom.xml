@@ -9,7 +9,7 @@
   <properties>
     <alfresco-deployment-service.version>7.12.0-alpha.195</alfresco-deployment-service.version>
     <alfresco-modeling-service.version>7.12.0-alpha.140</alfresco-modeling-service.version>
-    <alfresco-process.version>7.12.0-alpha.118</alfresco-process.version>
+    <alfresco-process.version>7.12.0-alpha.119</alfresco-process.version>
     <alfresco-identity-adapter-service.version>7.12.0-alpha.118</alfresco-identity-adapter-service.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <timestamp>${maven.build.timestamp}</timestamp>
