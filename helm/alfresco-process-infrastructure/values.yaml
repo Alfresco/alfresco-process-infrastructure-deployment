@@ -498,6 +498,13 @@ postgresql:
 alfresco-modeling-service:
   enabled: true
   nameOverride: alfresco-modeling-service
+  podAnnotations:
+    admission.datadoghq.com/java-lib.version: '{{ .Values.global.datadog.agent.javaLibVersion }}'
+  podLabels:
+    admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
+    tags.datadoghq.com/service: "{{ .Chart.Name }}"
+    tags.datadoghq.com/env: "{{ .Values.global.datadog.env }}"
+    tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   ingress:
     enabled: true
     annotations:
@@ -538,13 +545,6 @@ alfresco-modeling-service:
   exampleProjects:
     endpoint: https://alfresco.github.io/apa-templates
     resource: index_7.4.0.json
-  podAnnotations:
-    admission.datadoghq.com/java-lib.version: '{{ .Values.global.datadog.agent.javaLibVersion | required "global.datadog.agent.javaLibVersion is required." }}'
-  podLabels:
-    admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
-    tags.datadoghq.com/service: "{{ .Chart.Name }}"
-    tags.datadoghq.com/env: "{{ .Values.global.datadog.env }}"
-    tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
@@ -693,7 +693,7 @@ alfresco-deployment-service:
   nameOverride: alfresco-deployment-service
   enabled: true
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: '{{ .Values.global.datadog.agent.javaLibVersion | required "global.datadog.agent.javaLibVersion is required." }}'
+    admission.datadoghq.com/java-lib.version: "{{ .Values.global.datadog.agent.javaLibVersion }}"
   podLabels:
     admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
     tags.datadoghq.com/service: "{{ .Chart.Name }}"
@@ -1188,7 +1188,7 @@ alfresco-process-analytics-service:
   enabled: true
   nameOverride: alfresco-process-analytics-service
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: '{{ .Values.global.datadog.agent.javaLibVersion | required "global.datadog.agent.javaLibVersion is required" }}'
+    admission.datadoghq.com/java-lib.version: "{{ .Values.global.datadog.agent.javaLibVersion }}"
   podLabels:
     admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
     tags.datadoghq.com/service: "{{ .Chart.Name }}"
@@ -1291,7 +1291,7 @@ alfresco-process-analytics-playground:
   enabled: true
   nameOverride: alfresco-process-analytics-playground
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: '{{ .Values.global.datadog.agent.javaLibVersion | required "global.datadog.agent.javaLibVersion is required." }}'
+    admission.datadoghq.com/java-lib.version: "{{ .Values.global.datadog.agent.javaLibVersion }}"
   podLabels:
     admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
     tags.datadoghq.com/service: "{{ .Chart.Name }}"
@@ -1400,7 +1400,7 @@ alfresco-identity-adapter-service:
   enabled: true
   nameOverride: alfresco-identity-adapter-service
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: '{{ .Values.global.datadog.agent.javaLibVersion | required "global.datadog.agent.javaLibVersion is required." }}'
+    admission.datadoghq.com/java-lib.version: "{{ .Values.global.datadog.agent.javaLibVersion }}"
   podLabels:
     admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
     tags.datadoghq.com/service: "{{ .Chart.Name }}"

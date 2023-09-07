@@ -104,7 +104,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.javaOpts.xmx | string | `"512m"` |  |
 | alfresco-deployment-service.livenessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/liveness"` |  |
 | alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
-| alfresco-deployment-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion | required \"global.datadog.agent.javaLibVersion is required.\" }}"` |  |
+| alfresco-deployment-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion }}"` |  |
 | alfresco-deployment-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"` |  |
 | alfresco-deployment-service.podLabels."tags.datadoghq.com/env" | string | `"{{ .Values.global.datadog.env }}"` |  |
 | alfresco-deployment-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
@@ -134,7 +134,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.javaOpts.xmx | string | `"3072m"` |  |
 | alfresco-identity-adapter-service.liquibase.enabled | bool | `false` |  |
 | alfresco-identity-adapter-service.nameOverride | string | `"alfresco-identity-adapter-service"` |  |
-| alfresco-identity-adapter-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion | required \"global.datadog.agent.javaLibVersion is required.\" }}"` |  |
+| alfresco-identity-adapter-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion }}"` |  |
 | alfresco-identity-adapter-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"` |  |
 | alfresco-identity-adapter-service.podLabels."tags.datadoghq.com/env" | string | `"{{ .Values.global.datadog.env }}"` |  |
 | alfresco-identity-adapter-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
@@ -452,7 +452,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.javaOpts.xmx | string | `"1024m"` |  |
 | alfresco-modeling-service.liquibase.enabled | bool | `true` |  |
 | alfresco-modeling-service.nameOverride | string | `"alfresco-modeling-service"` |  |
-| alfresco-modeling-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion | required \"global.datadog.agent.javaLibVersion is required.\" }}"` |  |
+| alfresco-modeling-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion }}"` |  |
 | alfresco-modeling-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"` |  |
 | alfresco-modeling-service.podLabels."tags.datadoghq.com/env" | string | `"{{ .Values.global.datadog.env }}"` |  |
 | alfresco-modeling-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
@@ -484,7 +484,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.ingress.path | string | `"/analytics/playground/"` |  |
 | alfresco-process-analytics-playground.nameOverride | string | `"alfresco-process-analytics-playground"` |  |
-| alfresco-process-analytics-playground.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion | required \"global.datadog.agent.javaLibVersion is required.\" }}"` |  |
+| alfresco-process-analytics-playground.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion }}"` |  |
 | alfresco-process-analytics-playground.podLabels."admission.datadoghq.com/enabled" | string | `"{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"` |  |
 | alfresco-process-analytics-playground.podLabels."tags.datadoghq.com/env" | string | `"{{ .Values.global.datadog.env }}"` |  |
 | alfresco-process-analytics-playground.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
@@ -516,7 +516,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.metrics.client.url | string | `"http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200"` |  |
 | alfresco-process-analytics-service.metrics.client.username | string | `"admin"` |  |
 | alfresco-process-analytics-service.nameOverride | string | `"alfresco-process-analytics-service"` |  |
-| alfresco-process-analytics-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion | required \"global.datadog.agent.javaLibVersion is required\" }}"` |  |
+| alfresco-process-analytics-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ .Values.global.datadog.agent.javaLibVersion }}"` |  |
 | alfresco-process-analytics-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"` |  |
 | alfresco-process-analytics-service.podLabels."tags.datadoghq.com/env" | string | `"{{ .Values.global.datadog.env }}"` |  |
 | alfresco-process-analytics-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
