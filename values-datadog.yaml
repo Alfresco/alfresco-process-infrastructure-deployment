@@ -2,11 +2,29 @@ global:
   datadog:
     enabled: true
     env: dev
-    admissionEnabled: false
-    traceAgentUrl: unix:///var/run/datadog/apm.socket
+    agent:
+      admission: true
+      traceAgentUrl: unix:///var/run/datadog/apm.socket
+      logsInjection: true
+      profiling: false
+      javaLibVersion: latest
+    metrics:
+      enabled: true
+      uri: https://api.datadoghq.com
+      hostTag: instance
+      step: PT1M
+      connectTimeout: PT1S
+      readTimeout: PT10S
+      batchSize: 10000
+      apiKey: 25773059-6dbd-4a87-8534-be8761a78017
+      applicationKey: 3244debd-21c3-4c5f-82ab-bb38e1da7b33
 alfresco-deployment-service:
   applications:
     datadog:
-      logsInjectionEnabled: true
-      profilingEnabled: false
-      javaLibVersion: latest
+      enabled: true
+      agent:
+        admission: true
+        logsInjection: true
+        profiling: false
+      metrics:
+        enabled: true
