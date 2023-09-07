@@ -9,7 +9,7 @@ global:
       profiling: false
       javaLibVersion: latest
     metrics:
-      enabled: false
+      enabled: true
       uri: https://api.datadoghq.com
       hostTag: instance
       step: PT1M
@@ -24,5 +24,7 @@ alfresco-deployment-service:
       enabled: true
       agent:
         admission: true
+        logsInjection: true
+        profiling: false
       metrics:
         enabled: true
