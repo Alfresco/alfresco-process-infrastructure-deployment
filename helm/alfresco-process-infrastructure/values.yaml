@@ -499,11 +499,11 @@ alfresco-modeling-service:
   enabled: true
   nameOverride: alfresco-modeling-service
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: '{{ .Values.global.datadog.agent.javaLibVersion }}'
+    admission.datadoghq.com/java-lib.version: '{{ include "alfresco-process-infrastructure.datadog.agent.javaLibVersion" . }}'
   podLabels:
-    admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
+    admission.datadoghq.com/enabled: '{{ include "alfresco-process-infrastructure.datadog.agent.admission" . }}'
     tags.datadoghq.com/service: "{{ .Chart.Name }}"
-    tags.datadoghq.com/env: "{{ .Values.global.datadog.env }}"
+    tags.datadoghq.com/env: '{{ include "alfresco-process-infrastructure.datadog.env" . }}'
     tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   ingress:
     enabled: true
@@ -693,11 +693,11 @@ alfresco-deployment-service:
   nameOverride: alfresco-deployment-service
   enabled: true
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: "{{ .Values.global.datadog.agent.javaLibVersion }}"
+    admission.datadoghq.com/java-lib.version: '{{ include "alfresco-process-infrastructure.datadog.agent.javaLibVersion" . }}'
   podLabels:
-    admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
+    admission.datadoghq.com/enabled: '{{ include "alfresco-process-infrastructure.datadog.agent.admission" . }}'
     tags.datadoghq.com/service: "{{ .Chart.Name }}"
-    tags.datadoghq.com/env: "{{ .Values.global.datadog.env }}"
+    tags.datadoghq.com/env: '{{ include "alfresco-process-infrastructure.datadog.env" . }}'
     tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   rabbitmq:
     enabled: false
@@ -1188,11 +1188,11 @@ alfresco-process-analytics-service:
   enabled: true
   nameOverride: alfresco-process-analytics-service
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: "{{ .Values.global.datadog.agent.javaLibVersion }}"
+    admission.datadoghq.com/java-lib.version: '{{ include "alfresco-process-infrastructure.datadog.agent.javaLibVersion" . }}'
   podLabels:
-    admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
+    admission.datadoghq.com/enabled: '{{ include "alfresco-process-infrastructure.datadog.agent.admission" . }}'
     tags.datadoghq.com/service: "{{ .Chart.Name }}"
-    tags.datadoghq.com/env: "{{ .Values.global.datadog.env }}"
+    tags.datadoghq.com/env: '{{ include "alfresco-process-infrastructure.datadog.env" . }}'
     tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   metrics:
     client:
@@ -1291,11 +1291,11 @@ alfresco-process-analytics-playground:
   enabled: true
   nameOverride: alfresco-process-analytics-playground
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: "{{ .Values.global.datadog.agent.javaLibVersion }}"
+    admission.datadoghq.com/java-lib.version: '{{ include "alfresco-process-infrastructure.datadog.agent.javaLibVersion" . }}'
   podLabels:
-    admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
+    admission.datadoghq.com/enabled: '{{ include "alfresco-process-infrastructure.datadog.agent.admission" . }}'
     tags.datadoghq.com/service: "{{ .Chart.Name }}"
-    tags.datadoghq.com/env: "{{ .Values.global.datadog.env }}"
+    tags.datadoghq.com/env: '{{ include "alfresco-process-infrastructure.datadog.env" . }}'
     tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   graphql:
     client:
@@ -1400,11 +1400,11 @@ alfresco-identity-adapter-service:
   enabled: true
   nameOverride: alfresco-identity-adapter-service
   podAnnotations:
-    admission.datadoghq.com/java-lib.version: "{{ .Values.global.datadog.agent.javaLibVersion }}"
+    admission.datadoghq.com/java-lib.version: '{{ include "alfresco-process-infrastructure.datadog.agent.javaLibVersion" . }}'
   podLabels:
-    admission.datadoghq.com/enabled: "{{ and .Values.global.datadog.enabled .Values.global.datadog.agent.admission }}"
+    admission.datadoghq.com/enabled: '{{ include "alfresco-process-infrastructure.datadog.agent.admission" . }}'
     tags.datadoghq.com/service: "{{ .Chart.Name }}"
-    tags.datadoghq.com/env: "{{ .Values.global.datadog.env }}"
+    tags.datadoghq.com/env: '{{ include "alfresco-process-infrastructure.datadog.env" . }}'
     tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   ingress:
     enabled: true

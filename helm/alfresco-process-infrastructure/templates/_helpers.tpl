@@ -50,3 +50,25 @@ Create chart name and version as used by the chart label.
 {{- $value := default $defaultValue .Values.global.acs.url -}}
 {{- tpl (printf "%s" $value) . -}}
 {{- end -}}
+
+{{- define "alfresco-process-infrastructure.datadog.agent.admission" -}}
+{{- and .Values.global.datadog.enabled .Values.global.datadog.agent.admission -}}
+{{- end -}}
+
+{{- define "alfresco-process-infrastructure.datadog.agent.javaLibVersion" -}}
+{{- $javaLibVersion := .Values.global.datadog.agent.javaLibVersion -}}
+{{- if and .Values.global.datadog.enabled .Values.global.datadog.agent.admission -}}
+{{- $javaLibVersion | required "global.datadog.agent.javaLibVersion is required" -}}
+{{- else -}}
+{{- $javaLibVersion -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "alfresco-process-infrastructure.datadog.env" -}}
+{{- $env := .Values.global.datadog.env -}}
+{{- if .Values.global.datadog.enabled -}}
+{{- $env | required "global.datadog.env is required" -}}
+{{- else -}}
+{{- $env -}}
+{{- end -}}
+{{- end -}}

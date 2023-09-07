@@ -3,7 +3,7 @@ global:
     enabled: true
     env: dev
     agent:
-      admission: false
+      admission: true
       traceAgentUrl: unix:///var/run/datadog/apm.socket
       logsInjection: true
       profiling: false
