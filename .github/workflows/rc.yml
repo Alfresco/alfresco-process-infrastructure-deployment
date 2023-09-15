@@ -28,7 +28,7 @@ jobs:
 
       - id: helm-publish-chart
         name: Publish Helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@v3.0.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@dev-igdianov-AAE-16060
         with:
           chart-package: ${{ steps.helm-package-chart.outputs.package-file-path }}
           helm-charts-repo: ${{ env.HELM_REPO }}
