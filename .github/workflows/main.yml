@@ -34,9 +34,9 @@ jobs:
     needs: check-bot-build
     runs-on: ubuntu-latest
     steps:
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@v3.2.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@v3.2.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v3.2.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@v3.3.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@v3.3.3
+      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v3.3.3
       - uses: bridgecrewio/checkov-action@v12.1839.0
         with:
           framework: kubernetes
@@ -52,7 +52,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@v3.2.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@v3.3.3
         with:
           maven-username: ${{ secrets.NEXUS_USERNAME }}
           maven-password: ${{ secrets.NEXUS_PASSWORD }}
@@ -75,12 +75,12 @@ jobs:
         run: echo "name=gh-process-infrastructure-deployment-$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Build
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@v3.3.3
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Execute dry run
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@v3.3.3
         with:
           chart-dir: ${{ env.CHART_DIR }}
           test-rancher-url: ${{ secrets.RANCHER2_URL }}
@@ -91,7 +91,7 @@ jobs:
 
       - name: Package Helm Chart
         id: package-helm-chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@v3.3.3
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
@@ -105,19 +105,19 @@ jobs:
 
       - name: Parse next release
         id: helm-parse-next-release
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@v3.3.3
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - id: calculate-next-internal-version
         name: Calculate next internal release
-        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@v3.3.3
         with:
           next-version: ${{ steps.helm-parse-next-release.outputs.next-release }}
 
       - id: helm-release-and-publish
         name: Release and publish helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@v3.3.3
         with:
           version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
           chart-dir: ${{ env.CHART_DIR }}
@@ -150,7 +150,7 @@ jobs:
           RESULT=`yq '.alfresco-deployment-service.image.tag' values.yaml`
           echo ${RESULT}
           echo "result=${RESULT}" >> $GITHUB_OUTPUT
-      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@v3.2.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@v3.3.3
         env:
           ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.activiti-cloud-common-chart-version.outputs.result }}
           ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.alfresco-deployment-service-version.outputs.result }}
@@ -172,7 +172,7 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Slack Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@v3.3.3
         with:
           channel-id: 'eng-hxp-studio-be-gh-notifs'
           token: ${{ secrets.SLACK_NOTIFICATION_BOT_TOKEN }}
