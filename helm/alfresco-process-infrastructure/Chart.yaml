@@ -1,7 +1,7 @@
 apiVersion: v2
 name: alfresco-process-infrastructure
-version: 7.12.0-alpha.219
-appVersion: 7.12.0-SNAPSHOT
+version: 7.12.0
+appVersion: 7.12.0
 kubeVersion: '>=1.15.0-0'
 description: A Helm chart for Alfresco Activiti Enterprise infrastructure
 keywords:
@@ -15,14 +15,14 @@ sources:
 icon: https://avatars0.githubusercontent.com/u/391127?s=200&v=4
 dependencies:
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
   - name: alfresco-identity-service
     version: 6.0.0
     repository: https://kubernetes-charts.alfresco.com/stable
     condition: alfresco-identity-service.enabled
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-modeling-service
     condition: alfresco-modeling-service.enabled
@@ -35,32 +35,32 @@ dependencies:
     repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/
     condition: rabbitmq.enabled
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-modeling-app
     condition: alfresco-modeling-app.enabled
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-deployment-service
     condition: alfresco-deployment-service.enabled
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-admin-app
     condition: alfresco-admin-app.enabled
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-tika-service
     condition: alfresco-tika-service.enabled
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-process-analytics-service
     condition: alfresco-process-analytics-service.enabled
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-process-analytics-playground
     condition: alfresco-process-analytics-playground.enabled
@@ -69,7 +69,7 @@ dependencies:
     repository: https://opensearch-project.github.io/helm-charts
     condition: opensearch.enabled
   - name: common
-    version: 7.12.0-alpha.3
+    version: 8.0.0
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-identity-adapter-service
     condition: alfresco-identity-adapter-service.enabled
