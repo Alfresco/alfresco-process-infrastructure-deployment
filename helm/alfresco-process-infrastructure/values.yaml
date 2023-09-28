@@ -815,6 +815,38 @@ alfresco-deployment-service:
       configMap:
         name: {{ .Release.Name }}-deployment-config
         defaultMode: 0744
+  volumes:
+    - name: "{{ .Values.runtimeVersions.volume.name }}"
+      emptyDir: {}
+  volumeMounts:
+    - name: "{{ .Values.runtimeVersions.volume.name }}"
+      mountPath: "{{ .Values.runtimeVersions.volume.mountPath }}"
+  initContainers:
+    - command:
+        - sh
+        - -c
+        - |
+          echo "Copying runtime-versions-info.json into ${CONFIG_VOLUME_DIR}."
+          cp runtime-versions-info.json "${CONFIG_VOLUME_DIR}"
+      env:
+        - name: CONFIG_VOLUME_DIR
+          value: "{{ .Values.runtimeVersions.volume.mountPath }}"
+      image: "{{ .Values.runtimeVersions.init.image.repository }}:{{ .Values.runtimeVersions.init.image.tag }}"
+      imagePullPolicy: "{{ .Values.runtimeVersions.init.image.pullPolicy }}"
+      name: "{{ .Values.runtimeVersions.init.name }}"
+      volumeMounts:
+        - mountPath: "{{ .Values.runtimeVersions.volume.mountPath }}"
+          name: "{{ .Values.runtimeVersions.volume.name }}"
+  runtimeVersions:
+    init:
+      name: alfresco-deployment-runtime-versions-init
+      image:
+        repository: quay.io/alfresco/alfresco-deployment-runtime-versions-info
+        tag: develop
+        pullPolicy: Always
+    volume:
+      mountPath: /opt/config
+      name: alfresco-deployment-service-init
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
