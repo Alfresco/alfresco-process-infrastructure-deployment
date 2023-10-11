@@ -517,7 +517,7 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.13.0-alpha.11
+    tag: 7.13.0-alpha.12
     pullPolicy: Always
   liquibase:
     enabled: true
@@ -703,7 +703,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.13.0-alpha.15
+    tag: 7.13.0-alpha.16
     pullPolicy: Always
   postgresql:
     enabled: true
@@ -1163,10 +1163,17 @@ setup-acs-script-job:
     tag: 9-minimal
 alfresco-tika-service:
   nameOverride: alfresco-tika-service
+  podAnnotations:
+    admission.datadoghq.com/java-lib.version: '{{ include "alfresco-process-infrastructure.datadog.agent.javaLibVersion" . }}'
+    podLabels:
+      admission.datadoghq.com/enabled: '{{ include "alfresco-process-infrastructure.datadog.agent.admission" . }}'
+      tags.datadoghq.com/service: "{{ .Chart.Name }}"
+      tags.datadoghq.com/env: '{{ include "alfresco-process-infrastructure.datadog.env" . }}'
+      tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   enabled: true
   image:
-    repository: alfresco/alfresco-tika
-    tag: 2.5.7
+    repository: quay.io/alfresco/alfresco-process-tika
+    tag: 7.13.0-alpha.9
   service:
     name: tika
     internalPort: 8090
@@ -1184,6 +1191,63 @@ alfresco-tika-service:
   javaOpts:
     other: >-
       -XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80
+  extraEnv: |
+    {{- if .Values.global.datadog.enabled }}
+    {{- with .Values.global.datadog.agent.traceAgentUrl }}
+    - name: DD_TRACE_AGENT_URL
+      value: {{ . }}
+    {{- end }}
+    {{- if not .Values.global.datadog.agent.admission }}
+    - name: DATADOG_JAVA_AGENT
+      value: "{{ .Values.global.datadog.enabled }}"
+    - name: DD_SERVICE
+      value: "{{ .Chart.Name }}"
+    - name: DD_ENV
+      value: {{ .Values.global.datadog.env | required "global.datadog.env is required." | quote }}
+    - name: DD_VERSION
+      value: "{{ .Values.image.tag }}"
+    {{- end }}
+    - name: DD_LOGS_INJECTION
+      value: "{{ .Values.global.datadog.agent.logsInjection }}"
+    - name: DD_PROFILING_ENABLED
+      value: "{{ .Values.global.datadog.agent.profiling }}"
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_ENABLED
+      value: "{{ .Values.global.datadog.metrics.enabled }}"
+    {{- if .Values.global.datadog.metrics.enabled }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_API_KEY
+      value: {{ .Values.global.datadog.metrics.apiKey | required "global.datadog.metrics.apiKey is required." | quote }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_DESCRIPTIONS
+      value: {{ .Values.global.datadog.metrics.descriptions | required "global.datadog.metrics.descriptions is required." | quote }}
+    {{- with .Values.global.datadog.metrics.applicationKey }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_APPLICATION_KEY
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.global.datadog.metrics.uri }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_URI
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.global.datadog.metrics.hostTag }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_HOST_TAG
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.global.datadog.metrics.step }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_STEP
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.global.datadog.metrics.connectTimeout }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_CONNECT_TIMEOUT
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.global.datadog.metrics.readTimeout }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_READ_TIMEOUT
+      value: {{ . | quote }}
+    {{- end }}
+    {{- with .Values.global.datadog.metrics.batchSize }}
+    - name: MANAGEMENT_DATADOG_METRICS_EXPORT_BATCH_SIZE
+      value: {{ . | quote }}
+    {{- end }}
+    {{- end }}
+    {{- end }}
 alfresco-process-analytics-service:
   enabled: true
   nameOverride: alfresco-process-analytics-service
@@ -1204,7 +1268,7 @@ alfresco-process-analytics-service:
       jwtIssuerUri: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-service
-    tag: 7.13.0-alpha.8
+    tag: 7.13.0-alpha.9
     pullPolicy: Always
   service:
     name: alfresco-process-analytics-service
@@ -1305,7 +1369,7 @@ alfresco-process-analytics-playground:
       url: 'http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql'
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-playground
-    tag: 7.13.0-alpha.8
+    tag: 7.13.0-alpha.9
     pullPolicy: Always
   service:
     name: alfresco-process-analytics-playground
@@ -1414,7 +1478,7 @@ alfresco-identity-adapter-service:
     path: "/identity-adapter-service/?(.*)"
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
-    tag: 7.13.0-alpha.9
+    tag: 7.13.0-alpha.10
     pullPolicy: Always
   liquibase:
     enabled: false
