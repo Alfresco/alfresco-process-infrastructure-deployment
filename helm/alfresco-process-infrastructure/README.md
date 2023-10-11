@@ -478,7 +478,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.graphql.client.url | string | `"http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql"` |  |
 | alfresco-process-analytics-playground.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-analytics-playground.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-playground"` |  |
-| alfresco-process-analytics-playground.image.tag | string | `"7.13.0-alpha.8"` |  |
+| alfresco-process-analytics-playground.image.tag | string | `"7.13.0-alpha.9"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
@@ -507,7 +507,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.graphql.service.jwtIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-process-analytics-service.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-analytics-service.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-service"` |  |
-| alfresco-process-analytics-service.image.tag | string | `"7.13.0-alpha.8"` |  |
+| alfresco-process-analytics-service.image.tag | string | `"7.13.0-alpha.9"` |  |
 | alfresco-process-analytics-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-service.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-process-analytics-service.ingress.enabled | bool | `true` |  |
@@ -530,7 +530,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.service.name | string | `"alfresco-process-analytics-service"` |  |
 | alfresco-tika-service.enabled | bool | `true` |  |
 | alfresco-tika-service.image.repository | string | `"alfresco/alfresco-tika"` |  |
-| alfresco-tika-service.image.tag | string | `"2.5.7"` |  |
+| alfresco-tika-service.image.tag | string | `"7.13.0-alpha.9"` |  |
 | alfresco-tika-service.ingress.enabled | bool | `false` |  |
 | alfresco-tika-service.javaOpts.other | string | `"-XX:MinRAMPercentage=50 -XX:MaxRAMPercentage=80"` |  |
 | alfresco-tika-service.livenessProbe.path | string | `"/live"` |  |
