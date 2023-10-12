@@ -17,15 +17,15 @@ Kubernetes: `>=1.15.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | file://../common | workspace-hxp-static-resources(common) | latest |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.12.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 7.12.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.12.0-alpha.3 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.12.0-alpha.3 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 7.12.0-alpha.3 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 7.12.0-alpha.3 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
