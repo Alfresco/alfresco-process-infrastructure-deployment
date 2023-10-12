@@ -75,6 +75,6 @@ dependencies:
     condition: alfresco-identity-adapter-service.enabled
   - name: common
     version: latest
-    repository: file://../common
+    repository: https://kubernetes-charts.alfresco.com/stable
     alias: workspace-hxp-static-resources
     condition: workspace-hxp-static-resources.enabled
