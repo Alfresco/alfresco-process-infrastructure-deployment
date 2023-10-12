@@ -537,10 +537,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-tika-service.livenessProbe.path | string | `"/live"` |  |
 | alfresco-tika-service.nameOverride | string | `"alfresco-tika-service"` |  |
 | alfresco-tika-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
-| alfresco-tika-service.podAnnotations.podLabels."admission.datadoghq.com/enabled" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.admission\" . }}"` |  |
-| alfresco-tika-service.podAnnotations.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
-| alfresco-tika-service.podAnnotations.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
-| alfresco-tika-service.podAnnotations.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
+| alfresco-tika-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.admission\" . }}"` |  |
+| alfresco-tika-service.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
+| alfresco-tika-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
+| alfresco-tika-service.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
 | alfresco-tika-service.readinessProbe.path | string | `"/ready"` |  |
 | alfresco-tika-service.resources.limits.memory | string | `"1000Mi"` |  |
 | alfresco-tika-service.resources.requests.memory | string | `"1000Mi"` |  |

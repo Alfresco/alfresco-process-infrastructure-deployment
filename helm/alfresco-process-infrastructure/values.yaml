@@ -1165,11 +1165,11 @@ alfresco-tika-service:
   nameOverride: alfresco-tika-service
   podAnnotations:
     admission.datadoghq.com/java-lib.version: '{{ include "alfresco-process-infrastructure.datadog.agent.javaLibVersion" . }}'
-    podLabels:
-      admission.datadoghq.com/enabled: '{{ include "alfresco-process-infrastructure.datadog.agent.admission" . }}'
-      tags.datadoghq.com/service: "{{ .Chart.Name }}"
-      tags.datadoghq.com/env: '{{ include "alfresco-process-infrastructure.datadog.env" . }}'
-      tags.datadoghq.com/version: "{{ .Values.image.tag }}"
+  podLabels:
+    admission.datadoghq.com/enabled: '{{ include "alfresco-process-infrastructure.datadog.agent.admission" . }}'
+    tags.datadoghq.com/service: "{{ .Chart.Name }}"
+    tags.datadoghq.com/env: '{{ include "alfresco-process-infrastructure.datadog.env" . }}'
+    tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   enabled: true
   image:
     repository: quay.io/alfresco/alfresco-process-tika
