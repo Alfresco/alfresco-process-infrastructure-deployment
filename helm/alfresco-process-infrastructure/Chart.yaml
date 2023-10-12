@@ -76,5 +76,5 @@ dependencies:
   - name: common
     version: latest
     repository: https://kubernetes-charts.alfresco.com/stable
-    alias: workspace-hxp-static-resources
-    condition: workspace-hxp-static-resources.enabled
+    alias: alfresco-static-resources
+    condition: alfresco-static-resources.enabled
