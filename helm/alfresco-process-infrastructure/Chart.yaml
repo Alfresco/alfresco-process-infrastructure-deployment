@@ -73,3 +73,8 @@ dependencies:
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-identity-adapter-service
     condition: alfresco-identity-adapter-service.enabled
+  - name: common
+    version: latest
+    repository: file://../common
+    alias: workspace-hxp-static-resources
+    condition: workspace-hxp-static-resources.enabled
