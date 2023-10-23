@@ -1571,26 +1571,3 @@ alfresco-identity-adapter-service:
     xmx: 3072m
     other: >-
       -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-alfresco-static-resources:
-  nameOverride: alfresco-static-resources
-  podAnnotations:
-  enabled: true
-  image:
-    repository: quay.io/alfresco/apa-static-resources
-    tag: latest
-  service:
-    name: static-resources
-    internalPort: 80
-  ingress:
-    enabled: false
-  readinessProbe:
-    path: /
-  livenessProbe:
-    path: /
-  resources:
-    requests:
-      memory: 128Mi
-      cpu: 200m
-    limits:
-      cpu: 500m
-      memory: 128Mi
