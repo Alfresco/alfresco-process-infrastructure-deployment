@@ -78,4 +78,3 @@ dependencies:
     repository: https://activiti.github.io/activiti-cloud-helm-charts
     alias: alfresco-static-resources
     condition: alfresco-static-resources.enabled
-
