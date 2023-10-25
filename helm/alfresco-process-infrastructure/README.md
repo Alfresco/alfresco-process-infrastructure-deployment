@@ -16,15 +16,16 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.12.0-alpha.3 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 7.12.0-alpha.3 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.12.0-alpha.3 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 7.12.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 7.12.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 7.12.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 7.12.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 7.12.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 7.12.0-alpha.3 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 7.12.0-alpha.3 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 7.12.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 7.12.0-alpha.3 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
@@ -528,6 +529,22 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.resources.requests.memory | string | `"512Mi"` |  |
 | alfresco-process-analytics-service.service.internalPort | int | `8080` |  |
 | alfresco-process-analytics-service.service.name | string | `"alfresco-process-analytics-service"` |  |
+| alfresco-static-resources.enabled | bool | `true` |  |
+| alfresco-static-resources.image.repository | string | `"quay.io/alfresco/apa-static-resources"` |  |
+| alfresco-static-resources.image.tag | string | `"develop"` |  |
+| alfresco-static-resources.ingress.enabled | bool | `false` |  |
+| alfresco-static-resources.livenessProbe.path | string | `"/"` |  |
+| alfresco-static-resources.livenessProbe.port | int | `8080` |  |
+| alfresco-static-resources.nameOverride | string | `"alfresco-static-resources"` |  |
+| alfresco-static-resources.podAnnotations | string | `nil` |  |
+| alfresco-static-resources.readinessProbe.path | string | `"/"` |  |
+| alfresco-static-resources.readinessProbe.port | int | `8080` |  |
+| alfresco-static-resources.resources.limits.cpu | string | `"500m"` |  |
+| alfresco-static-resources.resources.limits.memory | string | `"128Mi"` |  |
+| alfresco-static-resources.resources.requests.cpu | string | `"200m"` |  |
+| alfresco-static-resources.resources.requests.memory | string | `"128Mi"` |  |
+| alfresco-static-resources.service.internalPort | int | `8080` |  |
+| alfresco-static-resources.service.name | string | `"static-resources"` |  |
 | alfresco-tika-service.enabled | bool | `true` |  |
 | alfresco-tika-service.extraEnv | string | `"{{- if .Values.global.datadog.enabled }}\n{{- with .Values.global.datadog.agent.traceAgentUrl }}\n- name: DD_TRACE_AGENT_URL\n  value: {{ . }}\n{{- end }}\n{{- if not .Values.global.datadog.agent.admission }}\n- name: DATADOG_JAVA_AGENT\n  value: \"{{ .Values.global.datadog.enabled }}\"\n- name: DD_SERVICE\n  value: \"{{ .Chart.Name }}\"\n- name: DD_ENV\n  value: {{ .Values.global.datadog.env | required \"global.datadog.env is required.\" | quote }}\n- name: DD_VERSION\n  value: \"{{ .Values.image.tag }}\"\n{{- end }}\n- name: DD_LOGS_INJECTION\n  value: \"{{ .Values.global.datadog.agent.logsInjection }}\"\n- name: DD_PROFILING_ENABLED\n  value: \"{{ .Values.global.datadog.agent.profiling }}\"\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.global.datadog.metrics.enabled }}\"\n{{- if .Values.global.datadog.metrics.enabled }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_API_KEY\n  value: {{ .Values.global.datadog.metrics.apiKey | required \"global.datadog.metrics.apiKey is required.\" | quote }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_DESCRIPTIONS\n  value: {{ .Values.global.datadog.metrics.descriptions | required \"global.datadog.metrics.descriptions is required.\" | quote }}\n{{- with .Values.global.datadog.metrics.applicationKey }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_APPLICATION_KEY\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.uri }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_URI\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.hostTag }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_HOST_TAG\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.step }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_STEP\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.connectTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_CONNECT_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.readTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_READ_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.batchSize }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_BATCH_SIZE\n  value: {{ . | quote }}\n{{- end }}\n{{- end }}\n{{- end }}\n"` |  |
 | alfresco-tika-service.image.repository | string | `"quay.io/alfresco/alfresco-process-tika"` |  |
