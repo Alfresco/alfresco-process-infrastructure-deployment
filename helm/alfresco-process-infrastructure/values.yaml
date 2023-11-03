@@ -517,8 +517,8 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.13.0-alpha.7
-    pullPolicy: Always
+    tag: 7.13.0-mock
+    pullPolicy: IfNotPresent
   liquibase:
     enabled: true
   postgresql:
@@ -659,8 +659,8 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.12.0-beta.15
-    pullPolicy: Always
+    tag: 7.13.0-mock
+    pullPolicy: IfNotPresent
   service:
     name: modeling-app
     envType: frontend
@@ -703,8 +703,8 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.13.0-alpha.9
-    pullPolicy: Always
+    tag: 7.13.0-mock
+    pullPolicy: IfNotPresent
   postgresql:
     enabled: true
   db:
@@ -715,7 +715,7 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all application images
-      tag: develop
+      tag: 7.13.0-mock
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all application images
       pullPolicy: Always
       # alfresco-deployment-service.applications.image.pullSecretName -- pull secret name for all application images
@@ -1087,8 +1087,8 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.12.0-beta.15
-    pullPolicy: Always
+    tag: 7.13.0-mock
+    pullPolicy: IfNotPresent
   service:
     name: admin-app
     envType: frontend
@@ -1204,8 +1204,8 @@ alfresco-process-analytics-service:
       jwtIssuerUri: '{{ include "common.keycloak-url" . }}/realms/{{ include "common.keycloak-realm" . }}'
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-service
-    tag: 7.13.0-alpha.6
-    pullPolicy: Always
+    tag: 7.13.0-mock
+    pullPolicy: IfNotPresent
   service:
     name: alfresco-process-analytics-service
     internalPort: 8080
@@ -1305,8 +1305,8 @@ alfresco-process-analytics-playground:
       url: 'http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql'
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-playground
-    tag: 7.13.0-alpha.6
-    pullPolicy: Always
+    tag: 7.13.0-mock
+    pullPolicy: IfNotPresent
   service:
     name: alfresco-process-analytics-playground
     internalPort: 5000
@@ -1414,8 +1414,8 @@ alfresco-identity-adapter-service:
     path: "/identity-adapter-service/?(.*)"
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
-    tag: 7.13.0-alpha.6
-    pullPolicy: Always
+    tag: 7.13.0-mock
+    pullPolicy: IfNotPresent
   liquibase:
     enabled: false
   postgresql:
