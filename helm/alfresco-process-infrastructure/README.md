@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.13.0-SNAPSHOT](https://img.shields.io/badge/Version-7.13.0--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.13.0-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.13.0--SNAPSHOT-informational?style=flat-square)
+![Version: 7.14.0-SNAPSHOT](https://img.shields.io/badge/Version-7.14.0--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.14.0-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.14.0--SNAPSHOT-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -43,7 +43,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- else }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"7.12.0-beta.15"` |  |
+| alfresco-admin-app.image.tag | string | `"develop"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
@@ -414,7 +414,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.exampleProjects.resource | string | `"index_7.4.0.json"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
-| alfresco-modeling-app.image.tag | string | `"7.12.0-beta.15"` |  |
+| alfresco-modeling-app.image.tag | string | `"develop"` |  |
 | alfresco-modeling-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |

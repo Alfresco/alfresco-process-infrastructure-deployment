@@ -659,7 +659,7 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.12.0-beta.15
+    tag: develop
     pullPolicy: Always
   service:
     name: modeling-app
@@ -1087,7 +1087,7 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.12.0-beta.15
+    tag: develop
     pullPolicy: Always
   service:
     name: admin-app
