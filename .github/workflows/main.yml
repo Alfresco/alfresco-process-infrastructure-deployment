@@ -14,8 +14,6 @@ on:
 
 env:
   CHART_DIR: "helm/alfresco-process-infrastructure"
-  # TODO: create dedicated cluster?
-  TEST_CLUSTER_NAME: activiti
   HELM_REPO_BASE_URL: https://kubernetes-charts.alfresco.com
   HELM_REPO: Alfresco/charts
   HELM_REPO_BRANCH: master
@@ -67,27 +65,34 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Define test namespace
-        id: define-namespace
-        env:
-          RUN_ID: ${{ github.run_id }}
-        # hardcode repo name as helm release name is limited to 53 chars
-        run: echo "name=gh-process-infrastructure-deployment-$RUN_ID" >> $GITHUB_OUTPUT
-
       - name: Build
         uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@v3.2.1
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
-      - name: Execute dry run
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-integration-tests@v3.2.1
-        with:
-          chart-dir: ${{ env.CHART_DIR }}
-          test-rancher-url: ${{ secrets.RANCHER2_URL }}
-          test-rancher-access-key: ${{ secrets.RANCHER2_ACCESS_KEY }}
-          test-rancher-secret-key: ${{ secrets.RANCHER2_SECRET_KEY }}
-          test-cluster-name: ${{ env.TEST_CLUSTER_NAME }}
-          test-namespace: ${{ steps.define-namespace.outputs.name }}
+      - name: Setup Cluster
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v3.8.0
+
+      - name: Compute Keycloak Client Secret
+        id: compute-keycloak-secret
+        run: echo "result=$(uuidgen)" >> $GITHUB_OUTPUT
+
+      - name: Execute helm upgrade dry-run
+        env:
+          CHART_DIR: ${{ env.CHART_DIR }}
+          NAMESPACE: "test"
+          DOMAIN: "example"
+          KEYCLOAK_SECRET: ${{ steps.compute-keycloak-secret.outputs.result }}
+        shell: bash
+        run: |
+          NAMESPACE_LOWERCASE=$(echo ${NAMESPACE} | tr "[:upper:]" "[:lower:]")
+          helm upgrade $NAMESPACE_LOWERCASE $CHART_DIR \
+            --install \
+            --set global.gateway.domain=$DOMAIN \
+            --set global.keycloak.clientSecret=$KEYCLOAK_SECRET \
+            --namespace $NAMESPACE_LOWERCASE \
+            --wait \
+            --dry-run
 
       - name: Package Helm Chart
         id: package-helm-chart
