@@ -59,13 +59,24 @@ add_user_to_group() {
   local ACS_USER="$1" ACS_GROUP="$2";
   echo "add user ${ACS_USER} to group ${ACS_GROUP}"
 
-  curl -X POST \
-    --header 'Content-Type: application/json' --header 'Accept: application/json' \
-    --user ${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD} \
-    -d "{
-    \"id\": \"${ACS_USER}\",
-    \"memberType\": \"PERSON\"
-  }" "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/groups/GROUP_${ACS_GROUP}/members"
+  count=3
+  for i in $(seq $count); do
 
-  echo
+    http_code=$(curl -o output.txt -s -w "%{http_code}" -X POST \
+      --header 'Content-Type: application/json' --header 'Accept: application/json' \
+      --user ${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD} \
+      -d "{
+      \"id\": \"${ACS_USER}\",
+      \"memberType\": \"PERSON\"
+    }" "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/groups/GROUP_${ACS_GROUP}/members")
+
+    echo "HTTP code: $http_code"
+    cat output.txt
+    echo
+
+    if [ $http_code == "201" ]; then
+      break
+    fi
+    sleep 5
+  done
 }
