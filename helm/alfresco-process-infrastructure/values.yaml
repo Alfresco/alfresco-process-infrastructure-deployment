@@ -543,7 +543,7 @@ alfresco-modeling-service:
       # alfresco-modeling-service.applications.activiti.keycloak.clientSecret -- activiti keycloak client secret
       clientSecret: "{{ .Values.global.keycloak.clientSecret }}"
   exampleProjects:
-    endpoint: https://alfresco.github.io/apa-templates
+    endpoint: http://static-resources/example-projects
     resource: index_7.4.0.json
   extraEnv: |-
     - name: SERVER_PORT
@@ -666,7 +666,7 @@ alfresco-modeling-app:
     envType: frontend
   exampleProjects:
     disabled: false
-    host: https://alfresco.github.io/apa-templates
+    host: http://static-resources/example-projects
     resource: index_7.4.0.json
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
