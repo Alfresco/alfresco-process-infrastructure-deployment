@@ -21,36 +21,39 @@ env:
 
 jobs:
 
-  check-bot-build:
-    name: Check dependabot build
+  pre-checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: Activiti/Activiti/.github/actions/check-ext-build@8.0.0-alpha.10
-
-  pre-commit:
-    needs: check-bot-build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@v3.2.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@v3.2.1
-      - uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@v3.2.1
-      - uses: bridgecrewio/checkov-action@v12.1839.0
+      - uses: actions/checkout@1e31de5234b9f8995739874a8ce0492dc87873e2 # v4.0.0
+      - name: Check dependabot build
+        uses: Activiti/Activiti/.github/actions/check-ext-build@4db084fcbb13a288f3b66ac08fc50a5ab7f144ed # 8.0.0-alpha.10
+      - name: Setup Helm Docs
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@8c2a3691aa49cd105f62c2983cda3089b82afe89 # v4.0.0
+      - name: Setup Kubepug
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@8c2a3691aa49cd105f62c2983cda3089b82afe89 # v4.0.0
+      - name: pre-commit
+        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@8c2a3691aa49cd105f62c2983cda3089b82afe89 # v4.0.0
+        with:
+          skip_checkout: true
+      - name: Run Checkov
+        uses: bridgecrewio/checkov-action@e1bb78184f5dd3690fb1089d6c4f51295f9dff48 # v12.1839.0
         with:
           framework: kubernetes
+      - name: Ensure SHA pinned actions
+        uses: zgosalvez/github-actions-ensure-sha-pinned-actions@b35f285b9bb7e80de0967367cee66d3b6d50ceca # v3.0.1
 
   validate:
-    needs: pre-commit
+    needs: pre-checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@v3.2.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
         with:
           maven-username: ${{ secrets.NEXUS_USERNAME }}
           maven-password: ${{ secrets.NEXUS_PASSWORD }}
@@ -58,20 +61,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs:
-      - pre-commit
+      - pre-checks
       - validate
     env:
       TARGET_CHARTS_PATH: charts
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
 
       - name: Build
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Setup Cluster
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@v3.8.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@9cf7c9d178e9ab74bf533217febe4dafe73247f4 # v3.8.0
 
       - name: Compute Keycloak Client Secret
         id: compute-keycloak-secret
@@ -96,7 +99,7 @@ jobs:
 
       - name: Package Helm Chart
         id: package-helm-chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
@@ -106,23 +109,23 @@ jobs:
     outputs:
       version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
 
       - name: Parse next release
         id: helm-parse-next-release
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - id: calculate-next-internal-version
         name: Calculate next internal release
-        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
         with:
           next-version: ${{ steps.helm-parse-next-release.outputs.next-release }}
 
       - id: helm-release-and-publish
         name: Release and publish helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
         with:
           version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
           chart-dir: ${{ env.CHART_DIR }}
@@ -142,7 +145,7 @@ jobs:
       VERSION: ${{ needs.release.outputs.version }}
       DEVELOPMENT_BRANCH: ${{ github.ref_name }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
       - id: activiti-cloud-common-chart-version
         working-directory: helm/alfresco-process-infrastructure
         run: |
@@ -155,7 +158,7 @@ jobs:
           RESULT=`yq '.alfresco-deployment-service.image.tag' values.yaml`
           echo ${RESULT}
           echo "result=${RESULT}" >> $GITHUB_OUTPUT
-      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@v3.2.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
         env:
           ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.activiti-cloud-common-chart-version.outputs.result }}
           ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.alfresco-deployment-service-version.outputs.result }}
@@ -177,7 +180,7 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Slack Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@v3.2.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@3741d4445541db169728841ebedb8725b51f0b45 # v3.2.1
         with:
           channel-id: 'eng-hxp-studio-be-gh-notifs'
           token: ${{ secrets.SLACK_NOTIFICATION_BOT_TOKEN }}
