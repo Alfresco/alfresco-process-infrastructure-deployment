@@ -1,0 +1,13 @@
+name: Cleanup caches for work branch
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Alfresco/alfresco-build-tools/.github/actions/gh-cache-cleanup-on-merge@a92164c3108e687354bb37ca9e0b03aa5fca1866 #3.9.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
