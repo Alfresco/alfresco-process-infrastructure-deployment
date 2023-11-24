@@ -666,7 +666,7 @@ alfresco-modeling-app:
     envType: frontend
   exampleProjects:
     disabled: false
-    host: http://static-resources/example-projects
+    host: https://alfresco.github.io/apa-templates
     resource: index_7.4.0.json
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH

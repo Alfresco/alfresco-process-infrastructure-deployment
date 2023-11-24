@@ -410,7 +410,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.env.APP_CONFIG_EXAMPLE_PROJECTS_RESOURCE | string | `"{{ .Values.exampleProjects.resource }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.exampleProjects.disabled | bool | `false` |  |
-| alfresco-modeling-app.exampleProjects.host | string | `"http://static-resources/example-projects"` |  |
+| alfresco-modeling-app.exampleProjects.host | string | `"https://alfresco.github.io/apa-templates"` |  |
 | alfresco-modeling-app.exampleProjects.resource | string | `"index_7.4.0.json"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
