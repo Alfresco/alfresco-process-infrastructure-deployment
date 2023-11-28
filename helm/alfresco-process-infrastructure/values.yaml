@@ -666,8 +666,7 @@ alfresco-modeling-app:
     envType: frontend
   exampleProjects:
     disabled: false
-    host: https://alfresco.github.io/apa-templates
-    resource: index_7.4.0.json
+    host: modeling-service/v1/projects/examples
   env:
     APP_CONFIG_AUTH_TYPE: OAUTH
     APP_CONFIG_ECM_HOST: '{{ template "alfresco-process-infrastructure.acs-url" . }}'
@@ -675,7 +674,6 @@ alfresco-modeling-app:
     APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
     APP_CONFIG_DISABLED_EXAMPLE_PROJECTS: "{{ .Values.exampleProjects.disabled }}"
     APP_CONFIG_EXAMPLE_PROJECTS_HOST: "{{ .Values.exampleProjects.host }}"
-    APP_CONFIG_EXAMPLE_PROJECTS_RESOURCE: "{{ .Values.exampleProjects.resource }}"
   ingress:
     path: /modeling
     annotations:
