@@ -16,16 +16,16 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.2.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.2.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.2.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.2.0-alpha.1 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 8.2.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.2.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.2.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.2.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 8.2.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.2.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.2.0-alpha.1 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 8.2.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.2.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.2.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.2.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.2.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.2.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 8.2.0-alpha.1 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
@@ -407,11 +407,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.env.APP_CONFIG_DISABLED_EXAMPLE_PROJECTS | string | `"{{ .Values.exampleProjects.disabled }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ template \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_EXAMPLE_PROJECTS_HOST | string | `"{{ .Values.exampleProjects.host }}"` |  |
-| alfresco-modeling-app.env.APP_CONFIG_EXAMPLE_PROJECTS_RESOURCE | string | `"{{ .Values.exampleProjects.resource }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.exampleProjects.disabled | bool | `false` |  |
-| alfresco-modeling-app.exampleProjects.host | string | `"https://alfresco.github.io/apa-templates"` |  |
-| alfresco-modeling-app.exampleProjects.resource | string | `"index_7.4.0.json"` |  |
+| alfresco-modeling-app.exampleProjects.host | string | `"modeling-service/v1/projects/examples"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"develop"` |  |
