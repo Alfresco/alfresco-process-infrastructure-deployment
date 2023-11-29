@@ -406,12 +406,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_DISABLED_EXAMPLE_PROJECTS | string | `"{{ .Values.exampleProjects.disabled }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_ECM_HOST | string | `"{{ template \"alfresco-process-infrastructure.acs-url\" . }}"` |  |
-| alfresco-modeling-app.env.APP_CONFIG_EXAMPLE_PROJECTS_HOST | string | `"{{ .Values.exampleProjects.host }}"` |  |
-| alfresco-modeling-app.env.APP_CONFIG_EXAMPLE_PROJECTS_RESOURCE | string | `"{{ .Values.exampleProjects.resource }}"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-modeling-app.exampleProjects.disabled | bool | `false` |  |
-| alfresco-modeling-app.exampleProjects.host | string | `"https://alfresco.github.io/apa-templates"` |  |
-| alfresco-modeling-app.exampleProjects.resource | string | `"index_7.4.0.json"` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"develop"` |  |
