@@ -1577,7 +1577,7 @@ alfresco-static-resources:
   enabled: true
   image:
     repository: quay.io/alfresco/apa-static-resources
-    tag: develop
+    tag: 7.13.0
   service:
     name: static-resources
     internalPort: 8080

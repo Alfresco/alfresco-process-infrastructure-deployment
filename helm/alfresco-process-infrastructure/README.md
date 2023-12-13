@@ -531,7 +531,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.service.name | string | `"alfresco-process-analytics-service"` |  |
 | alfresco-static-resources.enabled | bool | `true` |  |
 | alfresco-static-resources.image.repository | string | `"quay.io/alfresco/apa-static-resources"` |  |
-| alfresco-static-resources.image.tag | string | `"develop"` |  |
+| alfresco-static-resources.image.tag | string | `"7.13.0"` |  |
 | alfresco-static-resources.ingress.enabled | bool | `false` |  |
 | alfresco-static-resources.livenessProbe.path | string | `"/"` |  |
 | alfresco-static-resources.livenessProbe.port | int | `8080` |  |
