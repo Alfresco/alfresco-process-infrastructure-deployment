@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-source "$(dirname "$0")/functions_acs.sh"
+source $(dirname "$0")/functions_acs.sh
 
-create_user "service-account-storage-service" "service-account-storage-service@example.com" "$(generate_alfpwd)"
+create_user "service-account-storage-service" "service-account-storage-service@example.com" $(generate_alfpwd)
 add_user_to_group "service-account-storage-service" "ALFRESCO_ADMINISTRATORS"
 
 if [[ "$LOAD_TEST_DATA" == "true" ]]
