@@ -100,6 +100,16 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
+| alfresco-deployment-service.initContainers[0].command[0] | string | `"sh"` |  |
+| alfresco-deployment-service.initContainers[0].command[1] | string | `"-c"` |  |
+| alfresco-deployment-service.initContainers[0].command[2] | string | `"echo \"Copying runtime-versions-info.json into ${CONFIG_VOLUME_DIR}.\"\ncp runtime-versions-info.json \"${CONFIG_VOLUME_DIR}\"\n"` |  |
+| alfresco-deployment-service.initContainers[0].env[0].name | string | `"CONFIG_VOLUME_DIR"` |  |
+| alfresco-deployment-service.initContainers[0].env[0].value | string | `"{{ .Values.runtimeVersions.volume.mountPath }}"` |  |
+| alfresco-deployment-service.initContainers[0].image | string | `"{{ .Values.runtimeVersions.init.image.repository }}:{{ .Values.runtimeVersions.init.image.tag }}"` |  |
+| alfresco-deployment-service.initContainers[0].imagePullPolicy | string | `"{{ .Values.runtimeVersions.init.image.pullPolicy }}"` |  |
+| alfresco-deployment-service.initContainers[0].name | string | `"{{ .Values.runtimeVersions.init.name }}"` |  |
+| alfresco-deployment-service.initContainers[0].volumeMounts[0].mountPath | string | `"{{ .Values.runtimeVersions.volume.mountPath }}"` |  |
+| alfresco-deployment-service.initContainers[0].volumeMounts[0].name | string | `"{{ .Values.runtimeVersions.volume.name }}"` |  |
 | alfresco-deployment-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
 | alfresco-deployment-service.javaOpts.xms | string | `"256m"` |  |
 | alfresco-deployment-service.javaOpts.xmx | string | `"512m"` |  |
@@ -119,6 +129,16 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.resources.limits.memory | string | `"1000Mi"` |  |
 | alfresco-deployment-service.resources.requests.cpu | string | `"300m"` |  |
 | alfresco-deployment-service.resources.requests.memory | string | `"500Mi"` |  |
+| alfresco-deployment-service.runtimeVersions.init.image.pullPolicy | string | `"Always"` |  |
+| alfresco-deployment-service.runtimeVersions.init.image.repository | string | `"quay.io/alfresco/alfresco-deployment-runtime-versions-info"` |  |
+| alfresco-deployment-service.runtimeVersions.init.image.tag | string | `"develop"` |  |
+| alfresco-deployment-service.runtimeVersions.init.name | string | `"alfresco-deployment-runtime-versions-init"` |  |
+| alfresco-deployment-service.runtimeVersions.volume.mountPath | string | `"/opt/config"` |  |
+| alfresco-deployment-service.runtimeVersions.volume.name | string | `"alfresco-deployment-service-init"` |  |
+| alfresco-deployment-service.volumeMounts[0].mountPath | string | `"{{ .Values.runtimeVersions.volume.mountPath }}"` |  |
+| alfresco-deployment-service.volumeMounts[0].name | string | `"{{ .Values.runtimeVersions.volume.name }}"` |  |
+| alfresco-deployment-service.volumes[0].emptyDir | object | `{}` |  |
+| alfresco-deployment-service.volumes[0].name | string | `"{{ .Values.runtimeVersions.volume.name }}"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientId | string | `"{{ .Values.global.keycloak.clientId }}"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` |  |
 | alfresco-identity-adapter-service.enabled | bool | `true` |  |
