@@ -646,7 +646,7 @@ alfresco-modeling-service:
     xms: 512m
     xmx: 1024m
     other: >-
-      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
   resources:
     limits:
       cpu: 2500m
@@ -1070,7 +1070,7 @@ alfresco-deployment-service:
     xms: 256m
     xmx: 512m
     other: >-
-      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
   resources:
     limits:
       cpu: 1000m
@@ -1566,7 +1566,7 @@ alfresco-identity-adapter-service:
     xms: 512m
     xmx: 3072m
     other: >-
-      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+      -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
 alfresco-static-resources:
   nameOverride: alfresco-static-resources
   podAnnotations:

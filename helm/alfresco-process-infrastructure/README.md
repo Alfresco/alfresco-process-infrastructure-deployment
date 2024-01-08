@@ -100,7 +100,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
-| alfresco-deployment-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
+| alfresco-deployment-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
 | alfresco-deployment-service.javaOpts.xms | string | `"256m"` |  |
 | alfresco-deployment-service.javaOpts.xmx | string | `"512m"` |  |
 | alfresco-deployment-service.livenessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/liveness"` |  |
@@ -130,7 +130,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
 | alfresco-identity-adapter-service.ingress.enabled | bool | `true` |  |
 | alfresco-identity-adapter-service.ingress.path | string | `"/identity-adapter-service/?(.*)"` |  |
-| alfresco-identity-adapter-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
+| alfresco-identity-adapter-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
 | alfresco-identity-adapter-service.javaOpts.xms | string | `"512m"` |  |
 | alfresco-identity-adapter-service.javaOpts.xmx | string | `"3072m"` |  |
 | alfresco-identity-adapter-service.liquibase.enabled | bool | `false` |  |
@@ -444,7 +444,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.ingress.subPaths[0] | string | `"/modeling-service/?(.*)"` |  |
 | alfresco-modeling-service.ingress.subPaths[1] | string | `"/dmn-service/?(.*)"` |  |
 | alfresco-modeling-service.ingress.subPaths[2] | string | `"/script-service/?(.*)"` |  |
-| alfresco-modeling-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
+| alfresco-modeling-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
 | alfresco-modeling-service.javaOpts.xms | string | `"512m"` |  |
 | alfresco-modeling-service.javaOpts.xmx | string | `"1024m"` |  |
 | alfresco-modeling-service.liquibase.enabled | bool | `true` |  |
