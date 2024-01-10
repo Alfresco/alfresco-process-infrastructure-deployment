@@ -118,7 +118,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.resources.limits.cpu | string | `"1000m"` |  |
 | alfresco-deployment-service.resources.limits.memory | string | `"1000Mi"` |  |
 | alfresco-deployment-service.resources.requests.cpu | string | `"300m"` |  |
-| alfresco-deployment-service.resources.requests.memory | string | `"500Mi"` |  |
+| alfresco-deployment-service.resources.requests.memory | string | `"2000Mi"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientId | string | `"{{ .Values.global.keycloak.clientId }}"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` |  |
 | alfresco-identity-adapter-service.enabled | bool | `true` |  |
