@@ -1077,7 +1077,7 @@ alfresco-deployment-service:
       memory: 1000Mi
     requests:
       cpu: 300m
-      memory: 500Mi
+      memory: 2000Mi
 alfresco-admin-app:
   enabled: true
   nameOverride: alfresco-admin-app
