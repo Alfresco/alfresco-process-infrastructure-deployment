@@ -26,7 +26,9 @@ create_user() {
   local ACS_PASSWORD="${3:-password}"
   echo "create user ${ACS_USER}"
 
-  curl --fail -X POST \
+  # Capture the HTTP response code in a variable
+  local response_code
+  response_code=$(curl --write-out "%{http_code}" --output /dev/null --fail -X POST \
     --header 'Content-Type: application/json' --header 'Accept: application/json' \
     --user "${REPOSITORY_ADMIN_USER}:${REPOSITORY_ADMIN_PASSWORD}" \
     -d "{
@@ -35,8 +37,15 @@ create_user() {
     \"lastName\": \"User\",
     \"email\": \"${ACS_EMAIL}\",
     \"password\": \"${ACS_PASSWORD}\"
-  }" "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/people" \
-  || { echo "cannot create user ${ACS_USER}"; exit 1; }
+  }" "${REPOSITORY_URL}/api/-default-/public/alfresco/versions/1/people")
+
+  # Check the response code
+  if [ "$response_code" -eq 409 ]; then
+    echo "User ${ACS_USER} already exists. Skipping creation."
+  elif [ "$response_code" -ne 201 ]; then
+    echo "Failed to create user ${ACS_USER}. HTTP Status Code: $response_code"
+    exit 1
+  fi
 
   echo
 }
