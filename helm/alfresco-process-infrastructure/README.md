@@ -16,6 +16,7 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
+<<<<<<< HEAD
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.2.0-alpha.4 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.2.0-alpha.4 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.2.0-alpha.4 |
@@ -26,6 +27,18 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.2.0-alpha.4 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 8.2.0-alpha.4 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 8.2.0-alpha.4 |
+=======
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.2.0-alpha.3 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 8.2.0-alpha.3 |
+>>>>>>> c6a65be9 (HXOR-1130: upgrade error handling while creating user in acs and add sleeps)
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
