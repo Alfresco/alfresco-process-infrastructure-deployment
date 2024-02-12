@@ -8,7 +8,7 @@
   <version>7.7.0-SNAPSHOT</version>
   <properties>
     <alfresco-deployment-service.version>7.15.0-alpha.53</alfresco-deployment-service.version>
-    <alfresco-modeling-service.version>7.15.0-alpha.43</alfresco-modeling-service.version>
+    <alfresco-modeling-service.version>7.15.0-alpha.44</alfresco-modeling-service.version>
     <alfresco-process.version>7.15.0-alpha.20</alfresco-process.version>
     <alfresco-identity-adapter-service.version>7.15.0-alpha.24</alfresco-identity-adapter-service.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
