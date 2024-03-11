@@ -28,11 +28,11 @@ jobs:
       - name: Check dependabot build
         uses: Activiti/Activiti/.github/actions/check-ext-build@4db084fcbb13a288f3b66ac08fc50a5ab7f144ed # 8.0.0-alpha.10
       - name: Setup Helm Docs
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
       - name: Setup Kubepug
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
       - name: pre-commit
-        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         with:
           skip_checkout: true
       - name: Run Checkov
@@ -53,7 +53,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         with:
           maven-username: ${{ secrets.NEXUS_USERNAME }}
           maven-password: ${{ secrets.NEXUS_PASSWORD }}
@@ -69,12 +69,12 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Build
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Setup Cluster
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
 
       - name: Compute Keycloak Client Secret
         id: compute-keycloak-secret
@@ -99,7 +99,7 @@ jobs:
 
       - name: Package Helm Chart
         id: package-helm-chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
@@ -113,19 +113,19 @@ jobs:
 
       - name: Parse next release
         id: helm-parse-next-release
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - id: calculate-next-internal-version
         name: Calculate next internal release
-        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         with:
           next-version: ${{ steps.helm-parse-next-release.outputs.next-release }}
 
       - id: helm-release-and-publish
         name: Release and publish helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         with:
           version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
           chart-dir: ${{ env.CHART_DIR }}
@@ -158,7 +158,7 @@ jobs:
           RESULT=`yq '.alfresco-deployment-service.image.tag' values.yaml`
           echo ${RESULT}
           echo "result=${RESULT}" >> $GITHUB_OUTPUT
-      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         env:
           ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.activiti-cloud-common-chart-version.outputs.result }}
           ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.alfresco-deployment-service-version.outputs.result }}
@@ -180,7 +180,7 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Slack Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@a83ae2d4491908083ba2fc0a5b9f6b2ca82f063f # v5.15.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@9451f6b3f97da882d0e18e1c44696fe07adfa6c8 # v5.19.0
         with:
           channel-id: 'eng-hxp-studio-be-gh-notifs'
           token: ${{ secrets.SLACK_NOTIFICATION_BOT_TOKEN }}
