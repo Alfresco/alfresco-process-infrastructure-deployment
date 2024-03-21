@@ -24,19 +24,19 @@
     </dependency>
     <dependency>
       <groupId>com.alfresco.process</groupId>
-      <artifactId>alfresco-deployment-service</artifactId>
+      <artifactId>alfresco-deployment-service-parent</artifactId>
       <version>${alfresco-deployment-service.version}</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>com.alfresco.process</groupId>
-      <artifactId>alfresco-modeling-service</artifactId>
+      <artifactId>alfresco-modeling-service-parent</artifactId>
       <version>${alfresco-modeling-service.version}</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>com.alfresco.process</groupId>
-      <artifactId>alfresco-identity-adapter-service</artifactId>
+      <artifactId>alfresco-identity-adapter-service-parent</artifactId>
       <version>${alfresco-identity-adapter-service.version}</version>
       <type>pom</type>
     </dependency>
