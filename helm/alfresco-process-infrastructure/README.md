@@ -29,6 +29,8 @@ Kubernetes: `>=1.15.0-0`
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | rabbitmq | 8.20.5 |
+
 
 ## Values
 
