@@ -31,7 +31,6 @@ Kubernetes: `>=1.15.0-0`
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | rabbitmq | 8.20.5 |
 
-
 ## Values
 
 | Key | Type | Default | Description |
