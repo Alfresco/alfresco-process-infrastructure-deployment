@@ -944,6 +944,8 @@ alfresco-deployment-service:
       value: "http://tika.{{ .Release.Namespace }}/transform"
     - name: PROCESS_UI_URL
       value: '{{ include "common.gateway-url" . }}'
+    - name: FORCE_UPDATE_RUNTIME_VERSION
+      value: "true"
     {{- if .Values.global.hxpr.enabled }}
     - name: CONTENT_REPOSITORY_TYPE
       value: "hxp"
@@ -953,8 +955,6 @@ alfresco-deployment-service:
       value: "{{ .Values.global.hxp.accountId }}"
     - name: HXP_CONTEXT_ENVIRONMENT
       value: "{{ .Values.global.hxp.context.environment }}"
-    - name: FORCE_UPDATE_RUNTIME_VERSION
-      value: "true"
     {{- end }}
     {{- if .Values.global.datadog.enabled }}
     {{- with .Values.global.datadog.agent.traceAgentUrl }}
