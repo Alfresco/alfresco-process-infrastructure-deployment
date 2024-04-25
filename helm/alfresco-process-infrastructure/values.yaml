@@ -659,7 +659,7 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.15.0
+    tag: 7.15.1
     pullPolicy: IfNotPresent
   service:
     name: modeling-app
