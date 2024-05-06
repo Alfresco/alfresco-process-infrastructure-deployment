@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.15.1](https://img.shields.io/badge/Version-7.15.1-informational?style=flat-square) ![AppVersion: 7.15.0](https://img.shields.io/badge/AppVersion-7.15.0-informational?style=flat-square)
+![Version: 7.15.2](https://img.shields.io/badge/Version-7.15.2-informational?style=flat-square) ![AppVersion: 7.15.0](https://img.shields.io/badge/AppVersion-7.15.0-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
