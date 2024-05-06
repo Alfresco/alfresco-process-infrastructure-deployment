@@ -3,7 +3,7 @@ name: Create Release
 on:
   push:
     tags:
-      - '7.15.1'
+      - '7.15.2'
 
 env:
   CHART_DIR: "helm/alfresco-process-infrastructure"
