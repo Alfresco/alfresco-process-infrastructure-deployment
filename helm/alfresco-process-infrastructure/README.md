@@ -43,7 +43,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- else }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
-| alfresco-admin-app.image.tag | string | `"7.15.0"` |  |
+| alfresco-admin-app.image.tag | string | `"7.15.1"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
