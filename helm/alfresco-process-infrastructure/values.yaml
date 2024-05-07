@@ -1083,7 +1083,7 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.15.1
+    tag: 7.15.2
     pullPolicy: IfNotPresent
   service:
     name: admin-app
