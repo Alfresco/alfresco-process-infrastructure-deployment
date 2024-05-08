@@ -33,8 +33,6 @@ jobs:
         uses: Alfresco/alfresco-build-tools/.github/actions/setup-kubepug@553490b6434e1ec43ced9b321a04fadb91535d4c # v5.25.0
       - name: pre-commit
         uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@553490b6434e1ec43ced9b321a04fadb91535d4c # v5.25.0
-        with:
-          skip_checkout: true
       - name: Run Checkov
         uses: bridgecrewio/checkov-action@e1bb78184f5dd3690fb1089d6c4f51295f9dff48 # v12.1839.0
         with:
