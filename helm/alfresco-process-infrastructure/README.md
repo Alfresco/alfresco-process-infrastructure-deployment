@@ -16,16 +16,16 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.3.0 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 8.3.0 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
@@ -96,7 +96,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"7.15.0"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.15.1"` |  |
 | alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
