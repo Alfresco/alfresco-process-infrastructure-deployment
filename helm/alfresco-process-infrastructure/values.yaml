@@ -1476,7 +1476,7 @@ alfresco-identity-adapter-service:
     path: "/identity-adapter-service/?(.*)"
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
-    tag: 7.17.0-alpha.41
+    tag: 7.17.0-alpha.42
     pullPolicy: Always
   liquibase:
     enabled: false
