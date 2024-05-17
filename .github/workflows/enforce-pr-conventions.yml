@@ -8,7 +8,7 @@ on:
       - synchronize
       - edited
     branches:
-      - develop
+      - 7.15.x
 jobs:
   enforce-pr-conventions:
     runs-on: ubuntu-latest

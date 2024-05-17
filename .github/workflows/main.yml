@@ -2,10 +2,10 @@ name: Build
 on:
   push:
     branches:
-      - develop
+      - 7.15.x
   pull_request:
     branches:
-      - develop
+      - 7.15.x
     types:
       - opened
       - reopened
