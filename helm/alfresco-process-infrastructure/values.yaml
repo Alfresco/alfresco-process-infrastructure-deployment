@@ -518,7 +518,7 @@ alfresco-modeling-service:
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: 7.15.2-alpha.3
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   liquibase:
     enabled: true
   postgresql:
@@ -659,8 +659,8 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: 7.15.1
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   service:
     name: modeling-app
     envType: frontend
@@ -700,7 +700,7 @@ alfresco-deployment-service:
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
     tag: 7.15.2-alpha.2
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   postgresql:
     enabled: true
   db:
@@ -1083,8 +1083,8 @@ alfresco-admin-app:
   nameOverride: alfresco-admin-app
   image:
     repository: quay.io/alfresco/alfresco-admin-app
-    tag: 7.15.2
-    pullPolicy: IfNotPresent
+    tag: develop
+    pullPolicy: Always
   service:
     name: admin-app
     envType: frontend
@@ -1265,7 +1265,7 @@ alfresco-process-analytics-service:
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-service
     tag: 7.15.2-alpha.2
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     name: alfresco-process-analytics-service
     internalPort: 8080
@@ -1366,7 +1366,7 @@ alfresco-process-analytics-playground:
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-playground
     tag: 7.15.2-alpha.2
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   service:
     name: alfresco-process-analytics-playground
     internalPort: 5000
@@ -1475,7 +1475,7 @@ alfresco-identity-adapter-service:
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
     tag: 7.15.2-alpha.1
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   liquibase:
     enabled: false
   postgresql:
@@ -1573,7 +1573,7 @@ alfresco-static-resources:
   enabled: true
   image:
     repository: quay.io/alfresco/apa-static-resources
-    tag: 7.15.0
+    tag: 7.15.2
   service:
     name: static-resources
     internalPort: 8080
