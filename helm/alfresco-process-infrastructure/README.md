@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.17.0-SNAPSHOT](https://img.shields.io/badge/Version-7.17.0--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.17.0-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.17.0--SNAPSHOT-informational?style=flat-square)
+![Version: 7.18.0-SNAPSHOT](https://img.shields.io/badge/Version-7.18.0--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.18.0-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.18.0--SNAPSHOT-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -527,7 +527,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.service.name | string | `"alfresco-process-analytics-service"` |  |
 | alfresco-static-resources.enabled | bool | `true` |  |
 | alfresco-static-resources.image.repository | string | `"quay.io/alfresco/apa-static-resources"` |  |
-| alfresco-static-resources.image.tag | string | `"7.16.0-beta.34"` |  |
+| alfresco-static-resources.image.tag | string | `"7.18.0-beta.4"` |  |
 | alfresco-static-resources.ingress.enabled | bool | `false` |  |
 | alfresco-static-resources.livenessProbe.path | string | `"/"` |  |
 | alfresco-static-resources.livenessProbe.port | int | `8080` |  |
