@@ -47,16 +47,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
-      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+      - uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-validate-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            ${{ runner.os }}-maven-validate-
+
       - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@553490b6434e1ec43ced9b321a04fadb91535d4c # v5.25.0
         with:
           maven-username: ${{ secrets.NEXUS_USERNAME }}
           maven-password: ${{ secrets.NEXUS_PASSWORD }}
+
+      - name: Save maven cache
+        uses: actions/cache/save@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+        if: github.event_name == 'push'
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-validate-${{ hashFiles('**/pom.xml') }}
 
   build:
     runs-on: ubuntu-latest
