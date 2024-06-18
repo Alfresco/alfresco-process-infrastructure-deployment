@@ -41,7 +41,14 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- else }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
+| alfresco-admin-app.image.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-admin-app.image.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-admin-app.image.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-admin-app.image.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
+| alfresco-admin-app.image.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-admin-app.image.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
+| alfresco-admin-app.image.replicaCount | int | `2` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -55,6 +62,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.resources.requests.memory | string | `"256Mi"` |  |
 | alfresco-admin-app.service.envType | string | `"frontend"` |  |
 | alfresco-admin-app.service.name | string | `"admin-app"` |  |
+| alfresco-deployment-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-deployment-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-deployment-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-deployment-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-deployment-service.applications.activiti.keycloak.clientId | string | `"{{ .Values.global.keycloak.clientId }}"` | activiti keycloak client id |
 | alfresco-deployment-service.applications.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` | activiti keycloak client secret |
 | alfresco-deployment-service.applications.analytics.metrics.export.enabled | bool | `true` |  |
@@ -78,6 +89,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.image.pullSecretName | string | `"quay-registry-secret"` | pull secret name for all application images |
 | alfresco-deployment-service.applications.image.tag | string | `"develop"` | default tag for all application images |
 | alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
+| alfresco-deployment-service.applications.podDisruptionBudget.enabled | bool | `true` | set to true to enable PodDisruptionBudget for all applications |
+| alfresco-deployment-service.applications.podDisruptionBudget.minAvailable | int | `1` | default min replicas to keep for all applications |
 | alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
 | alfresco-deployment-service.applications.rabbitmq.admin.url | string | `""` | RabbitMQ admin URL, derived from host if not set |
 | alfresco-deployment-service.applications.rabbitmq.host | string | `"{{ .Release.Name }}-rabbitmq.{{ .Release.Namespace }}"` | RabbitMQ host |
@@ -85,6 +98,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.rabbitmq.port | string | `""` | RabbitMQ port |
 | alfresco-deployment-service.applications.rabbitmq.ssl.enabled | string | `""` | RabbitMQ SSL enabled |
 | alfresco-deployment-service.applications.rabbitmq.username | string | `"user"` | RabbitMQ username |
+| alfresco-deployment-service.applications.replicaCount | int | `2` | default number of replicas for all applications |
 | alfresco-deployment-service.db.password | string | `"alfresco"` |  |
 | alfresco-deployment-service.db.uri | string | `"jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgresql.name }}.{{ .Release.Namespace }}:{{ .Values.postgresql.port }}/postgres"` |  |
 | alfresco-deployment-service.db.username | string | `"alfresco"` |  |
@@ -94,7 +108,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.environment.namespace | string | installation namespace | namespace to copy secrets from to application namespaces |
 | alfresco-deployment-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_SERVLET_CONTEXTPATH\n  value: \"{{ .Values.ingress.path }}\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: KEYCLOAK_AUTH_SERVER_URL\n  value: '{{ include \"common.keycloak-url\" . }}'\n- name: DOCKER_REGISTRY_IMAGE_TAG\n  value: \"{{ .Values.applications.image.tag }}\"\n- name: ALFRESCO_DOCKER_REGISTRY_SECRET_NAME\n  value: \"{{ .Values.applications.image.pullSecretName }}\"\n- name: ALFRESCO_DOCKER_REGISTRY_IMAGEPULLPOLICY\n  value: \"{{ .Values.applications.image.pullPolicy }}\"\n- name: CONTENT_SERVICE_BASE_URL\n{{- if .Values.global.hxpr.enabled}}\n  value: \"{{ .Values.global.hxpr.url }}\"\n{{- else }}\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}\"\n{{- with .Values.global.acs.activemq.url }}\n- name: CONTENT_SERVICE_ACTIVEMQ_URL\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.global.acs.activemq.username }}\n- name: CONTENT_SERVICE_ACTIVEMQ_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.global.acs.activemq.password }}\n- name: CONTENT_SERVICE_ACTIVEMQ_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n- name: MODELING_URL\n  value: '{{ include \"common.gateway-url\" . }}/modeling-service'\n- name: ENVIRONMENT_HOST_URL\n  value: '{{ include \"common.gateway-url\" . }}'\n- name: ENVIRONMENT_API_URL\n  value: \"{{ .Values.environment.apiUrl }}\"\n- name: ENVIRONMENT_API_TOKEN\n  value: \"{{ .Values.environment.apiToken }}\"\n- name: ENVIRONMENT_NAMESPACE\n  value: \"{{ tpl .Values.environment.namespace . }}\"\n- name: ENVIRONMENT_DOMAIN\n  value: '{{ include \"common.gateway-domain\" . }}'\n- name: PROJECT_RELEASE_VOLUME_STORAGE_CLASS\n  value: \"{{ .Values.projectReleaseVolume.storageClass }}\"\n- name: PROJECT_RELEASE_VOLUME_PERMISSION\n  value: \"{{ .Values.projectReleaseVolume.permission }}\"\n- name: APPLICATIONS_DATABASE_EXTERNAL\n  value: \"{{ .Values.applications.database.external }}\"\n{{- with .Values.applications.connectors.emailConnector.username }}\n- name: CONNECTOR_EMAILCONNECTOR_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.password }}\n- name: CONNECTOR_EMAILCONNECTOR_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.host }}\n- name: CONNECTOR_EMAILCONNECTOR_HOST\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.connectors.emailConnector.port }}\n- name: CONNECTOR_EMAILCONNECTOR_PORT\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.maxNumber }}\n- name: APPLICATIONS_MAXNUMBER\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.customRedirectUris }}\n- name: CUSTOM_REDIRECT_URIS\n  value: \"{{ . }}\"\n{{- end }}\n- name: PROCESS_STORAGE_SERVICE_CLIENTSECRET\n{{- if .Values.global.hxpr.enabled}}\n  value: \"{{ .Values.global.hxpr.admin.clientSecret }}\"\n{{- else }}\n  value: \"{{ tpl .Values.applications.processStorageService.clientSecret . }}\"\n{{- end }}\n{{- with .Values.applications.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.applications.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.port }}\n- name: APPLICATIONS_RABBITMQ_PORT\n  value: \"{{ tpl .Values.applications.rabbitmq.port . }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.host }}\n- name: APPLICATIONS_RABBITMQ_HOST\n  value: \"{{ tpl .Values.applications.rabbitmq.host . }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.ssl.enabled }}\n- name: APPLICATIONS_RABBITMQ_SSL_ENABLED\n  value: \"{{ tpl .Values.applications.rabbitmq.ssl.enabled . }}\"\n{{- end }}\n{{- with .Values.applications.rabbitmq.username }}\n- name: APPLICATIONS_RABBITMQ_USERNAME\n  value: \"{{ . }}\"\n{{- end }}\n{{- with .Values.applications.rabbitmq.password }}\n- name: APPLICATIONS_RABBITMQ_PASSWORD\n  value: \"{{ . }}\"\n{{- end }}\n{{- if .Values.applications.rabbitmq.admin.url }}\n- name: APPLICATIONS_RABBITMQ_ADMIN_URL\n  value: \"{{ tpl .Values.applications.rabbitmq.admin.url . }}\"\n{{- end }}\n- name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.applications.analytics.metrics.export.enabled }}\"\n{{- if .Values.applications.analytics.metrics.export.enabled }}\n- name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_URL\n  value: \"{{ tpl .Values.applications.analytics.metrics.export.url $ }}\"\n- name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_USERNAME\n  value: \"{{ tpl .Values.applications.analytics.metrics.export.username $ }}\"\n- name: APPLICATIONS_ANALYTICS_METRICS_EXPORT_PASSWORD\n  value: \"{{ tpl .Values.applications.analytics.metrics.export.password $ }}\"\n{{- end }}\n- name: ATS_TRANSFORMER_TIKA_URL\n  value: \"http://tika.{{ .Release.Namespace }}/transform\"\n- name: PROCESS_UI_URL\n  value: '{{ include \"common.gateway-url\" . }}'\n- name: FORCE_UPDATE_RUNTIME_VERSION\n  value: \"true\"\n{{- if .Values.global.hxpr.enabled }}\n- name: CONTENT_REPOSITORY_TYPE\n  value: \"hxp\"\n- name: PROCESS_STORAGE_SERVICE_CLIENTID\n  value: \"{{ .Values.global.hxpr.admin.clientId }}\"\n- name: HXPIDP_ACCOUNTID\n  value: \"{{ .Values.global.hxp.accountId }}\"\n- name: HXP_CONTEXT_ENVIRONMENT\n  value: \"{{ .Values.global.hxp.context.environment }}\"\n{{- end }}\n{{- if .Values.global.datadog.enabled }}\n{{- with .Values.global.datadog.agent.traceAgentUrl }}\n- name: DD_TRACE_AGENT_URL\n  value: {{ . }}\n{{- end }}\n{{- if not .Values.global.datadog.agent.admission }}\n- name: DATADOG_JAVA_AGENT\n  value: \"{{ .Values.global.datadog.enabled }}\"\n- name: DD_SERVICE\n  value: \"{{ .Chart.Name }}\"\n- name: DD_ENV\n  value: {{ .Values.global.datadog.env | required \"global.datadog.env is required.\" | quote }}\n- name: DD_VERSION\n  value: \"{{ .Values.image.tag }}\"\n{{- end }}\n- name: DD_LOGS_INJECTION\n  value: \"{{ .Values.global.datadog.agent.logsInjection }}\"\n- name: DD_PROFILING_ENABLED\n  value: \"{{ .Values.global.datadog.agent.profiling }}\"\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.global.datadog.metrics.enabled }}\"\n{{- if .Values.global.datadog.metrics.enabled }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_API_KEY\n  value: {{ .Values.global.datadog.metrics.apiKey | required \"global.datadog.metrics.apiKey is required.\" | quote }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_DESCRIPTIONS\n  value: {{ .Values.global.datadog.metrics.descriptions | required \"global.datadog.metrics.descriptions is required.\" | quote }}\n{{- with .Values.global.datadog.metrics.applicationKey }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_APPLICATION_KEY\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.uri }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_URI\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.hostTag }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_HOST_TAG\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.step }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_STEP\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.connectTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_CONNECT_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.readTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_READ_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.batchSize }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_BATCH_SIZE\n  value: {{ . | quote }}\n{{- end }}\n{{- end }}\n- name: APPLICATIONS_DATADOG_ENABLED\n  value: \"{{ .Values.applications.datadog.enabled }}\"\n{{- if .Values.applications.datadog.enabled }}\n- name: APPLICATIONS_DATADOG_ADMISSION_ENABLED\n  value: {{ .Values.applications.datadog.agent.admission | quote }}\n{{- if .Values.applications.datadog.agent.admission }}\n- name: APPLICATIONS_DATADOG_JAVA_LIB_VERSION\n  value: {{ .Values.global.datadog.agent.javaLibVersion | required \"global.datadog.agent.javaLibVersion is required.\" | quote }}\n{{- end }}\n- name: APPLICATIONS_DATADOG_ENV\n  value: {{ tpl .Values.applications.datadog.env . | required \"applications.datadog.env is required.\" | quote }}\n{{- with .Values.global.datadog.traceAgentUrl }}\n- name: APPLICATIONS_DATADOG_TRACE_AGENT_URL\n  value: {{ . | quote }}\n{{- end }}\n- name: APPLICATIONS_DATADOG_METRICS_ENABLED\n  value: \"{{ .Values.applications.datadog.metrics.enabled }}\"\n{{- if .Values.applications.datadog.metrics.enabled }}\n- name: APPLICATIONS_DATADOG_METRICS_API_KEY\n  value: {{ .Values.global.datadog.metrics.apiKey | required \"global.datadog.metrics.apiKey is required.\" | quote }}\n- name: APPLICATIONS_DATADOG_METRICS_DESCRIPTIONS\n  value: {{ .Values.global.datadog.metrics.descriptions | required \"global.datadog.metrics.descriptions is required.\" | quote }}\n{{- with .Values.global.datadog.metrics.applicationKey }}\n- name: APPLICATIONS_DATADOG_METRICS_APPLICATION_KEY\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.uri }}\n- name: APPLICATIONS_DATADOG_METRICS_URI\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.hostTag }}\n- name: APPLICATIONS_DATADOG_METRICS_HOST_TAG\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.step }}\n- name: APPLICATIONS_DATADOG_METRICS_STEP\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.connectTimeout }}\n- name: APPLICATIONS_DATADOG_METRICS_CONNECT_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.readTimeout }}\n- name: APPLICATIONS_DATADOG_METRICS_READ_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.batchSize }}\n- name: APPLICATIONS_DATADOG_METRICS_BATCH_SIZE\n  value: {{ . | quote }}\n{{- end }}\n{{- end }}\n- name: APPLICATIONS_DATADOG_LOG_INJECTION_ENABLED\n  value: \"{{ .Values.applications.datadog.agent.logsInjection }}\"\n- name: APPLICATIONS_DATADOG_PROFILING_ENABLED\n  value: \"{{ .Values.applications.datadog.agent.profiling }}\"\n{{- end }}\n{{- end }}"` |  |
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744"` |  |
-| alfresco-deployment-service.image.pullPolicy | string | `"Always"` |  |
+| alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
 | alfresco-deployment-service.image.tag | string | `"7.18.0-alpha.91"` |  |
 | alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -106,6 +120,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.livenessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/liveness"` |  |
 | alfresco-deployment-service.nameOverride | string | `"alfresco-deployment-service"` |  |
 | alfresco-deployment-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
+| alfresco-deployment-service.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-deployment-service.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-deployment-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.admission\" . }}"` |  |
 | alfresco-deployment-service.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
 | alfresco-deployment-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
@@ -115,15 +131,20 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.projectReleaseVolume.storageClass | string | `"#{null}"` | storage class for project release volume, set to null spring expression to use default |
 | alfresco-deployment-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-deployment-service.readinessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/readiness"` |  |
+| alfresco-deployment-service.replicaCount | int | `2` |  |
 | alfresco-deployment-service.resources.limits.cpu | string | `"1000m"` |  |
 | alfresco-deployment-service.resources.limits.memory | string | `"2000Mi"` |  |
 | alfresco-deployment-service.resources.requests.cpu | string | `"300m"` |  |
 | alfresco-deployment-service.resources.requests.memory | string | `"1000Mi"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientId | string | `"{{ .Values.global.keycloak.clientId }}"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` |  |
+| alfresco-identity-adapter-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-identity-adapter-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-identity-adapter-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-identity-adapter-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-identity-adapter-service.enabled | bool | `true` |  |
 | alfresco-identity-adapter-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- if .Values.global.datadog.enabled }}\n{{- with .Values.global.datadog.agent.traceAgentUrl }}\n- name: DD_TRACE_AGENT_URL\n  value: {{ . }}\n{{- end }}\n{{- if not .Values.global.datadog.agent.admission }}\n- name: DATADOG_JAVA_AGENT\n  value: \"{{ .Values.global.datadog.enabled }}\"\n- name: DD_SERVICE\n  value: \"{{ .Chart.Name }}\"\n- name: DD_ENV\n  value: {{ .Values.global.datadog.env | required \"global.datadog.env is required.\" | quote }}\n- name: DD_VERSION\n  value: \"{{ .Values.image.tag }}\"\n{{- end }}\n- name: DD_LOGS_INJECTION\n  value: \"{{ .Values.global.datadog.agent.logsInjection }}\"\n- name: DD_PROFILING_ENABLED\n  value: \"{{ .Values.global.datadog.agent.profiling }}\"\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.global.datadog.metrics.enabled }}\"\n{{- if .Values.global.datadog.metrics.enabled }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_API_KEY\n  value: {{ .Values.global.datadog.metrics.apiKey | required \"global.datadog.metrics.apiKey is required.\" | quote }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_DESCRIPTIONS\n  value: {{ .Values.global.datadog.metrics.descriptions | required \"global.datadog.metrics.descriptions is required.\" | quote }}\n{{- with .Values.global.datadog.metrics.applicationKey }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_APPLICATION_KEY\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.uri }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_URI\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.hostTag }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_HOST_TAG\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.step }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_STEP\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.connectTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_CONNECT_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.readTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_READ_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.batchSize }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_BATCH_SIZE\n  value: {{ . | quote }}\n{{- end }}\n{{- end }}\n{{- end }}"` |  |
-| alfresco-identity-adapter-service.image.pullPolicy | string | `"Always"` |  |
+| alfresco-identity-adapter-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-identity-adapter-service.image.repository | string | `"quay.io/alfresco/alfresco-identity-adapter-service"` |  |
 | alfresco-identity-adapter-service.image.tag | string | `"7.18.0-alpha.42"` |  |
 | alfresco-identity-adapter-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -136,6 +157,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.liquibase.enabled | bool | `false` |  |
 | alfresco-identity-adapter-service.nameOverride | string | `"alfresco-identity-adapter-service"` |  |
 | alfresco-identity-adapter-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
+| alfresco-identity-adapter-service.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-identity-adapter-service.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-identity-adapter-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.admission\" . }}"` |  |
 | alfresco-identity-adapter-service.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
 | alfresco-identity-adapter-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
@@ -143,6 +166,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.postgresql.enabled | bool | `false` |  |
 | alfresco-identity-adapter-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-identity-adapter-service.rabbitmq.enabled | bool | `false` |  |
+| alfresco-identity-adapter-service.replicaCount | int | `2` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
 | alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_USER\n  value: admin\n- name: KEYCLOAK_PASSWORD\n  value: admin\n- name: KEYCLOAK_IMPORT\n  value: /realm/alfresco-realm.json\n- name: PROXY_ADDRESS_FORWARDING\n  value: \"true\"\n"` |  |
 | alfresco-identity-service.ingress.enabled | bool | `false` |  |
@@ -401,6 +425,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[9].realmRoles[2] | string | `"ACTIVITI_MODELER"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].username | string | `"modeler"` |  |
 | alfresco-identity-service.serviceAccount.create | bool | `false` |  |
+| alfresco-modeling-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-modeling-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-modeling-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-modeling-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-modeling-app.enabled | bool | `true` |  |
 | alfresco-modeling-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-modeling-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
@@ -416,6 +444,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-modeling-app.ingress.path | string | `"/modeling"` |  |
 | alfresco-modeling-app.nameOverride | string | `"alfresco-modeling-app"` |  |
+| alfresco-modeling-app.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-modeling-app.podDisruptionBudget.minAvailable | int | `1` |  |
+| alfresco-modeling-app.replicaCount | int | `2` |  |
 | alfresco-modeling-app.resources.limits.cpu | string | `"500m"` |  |
 | alfresco-modeling-app.resources.limits.memory | string | `"1024Mi"` |  |
 | alfresco-modeling-app.resources.requests.cpu | string | `"200m"` |  |
@@ -424,6 +455,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.service.name | string | `"modeling-app"` |  |
 | alfresco-modeling-service.activiti.keycloak.clientId | string | `"{{ .Values.global.keycloak.clientId }}"` |  |
 | alfresco-modeling-service.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` |  |
+| alfresco-modeling-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-modeling-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-modeling-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-modeling-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-modeling-service.content.client.id | string | `""` |  |
 | alfresco-modeling-service.content.client.secret | string | `""` |  |
 | alfresco-modeling-service.content.service.path | string | `"alfresco"` |  |
@@ -434,7 +469,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.exampleProjects.endpoint | string | `"http://static-resources/example-projects"` |  |
 | alfresco-modeling-service.exampleProjects.resource | string | `"index_7.4.0.json"` |  |
 | alfresco-modeling-service.extraEnv | string | `"- name: SERVER_PORT\n  value: \"8080\"\n- name: SERVER_USEFORWARDHEADERS\n  value: \"true\"\n- name: SERVER_TOMCAT_INTERNALPROXIES\n  value: \".*\"\n- name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE\n  value: \"*\"\n- name: CONTENT_CLIENT_ID\n  value: \"{{ .Values.content.client.id }}\"\n- name: CONTENT_CLIENT_SECRET\n  value: \"{{ .Values.content.client.secret }}\"\n- name: CONTENT_SERVICE_URL\n{{- if .Values.global.hxpr.enabled}}\n  value: \"{{ .Values.global.hxpr.url }}\"\n{{- else }}\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- end }}\n- name: CONTENT_SERVICE_PATH\n  value: \"{{ .Values.content.service.path }}\"\n- name: CONTENT_SERVICE_ENABLED\n  value: \"{{ or .Values.global.acs.enabled .Values.global.hxpr.enabled }}\"\n{{- if .Values.global.hxpr.enabled}}\n- name: CONTENT_REPOSITORY_TYPE\n  value: \"hxp\"\n- name: HXPIDP_ACCOUNTID\n  value: \"{{ .Values.global.hxp.accountId }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientId }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_ID\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n{{- with .Values.activiti.keycloak.clientSecret }}\n- name: ACTIVITI_KEYCLOAK_CLIENT_SECRET\n  value: \"{{ tpl . $ }}\"\n{{- end }}\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_ENDPOINT\n  value: \"{{ .Values.exampleProjects.endpoint }}\"\n- name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE\n  value: \"{{ .Values.exampleProjects.resource }}\"\n{{- if .Values.global.datadog.enabled }}\n{{- with .Values.global.datadog.agent.traceAgentUrl }}\n- name: DD_TRACE_AGENT_URL\n  value: {{ . }}\n{{- end }}\n{{- if not .Values.global.datadog.agent.admission }}\n- name: DATADOG_JAVA_AGENT\n  value: \"{{ .Values.global.datadog.enabled }}\"\n- name: DD_SERVICE\n  value: \"{{ .Chart.Name }}\"\n- name: DD_ENV\n  value: {{ .Values.global.datadog.env | required \"global.datadog.env is required.\" | quote }}\n- name: DD_VERSION\n  value: \"{{ .Values.image.tag }}\"\n{{- end }}\n- name: DD_LOGS_INJECTION\n  value: \"{{ .Values.global.datadog.agent.logsInjection }}\"\n- name: DD_PROFILING_ENABLED\n  value: \"{{ .Values.global.datadog.agent.profiling }}\"\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.global.datadog.metrics.enabled }}\"\n{{- if .Values.global.datadog.metrics.enabled }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_API_KEY\n  value: {{ .Values.global.datadog.metrics.apiKey | required \"global.datadog.metrics.apiKey is required.\" | quote }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_DESCRIPTIONS\n  value: {{ .Values.global.datadog.metrics.descriptions | required \"global.datadog.metrics.descriptions is required.\" | quote }}\n{{- with .Values.global.datadog.metrics.applicationKey }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_APPLICATION_KEY\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.uri }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_URI\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.hostTag }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_HOST_TAG\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.step }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_STEP\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.connectTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_CONNECT_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.readTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_READ_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.batchSize }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_BATCH_SIZE\n  value: {{ . | quote }}\n{{- end }}\n{{- end }}\n{{- end }}"` |  |
-| alfresco-modeling-service.image.pullPolicy | string | `"Always"` |  |
+| alfresco-modeling-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
 | alfresco-modeling-service.image.tag | string | `"7.18.0-alpha.91"` |  |
 | alfresco-modeling-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -450,6 +485,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.liquibase.enabled | bool | `true` |  |
 | alfresco-modeling-service.nameOverride | string | `"alfresco-modeling-service"` |  |
 | alfresco-modeling-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
+| alfresco-modeling-service.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-modeling-service.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-modeling-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.admission\" . }}"` |  |
 | alfresco-modeling-service.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
 | alfresco-modeling-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
@@ -457,10 +494,15 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
 | alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
+| alfresco-modeling-service.replicaCount | int | `2` |  |
 | alfresco-modeling-service.resources.limits.cpu | string | `"2500m"` |  |
 | alfresco-modeling-service.resources.limits.memory | string | `"2000Mi"` |  |
 | alfresco-modeling-service.resources.requests.cpu | string | `"1000m"` |  |
 | alfresco-modeling-service.resources.requests.memory | string | `"1000Mi"` |  |
+| alfresco-process-analytics-playground.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-process-analytics-playground.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-process-analytics-playground.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-process-analytics-playground.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-process-analytics-playground.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_JWT_ISSUER_URI | string | `"{{ tpl .Values.graphql.client.jwtIssuerUri $ }}"` |  |
 | alfresco-process-analytics-playground.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_CLIENT_OAUTH2_CLIENT_ID | string | `"{{ tpl .Values.graphql.client.oauth2ClientId $ }}"` |  |
@@ -473,7 +515,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.graphql.client.oauth2ClientId | string | `"analytics-playground"` |  |
 | alfresco-process-analytics-playground.graphql.client.oauth2ClientSecret | string | `"2181210d-ec04-4bcf-8649-8a5dcb1c6342"` |  |
 | alfresco-process-analytics-playground.graphql.client.url | string | `"http://alfresco-process-analytics-service.{{ .Release.Namespace }}.svc.cluster.local/analytics/graphql"` |  |
-| alfresco-process-analytics-playground.image.pullPolicy | string | `"Always"` |  |
+| alfresco-process-analytics-playground.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-process-analytics-playground.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-playground"` |  |
 | alfresco-process-analytics-playground.image.tag | string | `"7.18.0-alpha.41"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -482,17 +524,24 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.ingress.path | string | `"/analytics/playground/"` |  |
 | alfresco-process-analytics-playground.nameOverride | string | `"alfresco-process-analytics-playground"` |  |
 | alfresco-process-analytics-playground.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
+| alfresco-process-analytics-playground.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-process-analytics-playground.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-process-analytics-playground.podLabels."admission.datadoghq.com/enabled" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.admission\" . }}"` |  |
 | alfresco-process-analytics-playground.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
 | alfresco-process-analytics-playground.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
 | alfresco-process-analytics-playground.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
 | alfresco-process-analytics-playground.probePath | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}/actuator/health"` |  |
+| alfresco-process-analytics-playground.replicaCount | int | `2` |  |
 | alfresco-process-analytics-playground.resources.limits.cpu | string | `"1000m"` |  |
 | alfresco-process-analytics-playground.resources.limits.memory | string | `"1024Mi"` |  |
 | alfresco-process-analytics-playground.resources.requests.cpu | string | `"200m"` |  |
 | alfresco-process-analytics-playground.resources.requests.memory | string | `"512Mi"` |  |
 | alfresco-process-analytics-playground.service.internalPort | int | `5000` |  |
 | alfresco-process-analytics-playground.service.name | string | `"alfresco-process-analytics-playground"` |  |
+| alfresco-process-analytics-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-process-analytics-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-process-analytics-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-process-analytics-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-process-analytics-service.enabled | bool | `true` |  |
 | alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_JWT_ISSUER_URI | string | `"{{ tpl .Values.graphql.service.jwtIssuerUri $ }}"` |  |
 | alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_PASSWORD | string | `"{{ tpl .Values.metrics.client.password $ }}"` |  |
@@ -502,7 +551,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
 | alfresco-process-analytics-service.extraEnv | string | `"{{- if .Values.global.datadog.enabled }}\n{{- with .Values.global.datadog.agent.traceAgentUrl }}\n- name: DD_TRACE_AGENT_URL\n  value: {{ . }}\n{{- end }}\n{{- if not .Values.global.datadog.agent.admission }}\n- name: DATADOG_JAVA_AGENT\n  value: \"{{ .Values.global.datadog.enabled }}\"\n- name: DD_SERVICE\n  value: \"{{ .Chart.Name }}\"\n- name: DD_ENV\n  value: {{ .Values.global.datadog.env | required \"global.datadog.env is required.\" | quote }}\n- name: DD_VERSION\n  value: \"{{ .Values.image.tag }}\"\n{{- end }}\n- name: DD_LOGS_INJECTION\n  value: \"{{ .Values.global.datadog.agent.logsInjection }}\"\n- name: DD_PROFILING_ENABLED\n  value: \"{{ .Values.global.datadog.agent.profiling }}\"\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.global.datadog.metrics.enabled }}\"\n{{- if .Values.global.datadog.metrics.enabled }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_API_KEY\n  value: {{ .Values.global.datadog.metrics.apiKey | required \"global.datadog.metrics.apiKey is required.\" | quote }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_DESCRIPTIONS\n  value: {{ .Values.global.datadog.metrics.descriptions | required \"global.datadog.metrics.descriptions is required.\" | quote }}\n{{- with .Values.global.datadog.metrics.applicationKey }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_APPLICATION_KEY\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.uri }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_URI\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.hostTag }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_HOST_TAG\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.step }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_STEP\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.connectTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_CONNECT_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.readTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_READ_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.batchSize }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_BATCH_SIZE\n  value: {{ . | quote }}\n{{- end }}\n{{- end }}\n{{- end }}\n"` |  |
 | alfresco-process-analytics-service.graphql.service.jwtIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
-| alfresco-process-analytics-service.image.pullPolicy | string | `"Always"` |  |
+| alfresco-process-analytics-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-process-analytics-service.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-service"` |  |
 | alfresco-process-analytics-service.image.tag | string | `"7.18.0-alpha.41"` |  |
 | alfresco-process-analytics-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -514,18 +563,26 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.metrics.client.username | string | `"admin"` |  |
 | alfresco-process-analytics-service.nameOverride | string | `"alfresco-process-analytics-service"` |  |
 | alfresco-process-analytics-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
+| alfresco-process-analytics-service.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-process-analytics-service.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-process-analytics-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.admission\" . }}"` |  |
 | alfresco-process-analytics-service.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
 | alfresco-process-analytics-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
 | alfresco-process-analytics-service.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
 | alfresco-process-analytics-service.probePath | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}/actuator/health"` |  |
+| alfresco-process-analytics-service.replicaCount | int | `2` |  |
 | alfresco-process-analytics-service.resources.limits.cpu | string | `"1000m"` |  |
 | alfresco-process-analytics-service.resources.limits.memory | string | `"1024Mi"` |  |
 | alfresco-process-analytics-service.resources.requests.cpu | string | `"200m"` |  |
 | alfresco-process-analytics-service.resources.requests.memory | string | `"512Mi"` |  |
 | alfresco-process-analytics-service.service.internalPort | int | `8080` |  |
 | alfresco-process-analytics-service.service.name | string | `"alfresco-process-analytics-service"` |  |
+| alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-static-resources.enabled | bool | `true` |  |
+| alfresco-static-resources.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-static-resources.image.repository | string | `"quay.io/alfresco/apa-static-resources"` |  |
 | alfresco-static-resources.image.tag | string | `"7.18.0-beta.4"` |  |
 | alfresco-static-resources.ingress.enabled | bool | `false` |  |
@@ -533,16 +590,24 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-static-resources.livenessProbe.port | int | `8080` |  |
 | alfresco-static-resources.nameOverride | string | `"alfresco-static-resources"` |  |
 | alfresco-static-resources.podAnnotations | string | `nil` |  |
+| alfresco-static-resources.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-static-resources.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-static-resources.readinessProbe.path | string | `"/"` |  |
 | alfresco-static-resources.readinessProbe.port | int | `8080` |  |
+| alfresco-static-resources.replicaCount | int | `2` |  |
 | alfresco-static-resources.resources.limits.cpu | string | `"500m"` |  |
 | alfresco-static-resources.resources.limits.memory | string | `"128Mi"` |  |
 | alfresco-static-resources.resources.requests.cpu | string | `"200m"` |  |
 | alfresco-static-resources.resources.requests.memory | string | `"128Mi"` |  |
 | alfresco-static-resources.service.internalPort | int | `8080` |  |
 | alfresco-static-resources.service.name | string | `"static-resources"` |  |
+| alfresco-tika-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-tika-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-tika-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-tika-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-tika-service.enabled | bool | `true` |  |
 | alfresco-tika-service.extraEnv | string | `"{{- if .Values.global.datadog.enabled }}\n{{- with .Values.global.datadog.agent.traceAgentUrl }}\n- name: DD_TRACE_AGENT_URL\n  value: {{ . }}\n{{- end }}\n{{- if not .Values.global.datadog.agent.admission }}\n- name: DATADOG_JAVA_AGENT\n  value: \"{{ .Values.global.datadog.enabled }}\"\n- name: DD_SERVICE\n  value: \"{{ .Chart.Name }}\"\n- name: DD_ENV\n  value: {{ .Values.global.datadog.env | required \"global.datadog.env is required.\" | quote }}\n- name: DD_VERSION\n  value: \"{{ .Values.image.tag }}\"\n{{- end }}\n- name: DD_LOGS_INJECTION\n  value: \"{{ .Values.global.datadog.agent.logsInjection }}\"\n- name: DD_PROFILING_ENABLED\n  value: \"{{ .Values.global.datadog.agent.profiling }}\"\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.global.datadog.metrics.enabled }}\"\n{{- if .Values.global.datadog.metrics.enabled }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_API_KEY\n  value: {{ .Values.global.datadog.metrics.apiKey | required \"global.datadog.metrics.apiKey is required.\" | quote }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_DESCRIPTIONS\n  value: {{ .Values.global.datadog.metrics.descriptions | required \"global.datadog.metrics.descriptions is required.\" | quote }}\n{{- with .Values.global.datadog.metrics.applicationKey }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_APPLICATION_KEY\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.uri }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_URI\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.hostTag }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_HOST_TAG\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.step }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_STEP\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.connectTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_CONNECT_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.readTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_READ_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.batchSize }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_BATCH_SIZE\n  value: {{ . | quote }}\n{{- end }}\n{{- end }}\n{{- end }}\n"` |  |
+| alfresco-tika-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-tika-service.image.repository | string | `"quay.io/alfresco/alfresco-process-tika"` |  |
 | alfresco-tika-service.image.tag | string | `"7.18.0-alpha.41"` |  |
 | alfresco-tika-service.ingress.enabled | bool | `false` |  |
@@ -550,11 +615,14 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-tika-service.livenessProbe.path | string | `"/live"` |  |
 | alfresco-tika-service.nameOverride | string | `"alfresco-tika-service"` |  |
 | alfresco-tika-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
+| alfresco-tika-service.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-tika-service.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-tika-service.podLabels."admission.datadoghq.com/enabled" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.admission\" . }}"` |  |
 | alfresco-tika-service.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
 | alfresco-tika-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
 | alfresco-tika-service.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
 | alfresco-tika-service.readinessProbe.path | string | `"/ready"` |  |
+| alfresco-tika-service.replicaCount | int | `2` |  |
 | alfresco-tika-service.resources.limits.memory | string | `"1000Mi"` |  |
 | alfresco-tika-service.resources.requests.memory | string | `"1000Mi"` |  |
 | alfresco-tika-service.service.internalPort | int | `8090` |  |
