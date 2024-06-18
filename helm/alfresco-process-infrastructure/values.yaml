@@ -518,7 +518,21 @@ alfresco-modeling-service:
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: 7.18.0-alpha.91
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   liquibase:
     enabled: true
   postgresql:
@@ -661,6 +675,20 @@ alfresco-modeling-app:
     repository: quay.io/alfresco/alfresco-modeling-app
     tag: develop
     pullPolicy: Always
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   service:
     name: modeling-app
     envType: frontend
@@ -700,7 +728,21 @@ alfresco-deployment-service:
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
     tag: 7.18.0-alpha.91
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   postgresql:
     enabled: true
   db:
@@ -716,6 +758,13 @@ alfresco-deployment-service:
       pullPolicy: Always
       # alfresco-deployment-service.applications.image.pullSecretName -- pull secret name for all application images
       pullSecretName: quay-registry-secret
+    # alfresco-deployment-service.applications.replicaCount -- default number of replicas for all applications
+    replicaCount: 2
+    podDisruptionBudget:
+      # alfresco-deployment-service.applications.podDisruptionBudget.enabled -- set to true to enable PodDisruptionBudget for all applications
+      enabled: true
+      # alfresco-deployment-service.applications.podDisruptionBudget.minAvailable -- default min replicas to keep for all applications
+      minAvailable: 1
     maxNumber: 20
     # alfresco-deployment-service.applications.maxNumber -- maximum number of application can be deployed
     # @default -- 20 applications can be deployed by default
@@ -1087,6 +1136,20 @@ alfresco-admin-app:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: develop
     pullPolicy: Always
+    replicaCount: 2
+    podDisruptionBudget:
+      enabled: true
+      minAvailable: 1
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 10
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: '{{ template "common.name" . }}'
+                  app.kubernetes.io/instance: '{{ .Release.Name }}'
+              topologyKey: failure-domain.beta.kubernetes.io/zone
   service:
     name: admin-app
     envType: frontend
@@ -1172,6 +1235,21 @@ alfresco-tika-service:
   image:
     repository: quay.io/alfresco/alfresco-process-tika
     tag: 7.18.0-alpha.41
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   service:
     name: tika
     internalPort: 8090
@@ -1267,7 +1345,21 @@ alfresco-process-analytics-service:
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-service
     tag: 7.18.0-alpha.41
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   service:
     name: alfresco-process-analytics-service
     internalPort: 8080
@@ -1368,7 +1460,21 @@ alfresco-process-analytics-playground:
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-playground
     tag: 7.18.0-alpha.41
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   service:
     name: alfresco-process-analytics-playground
     internalPort: 5000
@@ -1477,7 +1583,21 @@ alfresco-identity-adapter-service:
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
     tag: 7.18.0-alpha.42
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   liquibase:
     enabled: false
   postgresql:
@@ -1576,6 +1696,21 @@ alfresco-static-resources:
   image:
     repository: quay.io/alfresco/apa-static-resources
     tag: 7.18.0-beta.4
+    pullPolicy: IfNotPresent
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   service:
     name: static-resources
     internalPort: 8080
