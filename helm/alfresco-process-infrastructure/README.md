@@ -35,20 +35,17 @@ Kubernetes: `>=1.15.0-0`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| alfresco-admin-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
+| alfresco-admin-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
+| alfresco-admin-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
+| alfresco-admin-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-admin-app.applications.allowCustomResources | bool | `true` |  |
 | alfresco-admin-app.enabled | bool | `true` |  |
 | alfresco-admin-app.env.APP_CONFIG_AUTH_TYPE | string | `"OAUTH"` |  |
 | alfresco-admin-app.env.APP_CONFIG_BPM_HOST | string | `"{{ include \"common.gateway-url\" . }}"` |  |
 | alfresco-admin-app.env.APP_CONFIG_IDENTITY_HOST | string | `"{{ include \"common.keycloak-url\" . }}/admin/realms/{{ include \"common.keycloak-realm\" . }}"` |  |
 | alfresco-admin-app.extraEnv | string | `"- name: APP_ALLOW_CUSTOM_RESOURCES\n  value: \"{{ .Values.applications.allowCustomResources }}\"\n{{- if .Values.global.acs.enabled }}\n- name: APP_CONFIG_ECM_HOST\n  value: '{{ template \"alfresco-process-infrastructure.acs-url\" . }}'\n{{- else }}\n- name: APP_CONFIG_PROVIDER\n  value: BPM\n{{- end }}"` |  |
-| alfresco-admin-app.image.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
-| alfresco-admin-app.image.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
-| alfresco-admin-app.image.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
-| alfresco-admin-app.image.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
-| alfresco-admin-app.image.podDisruptionBudget.enabled | bool | `true` |  |
-| alfresco-admin-app.image.podDisruptionBudget.minAvailable | int | `1` |  |
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
-| alfresco-admin-app.image.replicaCount | int | `2` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |
 | alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
@@ -56,6 +53,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
 | alfresco-admin-app.ingress.path | string | `"/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"alfresco-admin-app"` |  |
+| alfresco-admin-app.podDisruptionBudget.enabled | bool | `true` |  |
+| alfresco-admin-app.podDisruptionBudget.minAvailable | int | `1` |  |
+| alfresco-admin-app.replicaCount | int | `2` |  |
 | alfresco-admin-app.resources.limits.cpu | string | `"500m"` |  |
 | alfresco-admin-app.resources.limits.memory | string | `"1024Mi"` |  |
 | alfresco-admin-app.resources.requests.cpu | string | `"200m"` |  |
