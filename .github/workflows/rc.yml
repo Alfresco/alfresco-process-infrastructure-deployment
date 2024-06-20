@@ -22,13 +22,13 @@ jobs:
 
       - id: helm-package-chart
         name: Package Helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@cb0b83120864f42f13bef126986c08c9af1591a7 # v5.29.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@7c08513b5d33b682ac518b369e5e7b8454f2fd96 # v5.29.3
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - id: helm-publish-chart
         name: Publish Helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@cb0b83120864f42f13bef126986c08c9af1591a7 # v5.29.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@7c08513b5d33b682ac518b369e5e7b8454f2fd96 # v5.29.3
         with:
           chart-package: ${{ steps.helm-package-chart.outputs.package-file-path }}
           helm-charts-repo: ${{ env.HELM_REPO }}
@@ -45,7 +45,7 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Slack Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@cb0b83120864f42f13bef126986c08c9af1591a7 # v5.29.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-slack-notification@7c08513b5d33b682ac518b369e5e7b8454f2fd96 # v5.29.3
         with:
           channel-id: 'eng-hxp-studio-releases-gh-notifs'
           token: ${{ secrets.SLACK_NOTIFICATION_BOT_TOKEN }}
