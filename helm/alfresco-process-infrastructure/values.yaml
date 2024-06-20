@@ -1136,20 +1136,20 @@ alfresco-admin-app:
     repository: quay.io/alfresco/alfresco-admin-app
     tag: develop
     pullPolicy: Always
-    replicaCount: 2
-    podDisruptionBudget:
-      enabled: true
-      minAvailable: 1
-    affinity:
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 10
-            podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: '{{ template "common.name" . }}'
-                  app.kubernetes.io/instance: '{{ .Release.Name }}'
-              topologyKey: failure-domain.beta.kubernetes.io/zone
+  replicaCount: 2
+  podDisruptionBudget:
+    enabled: true
+    minAvailable: 1
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 10
+          podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: '{{ template "common.name" . }}'
+                app.kubernetes.io/instance: '{{ .Release.Name }}'
+            topologyKey: failure-domain.beta.kubernetes.io/zone
   service:
     name: admin-app
     envType: frontend
