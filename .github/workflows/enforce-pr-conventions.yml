@@ -17,6 +17,6 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: enforce-pr-conventions
         id: git-naming-convention
-        uses: Alfresco/alfresco-build-tools/.github/actions/enforce-pr-conventions@7c08513b5d33b682ac518b369e5e7b8454f2fd96 # v5.29.3
+        uses: Alfresco/alfresco-build-tools/.github/actions/enforce-pr-conventions@a28af45063d973fc5e77decb800a35c48b0838e3 # v5.29.6
         with:
           jira-project-key: AAE|HXOR
