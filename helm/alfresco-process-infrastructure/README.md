@@ -26,10 +26,10 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.6.0-alpha.9 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.6.0-alpha.9 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 8.6.0-alpha.9 |
-| https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
+| https://codecentric.github.io/helm-charts | alfresco-identity-service(keycloakx) | 2.3.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | rabbitmq | 8.20.5 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 15.5.11 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | rabbitmq | 14.4.4 |
 
 ## Values
 
@@ -167,28 +167,30 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-identity-adapter-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-identity-adapter-service.replicaCount | int | `2` |  |
+| alfresco-identity-service.command[0] | string | `"/opt/keycloak/bin/kc.sh"` |  |
+| alfresco-identity-service.command[1] | string | `"start"` |  |
+| alfresco-identity-service.command[2] | string | `"--http-enabled=true"` |  |
+| alfresco-identity-service.command[3] | string | `"--http-port=8080"` |  |
+| alfresco-identity-service.command[4] | string | `"--hostname-strict=false"` |  |
+| alfresco-identity-service.command[5] | string | `"--hostname-strict-https=false"` |  |
+| alfresco-identity-service.command[6] | string | `"--import-realm"` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
-| alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_USER\n  value: admin\n- name: KEYCLOAK_PASSWORD\n  value: admin\n- name: KEYCLOAK_IMPORT\n  value: /realm/alfresco-realm.json\n- name: PROXY_ADDRESS_FORWARDING\n  value: \"true\"\n"` |  |
-| alfresco-identity-service.ingress.enabled | bool | `false` |  |
-| alfresco-identity-service.keycloak.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
-| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/affinity" | string | `"cookie"` |  |
-| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"false"` |  |
-| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/proxy-buffer-size" | string | `"128k"` |  |
-| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-hash" | string | `"sha1"` |  |
-| alfresco-identity-service.keycloak.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-name" | string | `"identity_affinity_route"` |  |
-| alfresco-identity-service.keycloak.ingress.enabled | bool | `true` |  |
-| alfresco-identity-service.keycloak.ingress.rules[0].host | string | `"{{ include \"common.keycloak-host\" . }}"` |  |
-| alfresco-identity-service.keycloak.ingress.rules[0].paths[0].path | string | `"/auth"` |  |
-| alfresco-identity-service.keycloak.ingress.rules[0].paths[0].pathType | string | `"Prefix"` |  |
-| alfresco-identity-service.keycloak.ingress.tls | list | `[]` |  |
-| alfresco-identity-service.keycloak.keycloak.image.tag | string | `"1.7.0"` |  |
-| alfresco-identity-service.keycloak.postgresql.image.tag | string | `"13.3.0"` |  |
-| alfresco-identity-service.keycloak.postgresql.persistence.existingClaim | string | `""` |  |
-| alfresco-identity-service.keycloak.postgresql.tls.enabled | bool | `false` |  |
-| alfresco-identity-service.rbac.create | bool | `false` |  |
+| alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_ADMIN\n  value: admin\n- name: KEYCLOAK_ADMIN_PASSWORD\n  value: admin\n- name: JAVA_OPTS_APPEND\n  value: '-Djgroups.dns.query={{ include \"keycloak.fullname\" . }}-headless'\n- name: KC_HOSTNAME\n  value: '{{ include \"common.keycloak-host\" . }}'\n"` |  |
+| alfresco-identity-service.extraVolumeMounts | string | `"- name: realm-secret\n  mountPath: /opt/keycloak/data/import\n  readOnly: true\n"` |  |
+| alfresco-identity-service.extraVolumes | string | `"- name: realm-secret\n  secret:\n    secretName: realm-secret\n"` |  |
+| alfresco-identity-service.ingress.annotations."nginx.ingress.kubernetes.io/proxy-buffer-size" | string | `"16k"` |  |
+| alfresco-identity-service.ingress.enabled | bool | `true` |  |
+| alfresco-identity-service.ingress.ingressClassName | string | `"nginx"` |  |
+| alfresco-identity-service.ingress.rules[0].host | string | `"{{ include \"common.keycloak-host\" . }}"` |  |
+| alfresco-identity-service.ingress.rules[0].paths[0].path | string | `"/auth"` |  |
+| alfresco-identity-service.ingress.rules[0].paths[0].pathType | string | `"Prefix"` |  |
+| alfresco-identity-service.ingress.tls | list | `[]` |  |
+| alfresco-identity-service.postgresql.enabled | bool | `false` |  |
+| alfresco-identity-service.realm.alfresco.adminPassword | string | `"admin"` |  |
 | alfresco-identity-service.realm.alfresco.client.redirectUris[0] | string | `"*"` |  |
 | alfresco-identity-service.realm.alfresco.client.webOrigins[0] | string | `"*"` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[0].clientId | string | `"activiti"` |  |
+| alfresco-identity-service.realm.alfresco.extraClients[0].clientRoles | list | `[]` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[0].directAccessGrantsEnabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[0].enabled | bool | `true` |  |
 | alfresco-identity-service.realm.alfresco.extraClients[0].implicitFlowEnabled | bool | `true` |  |
@@ -424,7 +426,6 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.realm.alfresco.extraUsers[9].realmRoles[1] | string | `"uma_authorization"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].realmRoles[2] | string | `"ACTIVITI_MODELER"` |  |
 | alfresco-identity-service.realm.alfresco.extraUsers[9].username | string | `"modeler"` |  |
-| alfresco-identity-service.serviceAccount.create | bool | `false` |  |
 | alfresco-modeling-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
 | alfresco-modeling-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
 | alfresco-modeling-app.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
@@ -675,36 +676,21 @@ Kubernetes: `>=1.15.0-0`
 | opensearch.extraEnvs[1].name | string | `"DISABLE_SECURITY_PLUGIN"` |  |
 | opensearch.extraEnvs[1].value | string | `"true"` |  |
 | opensearch.replicas | int | `2` |  |
-| postgresql.commonAnnotations.application | string | `"activiti"` |  |
+| postgresql.auth.password | string | `"alfresco"` |  |
+| postgresql.auth.username | string | `"alfresco"` |  |
+| postgresql.database | string | `"postgres"` |  |
 | postgresql.enabled | bool | `true` |  |
-| postgresql.image.tag | string | `"13.3.0"` |  |
-| postgresql.persistence.mountPath | string | `"/data"` |  |
-| postgresql.postgresqlDataDir | string | `"/data/pgdata"` |  |
-| postgresql.postgresqlDatabase | string | `"postgres"` |  |
-| postgresql.postgresqlExtendedConf.log_min_messages | string | `"LOG"` |  |
-| postgresql.postgresqlExtendedConf.max_connections | int | `300` |  |
-| postgresql.postgresqlPassword | string | `"alfresco"` |  |
-| postgresql.postgresqlUsername | string | `"alfresco"` |  |
+| postgresql.image.tag | string | `"11.22.0"` |  |
+| postgresql.persistence.mountPath | string | `"/bitnami/postgresql"` |  |
+| postgresql.postgresqlDataDir | string | `"/bitnami/postgresql/data"` |  |
+| postgresql.primary.extendedConfiguration | string | `"max_connections = 300\nlog_min_messages = LOG\n"` |  |
 | postgresql.resources.limits.memory | string | `"1500Mi"` |  |
 | postgresql.resources.requests.memory | string | `"1500Mi"` |  |
 | rabbitmq.auth.erlangCookie | string | `"ylY79lOdNUWsJEwAGdVQnhjSazV4QZKO="` |  |
 | rabbitmq.auth.password | string | `"CHANGEME"` |  |
 | rabbitmq.auth.username | string | `"user"` |  |
-| rabbitmq.customLivenessProbe.exec.command[0] | string | `"rabbitmq-diagnostics"` |  |
-| rabbitmq.customLivenessProbe.exec.command[1] | string | `"status"` |  |
-| rabbitmq.customLivenessProbe.initialDelaySeconds | int | `60` |  |
-| rabbitmq.customLivenessProbe.periodSeconds | int | `60` |  |
-| rabbitmq.customLivenessProbe.timeoutSeconds | int | `15` |  |
-| rabbitmq.customReadinessProbe.exec.command[0] | string | `"rabbitmq-diagnostics"` |  |
-| rabbitmq.customReadinessProbe.exec.command[1] | string | `"ping"` |  |
-| rabbitmq.customReadinessProbe.initialDelaySeconds | int | `20` |  |
-| rabbitmq.customReadinessProbe.periodSeconds | int | `60` |  |
 | rabbitmq.enabled | bool | `true` |  |
 | rabbitmq.extraPlugins | string | `""` |  |
-| rabbitmq.livenessProbe.enabled | bool | `false` |  |
-| rabbitmq.persistence.accessMode | string | `"ReadWriteOnce"` |  |
-| rabbitmq.persistence.storageClass | string | `nil` |  |
-| rabbitmq.readinessProbe.enabled | bool | `false` |  |
 | rabbitmq.resources.limits.memory | string | `"1500Mi"` |  |
 | rabbitmq.resources.requests.memory | string | `"1500Mi"` |  |
 | setup-acs-script-job.enabled | bool | `true` |  |

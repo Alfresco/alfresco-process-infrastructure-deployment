@@ -103,51 +103,48 @@ global:
       # global.datadog.metrics.batchSize -- configures application Datadog metrics export batch size if needed, i.e. 10000.
       batchSize: null
 alfresco-identity-service:
-  # set to false to disable custom alfresco-identity-service ingress with hostname support
   enabled: true
-  rbac:
-    create: false
-  serviceAccount:
-    create: false
   ingress:
-    enabled: false
-  keycloak:
-    keycloak:
-      image:
-        tag: 1.7.0
-    ingress:
-      enabled: true
-      rules:
-        - host: '{{ include "common.keycloak-host" . }}'
-          paths:
-            - path: /auth
-              pathType: Prefix
-      tls: []
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
-        nginx.ingress.kubernetes.io/affinity: cookie
-        nginx.ingress.kubernetes.io/session-cookie-name: identity_affinity_route
-        nginx.ingress.kubernetes.io/session-cookie-hash: sha1
-        nginx.ingress.kubernetes.io/enable-cors: "false"
-    postgresql:
-      tls:
-        enabled: false
-      image:
-        tag: 13.3.0
-      persistence:
-        existingClaim: "" # use default postgresql PVC
+    enabled: true
+    rules:
+      - host: '{{ include "common.keycloak-host" . }}'
+        paths:
+          - path: /auth
+            pathType: Prefix
+    tls: []
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/proxy-buffer-size: 16k
+  command:
+    - "/opt/keycloak/bin/kc.sh"
+    - "start"
+    - "--http-enabled=true"
+    - "--http-port=8080"
+    - "--hostname-strict=false"
+    - "--hostname-strict-https=false"
+    - "--import-realm"
   extraEnv: |
-    - name: KEYCLOAK_USER
+    - name: KEYCLOAK_ADMIN
       value: admin
-    - name: KEYCLOAK_PASSWORD
+    - name: KEYCLOAK_ADMIN_PASSWORD
       value: admin
-    - name: KEYCLOAK_IMPORT
-      value: /realm/alfresco-realm.json
-    - name: PROXY_ADDRESS_FORWARDING
-      value: "true"
+    - name: JAVA_OPTS_APPEND
+      value: '-Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless'
+    - name: KC_HOSTNAME
+      value: '{{ include "common.keycloak-host" . }}'
+  extraVolumes: |
+    - name: realm-secret
+      secret:
+        secretName: realm-secret
+  extraVolumeMounts: |
+    - name: realm-secret
+      mountPath: /opt/keycloak/data/import
+      readOnly: true
+  postgresql:
+    enabled: false
   realm:
     alfresco:
+      adminPassword: admin
       client:
         redirectUris:
           - "*"
@@ -162,6 +159,7 @@ alfresco-identity-service:
             - "*"
           directAccessGrantsEnabled: true
           implicitFlowEnabled: true
+          clientRoles: []
         - clientId: storage-service
           enabled: true
           authorizationServicesEnabled: true
@@ -478,23 +476,23 @@ alfresco-identity-service:
 postgresql:
   enabled: true
   image:
-    tag: 13.3.0
-  postgresqlUsername: alfresco
-  postgresqlPassword: alfresco
-  postgresqlDatabase: postgres
-  postgresqlDataDir: /data/pgdata
+    tag: 11.22.0
+  auth:
+    username: alfresco
+    password: alfresco
+  database: postgres
+  postgresqlDataDir: /bitnami/postgresql/data
   persistence:
-    mountPath: /data
-  postgresqlExtendedConf:
-    max_connections: 300
-    log_min_messages: LOG
+    mountPath: /bitnami/postgresql
+  primary:
+    extendedConfiguration: |
+      max_connections = 300
+      log_min_messages = LOG
   resources:
     requests:
       memory: 1500Mi
     limits:
       memory: 1500Mi
-  commonAnnotations:
-    application: activiti
 alfresco-modeling-service:
   enabled: true
   nameOverride: alfresco-modeling-service
@@ -1185,28 +1183,6 @@ alfresco-admin-app:
 rabbitmq:
   enabled: true
   extraPlugins: ""
-  livenessProbe:
-    enabled: false
-  customLivenessProbe:
-    exec:
-      command:
-        - rabbitmq-diagnostics
-        - status
-    initialDelaySeconds: 60
-    timeoutSeconds: 15
-    periodSeconds: 60
-  readinessProbe:
-    enabled: false
-  customReadinessProbe:
-    exec:
-      command:
-        - rabbitmq-diagnostics
-        - ping
-    initialDelaySeconds: 20
-    periodSeconds: 60
-  persistence:
-    storageClass:
-    accessMode: ReadWriteOnce
   auth:
     username: user
     password: CHANGEME

@@ -7,3 +7,45 @@ alfresco-deployment-service:
   environment:
     apiUrl: https://host.docker.internal:6443
     apiToken: "REPLACEME"
+  replicaCount: 1
+  podDisruptionBudget:
+    enabled: false
+
+alfresco-admin-app:
+  replicaCount: 1
+  podDisruptionBudget:
+    enabled: false
+
+alfresco-modeling-app:
+  replicaCount: 1
+  podDisruptionBudget:
+    enabled: false
+
+alfresco-modeling-service:
+  replicaCount: 1
+  podDisruptionBudget:
+    enabled: false
+
+alfresco-tika-service:
+  replicaCount: 1
+  podDisruptionBudget:
+    enabled: false
+
+alfresco-identity-adapter-service:
+  replicaCount: 1
+  podDisruptionBudget:
+    enabled: false
+
+alfresco-static-resources:
+  replicaCount: 1
+  podDisruptionBudget:
+    enabled: false
+
+alfresco-process-analytics-service:
+  enabled: false
+
+alfresco-process-analytics-playground:
+  enabled: false
+
+opensearch:
+  enabled: false
