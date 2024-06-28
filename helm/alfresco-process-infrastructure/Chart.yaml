@@ -17,9 +17,10 @@ dependencies:
   - name: common
     version: 8.6.0-alpha.9
     repository: https://activiti.github.io/activiti-cloud-helm-charts
-  - name: alfresco-identity-service
-    version: 6.0.0
-    repository: https://kubernetes-charts.alfresco.com/stable
+  - name: keycloakx
+    version: 2.3.0
+    repository: https://codecentric.github.io/helm-charts
+    alias: alfresco-identity-service
     condition: alfresco-identity-service.enabled
   - name: common
     version: 8.6.0-alpha.9
@@ -27,12 +28,12 @@ dependencies:
     alias: alfresco-modeling-service
     condition: alfresco-modeling-service.enabled
   - name: postgresql
-    version: 10.3.13
-    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/
+    version: 15.5.11
+    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     condition: postgresql.enabled
   - name: rabbitmq
-    version: 8.20.5
-    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/
+    version: 14.4.4
+    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     condition: rabbitmq.enabled
   - name: common
     version: 8.6.0-alpha.9

@@ -1,0 +1,76 @@
+{
+  "realm": "alfresco",
+  "enabled": true,
+  "sslRequired": "none",
+  "loginTheme": "alfresco",
+  "internationalizationEnabled": true,
+  "defaultLocale": "en",
+  "supportedLocales": [
+    "ca",
+    "de",
+    "en",
+    "es",
+    "fr",
+    "it",
+    "ja",
+    "lt",
+    "nl",
+    "no",
+    "pt-BR",
+    "ru",
+    "sv",
+    "zh-CN"
+  ],
+  "clients": [
+    {
+      "clientId": "alfresco",
+      "name": "alfresco",
+      "enabled": true,
+      "standardFlowEnabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "client" "redirectUris" | default tuple | toJson }},
+      "webOrigins": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "client" "webOrigins" | default tuple | toJson }},
+      "attributes": {
+        "exclude.issuer.from.auth.response": "true"
+      }
+    }
+    {{- range index .Values "alfresco-identity-service" "realm" "alfresco" "extraClients" }}
+      {{- $noRoles := omit . "clientRoles" -}}
+    , {{ $noRoles | toJson }}
+    {{- end }}
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "email": "admin@alfresco.com",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "admin",
+      "lastName": "admin",
+      "credentials": [
+        {
+          "type" : "password",
+          "value" : "{{ index .Values "alfresco-identity-service" "realm" "alfresco" "adminPassword" }}"
+        }
+      ],
+      "realmRoles": [
+        "offline_access",
+        "uma_authorization"
+      ]
+    }
+  ],
+  "roles": {
+    "realm": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "extraRealmRoles" | toJson }},
+    "client":
+    {{- $clientRoles := dict }}
+    {{- range (index .Values "alfresco-identity-service" "realm" "alfresco" "extraClients") }}
+    {{- if .clientRoles -}}
+    {{- $_ := set $clientRoles .clientId .clientRoles }}
+    {{- end }}
+    {{- end }}
+    {{- $clientRoles | toJson }}
+  },
+  "groups": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "extraGroups" | toJson }},
+  "users": {{ index .Values "alfresco-identity-service" "realm" "alfresco" "extraUsers" | toJson }}
+}

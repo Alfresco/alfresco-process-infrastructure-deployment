@@ -19,4 +19,4 @@ Get the application URLs:
 
 To see deployment status, try:
 
-  $ kubectl get pods -n {{ .Release.Namespace }} --watch
+  $ kubectl get pods -n {{ .Release.Namespace }} -w

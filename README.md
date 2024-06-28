@@ -34,7 +34,9 @@ Install the latest version of helm.
 An `ingress-nginx` should be installed and bound to an external DNS address, for example:
 
 ```
-helm upgrade --install --wait --repo https://kubernetes.github.io/ingress-nginx ingress-nginx ingress-nginx
+helm upgrade -i ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  -n ingress-nginx --create-namespace
 ```
 
 ### helm tips
@@ -45,14 +47,15 @@ To install from the development chart repo, use `alfresco-incubator` rather than
 
 ### kubectl tips
 
-Check deployment progress with `kubectl get pods --watch --all-namespaces` until all containers are running.
-If anything is stuck, check events with `kubectl get events --watch`.
+Check deployment progress with `kubectl get pods -w -A` until all containers are running.
+If anything is stuck, check events with `kubectl get events -w -A`.
 
 
 ### configure installation namespace
 
 ```bash
 export DESIRED_NAMESPACE=${DESIRED_NAMESPACE:-aae}
+kubectl create ns $DESIRED_NAMESPACE
 ```
 
 ### add quay-registry-secret
@@ -61,7 +64,7 @@ Configure access to pull images from quay.io in the installation namespace:
 
 ```bash
 kubectl create secret \
-  --namespace $DESIRED_NAMESPACE \
+  -n $DESIRED_NAMESPACE \
   docker-registry quay-registry-secret \
     --docker-server=quay.io \
     --docker-username=$QUAY_USERNAME \
@@ -76,51 +79,45 @@ where:
 ### set main helm env variables
 
 ```bash
-export HELM_OPTS+=" --debug \
-  --namespace $DESIRED_NAMESPACE \
-  --set global.gateway.http=$HTTP \
-  --set global.gateway.domain=$DOMAIN"
+export RELEASE_NAME=aae
+export CHART_NAME=alfresco-process-infrastructure
+export HELM_OPTS="-n $DESIRED_NAMESPACE"
 ```
-
-where:
-
-* _HTTP_ is true/false depending if you want external URLs using HTTP or HTTPS
-* _DOMAIN_ is your DNS domain
-
 
 ### set environment specific variables
 
 #### for localhost
 
+A custom extra values file to add settings for _localhost_ is provided:
 ```bash
-export PROTOCOL=http
 export DOMAIN=host.docker.internal
+HELM_OPTS+=" -f values-localhost.yaml"
 ```
 
-*NB* add to your `/etc/hosts` the line `127.0.0.1 host.docker.internal` if not present
+Make sure your local cluster has at least 16GB of memory and 8 CPUs.
+The startup might take as much as 10 minutes, use `kubectl get pods -A -w` to check the status.
+
+*NB* if not already present in your `/etc/hosts` file, please add a DNS mapping from `host.docker.internal` to `127.0.0.1`.
+
+If the hostname `host.docker.internal` is not resolved correctly on some deployments, patch them after calling helm via:
+```bash
+kubectl patch deployment -n $DESIRED_NAMESPACE ${RELEASE_NAME}-alfresco-modeling-service -p "$(cat deployment-localhost-patch.yaml)"
+```
 
 #### for a cloud environment
 
 ```bash
 export CLUSTER=aaedev
-export PROTOCOL=https
 export DOMAIN=$CLUSTER.envalfresco.com
-```
-
-#### set generated variables
-
-```bash
-export GATEWAY_HOST=$DOMAIN
-export SSO_HOST=$DOMAIN
 ```
 
 ### set helm env variables
 
 ```bash
-export HTTP=$(if [[ "$PROTOCOL" == 'http' ]]; then echo true; else echo false; fi)
-HELM_OPTS+=" --set global.gateway.http=$HTTP \
+HELM_OPTS+=" \
   --set global.gateway.domain=$DOMAIN"
 ```
+
 
 ### disable alfresco-deployment-service
 
@@ -132,7 +129,7 @@ HELM_OPTS+="
 "
 ```
 
-## Multi-AZ K8S cloud StorageClass for project release
+### Multi-AZ K8S cloud StorageClass for project release
 
 A StorageClass that can work across multiple availability zones need to be available to store project release files per each application:
 * for EKS always use EFS
@@ -163,28 +160,30 @@ HELM_OPTS+="
 "
 ```
 
-## launch helm
+### debug and dry run
 
-Set install parameters:
+To verify the k8s yaml output:
 
 ```bash
-export RELEASE_NAME=aae
-export CHART_NAME=alfresco-process-infrastructure
+HELM_OPTS+=" --debug --dry-run"
 ```
 
-then install from the stable repo using a released chart version:
+If all good then launch again without `--dry-run`.
+
+## launch helm
+
+Install from the stable repo using a released chart version:
 
 ```bash
-helm upgrade --install --wait \
+helm upgrade -i --wait \
   --repo https://kubernetes-charts.alfresco.com/stable \
   $HELM_OPTS $RELEASE_NAME $CHART_NAME
 ```
 
-or from the incubator repo a development chart version:
+or from the incubator repo for a development chart version:
 
 ```bash
-helm upgrade --install --wait \
-  --namespace $DESIRED_NAMESPACE \
+helm upgrade -i --wait \
   --repo https://kubernetes-charts.alfresco.com/incubator \
   $HELM_OPTS $RELEASE_NAME $CHART_NAME
 ```
@@ -193,38 +192,10 @@ or from the current repository directory:
 
 ```bash
 helm repo update
-helm dependency update helm/${CHART_NAME}
-helm upgrade --install --wait \
-  --namespace $DESIRED_NAMESPACE \
+helm dependency update helm/$CHART_NAME
+helm upgrade -i --wait \
   $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
 ```
-
-## Extra Helm install scripts
-
-Both support the following optional vars:
-
-* RELEASE_NAME to handle upgrade or a non auto-generated release name
-* HELM_OPTS to pass extra options to helm
-
-### install.sh
-
-Just install/upgrade the AAE infrastructure.
-
-To verify the k8s yaml output:
-
-```bash
-HELM_OPTS+="--debug --dry-run" ./install.sh
-```
-
-Verify the k8s yaml output than launch again without `--dry-run`.
-
-### run on localhost
-
-A custom extra values file to add settings for _localhost_ is provided:
-```bash
-HELM_OPTS+=" -f values-localhost.yaml" ./install.sh
-```
-*NB* the startup might take as much as 10 minutes, use ```kubectl get pods -A -w``` to check the status.
 
 ## Testing
 
@@ -232,7 +203,7 @@ HELM_OPTS+=" -f values-localhost.yaml" ./install.sh
 
 Open browser and login to IDS:
 ```bash
-open ${SSO_URL}
+open $SSO_URL
 ```
 
 ### Verify Realm
@@ -240,7 +211,7 @@ open ${SSO_URL}
 To read back the realm from the secret, use:
 ```bash
 kubectl get secret \
-  --namespace $DESIRED_NAMESPACE \
+  -n $DESIRED_NAMESPACE \
   realm-secret -o jsonpath="{['data']['alfresco-realm\.json']}" | base64 -D > alfresco-realm.json
 ```
 
@@ -254,7 +225,7 @@ In an [air gapped](https://en.wikipedia.org/wiki/Air_gap_(networking)) environme
 Modify the file values-external-postgresql.yaml providing values for your external database per each service, then run:
 
 ```bash
-export HELM_OPTS+=" -f values-external-postgresql.yaml"
+HELM_OPTS+=" -f values-external-postgresql.yaml"
 ```
 
 ## CI/CD
