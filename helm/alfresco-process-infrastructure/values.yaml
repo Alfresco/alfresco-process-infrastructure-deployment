@@ -136,10 +136,20 @@ alfresco-identity-service:
     - name: realm-secret
       secret:
         secretName: realm-secret
+    - name: theme
+      emptyDir: {}
+    - name: h2-database
+      persistentVolumeClaim:
+        claimName: keycloak-pvc
   extraVolumeMounts: |
     - name: realm-secret
       mountPath: /opt/keycloak/data/import
       readOnly: true
+    - name: theme
+      mountPath: /opt/keycloak/themes/alfresco
+      readOnly: true
+    - name: h2-database
+      mountPath: /opt/keycloak/data/h2
   postgresql:
     enabled: false
   realm:

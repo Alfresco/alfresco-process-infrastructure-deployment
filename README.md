@@ -79,6 +79,8 @@ where:
 ### set main helm env variables
 
 ```bash
+export RELEASE_NAME=aae
+export CHART_NAME=alfresco-process-infrastructure
 export HELM_OPTS="--namespace $DESIRED_NAMESPACE"
 ```
 
@@ -99,6 +101,11 @@ The startup might take as much as 10 minutes, use ```kubectl get pods -A -w``` t
 *NB* if not present already in your `/etc/hosts` file, please add a DNS mapping from `host.docker.internal` to `127.0.0.1`.
 
 This setup has been tested with [Rancher Desktop](https://rancherdesktop.io) using [Nginx Controller](https://docs.rancherdesktop.io/how-to-guides/setup-NGINX-Ingress-Controller).
+
+If the hostname `host.docker.internal` is not resolved correctly on some deployments, patch them after calling helm via:
+```bash
+kubectl patch deployment -n $DESIRED_NAMESPACE ${RELEASE_NAME}-alfresco-modeling-service -p "$(cat deployment-localhost-patch.yaml)"
+```
 
 #### for a cloud environment
 
@@ -171,14 +178,7 @@ If all good then launch again without `--dry-run`.
 
 ## launch helm
 
-Set install parameters:
-
-```bash
-export RELEASE_NAME=aae
-export CHART_NAME=alfresco-process-infrastructure
-```
-
-then install from the stable repo using a released chart version:
+Install from the stable repo using a released chart version:
 
 ```bash
 helm upgrade --install --wait \

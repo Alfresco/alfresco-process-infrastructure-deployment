@@ -176,8 +176,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-service.command[6] | string | `"--import-realm"` |  |
 | alfresco-identity-service.enabled | bool | `true` |  |
 | alfresco-identity-service.extraEnv | string | `"- name: KEYCLOAK_ADMIN\n  value: admin\n- name: KEYCLOAK_ADMIN_PASSWORD\n  value: admin\n- name: JAVA_OPTS_APPEND\n  value: '-Djgroups.dns.query={{ include \"keycloak.fullname\" . }}-headless'\n- name: KC_HOSTNAME\n  value: '{{ include \"common.keycloak-host\" . }}'\n"` |  |
-| alfresco-identity-service.extraVolumeMounts | string | `"- name: realm-secret\n  mountPath: /opt/keycloak/data/import\n  readOnly: true\n"` |  |
-| alfresco-identity-service.extraVolumes | string | `"- name: realm-secret\n  secret:\n    secretName: realm-secret\n"` |  |
+| alfresco-identity-service.extraVolumeMounts | string | `"- name: realm-secret\n  mountPath: /opt/keycloak/data/import\n  readOnly: true\n- name: theme\n  mountPath: /opt/keycloak/themes/alfresco\n  readOnly: true\n- name: h2-database\n  mountPath: /opt/keycloak/data/h2\n"` |  |
+| alfresco-identity-service.extraVolumes | string | `"- name: realm-secret\n  secret:\n    secretName: realm-secret\n- name: theme\n  emptyDir: {}\n- name: h2-database\n  persistentVolumeClaim:\n    claimName: keycloak-pvc\n"` |  |
 | alfresco-identity-service.ingress.annotations."nginx.ingress.kubernetes.io/proxy-buffer-size" | string | `"16k"` |  |
 | alfresco-identity-service.ingress.enabled | bool | `true` |  |
 | alfresco-identity-service.ingress.ingressClassName | string | `"nginx"` |  |
