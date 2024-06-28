@@ -517,8 +517,8 @@ alfresco-modeling-service:
       - /script-service/?(.*)
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.15.2
-    pullPolicy: IfNotPresent
+    tag: 7.15.3-alpha.1
+    pullPolicy: Always
   liquibase:
     enabled: true
   postgresql:
