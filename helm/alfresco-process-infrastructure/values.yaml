@@ -518,7 +518,7 @@ alfresco-modeling-service:
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: 7.15.2
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   liquibase:
     enabled: true
   postgresql:
@@ -659,8 +659,8 @@ alfresco-modeling-app:
   nameOverride: alfresco-modeling-app
   image:
     repository: quay.io/alfresco/alfresco-modeling-app
-    tag: develop
-    pullPolicy: Always
+    tag: 7.15.2
+    pullPolicy: IfNotPresent
   service:
     name: modeling-app
     envType: frontend
@@ -700,7 +700,7 @@ alfresco-deployment-service:
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
     tag: 7.15.2
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   postgresql:
     enabled: true
   db:

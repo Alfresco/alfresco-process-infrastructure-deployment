@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.15.4-SNAPSHOT](https://img.shields.io/badge/Version-7.15.4--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.15.4-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.15.4--SNAPSHOT-informational?style=flat-square)
+![Version: 7.15.3-SNAPSHOT](https://img.shields.io/badge/Version-7.15.3--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.15.3-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.15.3--SNAPSHOT-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -410,7 +410,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.exampleProjects.disabled | bool | `false` |  |
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
-| alfresco-modeling-app.image.tag | string | `"develop"` |  |
+| alfresco-modeling-app.image.tag | string | `"7.15.2"` |  |
 | alfresco-modeling-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
