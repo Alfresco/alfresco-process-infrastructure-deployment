@@ -48,9 +48,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-admin-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-admin-app.image.repository | string | `"quay.io/alfresco/alfresco-admin-app"` |  |
 | alfresco-admin-app.image.tag | string | `"develop"` |  |
-| alfresco-admin-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-admin-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
+| alfresco-admin-app.ingress.className | string | `"nginx"` |  |
 | alfresco-admin-app.ingress.path | string | `"/admin"` |  |
 | alfresco-admin-app.nameOverride | string | `"alfresco-admin-app"` |  |
 | alfresco-admin-app.podDisruptionBudget.enabled | bool | `true` |  |
@@ -111,7 +111,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
 | alfresco-deployment-service.image.tag | string | `"7.18.0-alpha.116"` |  |
-| alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
+| alfresco-deployment-service.ingress.className | string | `"nginx"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
 | alfresco-deployment-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
@@ -147,10 +147,11 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-identity-adapter-service.image.repository | string | `"quay.io/alfresco/alfresco-identity-adapter-service"` |  |
 | alfresco-identity-adapter-service.image.tag | string | `"7.18.0-alpha.63"` |  |
-| alfresco-identity-adapter-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-identity-adapter-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
+| alfresco-identity-adapter-service.ingress.className | string | `"nginx"` |  |
 | alfresco-identity-adapter-service.ingress.enabled | bool | `true` |  |
 | alfresco-identity-adapter-service.ingress.path | string | `"/identity-adapter-service/?(.*)"` |  |
+| alfresco-identity-adapter-service.ingress.pathType | string | `"ImplementationSpecific"` |  |
 | alfresco-identity-adapter-service.javaOpts.other | string | `"-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"` |  |
 | alfresco-identity-adapter-service.javaOpts.xms | string | `"512m"` |  |
 | alfresco-identity-adapter-service.javaOpts.xmx | string | `"3072m"` |  |
@@ -441,9 +442,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-app.image.pullPolicy | string | `"Always"` |  |
 | alfresco-modeling-app.image.repository | string | `"quay.io/alfresco/alfresco-modeling-app"` |  |
 | alfresco-modeling-app.image.tag | string | `"develop"` |  |
-| alfresco-modeling-app.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/cors-allow-headers" | string | `"Authorization, Content-Type, Accept"` |  |
 | alfresco-modeling-app.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
+| alfresco-modeling-app.ingress.className | string | `"nginx"` |  |
 | alfresco-modeling-app.ingress.path | string | `"/modeling"` |  |
 | alfresco-modeling-app.nameOverride | string | `"alfresco-modeling-app"` |  |
 | alfresco-modeling-app.podDisruptionBudget.enabled | bool | `true` |  |
@@ -474,10 +475,11 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
 | alfresco-modeling-service.image.tag | string | `"7.18.0-alpha.116"` |  |
-| alfresco-modeling-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-modeling-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
+| alfresco-modeling-service.ingress.className | string | `"nginx"` |  |
 | alfresco-modeling-service.ingress.enabled | bool | `true` |  |
 | alfresco-modeling-service.ingress.path | string | `""` |  |
+| alfresco-modeling-service.ingress.pathType | string | `"ImplementationSpecific"` |  |
 | alfresco-modeling-service.ingress.subPaths[0] | string | `"/modeling-service/?(.*)"` |  |
 | alfresco-modeling-service.ingress.subPaths[1] | string | `"/dmn-service/?(.*)"` |  |
 | alfresco-modeling-service.ingress.subPaths[2] | string | `"/script-service/?(.*)"` |  |
@@ -520,8 +522,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-process-analytics-playground.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-playground"` |  |
 | alfresco-process-analytics-playground.image.tag | string | `"7.18.0-alpha.60"` |  |
-| alfresco-process-analytics-playground.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
+| alfresco-process-analytics-playground.ingress.className | string | `"nginx"` |  |
 | alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.ingress.path | string | `"/analytics/playground/"` |  |
 | alfresco-process-analytics-playground.nameOverride | string | `"alfresco-process-analytics-playground"` |  |
@@ -556,8 +558,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-process-analytics-service.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-service"` |  |
 | alfresco-process-analytics-service.image.tag | string | `"7.18.0-alpha.60"` |  |
-| alfresco-process-analytics-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-process-analytics-service.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
+| alfresco-process-analytics-service.ingress.className | string | `"nginx"` |  |
 | alfresco-process-analytics-service.ingress.enabled | bool | `true` |  |
 | alfresco-process-analytics-service.ingress.path | string | `"/analytics"` |  |
 | alfresco-process-analytics-service.metrics.client.password | string | `"admin"` |  |
