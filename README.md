@@ -34,9 +34,9 @@ Install the latest version of helm.
 An `ingress-nginx` should be installed and bound to an external DNS address, for example:
 
 ```
-helm upgrade --install ingress-nginx ingress-nginx \
+helm upgrade -i ingress-nginx ingress-nginx \
   --repo https://kubernetes.github.io/ingress-nginx \
-  --namespace ingress-nginx --create-namespace
+  -n ingress-nginx --create-namespace
 ```
 
 ### helm tips
@@ -47,15 +47,15 @@ To install from the development chart repo, use `alfresco-incubator` rather than
 
 ### kubectl tips
 
-Check deployment progress with `kubectl get pods --watch --all-namespaces` until all containers are running.
-If anything is stuck, check events with `kubectl get events --watch`.
+Check deployment progress with `kubectl get pods -w -A` until all containers are running.
+If anything is stuck, check events with `kubectl get events -w -A`.
 
 
 ### configure installation namespace
 
 ```bash
 export DESIRED_NAMESPACE=${DESIRED_NAMESPACE:-aae}
-kubectl create namespace $DESIRED_NAMESPACE
+kubectl create ns $DESIRED_NAMESPACE
 ```
 
 ### add quay-registry-secret
@@ -64,7 +64,7 @@ Configure access to pull images from quay.io in the installation namespace:
 
 ```bash
 kubectl create secret \
-  --namespace $DESIRED_NAMESPACE \
+  -n $DESIRED_NAMESPACE \
   docker-registry quay-registry-secret \
     --docker-server=quay.io \
     --docker-username=$QUAY_USERNAME \
@@ -81,7 +81,7 @@ where:
 ```bash
 export RELEASE_NAME=aae
 export CHART_NAME=alfresco-process-infrastructure
-export HELM_OPTS="--namespace $DESIRED_NAMESPACE"
+export HELM_OPTS="-n $DESIRED_NAMESPACE"
 ```
 
 ### set environment specific variables
@@ -90,19 +90,16 @@ export HELM_OPTS="--namespace $DESIRED_NAMESPACE"
 
 A custom extra values file to add settings for _localhost_ is provided:
 ```bash
-export PROTOCOL=http
-export DOMAIN=aae.local
+export DOMAIN=host.docker.internal
 HELM_OPTS+=" -f values-localhost.yaml"
 ```
 
 Make sure your local cluster has at least 16GB of memory and 8 CPUs.
-The startup might take as much as 10 minutes, use ```kubectl get pods -A -w``` to check the status.
+The startup might take as much as 10 minutes, use `kubectl get pods -A -w` to check the status.
 
-*NB* in your `/etc/hosts` file, please add a DNS mapping from `aae.local` to `127.0.0.1`.
+*NB* if not already present in your `/etc/hosts` file, please add a DNS mapping from `host.docker.internal` to `127.0.0.1`.
 
-This setup has been tested with [Rancher Desktop](https://rancherdesktop.io) using [Nginx Controller](https://docs.rancherdesktop.io/how-to-guides/setup-NGINX-Ingress-Controller).
-
-If the hostname `aae.local` is not resolved correctly on some deployments, patch them after calling helm via:
+If the hostname `host.docker.internal` is not resolved correctly on some deployments, patch them after calling helm via:
 ```bash
 kubectl patch deployment -n $DESIRED_NAMESPACE ${RELEASE_NAME}-alfresco-modeling-service -p "$(cat deployment-localhost-patch.yaml)"
 ```
@@ -111,16 +108,13 @@ kubectl patch deployment -n $DESIRED_NAMESPACE ${RELEASE_NAME}-alfresco-modeling
 
 ```bash
 export CLUSTER=aaedev
-export PROTOCOL=https
 export DOMAIN=$CLUSTER.envalfresco.com
 ```
 
 ### set helm env variables
 
 ```bash
-export HTTP=$(if [[ "$PROTOCOL" == 'http' ]]; then echo true; else echo false; fi)
 HELM_OPTS+=" \
-  --set global.gateway.http=$HTTP \
   --set global.gateway.domain=$DOMAIN"
 ```
 
@@ -181,7 +175,7 @@ If all good then launch again without `--dry-run`.
 Install from the stable repo using a released chart version:
 
 ```bash
-helm upgrade --install --wait \
+helm upgrade -i --wait \
   --repo https://kubernetes-charts.alfresco.com/stable \
   $HELM_OPTS $RELEASE_NAME $CHART_NAME
 ```
@@ -189,7 +183,7 @@ helm upgrade --install --wait \
 or from the incubator repo for a development chart version:
 
 ```bash
-helm upgrade --install --wait \
+helm upgrade -i --wait \
   --repo https://kubernetes-charts.alfresco.com/incubator \
   $HELM_OPTS $RELEASE_NAME $CHART_NAME
 ```
@@ -199,7 +193,7 @@ or from the current repository directory:
 ```bash
 helm repo update
 helm dependency update helm/$CHART_NAME
-helm upgrade --install --wait \
+helm upgrade -i --wait \
   $HELM_OPTS $RELEASE_NAME helm/$CHART_NAME
 ```
 
@@ -217,7 +211,7 @@ open $SSO_URL
 To read back the realm from the secret, use:
 ```bash
 kubectl get secret \
-  --namespace $DESIRED_NAMESPACE \
+  -n $DESIRED_NAMESPACE \
   realm-secret -o jsonpath="{['data']['alfresco-realm\.json']}" | base64 -D > alfresco-realm.json
 ```
 

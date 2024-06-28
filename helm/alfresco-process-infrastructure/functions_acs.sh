@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ACS_URL=${ACS_URL:-http://aae.local}
+ACS_URL=${ACS_URL:-http://host.docker.internal}
 REPOSITORY_URL=${REPOSITORY_URL:-${ACS_URL}/alfresco}
 REPOSITORY_ADMIN_USER=${REPOSITORY_ADMIN_USER:-admin}
 REPOSITORY_ADMIN_PASSWORD=${REPOSITORY_ADMIN_PASSWORD:-admin}

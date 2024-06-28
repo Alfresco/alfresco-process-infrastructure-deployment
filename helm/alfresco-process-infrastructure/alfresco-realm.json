@@ -2,6 +2,7 @@
   "realm": "alfresco",
   "enabled": true,
   "sslRequired": "none",
+  "loginTheme": "alfresco",
   "internationalizationEnabled": true,
   "defaultLocale": "en",
   "supportedLocales": [
