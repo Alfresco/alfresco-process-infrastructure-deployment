@@ -91,18 +91,18 @@ export HELM_OPTS="--namespace $DESIRED_NAMESPACE"
 A custom extra values file to add settings for _localhost_ is provided:
 ```bash
 export PROTOCOL=http
-export DOMAIN=host.docker.internal
+export DOMAIN=aae.local
 HELM_OPTS+=" -f values-localhost.yaml"
 ```
 
 Make sure your local cluster has at least 16GB of memory and 8 CPUs.
 The startup might take as much as 10 minutes, use ```kubectl get pods -A -w``` to check the status.
 
-*NB* if not present already in your `/etc/hosts` file, please add a DNS mapping from `host.docker.internal` to `127.0.0.1`.
+*NB* in your `/etc/hosts` file, please add a DNS mapping from `aae.local` to `127.0.0.1`.
 
 This setup has been tested with [Rancher Desktop](https://rancherdesktop.io) using [Nginx Controller](https://docs.rancherdesktop.io/how-to-guides/setup-NGINX-Ingress-Controller).
 
-If the hostname `host.docker.internal` is not resolved correctly on some deployments, patch them after calling helm via:
+If the hostname `aae.local` is not resolved correctly on some deployments, patch them after calling helm via:
 ```bash
 kubectl patch deployment -n $DESIRED_NAMESPACE ${RELEASE_NAME}-alfresco-modeling-service -p "$(cat deployment-localhost-patch.yaml)"
 ```

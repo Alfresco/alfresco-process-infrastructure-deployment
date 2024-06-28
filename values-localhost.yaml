@@ -1,11 +1,11 @@
 global:
   gateway:
-    host: host.docker.internal
+    host: aae.local
     http: true
 
 alfresco-deployment-service:
   environment:
-    apiUrl: https://host.docker.internal:6443
+    apiUrl: https://aae.local:6443
     apiToken: "REPLACEME"
   replicaCount: 1
   podDisruptionBudget:

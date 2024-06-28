@@ -150,6 +150,21 @@ alfresco-identity-service:
       readOnly: true
     - name: h2-database
       mountPath: /opt/keycloak/data/h2
+  extraInitContainers: |
+    - name: theme-download
+      args:
+        - "-c"
+        - |
+          wget https://github.com/Alfresco/alfresco-keycloak-theme/releases/download/0.3.5/alfresco-keycloak-theme-0.3.5.zip -O alfresco.zip
+          unzip alfresco.zip
+          mv alfresco/* /theme/
+      command:
+        - "sh"
+      image: "busybox:1.36"
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - name: theme
+          mountPath: /theme
   postgresql:
     enabled: false
   realm:
