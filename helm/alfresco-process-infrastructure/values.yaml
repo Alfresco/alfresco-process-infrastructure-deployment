@@ -711,7 +711,7 @@ alfresco-deployment-service:
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all application images
-      tag: 7.15.3
+      tag: 7.15.2
       # alfresco-deployment-service.applications.image.pullPolicy -- default pull policy for all application images
       pullPolicy: Always
       # alfresco-deployment-service.applications.image.pullSecretName -- pull secret name for all application images

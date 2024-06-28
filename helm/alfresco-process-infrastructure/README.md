@@ -76,7 +76,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.datadog.metrics.enabled | bool | `true` | enables application Datadog metrics observability. |
 | alfresco-deployment-service.applications.image.pullPolicy | string | `"Always"` | default pull policy for all application images |
 | alfresco-deployment-service.applications.image.pullSecretName | string | `"quay-registry-secret"` | pull secret name for all application images |
-| alfresco-deployment-service.applications.image.tag | string | `"7.15.3"` | default tag for all application images |
+| alfresco-deployment-service.applications.image.tag | string | `"7.15.2"` | default tag for all application images |
 | alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
 | alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
 | alfresco-deployment-service.applications.rabbitmq.admin.url | string | `""` | RabbitMQ admin URL, derived from host if not set |
