@@ -530,14 +530,15 @@ alfresco-modeling-service:
     tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   ingress:
     enabled: true
+    className: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$1
     path: ""
     subPaths:
       - /modeling-service/?(.*)
       - /dmn-service/?(.*)
       - /script-service/?(.*)
+    pathType: ImplementationSpecific
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: 7.18.0-alpha.116
@@ -725,8 +726,8 @@ alfresco-modeling-app:
     APP_CONFIG_DISABLED_EXAMPLE_PROJECTS: "{{ .Values.exampleProjects.disabled }}"
   ingress:
     path: /modeling
+    className: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: Authorization, Content-Type, Accept
   resources:
@@ -855,8 +856,7 @@ alfresco-deployment-service:
   ingress:
     path: /deployment-service
     enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
+    className: nginx
   readinessProbe:
     path: '{{ .Values.ingress.path }}/actuator/health/readiness'
   livenessProbe:
@@ -1194,8 +1194,8 @@ alfresco-admin-app:
     {{- end }}
   ingress:
     path: /admin
+    className: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/cors-allow-headers: Authorization, Content-Type, Accept
   resources:
@@ -1431,8 +1431,8 @@ alfresco-process-analytics-service:
   ingress:
     enabled: true
     path: /analytics
+    className: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/enable-cors: "true"
   resources:
     limits:
@@ -1546,8 +1546,8 @@ alfresco-process-analytics-playground:
   ingress:
     enabled: true
     path: /analytics/playground/
+    className: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/enable-cors: "true"
   resources:
     limits:
@@ -1577,10 +1577,11 @@ alfresco-identity-adapter-service:
     tags.datadoghq.com/version: "{{ .Values.image.tag }}"
   ingress:
     enabled: true
+    className: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/rewrite-target: /$1
     path: "/identity-adapter-service/?(.*)"
+    pathType: ImplementationSpecific
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
     tag: 7.18.0-alpha.63
