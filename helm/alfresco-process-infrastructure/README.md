@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.15.5](https://img.shields.io/badge/Version-7.15.5-informational?style=flat-square) ![AppVersion: 7.15.0](https://img.shields.io/badge/AppVersion-7.15.0-informational?style=flat-square)
+![Version: 7.15.6](https://img.shields.io/badge/Version-7.15.6-informational?style=flat-square) ![AppVersion: 7.15.0](https://img.shields.io/badge/AppVersion-7.15.0-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -16,16 +16,16 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.3.0 |
-| https://activiti.github.io/activiti-cloud-helm-charts | common | 8.3.0 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.3.2 |
+| https://activiti.github.io/activiti-cloud-helm-charts | common | 8.3.2 |
 | https://kubernetes-charts.alfresco.com/stable | alfresco-identity-service | 6.0.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/ | postgresql | 10.3.13 |
