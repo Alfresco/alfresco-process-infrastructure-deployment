@@ -542,7 +542,7 @@ alfresco-modeling-service:
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
     tag: 7.18.0-alpha.124
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
     enabled: true
@@ -752,7 +752,7 @@ alfresco-deployment-service:
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
     tag: 7.18.0-alpha.124
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
     enabled: true
@@ -1236,7 +1236,7 @@ alfresco-tika-service:
   image:
     repository: quay.io/alfresco/alfresco-process-tika
     tag: 7.18.0-alpha.63
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
     enabled: true
@@ -1346,7 +1346,7 @@ alfresco-process-analytics-service:
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-service
     tag: 7.18.0-alpha.63
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
     enabled: true
@@ -1461,7 +1461,7 @@ alfresco-process-analytics-playground:
   image:
     repository: quay.io/alfresco/alfresco-process-analytics-graphql-playground
     tag: 7.18.0-alpha.63
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
     enabled: true
@@ -1585,7 +1585,7 @@ alfresco-identity-adapter-service:
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
     tag: 7.18.0-alpha.66
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
     enabled: true
@@ -1697,8 +1697,8 @@ alfresco-static-resources:
   enabled: true
   image:
     repository: quay.io/alfresco/apa-static-resources
-    tag: 7.18.0-beta.4
-    pullPolicy: IfNotPresent
+    tag: 7.18.0-beta.62
+    pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
     enabled: true
