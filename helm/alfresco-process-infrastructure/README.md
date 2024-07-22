@@ -133,9 +133,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.readinessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/readiness"` |  |
 | alfresco-deployment-service.replicaCount | int | `2` |  |
 | alfresco-deployment-service.resources.limits.cpu | string | `"1000m"` |  |
-| alfresco-deployment-service.resources.limits.memory | string | `"2000Mi"` |  |
+| alfresco-deployment-service.resources.limits.memory | string | `"2525Mi"` |  |
 | alfresco-deployment-service.resources.requests.cpu | string | `"300m"` |  |
-| alfresco-deployment-service.resources.requests.memory | string | `"1000Mi"` |  |
+| alfresco-deployment-service.resources.requests.memory | string | `"1175Mi"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientId | string | `"{{ .Values.global.keycloak.clientId }}"` |  |
 | alfresco-identity-adapter-service.activiti.keycloak.clientSecret | string | `"{{ .Values.global.keycloak.clientSecret }}"` |  |
 | alfresco-identity-adapter-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
@@ -168,6 +168,10 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-identity-adapter-service.rabbitmq.enabled | bool | `false` |  |
 | alfresco-identity-adapter-service.replicaCount | int | `2` |  |
+| alfresco-identity-adapter-service.resources.limits.cpu | string | `"750m"` |  |
+| alfresco-identity-adapter-service.resources.limits.memory | string | `"3000Mi"` |  |
+| alfresco-identity-adapter-service.resources.requests.cpu | string | `"150m"` |  |
+| alfresco-identity-adapter-service.resources.requests.memory | string | `"905Mi"` |  |
 | alfresco-identity-service.command[0] | string | `"/opt/keycloak/bin/kc.sh"` |  |
 | alfresco-identity-service.command[1] | string | `"start"` |  |
 | alfresco-identity-service.command[2] | string | `"--http-enabled=true"` |  |
@@ -502,7 +506,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.resources.limits.cpu | string | `"2500m"` |  |
 | alfresco-modeling-service.resources.limits.memory | string | `"2000Mi"` |  |
 | alfresco-modeling-service.resources.requests.cpu | string | `"1000m"` |  |
-| alfresco-modeling-service.resources.requests.memory | string | `"1000Mi"` |  |
+| alfresco-modeling-service.resources.requests.memory | string | `"1150Mi"` |  |
 | alfresco-process-analytics-playground.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
 | alfresco-process-analytics-playground.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
 | alfresco-process-analytics-playground.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
