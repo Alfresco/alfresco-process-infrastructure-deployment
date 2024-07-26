@@ -691,7 +691,7 @@ alfresco-modeling-service:
       memory: 2000Mi
     requests:
       cpu: 1000m
-      memory: 1000Mi
+      memory: 1150Mi
 alfresco-modeling-app:
   enabled: true
   nameOverride: alfresco-modeling-app
@@ -1148,10 +1148,10 @@ alfresco-deployment-service:
   resources:
     limits:
       cpu: 1000m
-      memory: 2000Mi
+      memory: 2525Mi
     requests:
       cpu: 300m
-      memory: 1000Mi
+      memory: 1175Mi
 alfresco-admin-app:
   enabled: true
   nameOverride: alfresco-admin-app
@@ -1691,6 +1691,13 @@ alfresco-identity-adapter-service:
     xmx: 3072m
     other: >-
       -XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseZGC -XX:+ZGenerational -XX:MinHeapFreeRatio=5 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
+  resources:
+    requests:
+      memory: 905Mi
+      cpu: 150m
+    limits:
+      cpu: 750m
+      memory: 3000Mi
 alfresco-static-resources:
   nameOverride: alfresco-static-resources
   podAnnotations:
