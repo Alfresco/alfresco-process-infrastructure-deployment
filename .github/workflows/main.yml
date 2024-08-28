@@ -154,22 +154,25 @@ jobs:
       DEVELOPMENT_BRANCH: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - id: activiti-cloud-common-chart-version
+      - id: get-versions
         working-directory: helm/alfresco-process-infrastructure
         run: |
-          RESULT=`yq '.dependencies | map(select(.name == "common")) | .[0].version' Chart.yaml`
-          echo ${RESULT}
-          echo "result=${RESULT}" >> $GITHUB_OUTPUT
-      - id: alfresco-deployment-service-version
-        working-directory: helm/alfresco-process-infrastructure
-        run: |
-          RESULT=`yq '.alfresco-deployment-service.image.tag' values.yaml`
-          echo ${RESULT}
-          echo "result=${RESULT}" >> $GITHUB_OUTPUT
+          CHART_VERSION=`yq '.dependencies | map(select(.name == "common")) | .[0].version' Chart.yaml`
+          echo ${CHART_VERSION}
+          echo "chart=${CHART_VERSION}" >> $GITHUB_OUTPUT
+
+          DEPLOYMENT_VERSION=`yq '.alfresco-deployment-service.image.tag' values.yaml`
+          echo ${DEPLOYMENT_VERSION}
+          echo "deployment=${DEPLOYMENT_VERSION}" >> $GITHUB_OUTPUT
+
+          MODELING_VERSION=`yq '.alfresco-modeling-service.image.tag' values.yaml`
+          echo ${MODELING_VERSION}
+          echo "modeling=${MODELING_VERSION}" >> $GITHUB_OUTPUT
       - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@209bb4275688720e13dc0703dbd17826bf677c5c # v6.1.0
         env:
-          ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.activiti-cloud-common-chart-version.outputs.result }}
-          ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.alfresco-deployment-service-version.outputs.result }}
+          ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.get-versions.outputs.chart }}
+          ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.get-versions.outputs.deployment }}
+          ALFRESCO_MODELING_SERVICE_VERSION: ${{ steps.get-versions.outputs.modeling }}
         with:
           version: ${{ env.VERSION }}
           auto-merge: 'true'
