@@ -17,3 +17,4 @@ spec:
               - |
                 mvn -ntp versions:set-property -Dproperty=activiti-cloud-common-chart.version -DnewVersion=${ACTIVITI_CLOUD_COMMON_CHART_VERSION}
                 mvn -ntp versions:set-property -Dproperty=alfresco-deployment-service.version -DnewVersion=${ALFRESCO_DEPLOYMENT_SERVICE_VERSION}
+                mvn -ntp versions:set-property -Dproperty=alfresco-modeling-service.version -DnewVersion=${ALFRESCO_MODELING_SERVICE_VERSION}
