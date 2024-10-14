@@ -7,7 +7,7 @@
   <artifactId>alfresco-process-infrastructure-deployment</artifactId>
   <version>7.7.0-SNAPSHOT</version>
   <properties>
-    <alfresco-deployment-service.version>7.15.3-alpha.1</alfresco-deployment-service.version>
+    <alfresco-deployment-service.version>7.15.4-alpha.2</alfresco-deployment-service.version>
     <alfresco-modeling-service.version>7.15.3-alpha.1</alfresco-modeling-service.version>
     <alfresco-process.version>7.15.3-alpha.2</alfresco-process.version>
     <alfresco-identity-adapter-service.version>7.15.3-alpha.1</alfresco-identity-adapter-service.version>
