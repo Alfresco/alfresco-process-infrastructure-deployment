@@ -1,7 +1,7 @@
 apiVersion: v2
 name: alfresco-process-infrastructure
-version: 7.19.0-alpha.220
-appVersion: 7.19.0-SNAPSHOT
+version: 7.19.0-rc.147
+appVersion: 7.19.0-rc.147
 kubeVersion: '>=1.15.0-0'
 description: A Helm chart for Alfresco Activiti Enterprise infrastructure
 keywords:
