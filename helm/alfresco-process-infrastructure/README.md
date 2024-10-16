@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.15.7](https://img.shields.io/badge/Version-7.15.7-informational?style=flat-square) ![AppVersion: 7.15.0](https://img.shields.io/badge/AppVersion-7.15.0-informational?style=flat-square)
+![Version: 7.15.8](https://img.shields.io/badge/Version-7.15.8-informational?style=flat-square) ![AppVersion: 7.15.0](https://img.shields.io/badge/AppVersion-7.15.0-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -76,7 +76,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.applications.datadog.metrics.enabled | bool | `true` | enables application Datadog metrics observability. |
 | alfresco-deployment-service.applications.image.pullPolicy | string | `"Always"` | default pull policy for all application images |
 | alfresco-deployment-service.applications.image.pullSecretName | string | `"quay-registry-secret"` | pull secret name for all application images |
-| alfresco-deployment-service.applications.image.tag | string | `"7.15.2"` | default tag for all application images |
+| alfresco-deployment-service.applications.image.tag | string | `"7.15.3"` | default tag for all application images |
 | alfresco-deployment-service.applications.maxNumber | int | 20 applications can be deployed by default | maximum number of application can be deployed |
 | alfresco-deployment-service.applications.processStorageService.clientSecret | string | `"08102f0f-025c-4226-8a3e-674343bff231"` | client secret for process storage |
 | alfresco-deployment-service.applications.rabbitmq.admin.url | string | `""` | RabbitMQ admin URL, derived from host if not set |
@@ -96,7 +96,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-deployment-service.extraVolumes | string | `"- name: config\n  configMap:\n    name: {{ .Release.Name }}-deployment-config\n    defaultMode: 0744"` |  |
 | alfresco-deployment-service.image.pullPolicy | string | `"IfNotPresent"` |  |
 | alfresco-deployment-service.image.repository | string | `"quay.io/alfresco/alfresco-deployment-service"` |  |
-| alfresco-deployment-service.image.tag | string | `"7.15.3"` |  |
+| alfresco-deployment-service.image.tag | string | `"7.15.4"` |  |
 | alfresco-deployment-service.ingress.annotations."kubernetes.io/ingress.class" | string | `"nginx"` |  |
 | alfresco-deployment-service.ingress.enabled | bool | `true` |  |
 | alfresco-deployment-service.ingress.path | string | `"/deployment-service"` |  |
