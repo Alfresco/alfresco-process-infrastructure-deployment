@@ -7,10 +7,10 @@
   <artifactId>alfresco-process-infrastructure-deployment</artifactId>
   <version>7.7.0-SNAPSHOT</version>
   <properties>
-    <alfresco-deployment-service.version>7.19.0-alpha.231</alfresco-deployment-service.version>
-    <alfresco-modeling-service.version>7.19.0-alpha.231</alfresco-modeling-service.version>
-    <alfresco-process.version>7.19.0-alpha.127</alfresco-process.version>
-    <alfresco-identity-adapter-service.version>7.19.0-alpha.155</alfresco-identity-adapter-service.version>
+    <alfresco-deployment-service.version>7.19.0-alpha.232</alfresco-deployment-service.version>
+    <alfresco-modeling-service.version>7.19.0-alpha.232</alfresco-modeling-service.version>
+    <alfresco-process.version>7.19.0-alpha.128</alfresco-process.version>
+    <alfresco-identity-adapter-service.version>7.19.0-alpha.156</alfresco-identity-adapter-service.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
