@@ -1584,7 +1584,7 @@ alfresco-identity-adapter-service:
     pathType: ImplementationSpecific
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
-    tag: 7.19.0-alpha.166
+    tag: 7.19.0-alpha.167
     pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
