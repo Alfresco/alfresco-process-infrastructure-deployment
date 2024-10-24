@@ -541,7 +541,7 @@ alfresco-modeling-service:
     pathType: ImplementationSpecific
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.19.0-alpha.248
+    tag: 7.19.0-alpha.249
     pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
@@ -751,7 +751,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.19.0-alpha.248
+    tag: 7.19.0-alpha.249
     pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
