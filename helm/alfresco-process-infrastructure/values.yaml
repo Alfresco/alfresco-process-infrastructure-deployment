@@ -583,6 +583,9 @@ alfresco-modeling-service:
   exampleProjects:
     endpoint: http://static-resources/example-projects
     resource: index_7.4.0.json
+  exampleModels:
+    endpoint: http://static-resources/example-models
+    resource: index_7.19.0.json
   extraEnv: |-
     - name: SERVER_PORT
       value: "8080"
@@ -624,6 +627,10 @@ alfresco-modeling-service:
       value: "{{ .Values.exampleProjects.endpoint }}"
     - name: ACT_ALFRESCO_MODELING_TEMPLATES_RESOURCE
       value: "{{ .Values.exampleProjects.resource }}"
+    - name: ACT_ALFRESCO_MODELING_MODEL_TEMPLATES_ENDPOINT
+      value: "{{ .Values.exampleModels.endpoint }}"
+    - name: ACT_ALFRESCO_MODELING_MODEL_TEMPLATES_RESOURCE
+      value: "{{ .Values.exampleModels.resource }}"
     {{- if .Values.global.datadog.enabled }}
     {{- with .Values.global.datadog.agent.traceAgentUrl }}
     - name: DD_TRACE_AGENT_URL
