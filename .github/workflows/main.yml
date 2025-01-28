@@ -169,7 +169,7 @@ jobs:
           echo ${MODELING_VERSION}
           echo "modeling=${MODELING_VERSION}" >> $GITHUB_OUTPUT
 
-          COMPONENT_REPOSITORY_VERSION=`yq '.project.properties["studio-component-repository.version"]' pom.xml`
+          COMPONENT_REPOSITORY_VERSION=`yq '.project.properties["studio-component-repository.version"]' ../../pom.xml`
           echo ${COMPONENT_REPOSITORY_VERSION}
           echo "component_repository=${COMPONENT_REPOSITORY_VERSION}" >> $GITHUB_OUTPUT
 
