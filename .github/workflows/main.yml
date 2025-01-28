@@ -19,6 +19,10 @@ env:
   HELM_REPO_BRANCH: master
   HELM_REPO_SUBFOLDER: incubator
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name || github.run_id }}
+  cancel-in-progress: ${{ github.event != 'push' }}
+
 jobs:
 
   pre-checks:
@@ -169,6 +173,8 @@ jobs:
           echo ${MODELING_VERSION}
           echo "modeling=${MODELING_VERSION}" >> $GITHUB_OUTPUT
 
+      - id: get-pom-versions
+        run: |
           COMPONENT_REPOSITORY_VERSION=`yq '.project.properties["studio-component-repository.version"]' pom.xml`
           echo ${COMPONENT_REPOSITORY_VERSION}
           echo "component_repository=${COMPONENT_REPOSITORY_VERSION}" >> $GITHUB_OUTPUT
@@ -178,7 +184,7 @@ jobs:
           ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.get-versions.outputs.chart }}
           ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.get-versions.outputs.deployment }}
           ALFRESCO_MODELING_SERVICE_VERSION: ${{ steps.get-versions.outputs.modeling }}
-          STUDIO_COMPONENT_REPOSITORY_VERSION: ${{ steps.get-versions.outputs.component_repository }}
+          STUDIO_COMPONENT_REPOSITORY_VERSION: ${{ steps.get-pom-versions.outputs.component_repository }}
         with:
           version: ${{ env.VERSION }}
           auto-merge: 'true'
