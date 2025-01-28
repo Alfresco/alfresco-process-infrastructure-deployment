@@ -19,4 +19,3 @@ spec:
                 mvn -ntp versions:set-property -Dproperty=alfresco-deployment-service.version -DnewVersion=${ALFRESCO_DEPLOYMENT_SERVICE_VERSION}
                 mvn -ntp versions:set-property -Dproperty=alfresco-modeling-service.version -DnewVersion=${ALFRESCO_MODELING_SERVICE_VERSION}
                 mvn -ntp versions:set-property -Dproperty=studio-component-repository.version -DnewVersion=${STUDIO_COMPONENT_REPOSITORY_VERSION}
-
