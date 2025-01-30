@@ -526,7 +526,11 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.image.pullPolicy | string | `"Always"` |  |
 | alfresco-process-analytics-playground.image.repository | string | `"quay.io/alfresco/alfresco-process-analytics-graphql-playground"` |  |
 | alfresco-process-analytics-playground.image.tag | string | `"7.19.0-alpha.263"` |  |
+| alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/affinity" | string | `"cookie"` |  |
 | alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/enable-cors" | string | `"true"` |  |
+| alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-expires" | string | `"172800"` |  |
+| alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-max-age" | string | `"172800"` |  |
+| alfresco-process-analytics-playground.ingress.annotations."nginx.ingress.kubernetes.io/session-cookie-name" | string | `"analytics-playground"` |  |
 | alfresco-process-analytics-playground.ingress.className | string | `"nginx"` |  |
 | alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.ingress.path | string | `"/analytics/playground/"` |  |
