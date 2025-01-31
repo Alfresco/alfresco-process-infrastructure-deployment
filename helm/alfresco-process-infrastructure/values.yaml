@@ -1549,6 +1549,10 @@ alfresco-process-analytics-playground:
     className: nginx
     annotations:
       nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/affinity: cookie
+      nginx.ingress.kubernetes.io/session-cookie-expires: '172800'
+      nginx.ingress.kubernetes.io/session-cookie-max-age: '172800'
+      nginx.ingress.kubernetes.io/session-cookie-name: analytics-playground
   resources:
     limits:
       cpu: 1000m
