@@ -1708,7 +1708,7 @@ alfresco-static-resources:
   enabled: true
   image:
     repository: quay.io/alfresco/apa-static-resources
-    tag: 7.18.0-beta.62
+    tag: 7.19.0-beta.169
     pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
