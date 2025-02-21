@@ -31,7 +31,7 @@ dependencies:
     repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/
     condition: postgresql.enabled
   - name: rabbitmq
-    version: 8.20.5
+    version: 14.4.4
     repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami/
     condition: rabbitmq.enabled
   - name: common
