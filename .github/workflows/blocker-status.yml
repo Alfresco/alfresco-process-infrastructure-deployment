@@ -1,0 +1,12 @@
+name: Create blocker status
+
+on:
+  push:
+    branches:
+      - temp/create-merge-blocker
+
+jobs:
+  block-merges:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Add required status check 'bock-merges' to block other PRs from merging"
