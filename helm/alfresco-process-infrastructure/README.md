@@ -1,6 +1,6 @@
 # alfresco-process-infrastructure
 
-![Version: 7.19.2-SNAPSHOT](https://img.shields.io/badge/Version-7.19.2--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.19.2-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.19.2--SNAPSHOT-informational?style=flat-square)
+![Version: 7.19.3-SNAPSHOT](https://img.shields.io/badge/Version-7.19.3--SNAPSHOT-informational?style=flat-square) ![AppVersion: 7.19.3-SNAPSHOT](https://img.shields.io/badge/AppVersion-7.19.3--SNAPSHOT-informational?style=flat-square)
 
 A Helm chart for Alfresco Activiti Enterprise infrastructure
 
@@ -596,7 +596,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-static-resources.enabled | bool | `true` |  |
 | alfresco-static-resources.image.pullPolicy | string | `"Always"` |  |
 | alfresco-static-resources.image.repository | string | `"quay.io/alfresco/apa-static-resources"` |  |
-| alfresco-static-resources.image.tag | string | `"develop-7.19.1-test1"` |  |
+| alfresco-static-resources.image.tag | string | `"7.19.2"` |  |
 | alfresco-static-resources.ingress.enabled | bool | `false` |  |
 | alfresco-static-resources.livenessProbe.path | string | `"/"` |  |
 | alfresco-static-resources.livenessProbe.port | int | `8080` |  |
