@@ -16,16 +16,16 @@ Kubernetes: `>=1.15.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 8.8.0-alpha.1 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-tika-service(common) | 8.8.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.8.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 8.8.0-alpha.1 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-identity-adapter-service(common) | 8.8.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.8.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.8.0-alpha.1 |
-| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.8.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-service(common) | 8.8.0-alpha.1 |
 | https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-playground(common) | 8.8.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-process-analytics-service(common) | 8.8.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-modeling-app(common) | 8.8.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-deployment-service(common) | 8.8.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-admin-app(common) | 8.8.0-alpha.1 |
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 8.8.0-alpha.1 |
+| https://activiti.github.io/activiti-cloud-helm-charts | alfresco-static-resources(common) | 8.8.0-alpha.1 |
 | https://codecentric.github.io/helm-charts | alfresco-identity-service(keycloakx) | 2.3.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
 | https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 15.5.11 |
@@ -555,11 +555,15 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
 | alfresco-process-analytics-service.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].weight | int | `10` |  |
 | alfresco-process-analytics-service.enabled | bool | `true` |  |
+| alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_AUTHORIZED_ROLES | string | `"ACTIVITI_ANALYTICS,ACTIVITI_ADMIN"` |  |
+| alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_INDEX_CLAIM_ENABLED | string | `"false"` |  |
 | alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_JWT_ISSUER_URI | string | `"{{ tpl .Values.graphql.service.jwtIssuerUri $ }}"` |  |
+| alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_ROLES_CLAIM_NAME | string | `"realm_access.roles"` |  |
+| alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_INDEX_PREFIX | string | `"activiti-metrics"` |  |
 | alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_PASSWORD | string | `"{{ tpl .Values.metrics.client.password $ }}"` |  |
 | alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_URL | string | `"{{ tpl .Values.metrics.client.url $ }}"` |  |
 | alfresco-process-analytics-service.env.ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_USERNAME | string | `"{{ tpl .Values.metrics.client.username $ }}"` |  |
-| alfresco-process-analytics-service.env.SPRING_WEBFLUX_BASE_PATH | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}"` |  |
+| alfresco-process-analytics-service.env.SERVER_SERVLET_CONTEXT_PATH | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}"` |  |
 | alfresco-process-analytics-service.env.SPRING_ZIPKIN_ENABLED | string | `"false"` |  |
 | alfresco-process-analytics-service.extraEnv | string | `"{{- if .Values.global.datadog.enabled }}\n{{- with .Values.global.datadog.agent.traceAgentUrl }}\n- name: DD_TRACE_AGENT_URL\n  value: {{ . }}\n{{- end }}\n{{- if not .Values.global.datadog.agent.admission }}\n- name: DATADOG_JAVA_AGENT\n  value: \"{{ .Values.global.datadog.enabled }}\"\n- name: DD_SERVICE\n  value: \"{{ .Chart.Name }}\"\n- name: DD_ENV\n  value: {{ .Values.global.datadog.env | required \"global.datadog.env is required.\" | quote }}\n- name: DD_VERSION\n  value: \"{{ .Values.image.tag }}\"\n{{- end }}\n- name: DD_LOGS_INJECTION\n  value: \"{{ .Values.global.datadog.agent.logsInjection }}\"\n- name: DD_PROFILING_ENABLED\n  value: \"{{ .Values.global.datadog.agent.profiling }}\"\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_ENABLED\n  value: \"{{ .Values.global.datadog.metrics.enabled }}\"\n{{- if .Values.global.datadog.metrics.enabled }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_API_KEY\n  value: {{ .Values.global.datadog.metrics.apiKey | required \"global.datadog.metrics.apiKey is required.\" | quote }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_DESCRIPTIONS\n  value: {{ .Values.global.datadog.metrics.descriptions | required \"global.datadog.metrics.descriptions is required.\" | quote }}\n{{- with .Values.global.datadog.metrics.applicationKey }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_APPLICATION_KEY\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.uri }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_URI\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.hostTag }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_HOST_TAG\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.step }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_STEP\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.connectTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_CONNECT_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.readTimeout }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_READ_TIMEOUT\n  value: {{ . | quote }}\n{{- end }}\n{{- with .Values.global.datadog.metrics.batchSize }}\n- name: MANAGEMENT_DATADOG_METRICS_EXPORT_BATCH_SIZE\n  value: {{ . | quote }}\n{{- end }}\n{{- end }}\n{{- end }}\n"` |  |
 | alfresco-process-analytics-service.graphql.service.jwtIssuerUri | string | `"{{ include \"common.keycloak-url\" . }}/realms/{{ include \"common.keycloak-realm\" . }}"` |  |

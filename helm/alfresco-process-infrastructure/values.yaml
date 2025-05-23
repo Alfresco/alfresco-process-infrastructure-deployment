@@ -1365,12 +1365,16 @@ alfresco-process-analytics-service:
     name: alfresco-process-analytics-service
     internalPort: 8080
   env:
-    SPRING_WEBFLUX_BASE_PATH: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}'
+    SERVER_SERVLET_CONTEXT_PATH: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}'
     SPRING_ZIPKIN_ENABLED: "false"
     ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_URL: '{{ tpl .Values.metrics.client.url $ }}'
     ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_USERNAME: '{{ tpl .Values.metrics.client.username $ }}'
     ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_PASSWORD: '{{ tpl .Values.metrics.client.password $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_METRICS_CLIENT_INDEX_PREFIX: activiti-metrics
     ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_JWT_ISSUER_URI: '{{ tpl .Values.graphql.service.jwtIssuerUri $ }}'
+    ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_INDEX_CLAIM_ENABLED: 'false'
+    ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_ROLES_CLAIM_NAME: realm_access.roles
+    ALFRESCO_PROCESS_ANALYTICS_GRAPHQL_SERVICE_AUTHORIZED_ROLES: ACTIVITI_ANALYTICS,ACTIVITI_ADMIN
   extraEnv: |
     {{- if .Values.global.datadog.enabled }}
     {{- with .Values.global.datadog.agent.traceAgentUrl }}
