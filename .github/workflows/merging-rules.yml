@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: propagation release check
         uses: Alfresco/automate-build-tools/.github/actions/github-check-pending-pr@debf558ee01bd0571c54ccef5e1208703f51af33 # v0.12.0
-        if: ${{ !contains(toJson(github.event.pull_request.labels.*.name), 'fix-be-propagation') }}
+        if: ${{ !contains(toJson(github.event.pull_request.labels.*.name), 'fix-be-propagation') && !contains(toJson(github.event.pull_request.labels.*.name), 'be-propagation') }}
         with:
           token: ${{ secrets.BOT_GITHUB_TOKEN }}
           repo: 'alfresco-process-releases'
