@@ -236,11 +236,11 @@ For Dependabot PRs to be validated by CI, the label "CI" should be added to the 
 
 Requires the following secrets to be set:
 
-| Name                                         | Description                          |
-|----------------------------------------------|--------------------------------------|
-| BOT_GITHUB_TOKEN                             | Token to launch other builds on GH   |
-| BOT_GITHUB_USERNAME                          | Username to issue propagation PRs    |
-| RANCHER2_URL                                 | Rancher URL to perform helm tests    |
-| RANCHER2_ACCESS_KEY                          | Rancher access key                   |
-| RANCHER2_SECRET_KEY                          | Rancher secret key                   |
-| TEAMS_NOTIFICATION_AUTOMATE_BACKEND_WEBHOOK  | Token to notify Teams on failure     |
+| Name                                                 | Description                        |
+| ---------------------------------------------------- | ---------------------------------- |
+| BOT_GITHUB_TOKEN                                     | Token to launch other builds on GH |
+| BOT_GITHUB_USERNAME                                  | Username to issue propagation PRs  |
+| RANCHER2_URL                                         | Rancher URL to perform helm tests  |
+| RANCHER2_ACCESS_KEY                                  | Rancher access key                 |
+| RANCHER2_SECRET_KEY                                  | Rancher secret key                 |
+| TEAMS_NOTIFICATION_AUTOMATE_BACKEND_WORKFLOW_WEBHOOK | Webhook to notify Teams on failure |
