@@ -156,6 +156,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.javaOpts.xms | string | `"512m"` |  |
 | alfresco-identity-adapter-service.javaOpts.xmx | string | `"3072m"` |  |
 | alfresco-identity-adapter-service.liquibase.enabled | bool | `false` |  |
+| alfresco-identity-adapter-service.livenessProbe.path | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/?(.*)\" }}/actuator/health/liveness"` |  |
 | alfresco-identity-adapter-service.nameOverride | string | `"alfresco-identity-adapter-service"` |  |
 | alfresco-identity-adapter-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
 | alfresco-identity-adapter-service.podDisruptionBudget.enabled | bool | `true` |  |
@@ -165,8 +166,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
 | alfresco-identity-adapter-service.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
 | alfresco-identity-adapter-service.postgresql.enabled | bool | `false` |  |
-| alfresco-identity-adapter-service.probePath | string | `"/actuator/health"` |  |
+| alfresco-identity-adapter-service.probePath | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/?(.*)\" }}/actuator/health"` |  |
 | alfresco-identity-adapter-service.rabbitmq.enabled | bool | `false` |  |
+| alfresco-identity-adapter-service.readinessProbe.path | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/?(.*)\" }}/actuator/health/readiness"` |  |
 | alfresco-identity-adapter-service.replicaCount | int | `2` |  |
 | alfresco-identity-adapter-service.resources.limits.cpu | string | `"750m"` |  |
 | alfresco-identity-adapter-service.resources.limits.memory | string | `"3000Mi"` |  |
@@ -491,6 +493,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.javaOpts.xms | string | `"512m"` |  |
 | alfresco-modeling-service.javaOpts.xmx | string | `"1024m"` |  |
 | alfresco-modeling-service.liquibase.enabled | bool | `true` |  |
+| alfresco-modeling-service.livenessProbe.path | string | `"{{ tpl (.Values.ingress.subPaths[0] | trimSuffix \"/?(.*)\") $ }}/actuator/health/liveness"` |  |
 | alfresco-modeling-service.nameOverride | string | `"alfresco-modeling-service"` |  |
 | alfresco-modeling-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
 | alfresco-modeling-service.podDisruptionBudget.enabled | bool | `true` |  |
@@ -500,8 +503,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
 | alfresco-modeling-service.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
-| alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
+| alfresco-modeling-service.probePath | string | `"{{ tpl (.Values.ingress.subPaths[0] | trimSuffix \"/?(.*)\") $ }}/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
+| alfresco-modeling-service.readinessProbe.path | string | `"{{ tpl (.Values.ingress.subPaths[0] | trimSuffix \"/?(.*)\") $ }}/actuator/health/readiness"` |  |
 | alfresco-modeling-service.replicaCount | int | `2` |  |
 | alfresco-modeling-service.resources.limits.cpu | string | `"2500m"` |  |
 | alfresco-modeling-service.resources.limits.memory | string | `"2000Mi"` |  |
@@ -534,6 +538,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.ingress.className | string | `"nginx"` |  |
 | alfresco-process-analytics-playground.ingress.enabled | bool | `true` |  |
 | alfresco-process-analytics-playground.ingress.path | string | `"/analytics/playground/"` |  |
+| alfresco-process-analytics-playground.livenessProbe.path | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}/actuator/health/liveness"` |  |
 | alfresco-process-analytics-playground.nameOverride | string | `"alfresco-process-analytics-playground"` |  |
 | alfresco-process-analytics-playground.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
 | alfresco-process-analytics-playground.podDisruptionBudget.enabled | bool | `true` |  |
@@ -543,6 +548,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-playground.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
 | alfresco-process-analytics-playground.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
 | alfresco-process-analytics-playground.probePath | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}/actuator/health"` |  |
+| alfresco-process-analytics-playground.readinessProbe.path | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}/actuator/health/readiness"` |  |
 | alfresco-process-analytics-playground.replicaCount | int | `2` |  |
 | alfresco-process-analytics-playground.resources.limits.cpu | string | `"1000m"` |  |
 | alfresco-process-analytics-playground.resources.limits.memory | string | `"1024Mi"` |  |
@@ -574,6 +580,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.ingress.className | string | `"nginx"` |  |
 | alfresco-process-analytics-service.ingress.enabled | bool | `true` |  |
 | alfresco-process-analytics-service.ingress.path | string | `"/analytics"` |  |
+| alfresco-process-analytics-service.livenessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/liveness"` |  |
 | alfresco-process-analytics-service.metrics.client.password | string | `"admin"` |  |
 | alfresco-process-analytics-service.metrics.client.url | string | `"http://opensearch-cluster-master.{{ .Release.Namespace }}.svc.cluster.local:9200"` |  |
 | alfresco-process-analytics-service.metrics.client.username | string | `"admin"` |  |
@@ -585,7 +592,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.podLabels."tags.datadoghq.com/env" | string | `"{{ include \"alfresco-process-infrastructure.datadog.env\" . }}"` |  |
 | alfresco-process-analytics-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
 | alfresco-process-analytics-service.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
-| alfresco-process-analytics-service.probePath | string | `"{{ tpl .Values.ingress.path $ | trimSuffix \"/\" }}/actuator/health"` |  |
+| alfresco-process-analytics-service.probePath | string | `"{{ .Values.ingress.path }}/actuator/health"` |  |
+| alfresco-process-analytics-service.readinessProbe.path | string | `"{{ .Values.ingress.path }}/actuator/health/readiness"` |  |
 | alfresco-process-analytics-service.replicaCount | int | `2` |  |
 | alfresco-process-analytics-service.resources.limits.cpu | string | `"1000m"` |  |
 | alfresco-process-analytics-service.resources.limits.memory | string | `"1024Mi"` |  |
