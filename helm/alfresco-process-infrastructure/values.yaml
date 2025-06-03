@@ -565,11 +565,11 @@ alfresco-modeling-service:
     uri: "jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgresql.name }}:{{ .Values.postgresql.port }}/postgres"
     username: alfresco
     password: alfresco
-  probePath: '{{ tpl (.Values.ingress.subPaths[0] | trimSuffix "/?(.*)") $ }}/actuator/health'
+  probePath: '{{ tpl (index .Values.ingress.subPaths 0 | trimSuffix "/?(.*)") $ }}/actuator/health'
   readinessProbe:
-    path: '{{ tpl (.Values.ingress.subPaths[0] | trimSuffix "/?(.*)") $ }}/actuator/health/readiness'
+    path: '{{ tpl (index .Values.ingress.subPaths 0 | trimSuffix "/?(.*)") $ }}/actuator/health/readiness'
   livenessProbe:
-    path: '{{ tpl (.Values.ingress.subPaths[0] | trimSuffix "/?(.*)") $ }}/actuator/health/liveness'
+    path: '{{ tpl (index .Values.ingress.subPaths 0 | trimSuffix "/?(.*)") $ }}/actuator/health/liveness'
   rabbitmq:
     enabled: false
   content:
