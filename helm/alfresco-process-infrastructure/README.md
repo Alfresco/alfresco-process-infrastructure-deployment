@@ -493,7 +493,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.javaOpts.xms | string | `"512m"` |  |
 | alfresco-modeling-service.javaOpts.xmx | string | `"1024m"` |  |
 | alfresco-modeling-service.liquibase.enabled | bool | `true` |  |
-| alfresco-modeling-service.livenessProbe.path | string | `"{{ tpl (index .Values.ingress.subPaths 0 | trimSuffix \"/?(.*)\") $ }}/actuator/health/liveness"` |  |
+| alfresco-modeling-service.livenessProbe.path | string | `"/actuator/health/liveness"` |  |
 | alfresco-modeling-service.nameOverride | string | `"alfresco-modeling-service"` |  |
 | alfresco-modeling-service.podAnnotations."admission.datadoghq.com/java-lib.version" | string | `"{{ include \"alfresco-process-infrastructure.datadog.agent.javaLibVersion\" . }}"` |  |
 | alfresco-modeling-service.podDisruptionBudget.enabled | bool | `true` |  |
@@ -503,9 +503,9 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.podLabels."tags.datadoghq.com/service" | string | `"{{ .Chart.Name }}"` |  |
 | alfresco-modeling-service.podLabels."tags.datadoghq.com/version" | string | `"{{ .Values.image.tag }}"` |  |
 | alfresco-modeling-service.postgresql.enabled | bool | `true` |  |
-| alfresco-modeling-service.probePath | string | `"{{ tpl (index .Values.ingress.subPaths 0 | trimSuffix \"/?(.*)\") $ }}/actuator/health"` |  |
+| alfresco-modeling-service.probePath | string | `"/actuator/health"` |  |
 | alfresco-modeling-service.rabbitmq.enabled | bool | `false` |  |
-| alfresco-modeling-service.readinessProbe.path | string | `"{{ tpl (index .Values.ingress.subPaths 0 | trimSuffix \"/?(.*)\") $ }}/actuator/health/readiness"` |  |
+| alfresco-modeling-service.readinessProbe.path | string | `"/actuator/health/readiness"` |  |
 | alfresco-modeling-service.replicaCount | int | `2` |  |
 | alfresco-modeling-service.resources.limits.cpu | string | `"2500m"` |  |
 | alfresco-modeling-service.resources.limits.memory | string | `"2000Mi"` |  |
