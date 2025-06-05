@@ -26,5 +26,5 @@ repos:
     rev: 0.31.2
     hooks:
       - id: check-github-workflows
-      - id: check-jsonschema
+      - id: check-github-actions
       - id: check-dependabot
