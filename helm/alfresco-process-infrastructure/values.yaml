@@ -1449,11 +1449,11 @@ alfresco-process-analytics-service:
     requests:
       cpu: 200m
       memory: 512Mi
-  probePath: '{{ .Values.ingress.path }}/actuator/health'
+  probePath: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health'
   readinessProbe:
-    path: '{{ .Values.ingress.path }}/actuator/health/readiness'
+    path: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health/readiness'
   livenessProbe:
-    path: '{{ .Values.ingress.path }}/actuator/health/liveness'
+    path: '{{ tpl .Values.ingress.path $ | trimSuffix "/" }}/actuator/health/liveness'
 alfresco-process-analytics-playground:
   enabled: true
   nameOverride: alfresco-process-analytics-playground
@@ -1624,11 +1624,11 @@ alfresco-identity-adapter-service:
     enabled: false
   postgresql:
     enabled: false
-  probePath: '{{ tpl .Values.ingress.path $ | trimSuffix "/?(.*)" }}/actuator/health'
+  probePath: /actuator/health
   readinessProbe:
-    path: '{{ tpl .Values.ingress.path $ | trimSuffix "/?(.*)" }}/actuator/health/readiness'
+    path: /actuator/health/readiness
   livenessProbe:
-    path: '{{ tpl .Values.ingress.path $ | trimSuffix "/?(.*)" }}/actuator/health/liveness'
+    path: /actuator/health/liveness
   rabbitmq:
     enabled: false
   activiti:
