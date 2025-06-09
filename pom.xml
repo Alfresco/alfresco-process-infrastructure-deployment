@@ -7,9 +7,9 @@
   <artifactId>alfresco-process-infrastructure-deployment</artifactId>
   <version>7.7.0-SNAPSHOT</version>
   <properties>
-    <alfresco-deployment-service.version>7.20.0-alpha.483</alfresco-deployment-service.version>
-    <alfresco-modeling-service.version>7.20.0-alpha.483</alfresco-modeling-service.version>
-    <studio-component-repository.version>7.20.0-alpha.483</studio-component-repository.version>
+    <alfresco-deployment-service.version>7.20.0-alpha.484</alfresco-deployment-service.version>
+    <alfresco-modeling-service.version>7.20.0-alpha.484</alfresco-modeling-service.version>
+    <studio-component-repository.version>7.20.0-alpha.484</studio-component-repository.version>
     <alfresco-process.version>7.20.0-alpha.264</alfresco-process.version>
     <alfresco-identity-adapter-service.version>7.20.0-alpha.211</alfresco-identity-adapter-service.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
