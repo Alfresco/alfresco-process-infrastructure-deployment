@@ -714,6 +714,7 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.auth.username | string | `"user"` |  |
 | rabbitmq.enabled | bool | `true` |  |
 | rabbitmq.extraPlugins | string | `""` |  |
+| rabbitmq.image.tag | string | `"3.13.7-debian-12-r4"` |  |
 | rabbitmq.resources.limits.memory | string | `"1500Mi"` |  |
 | rabbitmq.resources.requests.memory | string | `"1500Mi"` |  |
 | setup-acs-script-job.enabled | bool | `true` |  |
