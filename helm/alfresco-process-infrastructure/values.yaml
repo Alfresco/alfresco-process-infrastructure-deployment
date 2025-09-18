@@ -1762,3 +1762,10 @@ alfresco-static-resources:
     limits:
       cpu: 500m
       memory: 128Mi
+
+alfresco-rds:
+  image:
+    repository:  bitnamilegacy/postgresql
+alfresco-rabbitmq:
+  image:
+    repository:  bitnamilegacy/rabbitmq
