@@ -28,8 +28,8 @@ Kubernetes: `>=1.15.0-0`
 | https://activiti.github.io/activiti-cloud-helm-charts | common | 8.8.0-alpha.12 |
 | https://codecentric.github.io/helm-charts | alfresco-identity-service(keycloakx) | 2.3.0 |
 | https://opensearch-project.github.io/helm-charts | opensearch | 1.11.1 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | postgresql | 15.5.11 |
-| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | rabbitmq | 14.4.4 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | alfresco-rds(postgresql) | 15.5.11 |
+| https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami | alfresco-rabbitmq(rabbitmq) | 14.4.4 |
 
 ## Values
 
@@ -601,6 +601,8 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.resources.requests.memory | string | `"512Mi"` |  |
 | alfresco-process-analytics-service.service.internalPort | int | `8080` |  |
 | alfresco-process-analytics-service.service.name | string | `"alfresco-process-analytics-service"` |  |
+| alfresco-rabbitmq.image.repository | string | `"bitnamilegacy/rabbitmq"` |  |
+| alfresco-rds.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
 | alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |
 | alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.topologyKey | string | `"failure-domain.beta.kubernetes.io/zone"` |  |
