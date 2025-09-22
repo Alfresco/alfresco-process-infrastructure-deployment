@@ -65,12 +65,6 @@ global:
   hxp:
     # global.hxp.accountId -- the HxP IAM account id which the HxP Repository belongs to
     accountId: ""
-  aspose:
-    license:
-      # global.aspose.license.password -- Aspose license password
-      password: ""
-      # global.aspose.license.salt -- Aspose license salt
-      salt: ""
   datadog:
     # global.datadog.enabled -- enables Datadog observability for AAE infrastructure and runtime application services
     enabled: false
@@ -785,6 +779,12 @@ alfresco-deployment-service:
     uri: "jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgresql.name }}.{{ .Release.Namespace }}:{{ .Values.postgresql.port }}/postgres"
     username: alfresco
     password: alfresco
+  aspose:
+    license:
+      # alfresco-deployment-service.aspose.license.password -- Aspose license password
+      password: ""
+      # alfresco-deployment-service.aspose.license.salt -- Aspose license salt
+      salt: ""
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all application images
