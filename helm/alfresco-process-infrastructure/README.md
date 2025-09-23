@@ -602,6 +602,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-process-analytics-service.service.internalPort | int | `8080` |  |
 | alfresco-process-analytics-service.service.name | string | `"alfresco-process-analytics-service"` |  |
 | alfresco-rabbitmq.image.repository | string | `"bitnamilegacy/rabbitmq"` |  |
+| alfresco-rabbitmq.image.tag | string | `"3.8.9"` |  |
 | alfresco-rds.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/instance" | string | `"{{ .Release.Name }}"` |  |
 | alfresco-static-resources.affinity.podAntiAffinity.preferredDuringSchedulingIgnoredDuringExecution[0].podAffinityTerm.labelSelector.matchLabels."app.kubernetes.io/name" | string | `"{{ template \"common.name\" . }}"` |  |

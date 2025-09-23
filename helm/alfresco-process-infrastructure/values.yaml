@@ -1768,3 +1768,4 @@ alfresco-rds:
 alfresco-rabbitmq:
   image:
     repository: bitnamilegacy/rabbitmq
+    tag: 3.8.9
