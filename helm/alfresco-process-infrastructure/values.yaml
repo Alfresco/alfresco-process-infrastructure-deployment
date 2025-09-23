@@ -779,12 +779,6 @@ alfresco-deployment-service:
     uri: "jdbc:postgresql://{{ .Release.Name }}-{{ .Values.postgresql.name }}.{{ .Release.Namespace }}:{{ .Values.postgresql.port }}/postgres"
     username: alfresco
     password: alfresco
-  aspose:
-    license:
-      # alfresco-deployment-service.aspose.license.password -- Aspose license password
-      password: ""
-      # alfresco-deployment-service.aspose.license.salt -- Aspose license salt
-      salt: ""
   applications:
     image:
       # alfresco-deployment-service.applications.image.tag -- default tag for all application images
@@ -864,6 +858,12 @@ alfresco-deployment-service:
       metrics:
         # alfresco-deployment-service.applications.datadog.metrics.enabled -- enables application Datadog metrics observability.
         enabled: true
+    aspose:
+      license:
+        # alfresco-deployment-service.aspose.license.password -- Aspose license password
+        password: ""
+        # alfresco-deployment-service.aspose.license.salt -- Aspose license salt
+        salt: ""
   ingress:
     path: /deployment-service
     enabled: true
@@ -1151,6 +1151,10 @@ alfresco-deployment-service:
       value: "{{ .Values.applications.datadog.agent.profiling }}"
     {{- end }}
     {{- end }}
+    - name: APPLICATIONS_ASPOSE_LICENSE_PASSWORD
+      value: "{{ .Values.applications.aspose.license.password }}"
+    - name: APPLICATIONS_ASPOSE_LICENSE_SALT
+      value: "{{ .Values.applications.aspose.license.salt }}"
   javaOpts:
     xms: 256m
     xmx: 512m
