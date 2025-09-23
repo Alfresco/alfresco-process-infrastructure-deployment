@@ -716,7 +716,6 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.enabled | bool | `true` |  |
 | rabbitmq.extraPlugins | string | `""` |  |
 | rabbitmq.image.repository | string | `"bitnamilegacy/rabbitmq"` |  |
-| rabbitmq.image.tag | string | `"3.8.9"` |  |
 | rabbitmq.resources.limits.memory | string | `"1500Mi"` |  |
 | rabbitmq.resources.requests.memory | string | `"1500Mi"` |  |
 | setup-acs-script-job.enabled | bool | `true` |  |
