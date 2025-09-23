@@ -1213,7 +1213,6 @@ alfresco-admin-app:
 rabbitmq:
   image:
     repository: bitnamilegacy/rabbitmq
-    tag: 3.8.9
   enabled: true
   extraPlugins: ""
   auth:
