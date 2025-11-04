@@ -542,7 +542,7 @@ alfresco-modeling-service:
     pathType: ImplementationSpecific
   image:
     repository: quay.io/alfresco/alfresco-modeling-service
-    tag: 7.20.0-alpha.1021
+    tag: 7.20.0-alpha.1022
     pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
@@ -756,7 +756,7 @@ alfresco-deployment-service:
     enabled: false
   image:
     repository: quay.io/alfresco/alfresco-deployment-service
-    tag: 7.20.0-alpha.1021
+    tag: 7.20.0-alpha.1022
     pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
@@ -1617,7 +1617,7 @@ alfresco-identity-adapter-service:
     pathType: ImplementationSpecific
   image:
     repository: quay.io/alfresco/alfresco-identity-adapter-service
-    tag: 7.20.0-alpha.396
+    tag: 7.20.0-alpha.397
     pullPolicy: Always
   replicaCount: 2
   podDisruptionBudget:
