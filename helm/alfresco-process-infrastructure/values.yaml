@@ -597,6 +597,8 @@ alfresco-modeling-service:
       value: ".*"
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: "*"
+    - name: ENVIRONMENT_DOMAIN
+      value: '{{ include "common.gateway-domain" . }}'
     - name: CONTENT_CLIENT_ID
       value: "{{ .Values.content.client.id }}"
     - name: CONTENT_CLIENT_SECRET
