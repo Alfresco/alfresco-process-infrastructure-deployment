@@ -22,13 +22,13 @@ jobs:
 
       - id: helm-package-chart
         name: Package Helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@09e9ddb45b19dbd2b0f4648aaf6a4185bcd9db03 # v10.3.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@ee10ec96d25c2cdfc6f45d3398aae1c6190f4d5d # v10.5.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - id: helm-publish-chart
         name: Publish Helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@09e9ddb45b19dbd2b0f4648aaf6a4185bcd9db03 # v10.3.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-publish-chart@ee10ec96d25c2cdfc6f45d3398aae1c6190f4d5d # v10.5.0
         with:
           chart-package: ${{ steps.helm-package-chart.outputs.package-file-path }}
           helm-charts-repo: ${{ env.HELM_REPO }}
@@ -45,6 +45,6 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Teams Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-teams-notification@09e9ddb45b19dbd2b0f4648aaf6a4185bcd9db03 # v10.3.0
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-teams-notification@ee10ec96d25c2cdfc6f45d3398aae1c6190f4d5d # v10.5.0
         with:
           webhook-url: ${{ secrets.TEAMS_NOTIFICATION_AUTOMATE_BACKEND_WORKFLOW_WEBHOOK }}
