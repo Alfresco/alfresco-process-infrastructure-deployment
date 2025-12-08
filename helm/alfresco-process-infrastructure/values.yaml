@@ -501,6 +501,7 @@ alfresco-identity-service:
 postgresql:
   enabled: true
   image:
+    repository: bitnamilegacy/postgresql
     tag: 11.22.0
   auth:
     username: alfresco
@@ -1206,6 +1207,8 @@ alfresco-admin-app:
       cpu: 200m
       memory: 256Mi
 rabbitmq:
+  image:
+    repository: bitnamilegacy/rabbitmq
   enabled: true
   extraPlugins: ""
   auth:

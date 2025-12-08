@@ -691,6 +691,7 @@ Kubernetes: `>=1.15.0-0`
 | postgresql.auth.username | string | `"alfresco"` |  |
 | postgresql.database | string | `"postgres"` |  |
 | postgresql.enabled | bool | `true` |  |
+| postgresql.image.repository | string | `"bitnamilegacy/postgresql"` |  |
 | postgresql.image.tag | string | `"11.22.0"` |  |
 | postgresql.persistence.mountPath | string | `"/bitnami/postgresql"` |  |
 | postgresql.postgresqlDataDir | string | `"/bitnami/postgresql/data"` |  |
@@ -702,6 +703,7 @@ Kubernetes: `>=1.15.0-0`
 | rabbitmq.auth.username | string | `"user"` |  |
 | rabbitmq.enabled | bool | `true` |  |
 | rabbitmq.extraPlugins | string | `""` |  |
+| rabbitmq.image.repository | string | `"bitnamilegacy/rabbitmq"` |  |
 | rabbitmq.resources.limits.memory | string | `"1500Mi"` |  |
 | rabbitmq.resources.requests.memory | string | `"1500Mi"` |  |
 | setup-acs-script-job.enabled | bool | `true` |  |
