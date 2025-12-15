@@ -51,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - uses: actions/cache/restore@a7833574556fa59680c1b7cb190c1735db73ebf0 # v5.0.0
+      - uses: actions/cache/restore@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-validate-${{ hashFiles('**/pom.xml') }}
@@ -64,7 +64,7 @@ jobs:
           maven-password: ${{ secrets.NEXUS_PASSWORD }}
 
       - name: Save maven cache
-        uses: actions/cache/save@a7833574556fa59680c1b7cb190c1735db73ebf0 # v5.0.0
+        uses: actions/cache/save@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         if: github.event_name == 'push'
         with:
           path: ~/.m2/repository
