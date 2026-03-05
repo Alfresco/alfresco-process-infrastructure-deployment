@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Check dependabot build
-        uses: Activiti/Activiti/.github/actions/check-ext-build@456be36569d3afea26c83755ee9e90f0697b5349 # 8.7.1
+        uses: Activiti/Activiti/.github/actions/check-ext-build@2ad7cb096703b81f627e6eef1deff995231a5e18 # 9.0.0
       - name: Setup Helm Docs
         uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
         with:
