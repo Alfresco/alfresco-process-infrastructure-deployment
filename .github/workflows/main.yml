@@ -149,57 +149,11 @@ jobs:
           git-username: ${{ secrets.BOT_GITHUB_USERNAME }}
           do-push: ${{ github.event_name == 'push' }}
 
-  promote:
-    runs-on: ubuntu-latest
-    needs: release
-    if: github.event_name == 'push'
-    env:
-      VERSION: ${{ needs.release.outputs.version }}
-      DEVELOPMENT_BRANCH: ${{ github.ref_name }}
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - id: get-versions
-        working-directory: helm/alfresco-process-infrastructure
-        run: |
-          CHART_VERSION=`yq '.dependencies | map(select(.name == "common")) | .[0].version' Chart.yaml`
-          echo ${CHART_VERSION}
-          echo "chart=${CHART_VERSION}" >> $GITHUB_OUTPUT
-
-          DEPLOYMENT_VERSION=`yq '.alfresco-deployment-service.image.tag' values.yaml`
-          echo ${DEPLOYMENT_VERSION}
-          echo "deployment=${DEPLOYMENT_VERSION}" >> $GITHUB_OUTPUT
-
-          MODELING_VERSION=`yq '.alfresco-modeling-service.image.tag' values.yaml`
-          echo ${MODELING_VERSION}
-          echo "modeling=${MODELING_VERSION}" >> $GITHUB_OUTPUT
-
-      - id: get-pom-versions
-        run: |
-          COMPONENT_REPOSITORY_VERSION=`yq '.project.properties["studio-component-repository.version"]' pom.xml`
-          echo ${COMPONENT_REPOSITORY_VERSION}
-          echo "component_repository=${COMPONENT_REPOSITORY_VERSION}" >> $GITHUB_OUTPUT
-
-      - uses: Alfresco/alfresco-build-tools/.github/actions/jx-updatebot-pr@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
-        env:
-          ACTIVITI_CLOUD_COMMON_CHART_VERSION: ${{ steps.get-versions.outputs.chart }}
-          ALFRESCO_DEPLOYMENT_SERVICE_VERSION: ${{ steps.get-versions.outputs.deployment }}
-          ALFRESCO_MODELING_SERVICE_VERSION: ${{ steps.get-versions.outputs.modeling }}
-          STUDIO_COMPONENT_REPOSITORY_VERSION: ${{ steps.get-pom-versions.outputs.component_repository }}
-        with:
-          version: ${{ env.VERSION }}
-          auto-merge: 'true'
-          labels: 'be-propagation,${{ env.DEVELOPMENT_BRANCH }}'
-          base-branch-name: ${{ env.DEVELOPMENT_BRANCH }}
-          git-username: ${{ secrets.BOT_GITHUB_USERNAME }}
-          git-token: ${{ secrets.BOT_GITHUB_TOKEN }}
-          git-author-name: ${{ secrets.BOT_GITHUB_USERNAME }}
-
   notify:
     runs-on: ubuntu-latest
     needs:
       - build
       - release
-      - promote
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Teams Notification
