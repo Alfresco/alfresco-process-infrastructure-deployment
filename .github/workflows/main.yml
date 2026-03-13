@@ -32,11 +32,11 @@ jobs:
       - name: Check dependabot build
         uses: Activiti/Activiti/.github/actions/check-ext-build@456be36569d3afea26c83755ee9e90f0697b5349 # 8.7.1
       - name: Setup Helm Docs
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-helm-docs@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           version: 1.13.1
       - name: pre-commit
-        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           skip_checkout: true
       - name: Run Checkov
@@ -58,7 +58,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-validate-
 
-      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           maven-username: ${{ secrets.NEXUS_USERNAME }}
           maven-password: ${{ secrets.NEXUS_PASSWORD }}
@@ -81,12 +81,12 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Build
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Setup Cluster
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
 
       - name: Compute Keycloak Client Secret
         id: compute-keycloak-secret
@@ -111,7 +111,7 @@ jobs:
 
       - name: Package Helm Chart
         id: package-helm-chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-package-chart@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
@@ -125,19 +125,19 @@ jobs:
 
       - name: Parse next release
         id: helm-parse-next-release
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
       - id: calculate-next-internal-version
         name: Calculate next internal release
-        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/calculate-next-internal-version@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           next-version: ${{ steps.helm-parse-next-release.outputs.next-release }}
 
       - id: helm-release-and-publish
         name: Release and publish helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
           chart-dir: ${{ env.CHART_DIR }}
@@ -157,6 +157,6 @@ jobs:
     if: always() && failure() && github.event_name == 'push'
     steps:
       - name: Teams Notification
-        uses: Alfresco/alfresco-build-tools/.github/actions/send-teams-notification@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
+        uses: Alfresco/alfresco-build-tools/.github/actions/send-teams-notification@3f9ef102f11edaa891eefac785b508e94f7ac0f5 # v15.9.0
         with:
           webhook-url: ${{ secrets.TEAMS_NOTIFICATION_AUTOMATE_BACKEND_WORKFLOW_WEBHOOK }}
