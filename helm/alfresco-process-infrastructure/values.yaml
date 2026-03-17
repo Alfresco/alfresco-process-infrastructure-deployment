@@ -534,6 +534,7 @@ alfresco-modeling-service:
     className: nginx
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/use-regex: "true"
     path: ""
     subPaths:
       - /modeling-service/?(.*)
@@ -1615,6 +1616,7 @@ alfresco-identity-adapter-service:
     className: nginx
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/use-regex: "true"
     path: "/identity-adapter-service/?(.*)"
     pathType: ImplementationSpecific
   image:
