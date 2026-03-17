@@ -19,4 +19,4 @@ jobs:
         id: git-naming-convention
         uses: Alfresco/alfresco-build-tools/.github/actions/enforce-pr-conventions@40f2376b812403b51e0cea49eaff04c1b8d65cfd # v15.7.1
         with:
-          jira-project-key: AAE|HXOR
+          jira-project-key: AAE|HXOR|OPSEXP
