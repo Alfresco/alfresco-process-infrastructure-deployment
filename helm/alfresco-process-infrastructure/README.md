@@ -150,6 +150,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-identity-adapter-service.image.repository | string | `"quay.io/alfresco/alfresco-identity-adapter-service"` |  |
 | alfresco-identity-adapter-service.image.tag | string | `"7.20.0"` |  |
 | alfresco-identity-adapter-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
+| alfresco-identity-adapter-service.ingress.annotations."nginx.ingress.kubernetes.io/use-regex" | string | `"true"` |  |
 | alfresco-identity-adapter-service.ingress.className | string | `"nginx"` |  |
 | alfresco-identity-adapter-service.ingress.enabled | bool | `true` |  |
 | alfresco-identity-adapter-service.ingress.path | string | `"/identity-adapter-service/?(.*)"` |  |
@@ -484,6 +485,7 @@ Kubernetes: `>=1.15.0-0`
 | alfresco-modeling-service.image.repository | string | `"quay.io/alfresco/alfresco-modeling-service"` |  |
 | alfresco-modeling-service.image.tag | string | `"7.20.0"` |  |
 | alfresco-modeling-service.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$1"` |  |
+| alfresco-modeling-service.ingress.annotations."nginx.ingress.kubernetes.io/use-regex" | string | `"true"` |  |
 | alfresco-modeling-service.ingress.className | string | `"nginx"` |  |
 | alfresco-modeling-service.ingress.enabled | bool | `true` |  |
 | alfresco-modeling-service.ingress.path | string | `""` |  |
