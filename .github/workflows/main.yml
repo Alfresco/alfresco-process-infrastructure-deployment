@@ -28,7 +28,7 @@ jobs:
   pre-checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Check dependabot build
         uses: Activiti/Activiti/.github/actions/check-ext-build@456be36569d3afea26c83755ee9e90f0697b5349 # 8.7.1
       - name: Setup Helm Docs
@@ -50,7 +50,7 @@ jobs:
     needs: pre-checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ~/.m2/repository
@@ -78,7 +78,7 @@ jobs:
     env:
       TARGET_CHARTS_PATH: charts
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Build
         uses: Alfresco/alfresco-build-tools/.github/actions/helm-build-chart@10cea6c0b390c4f8af21d9dc1670d581bd10319f # v18.13.0
@@ -121,7 +121,7 @@ jobs:
     outputs:
       version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Parse next release
         id: helm-parse-next-release
