@@ -125,7 +125,7 @@ jobs:
 
       - name: Parse next release
         id: helm-parse-next-release
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@c388af5fcce6747d0059ae98db2857fc9e8a9387 # v18.28.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-parse-next-release@0fa2704957dfff688af2371cc7a935de53d26610 # v19.1.0
         with:
           chart-dir: ${{ env.CHART_DIR }}
 
