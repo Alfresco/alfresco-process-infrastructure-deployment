@@ -36,7 +36,7 @@ jobs:
         with:
           version: 1.13.1
       - name: pre-commit
-        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@c388af5fcce6747d0059ae98db2857fc9e8a9387 # v18.28.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@c176315c6b0b3e3bbf022ea444944fb903c47e0e # v19.2.1
         with:
           skip_checkout: true
       - name: Run Checkov
