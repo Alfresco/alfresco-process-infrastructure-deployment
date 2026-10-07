@@ -86,7 +86,7 @@ jobs:
           chart-dir: ${{ env.CHART_DIR }}
 
       - name: Setup Cluster
-        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@c388af5fcce6747d0059ae98db2857fc9e8a9387 # v18.28.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/setup-kind@c176315c6b0b3e3bbf022ea444944fb903c47e0e # v19.2.1
 
       - name: Compute Keycloak Client Secret
         id: compute-keycloak-secret
