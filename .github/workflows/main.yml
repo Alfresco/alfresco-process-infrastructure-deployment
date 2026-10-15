@@ -137,7 +137,7 @@ jobs:
 
       - id: helm-release-and-publish
         name: Release and publish helm chart
-        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@c388af5fcce6747d0059ae98db2857fc9e8a9387 # v18.28.2
+        uses: Alfresco/alfresco-build-tools/.github/actions/helm-release-and-publish@f2ba011b2bd8bee8d7418b046541ce2f75d1fbed # v19.4.0
         with:
           version: ${{ steps.calculate-next-internal-version.outputs.next-prerelease }}
           chart-dir: ${{ env.CHART_DIR }}
