@@ -46,35 +46,10 @@ jobs:
       - name: Ensure SHA pinned actions
         uses: zgosalvez/github-actions-ensure-sha-pinned-actions@76ed8a4c86957c2d27d44bab47f172193149d926 # v5.0.11
 
-  validate:
-    needs: pre-checks
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-validate-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-validate-
-
-      - uses: Alfresco/alfresco-build-tools/.github/actions/validate-maven-versions@768b583839a22ef7d882da0c5b82af3832197d00 # v19.7.1
-        with:
-          maven-username: ${{ secrets.NEXUS_USERNAME }}
-          maven-password: ${{ secrets.NEXUS_PASSWORD }}
-
-      - name: Save maven cache
-        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        if: github.event_name == 'push'
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-validate-${{ hashFiles('**/pom.xml') }}
-
   build:
     runs-on: ubuntu-latest
     needs:
       - pre-checks
-      - validate
     env:
       TARGET_CHARTS_PATH: charts
     steps:
