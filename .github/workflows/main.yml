@@ -39,6 +39,7 @@ jobs:
         uses: Alfresco/alfresco-build-tools/.github/actions/pre-commit@166e610d3eebb2a561d6daba97cd58d98ef2db14 # v8.13.0
         with:
           skip_checkout: true
+          python-version: "3.12"
       - name: Run Checkov
         uses: bridgecrewio/checkov-action@e1bb78184f5dd3690fb1089d6c4f51295f9dff48 # v12.1839.0
         with:
